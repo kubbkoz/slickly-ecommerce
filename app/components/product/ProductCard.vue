@@ -11,6 +11,7 @@ const justAdded = ref(false)
 function addToCart() {
   if (!props.product.inStock) return
   cart.addItem(props.product)
+  cart.openDrawer()
   justAdded.value = true
   setTimeout(() => (justAdded.value = false), 1200)
 }

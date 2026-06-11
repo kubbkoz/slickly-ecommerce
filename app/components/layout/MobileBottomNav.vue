@@ -23,7 +23,7 @@ function isActive(to: string) {
       class="flex flex-col items-center justify-center transition-transform duration-200 active:scale-90"
       :class="isActive(link.to) ? 'text-primary font-bold' : 'text-on-surface-variant hover:text-primary'"
     >
-      <span class="material-symbols-outlined" :style="isActive(link.to) ? { fontVariationSettings: \"'FILL' 1\" } : {}">{{ link.icon }}</span>
+      <span class="material-symbols-outlined" :style="isActive(link.to) ? { fontVariationSettings: &quot;'FILL' 1&quot; } : {}">{{ link.icon }}</span>
       <span class="font-badge-label text-badge-label">{{ link.label }}</span>
     </NuxtLink>
   </nav>

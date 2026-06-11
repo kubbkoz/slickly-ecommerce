@@ -60,6 +60,18 @@ export const useCartStore = defineStore('cart', {
       this.persist()
     },
 
+    openDrawer() {
+      this.isDrawerOpen = true
+    },
+
+    closeDrawer() {
+      this.isDrawerOpen = false
+    },
+
+    toggleDrawer() {
+      this.isDrawerOpen = !this.isDrawerOpen
+    },
+
     clear() {
       this.items = []
       this.persist()

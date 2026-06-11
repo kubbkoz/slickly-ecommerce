@@ -11,8 +11,8 @@ useSeoMeta({
     <TrustBadges />
     <SpecialOffers />
     <CategoryGrid />
-    <CleanlinessSection />
-    <PerformancePortfolio />
-    <WhySlickly />
+    <LazyCleanlinessSection hydrate-on-visible />
+    <LazyPerformancePortfolio hydrate-on-visible />
+    <LazyWhySlickly hydrate-on-visible />
   </div>
 </template>

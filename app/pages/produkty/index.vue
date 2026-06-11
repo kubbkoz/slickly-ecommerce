@@ -142,7 +142,7 @@ function clearDeals() {
           <p class="font-technical-data text-technical-data text-on-surface-variant uppercase">{{ filtered.length }} produktov</p>
           <select
             v-model="sort"
-            class="font-label-sm text-label-sm uppercase border border-outline-variant px-3 py-2 bg-surface-container-lowest rounded-default outline-none"
+            class="font-label-sm text-label-sm uppercase border border-outline-variant px-3 py-2 bg-surface-container-lowest rounded-default outline-none focus:ring-1 focus:ring-secondary-container focus:border-secondary-container"
           >
             <option v-for="opt in sortOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
           </select>

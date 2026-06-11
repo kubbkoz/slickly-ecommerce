@@ -14,6 +14,7 @@ watch(
   () => useRoute().fullPath,
   () => {
     isMenuOpen.value = false
+    cart.closeDrawer()
   },
 )
 </script>
@@ -40,7 +41,7 @@ watch(
         <NuxtLink to="/produkty" aria-label="Hľadať">
           <span class="material-symbols-outlined transition-opacity duration-200 active:scale-95 cursor-pointer">search</span>
         </NuxtLink>
-        <NuxtLink to="/kosik" aria-label="Košík" class="relative">
+        <button type="button" aria-label="Košík" class="relative cursor-pointer" @click="cart.toggleDrawer()">
           <span class="material-symbols-outlined transition-opacity duration-200 active:scale-95 cursor-pointer">shopping_bag</span>
           <span
             v-if="cart.itemCount > 0"
@@ -48,7 +49,7 @@ watch(
           >
             {{ cart.itemCount }}
           </span>
-        </NuxtLink>
+        </button>
       </div>
     </div>
 
@@ -114,14 +115,19 @@ watch(
           <NuxtLink to="/ucet" class="text-white hover:text-secondary-container transition-colors duration-150" aria-label="Účet">
             <span class="material-symbols-outlined text-[22px]">person</span>
           </NuxtLink>
-          <NuxtLink to="/kosik" class="text-white hover:text-secondary-container transition-colors duration-150 relative" aria-label="Košík">
+          <button
+            type="button"
+            class="text-white hover:text-secondary-container transition-colors duration-150 relative cursor-pointer"
+            aria-label="Košík"
+            @click="cart.toggleDrawer()"
+          >
             <span class="material-symbols-outlined text-[22px]">shopping_cart</span>
             <span
               class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
             >
               {{ cart.itemCount }}
             </span>
-          </NuxtLink>
+          </button>
         </div>
       </div>
     </div>

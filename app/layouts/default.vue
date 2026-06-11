@@ -14,5 +14,6 @@ onMounted(() => {
     </main>
     <AppFooter />
     <MobileBottomNav />
+    <CartDrawer />
   </div>
 </template>

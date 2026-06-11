@@ -33,6 +33,7 @@ function decrement() {
 function addToCart() {
   if (!product.inStock) return
   cart.addItem(product, quantity.value)
+  cart.openDrawer()
   justAdded.value = true
   setTimeout(() => (justAdded.value = false), 1500)
 }
