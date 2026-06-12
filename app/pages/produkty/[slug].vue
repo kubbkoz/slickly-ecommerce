@@ -65,17 +65,20 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? `${product!.oldPri
           >
             {{ product.badge }}
           </span>
-          <img :src="activeImage" :alt="product.name" class="w-full h-full object-cover" />
+          <img :src="activeImage" :alt="product.name" fetchpriority="high" class="w-full h-full object-cover" />
         </div>
-        <div v-if="product.gallery.length > 1" class="flex gap-stack-sm">
+        <div v-if="product.gallery.length > 1" class="flex gap-stack-sm" role="group" aria-label="Galéria produktu">
           <button
             v-for="(img, idx) in product.gallery"
             :key="idx"
-            class="w-20 h-20 border overflow-hidden shrink-0"
-            :class="activeImage === img ? 'border-primary' : 'border-grid-line'"
+            type="button"
+            class="w-20 h-20 border overflow-hidden shrink-0 cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            :class="activeImage === img ? 'border-primary' : 'border-grid-line hover:border-outline-variant'"
+            :aria-label="`Zobraziť obrázok ${idx + 1} z ${product.gallery.length}`"
+            :aria-pressed="activeImage === img"
             @click="activeImage = img"
           >
-            <img :src="img" :alt="`${product.name} - obrázok ${idx + 1}`" class="w-full h-full object-cover" />
+            <img :src="img" :alt="`${product.name} - obrázok ${idx + 1}`" loading="lazy" class="w-full h-full object-cover" />
           </button>
         </div>
       </div>
@@ -115,30 +118,37 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? `${product!.oldPri
 
         <!-- Quantity + Add to cart -->
         <div class="flex items-center gap-stack-md mt-stack-sm md:mt-4">
-          <div class="flex items-center border border-outline-variant rounded-default">
+          <div class="flex items-center border border-outline-variant rounded-default" role="group" aria-label="Množstvo">
             <button
-              class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:text-on-background disabled:opacity-30"
+              type="button"
+              class="min-w-11 min-h-11 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 [touch-action:manipulation] disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               :disabled="quantity <= 1"
               aria-label="Znížiť množstvo"
               @click="decrement"
             >
-              <span class="material-symbols-outlined">remove</span>
+              <span class="material-symbols-outlined" aria-hidden="true">remove</span>
             </button>
-            <span class="w-10 text-center font-technical-data text-technical-data">{{ quantity }}</span>
-            <button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:text-on-background" aria-label="Zvýšiť množstvo" @click="increment">
-              <span class="material-symbols-outlined">add</span>
+            <span class="w-10 text-center font-technical-data text-technical-data" aria-live="polite">{{ quantity }}</span>
+            <button
+              type="button"
+              class="min-w-11 min-h-11 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              aria-label="Zvýšiť množstvo"
+              @click="increment"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true">add</span>
             </button>
           </div>
           <button
             type="button"
             :disabled="!product.inStock"
-            class="flex-grow h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-[0.99] disabled:opacity-30 disabled:cursor-not-allowed rounded-default"
+            class="flex-grow h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-30 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             @click="addToCart"
           >
-            <span class="material-symbols-outlined">{{ justAdded ? 'check' : 'add_shopping_cart' }}</span>
+            <span class="material-symbols-outlined" aria-hidden="true">{{ justAdded ? 'check' : 'add_shopping_cart' }}</span>
             {{ justAdded ? 'Pridané do košíka' : 'Pridať do košíka' }}
           </button>
         </div>
+        <span class="sr-only" role="status">{{ justAdded ? 'Produkt bol pridaný do košíka' : '' }}</span>
 
         <!-- Trust micro-info -->
         <div class="grid grid-cols-2 gap-stack-sm mt-stack-md md:mt-6 pt-stack-md border-t border-grid-line">

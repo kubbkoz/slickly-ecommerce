@@ -29,6 +29,7 @@ const formattedOldPrice = computed(() =>
       <img
         :src="product.image"
         :alt="product.name"
+        loading="lazy"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
       <span
@@ -61,11 +62,11 @@ const formattedOldPrice = computed(() =>
         <button
           type="button"
           :disabled="!product.inStock"
-          class="w-10 h-10 shrink-0 bg-primary text-on-primary flex items-center justify-center rounded-sm transition-all active:scale-90 disabled:opacity-30 disabled:cursor-not-allowed"
+          class="min-w-11 min-h-11 shrink-0 bg-primary text-on-primary flex items-center justify-center rounded-sm cursor-pointer transition-all duration-200 active:scale-90 hover:bg-primary/85 [touch-action:manipulation] disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           :aria-label="`Pridať ${product.name} do košíka`"
           @click="addToCart"
         >
-          <span class="material-symbols-outlined">{{ justAdded ? 'check' : 'add_shopping_cart' }}</span>
+          <span class="material-symbols-outlined" aria-hidden="true">{{ justAdded ? 'check' : 'add_shopping_cart' }}</span>
         </button>
       </div>
     </div>
