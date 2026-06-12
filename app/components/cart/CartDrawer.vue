@@ -1,6 +1,12 @@
 <script setup lang="ts">
 const cart = useCartStore()
 
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape' && cart.isDrawerOpen) cart.closeDrawer()
+}
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
+
 const formattedSubtotal = computed(() => `${cart.subtotal.toFixed(2)} €`)
 
 function lineTotal(price: number, quantity: number) {
@@ -52,10 +58,10 @@ function decrement(productId: string, quantity: number) {
           <button
             type="button"
             aria-label="Zavrieť košík"
-            class="material-symbols-outlined text-on-surface-variant hover:text-on-background cursor-pointer"
+            class="min-w-11 min-h-11 -mr-2 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             @click="cart.closeDrawer()"
           >
-            close
+            <span class="material-symbols-outlined" aria-hidden="true">close</span>
           </button>
         </div>
 
@@ -66,44 +72,47 @@ function decrement(productId: string, quantity: number) {
               class="w-16 h-16 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden"
               @click="cart.closeDrawer()"
             >
-              <img :src="item.image" :alt="item.name" class="w-full h-full object-cover" />
+              <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
             </NuxtLink>
 
             <div class="flex-grow min-w-0 flex flex-col gap-1">
               <NuxtLink
                 :to="`/produkty/${item.slug}`"
-                class="font-body-md text-body-md uppercase hover:text-primary truncate"
+                class="font-body-md text-body-md uppercase hover:text-primary truncate transition-colors duration-200"
                 @click="cart.closeDrawer()"
               >
                 {{ item.name }}
               </NuxtLink>
-              <div class="flex items-center border border-outline-variant rounded-default w-fit">
+              <div class="flex items-center border border-outline-variant rounded-default w-fit" role="group" aria-label="Množstvo">
                 <button
-                  class="w-7 h-7 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer"
-                  aria-label="Znížiť množstvo"
+                  type="button"
+                  class="min-w-11 min-h-11 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  :aria-label="`Znížiť množstvo: ${item.name}`"
                   @click="decrement(item.productId, item.quantity)"
                 >
-                  <span class="material-symbols-outlined text-[16px]">remove</span>
+                  <span class="material-symbols-outlined text-[16px]" aria-hidden="true">remove</span>
                 </button>
-                <span class="w-7 text-center font-technical-data text-technical-data">{{ item.quantity }}</span>
+                <span class="w-7 text-center font-technical-data text-technical-data" aria-live="polite">{{ item.quantity }}</span>
                 <button
-                  class="w-7 h-7 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer"
-                  aria-label="Zvýšiť množstvo"
+                  type="button"
+                  class="min-w-11 min-h-11 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  :aria-label="`Zvýšiť množstvo: ${item.name}`"
                   @click="increment(item.productId, item.quantity)"
                 >
-                  <span class="material-symbols-outlined text-[16px]">add</span>
+                  <span class="material-symbols-outlined text-[16px]" aria-hidden="true">add</span>
                 </button>
               </div>
             </div>
 
-            <div class="flex flex-col items-end gap-stack-xs shrink-0">
+            <div class="flex flex-col items-end shrink-0">
               <span class="font-price-display text-price-display">{{ lineTotal(item.price, item.quantity) }}</span>
               <button
-                class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-error cursor-pointer"
-                aria-label="Odstrániť položku"
+                type="button"
+                class="min-w-11 min-h-11 -mr-2 flex items-center justify-center text-on-surface-variant hover:text-error cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error"
+                :aria-label="`Odstrániť položku: ${item.name}`"
                 @click="cart.removeItem(item.productId)"
               >
-                <span class="material-symbols-outlined text-[18px]">delete</span>
+                <span class="material-symbols-outlined text-[18px]" aria-hidden="true">delete</span>
               </button>
             </div>
           </div>
@@ -121,17 +130,17 @@ function decrement(productId: string, quantity: number) {
           </div>
           <NuxtLink
             to="/kosik"
-            class="h-12 border border-outline-variant text-on-background font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-colors hover:border-primary rounded-default"
+            class="h-12 border border-outline-variant text-on-background font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-colors duration-200 hover:border-primary rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             @click="cart.closeDrawer()"
           >
             Zobraziť košík
           </NuxtLink>
           <NuxtLink
             to="/pokladna"
-            class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-[0.99] rounded-default"
+            class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             @click="cart.closeDrawer()"
           >
-            <span class="material-symbols-outlined">lock</span>
+            <span class="material-symbols-outlined" aria-hidden="true">lock</span>
             Pokladňa
           </NuxtLink>
         </div>

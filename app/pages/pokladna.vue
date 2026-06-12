@@ -50,8 +50,8 @@ async function placeOrder() {
     </h1>
 
     <!-- Success state -->
-    <div v-if="isPlaced" class="flex flex-col items-center text-center gap-stack-md py-stack-lg md:py-section-padding-lg">
-      <span class="material-symbols-outlined text-[64px] text-on-secondary-container">check_circle</span>
+    <div v-if="isPlaced" role="status" class="flex flex-col items-center text-center gap-stack-md py-stack-lg md:py-section-padding-lg">
+      <span class="material-symbols-outlined text-[64px] text-on-secondary-container" aria-hidden="true">check_circle</span>
       <h2 class="font-headline-md text-headline-md uppercase">Ďakujeme za objednávku!</h2>
       <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
         Potvrdenie objednávky sme odoslali na váš e-mail. Budete presmerovaní na domovskú stránku.
@@ -65,13 +65,18 @@ async function placeOrder() {
           <legend class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant border-b border-grid-line pb-stack-sm w-full mb-stack-sm">
             Kontaktné údaje
           </legend>
-          <input
-            v-model="form.email"
-            type="email"
-            required
-            placeholder="E-mailová adresa"
-            class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none focus:border-primary rounded-default"
-          />
+          <div class="flex flex-col gap-1">
+            <label for="checkout-email" class="font-technical-data text-technical-data uppercase text-on-surface-variant">E-mailová adresa</label>
+            <input
+              id="checkout-email"
+              v-model="form.email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="vas@email.sk"
+              class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+            />
+          </div>
         </fieldset>
 
         <fieldset class="flex flex-col gap-stack-sm">
@@ -79,70 +84,95 @@ async function placeOrder() {
             Doručovacia adresa
           </legend>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
+            <div class="flex flex-col gap-1">
+              <label for="checkout-first-name" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Meno</label>
+              <input
+                id="checkout-first-name"
+                v-model="form.firstName"
+                type="text"
+                required
+                autocomplete="given-name"
+                class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+              />
+            </div>
+            <div class="flex flex-col gap-1">
+              <label for="checkout-last-name" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Priezvisko</label>
+              <input
+                id="checkout-last-name"
+                v-model="form.lastName"
+                type="text"
+                required
+                autocomplete="family-name"
+                class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+              />
+            </div>
+          </div>
+          <div class="flex flex-col gap-1">
+            <label for="checkout-address" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Adresa</label>
             <input
-              v-model="form.firstName"
+              id="checkout-address"
+              v-model="form.address"
               type="text"
               required
-              placeholder="Meno"
-              class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none focus:border-primary rounded-default"
-            />
-            <input
-              v-model="form.lastName"
-              type="text"
-              required
-              placeholder="Priezvisko"
-              class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none focus:border-primary rounded-default"
+              autocomplete="street-address"
+              class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
             />
           </div>
-          <input
-            v-model="form.address"
-            type="text"
-            required
-            placeholder="Adresa"
-            class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none focus:border-primary rounded-default"
-          />
           <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
+            <div class="flex flex-col gap-1">
+              <label for="checkout-city" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Mesto</label>
+              <input
+                id="checkout-city"
+                v-model="form.city"
+                type="text"
+                required
+                autocomplete="address-level2"
+                class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+              />
+            </div>
+            <div class="flex flex-col gap-1">
+              <label for="checkout-postal-code" class="font-technical-data text-technical-data uppercase text-on-surface-variant">PSČ</label>
+              <input
+                id="checkout-postal-code"
+                v-model="form.postalCode"
+                type="text"
+                required
+                autocomplete="postal-code"
+                inputmode="numeric"
+                class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+              />
+            </div>
+          </div>
+          <div class="flex flex-col gap-1">
+            <label for="checkout-country" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Krajina</label>
             <input
-              v-model="form.city"
+              id="checkout-country"
+              v-model="form.country"
               type="text"
               required
-              placeholder="Mesto"
-              class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none focus:border-primary rounded-default"
-            />
-            <input
-              v-model="form.postalCode"
-              type="text"
-              required
-              placeholder="PSČ"
-              class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none focus:border-primary rounded-default"
+              autocomplete="country-name"
+              class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
             />
           </div>
-          <input
-            v-model="form.country"
-            type="text"
-            required
-            placeholder="Krajina"
-            class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none focus:border-primary rounded-default"
-          />
         </fieldset>
 
         <fieldset class="flex flex-col gap-stack-sm">
           <legend class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant border-b border-grid-line pb-stack-sm w-full mb-stack-sm">
             Spôsob platby
           </legend>
-          <label class="flex items-center gap-stack-sm border border-outline-variant px-4 py-3 rounded-default cursor-pointer" :class="form.payment === 'card' ? 'border-primary' : ''">
-            <input v-model="form.payment" type="radio" value="card" class="accent-black" />
-            <span class="material-symbols-outlined">credit_card</span>
+          <label class="flex items-center gap-stack-sm border border-outline-variant px-4 py-3 rounded-default cursor-pointer transition-colors duration-200 hover:border-on-surface-variant focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary" :class="form.payment === 'card' ? 'border-primary' : ''">
+            <input v-model="form.payment" type="radio" name="payment" value="card" class="accent-black" />
+            <span class="material-symbols-outlined" aria-hidden="true">credit_card</span>
             <span class="font-body-md text-body-md">Platobná karta</span>
           </label>
-          <label class="flex items-center gap-stack-sm border border-outline-variant px-4 py-3 rounded-default cursor-pointer" :class="form.payment === 'transfer' ? 'border-primary' : ''">
-            <input v-model="form.payment" type="radio" value="transfer" class="accent-black" />
-            <span class="material-symbols-outlined">account_balance</span>
+          <label class="flex items-center gap-stack-sm border border-outline-variant px-4 py-3 rounded-default cursor-pointer transition-colors duration-200 hover:border-on-surface-variant focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary" :class="form.payment === 'transfer' ? 'border-primary' : ''">
+            <input v-model="form.payment" type="radio" name="payment" value="transfer" class="accent-black" />
+            <span class="material-symbols-outlined" aria-hidden="true">account_balance</span>
             <span class="font-body-md text-body-md">Bankový prevod</span>
           </label>
-          <label class="flex items-center gap-stack-sm border border-outline-variant px-4 py-3 rounded-default cursor-pointer" :class="form.payment === 'cod' ? 'border-primary' : ''">
-            <input v-model="form.payment" type="radio" value="cod" class="accent-black" />
-            <span class="material-symbols-outlined">local_shipping</span>
+          <label class="flex items-center gap-stack-sm border border-outline-variant px-4 py-3 rounded-default cursor-pointer transition-colors duration-200 hover:border-on-surface-variant focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary" :class="form.payment === 'cod' ? 'border-primary' : ''">
+            <input v-model="form.payment" type="radio" name="payment" value="cod" class="accent-black" />
+            <span class="material-symbols-outlined" aria-hidden="true">local_shipping</span>
             <span class="font-body-md text-body-md">Dobierka</span>
           </label>
         </fieldset>
@@ -157,7 +187,7 @@ async function placeOrder() {
           <div v-for="item in cart.items" :key="item.productId" class="flex justify-between items-center gap-stack-sm pt-stack-sm first:pt-0">
             <div class="flex items-center gap-stack-sm min-w-0">
               <div class="w-12 h-12 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden">
-                <img :src="item.image" :alt="item.name" class="w-full h-full object-cover" />
+                <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
               </div>
               <div class="min-w-0">
                 <p class="font-body-md text-body-md truncate">{{ item.name }}</p>
@@ -178,11 +208,12 @@ async function placeOrder() {
         <button
           type="submit"
           :disabled="isPlacing"
-          class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-[0.99] disabled:opacity-50 rounded-default mt-stack-sm"
+          class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-50 disabled:cursor-not-allowed rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
-          <span class="material-symbols-outlined">{{ isPlacing ? 'hourglass_empty' : 'lock' }}</span>
+          <span class="material-symbols-outlined" :class="isPlacing ? 'animate-spin' : ''" aria-hidden="true">{{ isPlacing ? 'progress_activity' : 'lock' }}</span>
           {{ isPlacing ? 'Spracúva sa...' : 'Odoslať objednávku' }}
         </button>
+        <span class="sr-only" role="status">{{ isPlacing ? 'Objednávka sa spracúva' : '' }}</span>
       </div>
     </form>
   </div>
