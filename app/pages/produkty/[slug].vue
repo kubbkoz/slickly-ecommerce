@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getProductBySlug, getRelatedProducts, categories } from '~/data/products'
+import { getProductBySlug, getRelatedProducts, getBundleProducts, categories, type Product } from '~/data/products'
 
 const route = useRoute()
 const slug = route.params.slug as string
@@ -11,7 +11,26 @@ if (!product) {
 }
 
 const related = getRelatedProducts(product)
+const bundleProducts = getBundleProducts(product)
 const categoryName = computed(() => categories.find((c) => c.slug === product!.category)?.name)
+
+const averageRating = computed(() => {
+  if (!product!.reviews.length) return 0
+  return product!.reviews.reduce((sum, r) => sum + r.rating, 0) / product!.reviews.length
+})
+
+const recentlyViewed = useRecentlyViewedStore()
+const recentlyViewedProducts = computed(() =>
+  recentlyViewed.slugs
+    .filter((s) => s !== product!.slug)
+    .map((s) => getProductBySlug(s))
+    .filter((p): p is Product => !!p)
+    .slice(0, 4),
+)
+
+onMounted(() => {
+  recentlyViewed.addProduct(product!.slug)
+})
 
 useSeoMeta({
   title: `${product.name} | SLICKLY`,
@@ -164,10 +183,114 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? `${product!.oldPri
       </div>
     </div>
 
-    <!-- Related products -->
+    <!-- Popis -->
+    <section class="mt-stack-lg md:mt-section-padding-lg">
+      <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
+        Popis
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md md:gap-16">
+        <p class="md:col-span-2 font-body-md md:text-body-lg text-on-surface-variant">
+          {{ product.description }}
+        </p>
+        <ul v-if="product.certifications.length" class="flex flex-col gap-stack-sm h-fit">
+          <li
+            v-for="cert in product.certifications"
+            :key="cert"
+            class="flex items-center gap-2 font-technical-data text-technical-data uppercase text-on-background border border-grid-line px-3 py-2"
+          >
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">verified</span>
+            {{ cert }}
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Špecifikácia -->
+    <section v-if="product.specifications.length" class="mt-stack-lg md:mt-section-padding-lg">
+      <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
+        Špecifikácia
+      </h2>
+      <dl class="grid grid-cols-1 md:grid-cols-2 gap-px bg-grid-line border border-grid-line">
+        <div
+          v-for="spec in product.specifications"
+          :key="spec.label"
+          class="flex justify-between items-baseline gap-stack-sm bg-surface-container-lowest px-stack-md py-stack-sm"
+        >
+          <dt class="font-technical-data text-technical-data uppercase text-on-surface-variant">{{ spec.label }}</dt>
+          <dd class="font-body-md text-body-md text-on-background text-right">{{ spec.value }}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- Použitie -->
+    <section v-if="product.usage.length" class="mt-stack-lg md:mt-section-padding-lg">
+      <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
+        Použitie
+      </h2>
+      <ol class="flex flex-col gap-stack-md md:max-w-2xl">
+        <li v-for="(step, idx) in product.usage" :key="idx" class="flex items-start gap-stack-sm md:gap-stack-md">
+          <span class="shrink-0 w-8 h-8 flex items-center justify-center bg-primary text-on-primary font-technical-data text-technical-data rounded-full">
+            {{ idx + 1 }}
+          </span>
+          <p class="font-body-md md:text-body-lg text-on-surface-variant pt-1">{{ step }}</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Čo hovoria zákazníci -->
+    <section class="mt-stack-lg md:mt-section-padding-lg">
+      <div class="flex flex-wrap items-baseline justify-between gap-stack-sm border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
+        <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight">
+          Čo hovoria zákazníci
+        </h2>
+        <div v-if="product.reviews.length" class="flex items-center gap-2">
+          <ProductRating :rating="averageRating" :size="18" />
+          <span class="font-technical-data text-technical-data text-on-surface-variant">
+            {{ averageRating.toFixed(1) }} / 5 ({{ product.reviews.length }})
+          </span>
+        </div>
+      </div>
+      <div v-if="product.reviews.length" class="grid grid-cols-1 md:grid-cols-2 gap-stack-md md:gap-16">
+        <article
+          v-for="review in product.reviews"
+          :key="`${review.author}-${review.date}`"
+          class="border border-grid-line p-stack-md flex flex-col gap-stack-sm"
+        >
+          <div class="flex items-center justify-between gap-stack-sm">
+            <ProductRating :rating="review.rating" />
+            <span class="font-technical-data text-technical-data text-on-surface-variant uppercase shrink-0">{{ review.date }}</span>
+          </div>
+          <p class="font-body-md text-body-md text-on-surface-variant">{{ review.text }}</p>
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-background">{{ review.author }}</span>
+        </article>
+      </div>
+      <p v-else class="font-body-md text-body-md text-on-surface-variant">
+        Tento produkt ešte nemá žiadne hodnotenia.
+      </p>
+    </section>
+
+    <!-- Odporúčame k tomu -->
+    <section v-if="bundleProducts.length" class="mt-stack-lg md:mt-section-padding-lg">
+      <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
+        Odporúčame k tomu
+      </h2>
+      <ProductBundle :main-product="product" :bundle-products="bundleProducts" />
+    </section>
+
+    <!-- Naposledy prezerané -->
+    <section v-if="recentlyViewedProducts.length" class="mt-stack-lg md:mt-section-padding-lg">
+      <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
+        Naposledy prezerané
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-grid-line border border-grid-line">
+        <ProductCard v-for="item in recentlyViewedProducts" :key="item.id" :product="item" />
+      </div>
+    </section>
+
+    <!-- Podobné produkty -->
     <section v-if="related.length" class="mt-stack-lg md:mt-section-padding-lg">
       <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
-        Mohlo by sa vám páčiť
+        Podobné produkty
       </h2>
       <div class="grid grid-cols-2 md:grid-cols-3 gap-px bg-grid-line border border-grid-line">
         <ProductCard v-for="item in related" :key="item.id" :product="item" />
