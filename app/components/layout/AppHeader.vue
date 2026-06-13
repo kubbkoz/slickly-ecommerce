@@ -7,6 +7,8 @@ const wishlist = useWishlistStore()
 const isMenuOpen = ref(false)
 const router = useRouter()
 const desktopSearchInput = ref<HTMLInputElement | null>(null)
+const hamburgerBtn = ref<HTMLElement | null>(null)
+const menuCloseBtn = ref<HTMLElement | null>(null)
 
 const navLinks = [
   { label: 'Obchod', to: '/produkty' },
@@ -56,6 +58,11 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 watch(isMenuOpen, (open) => {
   if (!import.meta.client) return
   document.body.style.overflow = open ? 'hidden' : ''
+  if (open) {
+    nextTick(() => menuCloseBtn.value?.focus())
+  } else {
+    hamburgerBtn.value?.focus()
+  }
 })
 </script>
 
@@ -67,6 +74,7 @@ watch(isMenuOpen, (open) => {
     >
       <div class="flex items-center gap-stack-md">
         <button
+          ref="hamburgerBtn"
           aria-label="Menu"
           aria-haspopup="dialog"
           :aria-expanded="isMenuOpen"
@@ -117,9 +125,10 @@ watch(isMenuOpen, (open) => {
               SL<span class="logo-i">I</span>CKLY
             </NuxtLink>
             <button
+              ref="menuCloseBtn"
               type="button"
               aria-label="Zavrieť menu"
-              class="min-w-11 min-h-11 -mr-2 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              class="min-w-11 min-h-11 -mr-2 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-default"
               @click="isMenuOpen = false"
             >
               <span class="material-symbols-outlined" aria-hidden="true">close</span>
@@ -127,17 +136,17 @@ watch(isMenuOpen, (open) => {
           </div>
 
           <nav class="flex-grow overflow-y-auto px-gutter py-stack-lg flex flex-col">
-            <NuxtLink to="/" class="font-headline-md text-headline-md uppercase tracking-tight text-on-background hover:text-primary py-stack-sm border-b border-grid-line">
+            <NuxtLink to="/" class="font-headline-md text-headline-md uppercase tracking-tight text-on-background hover:text-primary py-stack-sm border-b border-grid-line rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
               Domov
             </NuxtLink>
-            <NuxtLink to="/produkty" class="font-headline-md text-headline-md uppercase tracking-tight text-on-background hover:text-primary py-stack-sm border-b border-grid-line">
+            <NuxtLink to="/produkty" class="font-headline-md text-headline-md uppercase tracking-tight text-on-background hover:text-primary py-stack-sm border-b border-grid-line rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
               Všetky produkty
             </NuxtLink>
             <NuxtLink
               v-for="category in categories"
               :key="category.slug"
               :to="`/produkty?kategoria=${category.slug}`"
-              class="font-headline-sm text-headline-sm uppercase tracking-tight text-on-surface-variant hover:text-primary py-stack-sm border-b border-grid-line"
+              class="font-headline-sm text-headline-sm uppercase tracking-tight text-on-surface-variant hover:text-primary py-stack-sm border-b border-grid-line rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               {{ category.name }}
             </NuxtLink>
@@ -147,7 +156,7 @@ watch(isMenuOpen, (open) => {
                 v-for="link in navLinks"
                 :key="link.label"
                 :to="link.to"
-                class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary"
+                class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 {{ link.label }}
               </NuxtLink>
@@ -155,25 +164,25 @@ watch(isMenuOpen, (open) => {
           </nav>
 
           <div class="border-t border-grid-line px-gutter py-stack-md flex flex-col gap-stack-md shrink-0">
-            <LocaleSwitcher variant="light" />
+            <LocaleSwitcher variant="light" drop-direction="up" />
             <div class="grid grid-cols-3 gap-stack-sm">
               <NuxtLink
                 to="/oblubene"
-                class="flex flex-col items-center gap-1 py-stack-sm text-on-surface-variant hover:text-primary transition-colors duration-200"
+                class="flex flex-col items-center gap-1 py-stack-sm text-on-surface-variant hover:text-primary transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
                 <span class="font-technical-data text-technical-data uppercase">Obľúbené</span>
               </NuxtLink>
               <NuxtLink
                 to="/ucet"
-                class="flex flex-col items-center gap-1 py-stack-sm text-on-surface-variant hover:text-primary transition-colors duration-200"
+                class="flex flex-col items-center gap-1 py-stack-sm text-on-surface-variant hover:text-primary transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 <span class="material-symbols-outlined" aria-hidden="true">person</span>
                 <span class="font-technical-data text-technical-data uppercase">Účet</span>
               </NuxtLink>
               <button
                 type="button"
-                class="flex flex-col items-center gap-1 py-stack-sm text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer"
+                class="flex flex-col items-center gap-1 py-stack-sm text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 @click="isMenuOpen = false; cart.toggleDrawer()"
               >
                 <span class="material-symbols-outlined" aria-hidden="true">shopping_bag</span>

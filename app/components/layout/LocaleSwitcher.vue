@@ -4,8 +4,9 @@ import { countries } from '~/stores/locale'
 const props = withDefaults(
   defineProps<{
     variant?: 'dark' | 'light'
+    dropDirection?: 'down' | 'up'
   }>(),
-  { variant: 'dark' },
+  { variant: 'dark', dropDirection: 'down' },
 )
 
 const locale = useLocaleStore()
@@ -33,7 +34,7 @@ function select(code: string) {
       type="button"
       aria-haspopup="listbox"
       :aria-expanded="isOpen"
-      class="flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-widest cursor-pointer transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2"
+      class="flex items-center gap-1.5 min-h-11 px-1 -mx-1 font-label-sm text-label-sm uppercase tracking-widest cursor-pointer transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2"
       :class="
         props.variant === 'dark'
           ? 'text-white hover:text-secondary-container focus-visible:outline-secondary-container'
@@ -48,16 +49,17 @@ function select(code: string) {
 
     <Transition
       enter-active-class="transition-all duration-150 ease-out"
-      enter-from-class="opacity-0 -translate-y-1"
+      :enter-from-class="dropDirection === 'up' ? 'opacity-0 translate-y-1' : 'opacity-0 -translate-y-1'"
       enter-to-class="opacity-100 translate-y-0"
       leave-active-class="transition-all duration-100 ease-in"
       leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 -translate-y-1"
+      :leave-to-class="dropDirection === 'up' ? 'opacity-0 translate-y-1' : 'opacity-0 -translate-y-1'"
     >
       <ul
         v-if="isOpen"
         role="listbox"
-        class="absolute right-0 top-full mt-2 w-56 bg-background border border-grid-line shadow-xl rounded-default overflow-hidden z-50"
+        class="absolute right-0 w-56 bg-background border border-grid-line shadow-xl rounded-default overflow-hidden z-50"
+        :class="dropDirection === 'up' ? 'bottom-full mb-2' : 'top-full mt-2'"
       >
         <li v-for="option in countries" :key="option.code" role="option" :aria-selected="option.code === locale.countryCode">
           <button
