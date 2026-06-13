@@ -88,7 +88,9 @@ function clearDeals() {
         <!-- Mobile: horizontal chips -->
         <div class="flex md:hidden gap-2 overflow-x-auto hide-scrollbar pb-2">
           <button
-            class="font-label-sm text-label-sm uppercase px-4 py-2 whitespace-nowrap rounded-default border"
+            type="button"
+            :aria-pressed="!selectedCategory && !onlyDeals"
+            class="font-label-sm text-label-sm uppercase px-4 py-2 whitespace-nowrap rounded-default border cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             :class="!selectedCategory && !onlyDeals ? 'bg-primary text-on-primary border-primary' : 'border-outline-variant text-on-surface-variant'"
             @click="setCategory(undefined)"
           >
@@ -97,7 +99,9 @@ function clearDeals() {
           <button
             v-for="category in categories"
             :key="category.slug"
-            class="font-label-sm text-label-sm uppercase px-4 py-2 whitespace-nowrap rounded-default border"
+            type="button"
+            :aria-pressed="selectedCategory === category.slug"
+            class="font-label-sm text-label-sm uppercase px-4 py-2 whitespace-nowrap rounded-default border cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             :class="selectedCategory === category.slug ? 'bg-primary text-on-primary border-primary' : 'border-outline-variant text-on-surface-variant'"
             @click="setCategory(category.slug)"
           >
@@ -112,7 +116,9 @@ function clearDeals() {
             <ul class="flex flex-col gap-1">
               <li>
                 <button
-                  class="font-body-md text-body-md w-full text-left py-1.5 transition-colors"
+                  type="button"
+                  :aria-pressed="!selectedCategory"
+                  class="font-body-md text-body-md w-full text-left py-1.5 cursor-pointer transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                   :class="!selectedCategory ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-background'"
                   @click="setCategory(undefined)"
                 >
@@ -121,7 +127,9 @@ function clearDeals() {
               </li>
               <li v-for="category in categories" :key="category.slug">
                 <button
-                  class="font-body-md text-body-md w-full text-left py-1.5 transition-colors"
+                  type="button"
+                  :aria-pressed="selectedCategory === category.slug"
+                  class="font-body-md text-body-md w-full text-left py-1.5 cursor-pointer transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                   :class="selectedCategory === category.slug ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-background'"
                   @click="setCategory(category.slug)"
                 >
@@ -132,10 +140,12 @@ function clearDeals() {
           </div>
           <div v-if="onlyDeals">
             <button
-              class="font-label-sm text-label-sm uppercase px-3 py-2 bg-secondary-container text-on-background flex items-center gap-2"
+              type="button"
+              aria-label="Zrušiť filter Iba akcie"
+              class="font-label-sm text-label-sm uppercase px-3 py-2 bg-secondary-container text-on-background flex items-center gap-2 cursor-pointer transition-opacity duration-200 hover:opacity-90 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               @click="clearDeals"
             >
-              <span class="material-symbols-outlined text-[16px]">close</span>
+              <span class="material-symbols-outlined text-[16px]" aria-hidden="true">close</span>
               Iba akcie
             </button>
           </div>
@@ -148,7 +158,8 @@ function clearDeals() {
           <p class="font-technical-data text-technical-data text-on-surface-variant uppercase">{{ filtered.length }} produktov</p>
           <select
             v-model="sort"
-            class="font-label-sm text-label-sm uppercase border border-outline-variant px-3 py-2 bg-surface-container-lowest rounded-default outline-none focus:ring-1 focus:ring-secondary-container focus:border-secondary-container"
+            aria-label="Zoradiť produkty"
+            class="font-label-sm text-label-sm uppercase border border-outline-variant px-3 py-2 bg-surface-container-lowest rounded-default outline-none cursor-pointer transition-colors duration-200 focus:ring-1 focus:ring-secondary-container focus:border-secondary-container"
           >
             <option v-for="opt in sortOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
           </select>
