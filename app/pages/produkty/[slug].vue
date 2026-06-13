@@ -10,7 +10,7 @@ if (!product) {
   throw createError({ statusCode: 404, statusMessage: 'Produkt nebol nájdený', fatal: true })
 }
 
-const related = getRelatedProducts(product)
+const related = getRelatedProducts(product, 6)
 const bundleProducts = getBundleProducts(product)
 const categoryName = computed(() => categories.find((c) => c.slug === product!.category)?.name)
 
@@ -109,6 +109,12 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? `${product!.oldPri
             {{ product.tags.join(' • ') }}
           </p>
           <h1 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase">{{ product.name }}</h1>
+          <div v-if="product.reviews.length" class="flex items-center gap-2 mt-stack-xs">
+            <ProductRating :rating="averageRating" :size="18" />
+            <span class="font-technical-data text-technical-data text-on-surface-variant">
+              {{ averageRating.toFixed(1) }} / 5 ({{ product.reviews.length }})
+            </span>
+          </div>
         </div>
 
         <div class="flex items-baseline gap-stack-sm">
@@ -292,9 +298,7 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? `${product!.oldPri
       <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
         Podobné produkty
       </h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-px bg-grid-line border border-grid-line">
-        <ProductCard v-for="item in related" :key="item.id" :product="item" />
-      </div>
+      <ProductCarousel :products="related" />
     </section>
   </div>
 </template>

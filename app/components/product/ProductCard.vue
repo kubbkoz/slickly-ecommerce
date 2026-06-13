@@ -20,6 +20,10 @@ const formattedPrice = computed(() => `${props.product.price.toFixed(2)} €`)
 const formattedOldPrice = computed(() =>
   props.product.oldPrice ? `${props.product.oldPrice.toFixed(2)} €` : null,
 )
+const averageRating = computed(() => {
+  if (!props.product.reviews.length) return 0
+  return props.product.reviews.reduce((sum, r) => sum + r.rating, 0) / props.product.reviews.length
+})
 </script>
 
 <template>
@@ -47,8 +51,12 @@ const formattedOldPrice = computed(() =>
     </NuxtLink>
     <div class="p-stack-md flex flex-col gap-stack-xs flex-grow">
       <NuxtLink :to="`/produkty/${product.slug}`">
-        <h3 class="font-headline-md text-headline-md text-on-surface truncate hover:text-primary transition-colors">{{ product.name }}</h3>
+        <h3 class="font-headline-sm text-headline-sm text-on-surface line-clamp-2 hover:text-primary transition-colors">{{ product.name }}</h3>
       </NuxtLink>
+      <div v-if="product.reviews.length" class="flex items-center gap-1.5">
+        <ProductRating :rating="averageRating" :size="14" />
+        <span class="font-technical-data text-technical-data text-on-surface-variant">({{ product.reviews.length }})</span>
+      </div>
       <p class="font-technical-data text-technical-data text-on-tertiary-container uppercase truncate">
         {{ product.tags.join(' • ') }}
       </p>
