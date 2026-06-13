@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { Product } from '~/data/products'
+import { categories, type Product } from '~/data/products'
 
 const props = defineProps<{
   product: Product
 }>()
 
 const cart = useCartStore()
+const wishlist = useWishlistStore()
 const justAdded = ref(false)
 
 function addToCart() {
@@ -24,10 +25,21 @@ const averageRating = computed(() => {
   if (!props.product.reviews.length) return 0
   return props.product.reviews.reduce((sum, r) => sum + r.rating, 0) / props.product.reviews.length
 })
+const categoryName = computed(() => categories.find((c) => c.slug === props.product.category)?.name ?? '')
 </script>
 
 <template>
   <div class="group relative flex flex-col h-full bg-surface-container-lowest border border-grid-line transition-colors duration-300 hover:bg-surface">
+    <button
+      type="button"
+      class="absolute top-2 right-2 z-20 min-w-11 min-h-11 flex items-center justify-center bg-surface-container-lowest/80 backdrop-blur-sm rounded-full cursor-pointer transition-colors duration-200 hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [touch-action:manipulation]"
+      :class="wishlist.has(product.id) ? 'text-error' : 'text-on-surface-variant'"
+      :aria-label="wishlist.has(product.id) ? `Odstrániť ${product.name} z obľúbených` : `Pridať ${product.name} do obľúbených`"
+      :aria-pressed="wishlist.has(product.id)"
+      @click="wishlist.toggle(product.id)"
+    >
+      <span class="material-symbols-outlined text-[18px]" :style="wishlist.has(product.id) ? { fontVariationSettings: &quot;'FILL' 1&quot; } : {}" aria-hidden="true">favorite</span>
+    </button>
     <NuxtLink :to="`/produkty/${product.slug}`" class="relative aspect-square overflow-hidden block bg-surface-container-lowest">
       <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant opacity-50">{{ product.sku }}</span>
       <img
@@ -58,7 +70,7 @@ const averageRating = computed(() => {
         <span class="font-technical-data text-technical-data text-on-surface-variant">({{ product.reviews.length }})</span>
       </div>
       <p class="font-technical-data text-technical-data text-on-tertiary-container uppercase truncate">
-        {{ product.tags.join(' • ') }}
+        {{ categoryName }}
       </p>
       <div class="flex justify-between items-end mt-auto pt-stack-sm">
         <div class="flex flex-col leading-none">

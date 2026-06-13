@@ -3,6 +3,7 @@ import { categories } from '~/data/products'
 
 const cart = useCartStore()
 const search = useSearchStore()
+const wishlist = useWishlistStore()
 const isMenuOpen = ref(false)
 const router = useRouter()
 const desktopSearchInput = ref<HTMLInputElement | null>(null)
@@ -130,9 +131,19 @@ watch(
             </button>
           </div>
           <div class="flex items-center gap-6 order-3">
-            <button class="text-white hover:text-secondary-container transition-colors duration-150 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container rounded-default" aria-label="Obľúbené">
+            <NuxtLink
+              to="/oblubene"
+              class="text-white hover:text-secondary-container transition-colors duration-150 relative cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container rounded-default"
+              aria-label="Obľúbené"
+            >
               <span class="material-symbols-outlined text-[22px]" aria-hidden="true">favorite</span>
-            </button>
+              <span
+                v-if="wishlist.count > 0"
+                class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
+              >
+                {{ wishlist.count }}
+              </span>
+            </NuxtLink>
             <NuxtLink to="/ucet" class="text-white hover:text-secondary-container transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container rounded-default" aria-label="Účet">
               <span class="material-symbols-outlined text-[22px]" aria-hidden="true">person</span>
             </NuxtLink>

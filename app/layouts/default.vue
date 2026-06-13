@@ -1,8 +1,10 @@
 <script setup lang="ts">
 const cart = useCartStore()
+const wishlist = useWishlistStore()
 
 onMounted(() => {
   cart.hydrate()
+  wishlist.hydrate()
 })
 </script>
 
