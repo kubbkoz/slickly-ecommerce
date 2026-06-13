@@ -32,7 +32,7 @@ function select(code: string) {
   <div ref="root" class="relative">
     <button
       type="button"
-      aria-haspopup="listbox"
+      aria-haspopup="menu"
       :aria-expanded="isOpen"
       class="flex items-center gap-1.5 min-h-11 px-1 -mx-1 font-label-sm text-label-sm uppercase tracking-widest cursor-pointer transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2"
       :class="
@@ -57,13 +57,15 @@ function select(code: string) {
     >
       <ul
         v-if="isOpen"
-        role="listbox"
+        role="menu"
         class="absolute right-0 w-56 bg-background border border-grid-line shadow-xl rounded-default overflow-hidden z-50"
         :class="dropDirection === 'up' ? 'bottom-full mb-2' : 'top-full mt-2'"
       >
-        <li v-for="option in countries" :key="option.code" role="option" :aria-selected="option.code === locale.countryCode">
+        <li v-for="option in countries" :key="option.code" role="none">
           <button
             type="button"
+            role="menuitem"
+            :aria-current="option.code === locale.countryCode ? 'true' : undefined"
             class="w-full flex items-center justify-between gap-3 px-4 py-3 text-left cursor-pointer transition-colors duration-200 hover:bg-surface-container-low focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             :class="option.code === locale.countryCode ? 'bg-surface-container-low' : ''"
             @click="select(option.code)"

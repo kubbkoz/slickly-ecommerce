@@ -25,8 +25,8 @@ const contact = [
           <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-background">SLICKLY R&amp;D Laboratórium</span>
         </div>
       </div>
-      <span class="absolute top-3 left-3 font-technical-data text-technical-data text-on-surface-variant opacity-60">48.1486° N, 17.1077° E</span>
-      <span class="absolute bottom-3 right-3 font-technical-data text-technical-data text-on-surface-variant opacity-60">MAP // BRATISLAVA, SK</span>
+      <span class="absolute top-3 left-3 font-technical-data text-technical-data text-on-surface-variant">48.1486° N, 17.1077° E</span>
+      <span class="absolute bottom-3 right-3 font-technical-data text-technical-data text-on-surface-variant">MAP // BRATISLAVA, SK</span>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-px px-gutter md:px-grid-margin py-stack-lg md:py-section-padding-lg w-full max-w-[1536px] mx-auto">

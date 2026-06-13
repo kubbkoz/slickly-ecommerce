@@ -1,10 +1,14 @@
 <script setup lang="ts">
 const email = ref('')
+const isSubmitting = ref(false)
 const submitted = ref(false)
 
-function subscribe() {
+async function subscribe() {
   if (!email.value) return
+  isSubmitting.value = true
+  await new Promise((resolve) => setTimeout(resolve, 600))
   submitted.value = true
+  isSubmitting.value = false
   email.value = ''
 }
 </script>
@@ -32,9 +36,11 @@ function subscribe() {
         />
         <button
           type="submit"
-          class="h-12 px-8 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:opacity-90 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          :disabled="isSubmitting"
+          class="h-12 px-8 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
-          Získať zľavu
+          <span class="material-symbols-outlined" :class="isSubmitting ? 'animate-spin' : ''" aria-hidden="true">{{ isSubmitting ? 'progress_activity' : 'arrow_forward' }}</span>
+          {{ isSubmitting ? 'Spracúva sa...' : 'Získať zľavu' }}
         </button>
       </form>
 
