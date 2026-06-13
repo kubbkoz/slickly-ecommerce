@@ -21,7 +21,7 @@ const featured = [true, true, false, false]
           v-for="(category, index) in categories"
           :key="category.slug"
           :to="`/produkty?kategoria=${category.slug}`"
-          class="relative group overflow-hidden bg-on-background"
+          class="relative group overflow-hidden bg-on-background focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-secondary-container"
           :class="spans[index]"
         >
           <img
@@ -42,7 +42,7 @@ const featured = [true, true, false, false]
               class="hidden md:flex text-white/80 font-label-sm text-label-sm uppercase items-center gap-2 group-hover:text-secondary-container transition-colors"
             >
               Preskúmať produkty
-              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+              <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
             </span>
             <span v-else class="text-white/80 text-[12px] uppercase">Zobraziť viac</span>
             <div v-if="featured[index]" class="md:hidden w-8 h-1 bg-secondary-container mt-2"></div>

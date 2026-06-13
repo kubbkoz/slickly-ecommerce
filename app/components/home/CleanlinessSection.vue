@@ -32,7 +32,7 @@ const certifications = [
                 'bg-surface-container-high text-on-surface': cert.style === 'tonal',
               }"
             >
-              <span v-if="cert.icon" class="material-symbols-outlined text-[16px]">{{ cert.icon }}</span>
+              <span v-if="cert.icon" class="material-symbols-outlined text-[16px]" aria-hidden="true">{{ cert.icon }}</span>
               {{ cert.label }}
             </span>
           </div>

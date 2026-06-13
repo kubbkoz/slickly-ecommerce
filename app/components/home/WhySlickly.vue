@@ -28,7 +28,7 @@ const features = [
       <div class="space-y-stack-lg md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
         <div v-for="feature in features" :key="feature.title" class="flex items-start gap-stack-md md:flex-col md:items-start">
           <div class="p-3 bg-primary text-secondary-container shrink-0">
-            <span class="material-symbols-outlined">{{ feature.icon }}</span>
+            <span class="material-symbols-outlined" aria-hidden="true">{{ feature.icon }}</span>
           </div>
           <div>
             <h4 class="font-headline-md text-[18px] md:text-headline-sm mb-1">{{ feature.title }}</h4>

@@ -14,7 +14,10 @@ const heroImage =
         <h2 class="font-headline-lg text-headline-lg text-on-primary max-w-[280px] leading-tight mb-stack-md">
           TECHNICKÁ <br />DOKONALOSŤ <br />PRE VAŠE AUTO
         </h2>
-        <NuxtLink to="/produkty" class="bg-secondary-container text-on-secondary-container px-stack-lg py-3 rounded font-bold transition-all active:scale-95 w-fit">
+        <NuxtLink
+          to="/produkty"
+          class="bg-secondary-container text-on-secondary-container px-stack-lg py-3 rounded font-bold transition-all duration-200 active:scale-95 w-fit cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+        >
           PRESKÚMAŤ KOLEKCIU
         </NuxtLink>
       </div>
@@ -33,18 +36,10 @@ const heroImage =
             </p>
             <NuxtLink
               to="/produkty"
-              class="mt-4 border border-surface text-surface px-6 py-2 w-fit uppercase font-label-sm hover:bg-surface hover:text-on-background transition-colors"
+              class="mt-4 border border-surface text-surface px-6 py-2 w-fit uppercase font-label-sm cursor-pointer hover:bg-surface hover:text-on-background transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
             >
               Kúpiť teraz
             </NuxtLink>
-          </div>
-          <div class="absolute right-8 bottom-8 flex gap-2">
-            <button aria-label="Predchádzajúci" class="p-2 bg-surface/10 hover:bg-surface/20 text-surface rounded-full">
-              <span class="material-symbols-outlined">chevron_left</span>
-            </button>
-            <button aria-label="Ďalší" class="p-2 bg-surface/10 hover:bg-surface/20 text-surface rounded-full">
-              <span class="material-symbols-outlined">chevron_right</span>
-            </button>
           </div>
         </div>
       </div>

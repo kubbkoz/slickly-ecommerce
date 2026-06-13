@@ -9,13 +9,19 @@ const offers = products.filter((p) => p.badge).slice(0, 3)
     <div class="md:max-w-[1536px] md:mx-auto md:px-grid-margin">
       <div class="flex justify-between items-center md:items-end px-gutter md:px-0 mb-stack-md md:mb-8">
         <h3 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight">Špeciálne ponuky</h3>
-        <NuxtLink to="/produkty?akcia=1" class="hidden md:flex gap-2 items-center font-label-sm text-label-sm text-primary hover:text-secondary uppercase transition-colors">
+        <NuxtLink
+          to="/produkty?akcia=1"
+          class="hidden md:flex gap-2 items-center font-label-sm text-label-sm text-primary hover:text-secondary uppercase transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
           Zobraziť všetko
-          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
         </NuxtLink>
-        <span class="md:hidden text-on-surface-variant font-badge-label text-badge-label uppercase border-b border-on-surface-variant">
-          <NuxtLink to="/produkty?akcia=1">Všetko</NuxtLink>
-        </span>
+        <NuxtLink
+          to="/produkty?akcia=1"
+          class="md:hidden min-h-11 flex items-center text-on-surface-variant font-badge-label text-badge-label uppercase border-b border-on-surface-variant transition-colors duration-200 hover:text-on-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          Všetko
+        </NuxtLink>
       </div>
 
       <!-- Mobile: horizontal scroll -->
