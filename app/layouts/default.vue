@@ -26,5 +26,6 @@ onMounted(() => {
     <MobileBottomNav />
     <CartDrawer />
     <SearchOverlay />
+    <ChatWidget />
   </div>
 </template>

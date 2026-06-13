@@ -30,7 +30,7 @@ const filtered = computed(() => {
     list = list.filter((p) => p.category === selectedCategory.value)
   }
   if (onlyDeals.value) {
-    list = list.filter((p) => p.badge)
+    list = list.filter((p) => !!p.oldPrice && p.oldPrice > p.price)
   }
   switch (sort.value) {
     case 'cena-asc':
