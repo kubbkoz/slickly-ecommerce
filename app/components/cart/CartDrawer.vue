@@ -2,11 +2,25 @@
 const cart = useCartStore()
 const { formatPrice } = useCurrency()
 
+const closeBtn = ref<HTMLButtonElement | null>(null)
+let previouslyFocused: HTMLElement | null = null
+
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && cart.isDrawerOpen) cart.closeDrawer()
 }
 onMounted(() => window.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
+
+watch(() => cart.isDrawerOpen, (open) => {
+  if (!import.meta.client) return
+  document.body.style.overflow = open ? 'hidden' : ''
+  if (open) {
+    previouslyFocused = document.activeElement as HTMLElement
+    nextTick(() => closeBtn.value?.focus())
+  } else {
+    previouslyFocused?.focus()
+  }
+})
 
 const formattedSubtotal = computed(() => formatPrice(cart.subtotal))
 
@@ -57,6 +71,7 @@ function decrement(productId: string, quantity: number) {
         <div class="flex items-center justify-between px-stack-md md:px-6 h-16 border-b border-grid-line shrink-0">
           <h2 class="font-headline-sm text-headline-sm uppercase">Košík ({{ cart.itemCount }})</h2>
           <button
+            ref="closeBtn"
             type="button"
             aria-label="Zavrieť košík"
             class="min-w-11 min-h-11 -mr-2 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
@@ -131,14 +146,14 @@ function decrement(productId: string, quantity: number) {
           </div>
           <NuxtLink
             to="/kosik"
-            class="h-12 border border-outline-variant text-on-background font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-colors duration-200 hover:border-primary rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="h-12 border border-outline-variant text-on-background font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-colors duration-200 hover:border-primary rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             @click="cart.closeDrawer()"
           >
             Zobraziť košík
           </NuxtLink>
           <NuxtLink
             to="/pokladna"
-            class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             @click="cart.closeDrawer()"
           >
             <span class="material-symbols-outlined" aria-hidden="true">lock</span>

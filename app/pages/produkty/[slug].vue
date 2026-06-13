@@ -137,7 +137,7 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(produc
             :key="cert"
             class="border border-on-background text-on-background font-technical-data text-technical-data px-3 py-1 uppercase flex items-center gap-2"
           >
-            <span class="material-symbols-outlined text-[16px]">verified</span>
+            <span class="material-symbols-outlined text-[16px]" aria-hidden="true">verified</span>
             {{ cert }}
           </span>
         </div>
@@ -179,11 +179,11 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(produc
         <!-- Trust micro-info -->
         <div class="grid grid-cols-2 gap-stack-sm mt-stack-md md:mt-6 pt-stack-md border-t border-grid-line">
           <div class="flex items-center gap-2 text-on-surface-variant">
-            <span class="material-symbols-outlined text-[20px]">local_shipping</span>
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">local_shipping</span>
             <span class="font-technical-data text-technical-data uppercase">Doprava zdarma</span>
           </div>
           <div class="flex items-center gap-2 text-on-surface-variant">
-            <span class="material-symbols-outlined text-[20px]">science</span>
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">science</span>
             <span class="font-technical-data text-technical-data uppercase">Lab. certifikované</span>
           </div>
         </div>

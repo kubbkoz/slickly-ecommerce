@@ -75,29 +75,32 @@ watch(isMenuOpen, (open) => {
       <div class="flex items-center gap-stack-md">
         <button
           ref="hamburgerBtn"
+          type="button"
           aria-label="Menu"
           aria-haspopup="dialog"
           :aria-expanded="isMenuOpen"
-          class="material-symbols-outlined transition-opacity duration-200 active:scale-95 cursor-pointer"
+          class="min-w-11 min-h-11 -ml-2 flex items-center justify-center cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
           @click="toggleMenu"
         >
-          {{ isMenuOpen ? 'close' : 'menu' }}
+          <span class="material-symbols-outlined transition-opacity duration-200 active:scale-95" aria-hidden="true">{{ isMenuOpen ? 'close' : 'menu' }}</span>
         </button>
         <NuxtLink to="/" class="font-headline-md text-headline-md font-extrabold tracking-tighter">
           SL<span class="logo-i">I</span>CKLY
         </NuxtLink>
       </div>
       <div class="flex items-center gap-stack-md">
-        <button type="button" aria-label="Hľadať" class="cursor-pointer" @click="search.open()">
-          <span class="material-symbols-outlined transition-opacity duration-200 active:scale-95 cursor-pointer" aria-hidden="true">search</span>
+        <button type="button" aria-label="Hľadať" class="min-w-11 min-h-11 flex items-center justify-center cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container" @click="search.open()">
+          <span class="material-symbols-outlined transition-opacity duration-200 active:scale-95" aria-hidden="true">search</span>
         </button>
-        <button type="button" aria-label="Košík" class="relative cursor-pointer" @click="cart.toggleDrawer()">
-          <span class="material-symbols-outlined transition-opacity duration-200 active:scale-95 cursor-pointer">shopping_bag</span>
-          <span
-            v-if="cart.itemCount > 0"
-            class="absolute -top-1.5 -right-2 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
-          >
-            {{ cart.itemCount }}
+        <button type="button" aria-label="Košík" class="min-w-11 min-h-11 -mr-2 flex items-center justify-center cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container" @click="cart.toggleDrawer()">
+          <span class="relative">
+            <span class="material-symbols-outlined transition-opacity duration-200 active:scale-95" aria-hidden="true">shopping_bag</span>
+            <span
+              v-if="cart.itemCount > 0"
+              class="absolute -top-1.5 -right-2 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+            >
+              {{ cart.itemCount }}
+            </span>
           </span>
         </button>
       </div>

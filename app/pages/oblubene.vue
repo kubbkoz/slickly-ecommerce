@@ -30,7 +30,7 @@ const items = computed(() => products.filter((p) => wishlist.has(p.id)))
       <p class="font-body-md text-body-md text-on-surface-variant">Zatiaľ nemáte žiadne obľúbené produkty.</p>
       <NuxtLink
         to="/produkty"
-        class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         Prehliadať produkty
       </NuxtLink>
