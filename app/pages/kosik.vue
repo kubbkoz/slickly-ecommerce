@@ -106,14 +106,14 @@ function decrement(productId: string, quantity: number) {
         </div>
         <NuxtLink
           to="/pokladna"
-          class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-[0.99] rounded-default mt-stack-sm"
+          class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
-          <span class="material-symbols-outlined">lock</span>
+          <span class="material-symbols-outlined" aria-hidden="true">lock</span>
           Pokračovať k pokladni
         </NuxtLink>
         <NuxtLink
           to="/produkty"
-          class="h-12 border border-outline-variant text-on-background font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-colors hover:border-primary rounded-default"
+          class="h-12 border border-outline-variant text-on-background font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-colors duration-200 hover:border-primary rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           Pokračovať v nákupe
         </NuxtLink>
@@ -129,7 +129,7 @@ function decrement(productId: string, quantity: number) {
       </p>
       <NuxtLink
         to="/produkty"
-        class="h-12 px-8 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-[0.99] rounded-default mt-stack-sm"
+        class="h-12 px-8 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         Prejsť do obchodu
       </NuxtLink>
