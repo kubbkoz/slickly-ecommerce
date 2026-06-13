@@ -1,10 +1,12 @@
 <script setup lang="ts">
 const cart = useCartStore()
 const wishlist = useWishlistStore()
+const locale = useLocaleStore()
 
 onMounted(() => {
   cart.hydrate()
   wishlist.hydrate()
+  locale.hydrate()
 })
 </script>
 

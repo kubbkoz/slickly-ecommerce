@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const cart = useCartStore()
+const { formatPrice } = useCurrency()
 
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && cart.isDrawerOpen) cart.closeDrawer()
@@ -7,10 +8,10 @@ function onKeydown(e: KeyboardEvent) {
 onMounted(() => window.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
-const formattedSubtotal = computed(() => `${cart.subtotal.toFixed(2)} €`)
+const formattedSubtotal = computed(() => formatPrice(cart.subtotal))
 
 function lineTotal(price: number, quantity: number) {
-  return `${(price * quantity).toFixed(2)} €`
+  return formatPrice(price * quantity)
 }
 
 function increment(productId: string, quantity: number) {

@@ -38,6 +38,25 @@ watch(
     search.close()
   },
 )
+
+function toggleMenu() {
+  isMenuOpen.value = !isMenuOpen.value
+  if (isMenuOpen.value) {
+    search.close()
+    cart.closeDrawer()
+  }
+}
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape' && isMenuOpen.value) isMenuOpen.value = false
+}
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
+
+watch(isMenuOpen, (open) => {
+  if (!import.meta.client) return
+  document.body.style.overflow = open ? 'hidden' : ''
+})
 </script>
 
 <template>
@@ -49,8 +68,10 @@ watch(
       <div class="flex items-center gap-stack-md">
         <button
           aria-label="Menu"
+          aria-haspopup="dialog"
+          :aria-expanded="isMenuOpen"
           class="material-symbols-outlined transition-opacity duration-200 active:scale-95 cursor-pointer"
-          @click="isMenuOpen = !isMenuOpen"
+          @click="toggleMenu"
         >
           {{ isMenuOpen ? 'close' : 'menu' }}
         </button>
@@ -74,31 +95,95 @@ watch(
       </div>
     </div>
 
-    <!-- Mobile slide-down menu -->
-    <Transition
-      enter-active-class="transition-all duration-200 ease-out"
-      enter-from-class="opacity-0 -translate-y-2"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="transition-all duration-150 ease-in"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 -translate-y-2"
-    >
-      <nav
-        v-if="isMenuOpen"
-        class="md:hidden fixed top-16 left-0 right-0 z-40 bg-primary text-on-primary border-b border-outline-variant px-gutter py-stack-lg flex flex-col gap-stack-md"
+    <!-- Mobile fullscreen menu overlay -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition-opacity duration-200 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-opacity duration-150 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
       >
-        <NuxtLink to="/" class="font-label-sm text-label-sm uppercase tracking-widest text-white/80 hover:text-secondary-container">Domov</NuxtLink>
-        <NuxtLink to="/produkty" class="font-label-sm text-label-sm uppercase tracking-widest text-white/80 hover:text-secondary-container">Všetky produkty</NuxtLink>
-        <NuxtLink
-          v-for="category in categories"
-          :key="category.slug"
-          :to="`/produkty?kategoria=${category.slug}`"
-          class="font-label-sm text-label-sm uppercase tracking-widest text-white/80 hover:text-secondary-container"
+        <div
+          v-if="isMenuOpen"
+          class="md:hidden fixed inset-0 z-[80] bg-background flex flex-col"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
         >
-          {{ category.name }}
-        </NuxtLink>
-      </nav>
-    </Transition>
+          <div class="flex items-center justify-between px-gutter h-16 border-b border-grid-line shrink-0">
+            <NuxtLink to="/" class="font-headline-md text-headline-md font-extrabold tracking-tighter text-on-background" @click="isMenuOpen = false">
+              SL<span class="logo-i">I</span>CKLY
+            </NuxtLink>
+            <button
+              type="button"
+              aria-label="Zavrieť menu"
+              class="min-w-11 min-h-11 -mr-2 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              @click="isMenuOpen = false"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true">close</span>
+            </button>
+          </div>
+
+          <nav class="flex-grow overflow-y-auto px-gutter py-stack-lg flex flex-col">
+            <NuxtLink to="/" class="font-headline-md text-headline-md uppercase tracking-tight text-on-background hover:text-primary py-stack-sm border-b border-grid-line">
+              Domov
+            </NuxtLink>
+            <NuxtLink to="/produkty" class="font-headline-md text-headline-md uppercase tracking-tight text-on-background hover:text-primary py-stack-sm border-b border-grid-line">
+              Všetky produkty
+            </NuxtLink>
+            <NuxtLink
+              v-for="category in categories"
+              :key="category.slug"
+              :to="`/produkty?kategoria=${category.slug}`"
+              class="font-headline-sm text-headline-sm uppercase tracking-tight text-on-surface-variant hover:text-primary py-stack-sm border-b border-grid-line"
+            >
+              {{ category.name }}
+            </NuxtLink>
+
+            <div class="flex flex-col gap-stack-md mt-stack-lg">
+              <NuxtLink
+                v-for="link in navLinks"
+                :key="link.label"
+                :to="link.to"
+                class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary"
+              >
+                {{ link.label }}
+              </NuxtLink>
+            </div>
+          </nav>
+
+          <div class="border-t border-grid-line px-gutter py-stack-md flex flex-col gap-stack-md shrink-0">
+            <LocaleSwitcher variant="light" />
+            <div class="grid grid-cols-3 gap-stack-sm">
+              <NuxtLink
+                to="/oblubene"
+                class="flex flex-col items-center gap-1 py-stack-sm text-on-surface-variant hover:text-primary transition-colors duration-200"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                <span class="font-technical-data text-technical-data uppercase">Obľúbené</span>
+              </NuxtLink>
+              <NuxtLink
+                to="/ucet"
+                class="flex flex-col items-center gap-1 py-stack-sm text-on-surface-variant hover:text-primary transition-colors duration-200"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">person</span>
+                <span class="font-technical-data text-technical-data uppercase">Účet</span>
+              </NuxtLink>
+              <button
+                type="button"
+                class="flex flex-col items-center gap-1 py-stack-sm text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer"
+                @click="isMenuOpen = false; cart.toggleDrawer()"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">shopping_bag</span>
+                <span class="font-technical-data text-technical-data uppercase">Košík</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Desktop bar -->
     <div class="hidden md:block w-full pt-4 pb-2 px-grid-margin bg-surface-container-lowest sticky top-0 z-50">
@@ -131,6 +216,7 @@ watch(
             </button>
           </div>
           <div class="flex items-center gap-6 order-3">
+            <LocaleSwitcher variant="dark" />
             <NuxtLink
               to="/oblubene"
               class="text-white hover:text-secondary-container transition-colors duration-150 relative cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container rounded-default"

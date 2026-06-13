@@ -7,12 +7,13 @@ const props = defineProps<{
 }>()
 
 const cart = useCartStore()
+const { formatPrice } = useCurrency()
 const justAdded = ref(false)
 
 const allProducts = computed(() => [props.mainProduct, ...props.bundleProducts])
 
 const totalPrice = computed(() => allProducts.value.reduce((sum, p) => sum + p.price, 0))
-const formattedTotal = computed(() => `${totalPrice.value.toFixed(2)} €`)
+const formattedTotal = computed(() => formatPrice(totalPrice.value))
 
 function addBundleToCart() {
   for (const item of allProducts.value) {

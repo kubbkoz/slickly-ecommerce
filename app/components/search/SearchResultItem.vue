@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import type { Product } from '~/data/products'
 
-defineProps<{ product: Product }>()
+const props = defineProps<{ product: Product }>()
+
+const { formatPrice } = useCurrency()
+const formattedPrice = computed(() => formatPrice(props.product.price))
 </script>
 
 <template>
@@ -16,6 +19,6 @@ defineProps<{ product: Product }>()
       <p class="font-body-md text-body-md text-on-surface truncate group-hover:text-primary transition-colors duration-200">{{ product.name }}</p>
       <p class="font-technical-data text-technical-data text-on-surface-variant uppercase truncate">{{ product.tags.join(' • ') }}</p>
     </div>
-    <span class="font-price-display text-price-display shrink-0">{{ product.price.toFixed(2) }} €</span>
+    <span class="font-price-display text-price-display shrink-0">{{ formattedPrice }}</span>
   </NuxtLink>
 </template>

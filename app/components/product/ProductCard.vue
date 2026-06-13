@@ -7,6 +7,7 @@ const props = defineProps<{
 
 const cart = useCartStore()
 const wishlist = useWishlistStore()
+const { formatPrice } = useCurrency()
 const justAdded = ref(false)
 
 function addToCart() {
@@ -17,9 +18,9 @@ function addToCart() {
   setTimeout(() => (justAdded.value = false), 1200)
 }
 
-const formattedPrice = computed(() => `${props.product.price.toFixed(2)} €`)
+const formattedPrice = computed(() => formatPrice(props.product.price))
 const formattedOldPrice = computed(() =>
-  props.product.oldPrice ? `${props.product.oldPrice.toFixed(2)} €` : null,
+  props.product.oldPrice ? formatPrice(props.product.oldPrice) : null,
 )
 const averageRating = computed(() => {
   if (!props.product.reviews.length) return 0

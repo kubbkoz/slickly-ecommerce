@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const cart = useCartStore()
 const router = useRouter()
+const { formatPrice } = useCurrency()
 
 useSeoMeta({
   title: 'Pokladňa | SLICKLY',
@@ -11,7 +12,7 @@ if (!cart.items.length) {
   await navigateTo('/kosik')
 }
 
-const formattedSubtotal = computed(() => `${cart.subtotal.toFixed(2)} €`)
+const formattedSubtotal = computed(() => formatPrice(cart.subtotal))
 
 const form = reactive({
   email: '',
@@ -194,7 +195,7 @@ async function placeOrder() {
                 <p class="font-technical-data text-technical-data text-on-surface-variant uppercase">x{{ item.quantity }}</p>
               </div>
             </div>
-            <span class="font-price-display text-price-display shrink-0">{{ (item.price * item.quantity).toFixed(2) }} €</span>
+            <span class="font-price-display text-price-display shrink-0">{{ formatPrice(item.price * item.quantity) }}</span>
           </div>
         </div>
         <div class="flex justify-between items-baseline pt-stack-sm border-t border-grid-line">

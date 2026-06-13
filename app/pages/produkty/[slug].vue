@@ -38,6 +38,7 @@ useSeoMeta({
 })
 
 const cart = useCartStore()
+const { formatPrice } = useCurrency()
 const quantity = ref(1)
 const activeImage = ref(product.gallery[0] ?? product.image)
 const justAdded = ref(false)
@@ -57,8 +58,8 @@ function addToCart() {
   setTimeout(() => (justAdded.value = false), 1500)
 }
 
-const formattedPrice = computed(() => `${product!.price.toFixed(2)} €`)
-const formattedOldPrice = computed(() => (product!.oldPrice ? `${product!.oldPrice.toFixed(2)} €` : null))
+const formattedPrice = computed(() => formatPrice(product!.price))
+const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(product!.oldPrice) : null))
 </script>
 
 <template>

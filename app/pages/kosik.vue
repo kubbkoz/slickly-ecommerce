@@ -1,15 +1,16 @@
 <script setup lang="ts">
 const cart = useCartStore()
+const { formatPrice } = useCurrency()
 
 useSeoMeta({
   title: 'Košík | SLICKLY',
   description: 'Váš nákupný košík SLICKLY.',
 })
 
-const formattedSubtotal = computed(() => `${cart.subtotal.toFixed(2)} €`)
+const formattedSubtotal = computed(() => formatPrice(cart.subtotal))
 
 function lineTotal(price: number, quantity: number) {
-  return `${(price * quantity).toFixed(2)} €`
+  return formatPrice(price * quantity)
 }
 
 function increment(productId: string, quantity: number) {
@@ -48,7 +49,7 @@ function decrement(productId: string, quantity: number) {
             <NuxtLink :to="`/produkty/${item.slug}`" class="font-headline-sm text-headline-sm uppercase hover:text-primary truncate">
               {{ item.name }}
             </NuxtLink>
-            <span class="font-price-display text-price-display text-on-background md:hidden">{{ item.price.toFixed(2) }} €</span>
+            <span class="font-price-display text-price-display text-on-background md:hidden">{{ formatPrice(item.price) }}</span>
             <button
               class="flex items-center gap-1 font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-error w-fit mt-1"
               @click="cart.removeItem(item.productId)"
@@ -59,7 +60,7 @@ function decrement(productId: string, quantity: number) {
           </div>
 
           <span class="hidden md:block font-price-display text-price-display text-on-background w-24 text-right shrink-0">
-            {{ item.price.toFixed(2) }} €
+            {{ formatPrice(item.price) }}
           </span>
 
           <div class="flex items-center border border-outline-variant rounded-default shrink-0">
