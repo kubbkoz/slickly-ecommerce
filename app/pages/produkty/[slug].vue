@@ -284,22 +284,20 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(produc
       <ProductBundle :main-product="product" :bundle-products="bundleProducts" />
     </section>
 
-    <!-- Naposledy prezerané -->
-    <section v-if="recentlyViewedProducts.length" class="mt-stack-lg md:mt-section-padding-lg">
-      <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
-        Naposledy prezerané
-      </h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-grid-line border border-grid-line">
-        <ProductCard v-for="item in recentlyViewedProducts" :key="item.id" :product="item" />
-      </div>
-    </section>
-
     <!-- Podobné produkty -->
     <section v-if="related.length" class="mt-stack-lg md:mt-section-padding-lg">
       <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
         Podobné produkty
       </h2>
       <ProductCarousel :products="related" />
+    </section>
+
+    <!-- Naposledy prezerané -->
+    <section v-if="recentlyViewedProducts.length" class="mt-stack-lg md:mt-section-padding-lg">
+      <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
+        Naposledy prezerané
+      </h2>
+      <ProductCarousel :products="recentlyViewedProducts" />
     </section>
   </div>
 </template>

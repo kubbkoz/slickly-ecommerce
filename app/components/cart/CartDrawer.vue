@@ -54,12 +54,12 @@ function decrement(productId: string, quantity: number) {
     </Transition>
 
     <Transition
-      enter-active-class="transition-transform duration-300 ease-out"
-      enter-from-class="translate-x-full"
-      enter-to-class="translate-x-0"
-      leave-active-class="transition-transform duration-200 ease-in"
-      leave-from-class="translate-x-0"
-      leave-to-class="translate-x-full"
+      enter-active-class="transition-opacity duration-200 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-opacity duration-150 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
     >
       <aside
         v-if="cart.isDrawerOpen"
