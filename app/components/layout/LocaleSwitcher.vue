@@ -12,10 +12,18 @@ const props = withDefaults(
 const locale = useLocaleStore()
 const isOpen = ref(false)
 const root = ref<HTMLElement | null>(null)
+const trigger = ref<HTMLButtonElement | null>(null)
 
 function onClickOutside(e: MouseEvent) {
   if (root.value && !root.value.contains(e.target as Node)) {
     isOpen.value = false
+  }
+}
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape' && isOpen.value) {
+    isOpen.value = false
+    trigger.value?.focus()
   }
 }
 
@@ -29,8 +37,9 @@ function select(code: string) {
 </script>
 
 <template>
-  <div ref="root" class="relative">
+  <div ref="root" class="relative" @keydown="onKeydown">
     <button
+      ref="trigger"
       type="button"
       aria-haspopup="menu"
       :aria-expanded="isOpen"
