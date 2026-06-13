@@ -8,7 +8,7 @@ const offers = products.filter((p) => p.badge).slice(0, 3)
   <section class="py-stack-lg md:py-12 md:border-b md:border-grid-line bg-surface">
     <div class="md:max-w-[1536px] md:mx-auto md:px-grid-margin">
       <div class="flex justify-between items-center md:items-end px-gutter md:px-0 mb-stack-md md:mb-8">
-        <h3 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight">Špeciálne ponuky</h3>
+        <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight">Špeciálne ponuky</h2>
         <NuxtLink
           to="/produkty?akcia=1"
           class="hidden md:flex gap-2 items-center font-label-sm text-label-sm text-primary hover:text-secondary uppercase transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"

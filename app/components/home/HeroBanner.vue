@@ -11,9 +11,9 @@ const heroImage =
       <img class="absolute inset-0 w-full h-full object-cover" :src="heroImage" alt="Detail karosérie vozidla s keramickou ochranou" />
       <div class="relative z-20 h-full flex flex-col justify-end p-gutter pb-stack-lg">
         <span class="text-secondary-container font-badge-label text-badge-label uppercase tracking-widest mb-stack-sm">Novinka: V2 Séria</span>
-        <h2 class="font-headline-lg text-headline-lg text-on-primary max-w-[280px] leading-tight mb-stack-md">
+        <h1 class="font-headline-lg text-headline-lg text-on-primary max-w-[280px] leading-tight mb-stack-md">
           TECHNICKÁ <br />DOKONALOSŤ <br />PRE VAŠE AUTO
-        </h2>
+        </h1>
         <NuxtLink
           to="/produkty"
           class="bg-secondary-container text-on-secondary-container px-stack-lg py-3 rounded font-bold transition-all duration-200 active:scale-95 w-fit cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
@@ -30,7 +30,7 @@ const heroImage =
           <div class="absolute inset-0 opacity-40 bg-cover bg-center" :style="{ backgroundImage: `url('${heroImage}')` }"></div>
           <div class="relative z-10 p-12 flex flex-col gap-4">
             <span class="bg-secondary-container text-on-background px-3 py-1 text-[10px] w-fit font-bold uppercase">Limitovaná ponuka</span>
-            <h2 class="text-surface text-headline-xl uppercase">ŠPECIÁLNA ZĽAVA -20%</h2>
+            <h1 class="text-surface text-headline-xl uppercase">ŠPECIÁLNA ZĽAVA -20%</h1>
             <p class="text-surface-variant font-body-md max-w-md">
               Získajte exkluzívny prístup k našej prémiovej rade keramickej ochrany za zvýhodnenú cenu.
             </p>
