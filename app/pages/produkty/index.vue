@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { products, categories } from '~/data/products'
+import { products, categories, matchesSearchQuery } from '~/data/products'
 
 useSeoMeta({
   title: 'Obchod | SLICKLY',
@@ -11,6 +11,7 @@ const router = useRouter()
 
 const selectedCategory = computed(() => (route.query.kategoria as string) || '')
 const onlyDeals = computed(() => route.query.akcia === '1')
+const searchQuery = computed(() => (route.query.q as string) || '')
 
 const sortOptions = [
   { value: 'odporucane', label: 'Odporúčané' },
@@ -22,6 +23,9 @@ const sort = ref('odporucane')
 
 const filtered = computed(() => {
   let list = [...products]
+  if (searchQuery.value) {
+    list = list.filter((p) => matchesSearchQuery(p, searchQuery.value))
+  }
   if (selectedCategory.value) {
     list = list.filter((p) => p.category === selectedCategory.value)
   }
@@ -70,9 +74,11 @@ function clearDeals() {
       <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">
         <NuxtLink to="/" class="hover:text-on-background">Domov</NuxtLink> / Obchod
         <template v-if="activeCategoryName"> / {{ activeCategoryName }}</template>
+        <template v-if="searchQuery"> / Vyhľadávanie</template>
       </span>
       <h1 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase">
-        {{ onlyDeals ? 'Akciová ponuka' : activeCategoryName || 'Všetky produkty' }}
+        <template v-if="searchQuery">Výsledky vyhľadávania pre „{{ searchQuery }}“</template>
+        <template v-else>{{ onlyDeals ? 'Akciová ponuka' : activeCategoryName || 'Všetky produkty' }}</template>
       </h1>
     </div>
 

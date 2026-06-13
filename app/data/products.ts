@@ -382,3 +382,19 @@ export function getBundleProducts(product: Product): Product[] {
     .map((slug) => getProductBySlug(slug))
     .filter((p): p is Product => !!p)
 }
+
+export function matchesSearchQuery(product: Product, query: string): boolean {
+  const q = query.trim().toLowerCase()
+  if (!q) return false
+  return (
+    product.name.toLowerCase().includes(q) ||
+    product.sku.toLowerCase().includes(q) ||
+    product.tags.some((tag) => tag.toLowerCase().includes(q)) ||
+    categories.find((c) => c.slug === product.category)?.name.toLowerCase().includes(q) === true
+  )
+}
+
+export function searchProducts(query: string, limit = 6): Product[] {
+  if (!query.trim()) return []
+  return products.filter((p) => matchesSearchQuery(p, query)).slice(0, limit)
+}

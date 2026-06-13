@@ -15,5 +15,6 @@ onMounted(() => {
     <AppFooter />
     <MobileBottomNav />
     <CartDrawer />
+    <SearchOverlay />
   </div>
 </template>
