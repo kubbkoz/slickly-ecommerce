@@ -1,17 +1,59 @@
 <script setup lang="ts">
 import { products, categories, matchesSearchQuery } from '~/data/products'
 
-useSeoMeta({
-  title: 'Obchod | SLICKLY',
-  description: 'Kompletný sortiment keramickej ochrany, detailingu a starostlivosti o vozidlo.',
-})
-
 const route = useRoute()
 const router = useRouter()
 
 const selectedCategory = computed(() => (route.query.kategoria as string) || '')
 const onlyDeals = computed(() => route.query.akcia === '1')
 const searchQuery = computed(() => (route.query.q as string) || '')
+
+const site = useSiteUrl()
+const activeCategory = computed(() => categories.find((c) => c.slug === selectedCategory.value))
+
+// Reactive SEO — title/description/canonical follow the active filter so each
+// view is distinct in search and social previews. Search-result views are
+// noindex (infinite, low-value URLs); category views self-canonicalize so
+// they can rank; the deals facet consolidates to the base listing.
+const seoTitle = computed(() => {
+  if (searchQuery.value) return `Vyhľadávanie „${searchQuery.value}“ | SLICKLY`
+  if (onlyDeals.value) return 'Akciová ponuka | Zľavnená autokozmetika | SLICKLY'
+  if (activeCategory.value) return `${activeCategory.value.name} | Autokozmetika | SLICKLY`
+  return 'Obchod | Všetky produkty autokozmetiky | SLICKLY'
+})
+
+const seoDescription = computed(() => {
+  if (searchQuery.value)
+    return `Výsledky vyhľadávania pre „${searchQuery.value}“ v e-shope SLICKLY.`
+  if (onlyDeals.value)
+    return 'Aktuálne zľavy na keramickú ochranu, detailing a starostlivosť o vozidlo. Obmedzené množstvo.'
+  if (activeCategory.value) return activeCategory.value.description
+  return 'Kompletný sortiment keramickej ochrany, detailingu a starostlivosti o vozidlo.'
+})
+
+const canonicalUrl = computed(() => {
+  if (selectedCategory.value) return `${site}/produkty?kategoria=${selectedCategory.value}`
+  return `${site}/produkty`
+})
+
+const isNoindex = computed(() => !!searchQuery.value)
+
+useSeoMeta({
+  title: () => seoTitle.value,
+  description: () => seoDescription.value,
+  ogTitle: () => seoTitle.value,
+  ogDescription: () => seoDescription.value,
+  ogType: 'website',
+  ogUrl: () => canonicalUrl.value,
+  ogSiteName: 'SLICKLY',
+  ogLocale: 'sk_SK',
+  twitterCard: 'summary_large_image',
+  robots: () => (isNoindex.value ? 'noindex, follow' : 'index, follow'),
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: () => canonicalUrl.value }],
+})
 
 const sortOptions = [
   { value: 'odporucane', label: 'Odporúčané' },
@@ -46,9 +88,55 @@ const filtered = computed(() => {
   return list
 })
 
-const activeCategoryName = computed(
-  () => categories.find((c) => c.slug === selectedCategory.value)?.name,
-)
+const activeCategoryName = computed(() => activeCategory.value?.name)
+
+// BreadcrumbList + ItemList structured data, reactive to the active filter.
+const structuredData = computed(() => {
+  const crumbs: { name: string; item: string }[] = [
+    { name: 'Domov', item: `${site}/` },
+    { name: 'Obchod', item: `${site}/produkty` },
+  ]
+  if (activeCategory.value) {
+    crumbs.push({
+      name: activeCategory.value.name,
+      item: `${site}/produkty?kategoria=${activeCategory.value.slug}`,
+    })
+  }
+
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((c, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: c.name,
+        item: c.item,
+      })),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: seoTitle.value,
+      numberOfItems: filtered.value.length,
+      itemListElement: filtered.value.slice(0, 30).map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `${site}/produkty/${p.slug}`,
+        name: p.name,
+      })),
+    },
+  ]
+})
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: () => JSON.stringify(structuredData.value),
+    },
+  ],
+})
 
 function setCategory(slug?: string) {
   const query = { ...route.query }

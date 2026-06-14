@@ -32,10 +32,25 @@ onMounted(() => {
   recentlyViewed.addProduct(product!.slug)
 })
 
-useSeoMeta({
+useSeo({
   title: `${product.name} | SLICKLY`,
   description: product.description,
+  canonicalPath: `/produkty/${product.slug}`,
+  image: product.image,
+  type: 'product',
 })
+
+// Product + Offer + AggregateRating + Review structured data, plus the
+// breadcrumb trail (Domov > Obchod > Kategória > Produkt).
+useProductJsonLd(product)
+useBreadcrumbJsonLd([
+  { name: 'Domov', path: '/' },
+  { name: 'Obchod', path: '/produkty' },
+  ...(categoryName.value
+    ? [{ name: categoryName.value, path: `/produkty?kategoria=${product.category}` }]
+    : []),
+  { name: product.name, path: `/produkty/${product.slug}` },
+])
 
 const cart = useCartStore()
 const { formatPrice } = useCurrency()

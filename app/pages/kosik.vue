@@ -2,9 +2,10 @@
 const cart = useCartStore()
 const { formatPrice } = useCurrency()
 
-useSeoMeta({
+useSeo({
   title: 'Košík | SLICKLY',
   description: 'Váš nákupný košík SLICKLY.',
+  noindex: true,
 })
 
 const formattedSubtotal = computed(() => formatPrice(cart.subtotal))

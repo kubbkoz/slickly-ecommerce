@@ -1,0 +1,26 @@
+# SLICKLY — Umenie Čistoty
+
+> SLICKLY je slovenský e-shop s prémiovou autokozmetikou: laboratórne
+> kalibrovaná keramická ochrana, detailing a starostlivosť o vozidlo.
+> Každá zlúčenina je vyvíjaná s dôrazom na maximálnu ochranu laku, interiéru
+> a kolies pri zachovaní bezpečnosti materiálov (pH neutrálne, REACH).
+
+## Kategórie
+
+- [Karoséria](https://slickly.sk/produkty?kategoria=karoseria): Keramická ochrana, vosky a leštenky pre dokonalý lak.
+- [Interiér](https://slickly.sk/produkty?kategoria=interier): Čistiace a ochranné prípravky pre kožu, plasty a textil.
+- [Kolesá](https://slickly.sk/produkty?kategoria=kolesa): Disky, pneumatiky a ochrana proti brzdovému prachu.
+- [Ochrana](https://slickly.sk/produkty?kategoria=ochrana): Hydrofóbne nano-vrstvy a dekontaminačné prípravky.
+
+## Hlavné stránky
+
+- [Všetky produkty](https://slickly.sk/produkty): Kompletný sortiment.
+- [Sitemap](https://slickly.sk/sitemap.xml): Strojovo čitateľný zoznam URL.
+
+## Poznámky
+
+- Jazyk obsahu: slovenčina (sk).
+- Ceny sú uvádzané v EUR (s prepočtom na ďalšie meny v rozhraní).
+- Pre presné ceny, dostupnosť a hodnotenia použite štruktúrované dáta
+  (JSON-LD typu Product/Offer/AggregateRating) na jednotlivých produktových
+  stránkach.

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-useSeoMeta({
+useSeo({
   title: 'Účet | SLICKLY',
   description: 'Spravujte svoj účet SLICKLY.',
+  noindex: true,
 })
 </script>
 

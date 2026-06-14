@@ -3,9 +3,10 @@ import { products } from '~/data/products'
 
 const wishlist = useWishlistStore()
 
-useSeoMeta({
+useSeo({
   title: 'Obľúbené | SLICKLY',
   description: 'Vaše obľúbené produkty SLICKLY.',
+  noindex: true,
 })
 
 const items = computed(() => products.filter((p) => wishlist.has(p.id)))

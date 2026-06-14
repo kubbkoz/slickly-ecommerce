@@ -1,7 +1,8 @@
 <script setup lang="ts">
-useSeoMeta({
+useSeo({
   title: 'SLICKLY | Umenie Čistoty',
   description: 'Laboratórne kalibrovaná keramická ochrana, detailing a starostlivosť o vozidlo.',
+  canonicalPath: '/',
 })
 </script>
 

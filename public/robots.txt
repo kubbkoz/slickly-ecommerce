@@ -1,2 +1,8 @@
 User-Agent: *
-Disallow:
+Allow: /
+Disallow: /kosik
+Disallow: /pokladna
+Disallow: /ucet
+Disallow: /oblubene
+
+Sitemap: https://slickly.sk/sitemap.xml

@@ -3,6 +3,38 @@ const cart = useCartStore()
 const wishlist = useWishlistStore()
 const locale = useLocaleStore()
 
+const site = useSiteUrl()
+
+// Site-wide entity + search-box structured data. Rendered once for every
+// route via the default layout.
+useJsonLd([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'SLICKLY',
+    url: site,
+    logo: `${site}/favicon.ico`,
+    description:
+      'Prémiová autokozmetika: laboratórne kalibrovaná keramická ochrana, detailing a starostlivosť o vozidlo.',
+    slogan: 'Umenie Čistoty',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'SLICKLY',
+    url: site,
+    inLanguage: 'sk',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${site}/produkty?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  },
+])
+
 onMounted(() => {
   cart.hydrate()
   wishlist.hydrate()

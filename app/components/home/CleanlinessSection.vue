@@ -41,7 +41,12 @@ const certifications = [
           <div class="border border-grid-line p-1 relative bg-surface">
             <div class="absolute top-2 left-2 text-on-surface-variant font-technical-data text-[10px] z-10">FIG 1.0</div>
             <div class="w-full aspect-video bg-surface-container-high relative overflow-hidden flex items-center justify-center">
-              <div class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-multiply" :style="{ backgroundImage: `url('${figureImage}')` }"></div>
+              <img
+                :src="figureImage"
+                alt="Makro detail karosérie po aplikácii keramickej ochrany s odpudzovanými kapkami vody"
+                loading="lazy"
+                class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-multiply"
+              />
             </div>
             <div class="flex justify-between items-center p-4 border-t border-grid-line bg-surface-container-lowest">
               <span class="font-label-sm text-label-sm text-on-surface uppercase">Analýza odpudzovania vody</span>

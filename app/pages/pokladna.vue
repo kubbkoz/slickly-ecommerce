@@ -3,9 +3,10 @@ const cart = useCartStore()
 const router = useRouter()
 const { formatPrice } = useCurrency()
 
-useSeoMeta({
+useSeo({
   title: 'Pokladňa | SLICKLY',
   description: 'Dokončite svoju objednávku SLICKLY.',
+  noindex: true,
 })
 
 if (!cart.items.length) {

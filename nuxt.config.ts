@@ -1,11 +1,49 @@
 import tailwindcss from '@tailwindcss/vite'
 
+const isProd = process.env.NODE_ENV === 'production'
+
+// Security headers applied site-wide. The Content-Security-Policy is only
+// enabled in production so it does not interfere with Vite HMR / Nuxt
+// Devtools (which need ws: and eval in dev). Sources allow-list: self,
+// Google Fonts (stylesheet + font files) and the current image CDN.
+const securityHeaders: Record<string, string> = {
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'SAMEORIGIN',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), browsing-topics=()',
+}
+
+if (isProd) {
+  securityHeaders['Content-Security-Policy'] = [
+    "default-src 'self'",
+    "img-src 'self' https://lh3.googleusercontent.com data:",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com",
+    "script-src 'self' 'unsafe-inline'",
+    "media-src 'self'",
+    "connect-src 'self'",
+    "frame-ancestors 'self'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join('; ')
+  securityHeaders['Strict-Transport-Security'] = 'max-age=63072000; includeSubDomains; preload'
+}
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
   modules: ['@pinia/nuxt'],
+
+  // Public runtime config — `siteUrl` is the canonical production origin used
+  // to build absolute URLs for canonical tags, Open Graph, JSON-LD and the
+  // sitemap. Override at deploy time via NUXT_PUBLIC_SITE_URL.
+  runtimeConfig: {
+    public: {
+      siteUrl: 'https://slickly.sk',
+    },
+  },
 
   components: [
     { path: '~/components', pathPrefix: false },
@@ -20,6 +58,7 @@ export default defineNuxtConfig({
   // client-side cart state (localStorage today, Shopware context token
   // later).
   routeRules: {
+    '/**': { headers: securityHeaders },
     '/': { prerender: true },
     '/produkty': { swr: 3600 },
     '/produkty/**': { swr: 3600 },
