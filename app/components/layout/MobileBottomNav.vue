@@ -10,8 +10,16 @@ const links = [
 ]
 
 function isActive(to: string) {
-  const path = to.split('?')[0]
-  return path === '/' ? route.path === '/' : route.path.startsWith(path)
+  const [path, queryString] = to.split('?')
+  if (path === '/') return route.path === '/'
+  if (queryString) {
+    const params = new URLSearchParams(queryString)
+    for (const [key, value] of params) {
+      if (route.query[key] !== value) return false
+    }
+    return route.path === path
+  }
+  return route.path.startsWith(path!)
 }
 </script>
 
@@ -20,19 +28,26 @@ function isActive(to: string) {
     <NuxtLink
       v-for="link in links"
       :key="link.label"
+      v-slot="{ href, navigate }"
       :to="link.to"
-      :aria-current="isActive(link.to) ? 'page' : undefined"
-      class="relative flex flex-col items-center justify-center min-w-11 min-h-11 px-2 rounded-default transition-transform duration-200 active:scale-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-      :class="isActive(link.to) ? 'text-primary font-bold' : 'text-on-surface-variant hover:text-primary'"
+      custom
     >
-      <span class="material-symbols-outlined" :style="isActive(link.to) ? { fontVariationSettings: &quot;'FILL' 1&quot; } : {}" aria-hidden="true">{{ link.icon }}</span>
-      <span
-        v-if="link.label === 'Obľúbené' && wishlist.count > 0"
-        class="absolute top-0 right-1/4 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+      <a
+        :href="href"
+        :aria-current="isActive(link.to) ? 'page' : undefined"
+        class="relative flex flex-col items-center justify-center min-w-11 min-h-11 px-2 rounded-default transition-transform duration-200 active:scale-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        :class="isActive(link.to) ? 'text-primary font-bold' : 'text-on-surface-variant hover:text-primary'"
+        @click="navigate"
       >
-        {{ wishlist.count }}
-      </span>
-      <span class="font-badge-label text-badge-label">{{ link.label }}</span>
+        <span class="material-symbols-outlined" :style="isActive(link.to) ? { fontVariationSettings: &quot;'FILL' 1&quot; } : {}" aria-hidden="true">{{ link.icon }}</span>
+        <span
+          v-if="link.label === 'Obľúbené' && wishlist.count > 0"
+          class="absolute top-0 right-1/4 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+        >
+          {{ wishlist.count }}
+        </span>
+        <span class="font-badge-label text-badge-label">{{ link.label }}</span>
+      </a>
     </NuxtLink>
   </nav>
 </template>
