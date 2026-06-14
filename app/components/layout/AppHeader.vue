@@ -14,6 +14,7 @@ const navLinks = [
   { label: 'Obchod', to: '/produkty' },
   { label: 'Výskum', to: '/#umenie-cistoty' },
   { label: 'Laboratórium', to: '/#preco-slickly' },
+  { label: 'Blog', to: '/blog' },
 ]
 
 const { results, recommended, featured } = useSearchSuggestions(computed(() => search.query))
