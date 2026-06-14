@@ -14,7 +14,7 @@ useSeo({
     </span>
 
     <div class="flex flex-col items-center text-center gap-stack-md py-stack-lg md:py-section-padding-lg">
-      <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30">workspace_premium</span>
+      <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30" aria-hidden="true">workspace_premium</span>
       <h1 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase">Certifikáty</h1>
       <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
         Naše certifikáty kvality a zhody (ISO 9001:2015, REACH) pripravujeme na zverejnenie. Kópie certifikátov vám

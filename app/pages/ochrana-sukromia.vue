@@ -14,7 +14,7 @@ useSeo({
     </span>
 
     <div class="flex flex-col items-center text-center gap-stack-md py-stack-lg md:py-section-padding-lg">
-      <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30">privacy_tip</span>
+      <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30" aria-hidden="true">privacy_tip</span>
       <h1 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase">Ochrana súkromia</h1>
       <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
         Naše zásady ochrany osobných údajov v súlade s GDPR pripravujeme. V prípade otázok k spracovaniu vašich

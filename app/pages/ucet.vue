@@ -14,7 +14,7 @@ useSeo({
     </span>
 
     <div class="flex flex-col items-center text-center gap-stack-md py-stack-lg md:py-section-padding-lg">
-      <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30">person</span>
+      <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30" aria-hidden="true">person</span>
       <h1 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase">Váš účet</h1>
       <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
         Prihlásenie a správa účtu budú čoskoro dostupné. Sledujte svoje objednávky, uložené adresy a obľúbené produkty na jednom mieste.
