@@ -135,7 +135,7 @@ function decrement(productId: string, quantity: number) {
         </div>
 
         <div v-else class="flex-grow flex flex-col items-center justify-center gap-stack-md text-center px-stack-md">
-          <span class="material-symbols-outlined text-[56px] text-on-surface-variant opacity-30">shopping_bag</span>
+          <span class="material-symbols-outlined text-[56px] text-on-surface-variant opacity-30" aria-hidden="true">shopping_bag</span>
           <p class="font-body-md text-body-md text-on-surface-variant">Váš košík je prázdny</p>
         </div>
 

@@ -184,7 +184,7 @@ const recommended = computed<Product[]>(() => {
 
     <!-- Empty state -->
     <div v-else class="flex flex-col items-center text-center gap-stack-md py-stack-lg md:py-section-padding-lg">
-      <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30">shopping_bag</span>
+      <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30" aria-hidden="true">shopping_bag</span>
       <h2 class="font-headline-md text-headline-md uppercase">Váš košík je prázdny</h2>
       <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
         Zatiaľ ste si nepridali žiadne produkty. Preskúmajte náš sortiment a nájdite si laboratórne kalibrovanú ochranu pre vaše vozidlo.
