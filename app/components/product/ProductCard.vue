@@ -70,7 +70,7 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
         <ProductRating :rating="averageRating" :size="14" />
         <span class="font-technical-data text-technical-data text-on-surface-variant">({{ product.reviews.length }})</span>
       </div>
-      <p class="font-technical-data text-technical-data text-on-tertiary-container uppercase truncate">
+      <p class="font-technical-data text-technical-data text-secondary uppercase truncate">
         {{ categoryName }}
       </p>
       <div class="flex justify-between items-end mt-auto pt-stack-sm">

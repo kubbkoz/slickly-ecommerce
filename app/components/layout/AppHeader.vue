@@ -253,6 +253,7 @@ watch(isMenuOpen, (open) => {
             >
               <span class="material-symbols-outlined text-[22px]" aria-hidden="true">shopping_cart</span>
               <span
+                v-if="cart.itemCount > 0"
                 class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
               >
                 {{ cart.itemCount }}

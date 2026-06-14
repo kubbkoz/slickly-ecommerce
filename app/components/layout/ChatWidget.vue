@@ -3,6 +3,11 @@ const isOpen = ref(false)
 const root = ref<HTMLElement | null>(null)
 const trigger = ref<HTMLButtonElement | null>(null)
 
+// /kosik and /pokladna show a sticky mobile checkout bar at bottom-16 — lift
+// the chat bubble above it there so the two don't overlap.
+const route = useRoute()
+const hasMobileStickyBar = computed(() => route.path === '/kosik' || route.path === '/pokladna')
+
 function onClickOutside(e: MouseEvent) {
   if (root.value && !root.value.contains(e.target as Node)) {
     isOpen.value = false
@@ -21,7 +26,12 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
 </script>
 
 <template>
-  <div ref="root" class="fixed bottom-20 left-4 md:bottom-6 md:left-6 z-40" @keydown="onKeydown">
+  <div
+    ref="root"
+    class="fixed left-4 md:bottom-6 md:left-6 z-40"
+    :class="hasMobileStickyBar ? 'bottom-36' : 'bottom-20'"
+    @keydown="onKeydown"
+  >
     <Transition
       enter-active-class="transition-all duration-150 ease-out"
       enter-from-class="opacity-0 translate-y-2"
