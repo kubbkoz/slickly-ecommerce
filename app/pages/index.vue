@@ -18,5 +18,7 @@ useSeo({
     <LazyPerformancePortfolio hydrate-on-visible />
     <LazyWhySlickly hydrate-on-visible />
     <LazyNewsletterSection hydrate-on-visible />
+    <LazyVideoTestsSection hydrate-on-visible />
+    <LazyBlogSection hydrate-on-visible />
   </div>
 </template>
