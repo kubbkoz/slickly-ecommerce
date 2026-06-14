@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { HERO_IMAGE, HERO_VIDEO } from '~/data/media'
+
 definePageMeta({ layout: 'coming-soon' })
 
 useSeo({
@@ -11,6 +13,14 @@ const ADMIN_EMAIL = 'hello@slickly.sk'
 const ADMIN_PASSWORD = 'Fmhpx8g8@#'
 
 const access = useSiteAccess()
+
+// SSR renders only the poster image (great for LCP). After mount we check
+// the reduced-motion preference and mount the hero <video> if allowed.
+const allowMotion = ref(false)
+
+onMounted(() => {
+  allowMotion.value = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+})
 
 const newsletterEmail = ref('')
 const isSubscribing = ref(false)
@@ -31,11 +41,33 @@ const loginEmail = ref('')
 const loginPassword = ref('')
 const loginError = ref('')
 const isLoggingIn = ref(false)
+let previouslyFocused: HTMLElement | null = null
 
 function openLogin() {
   showLogin.value = true
-  nextTick(() => loginEmailInput.value?.focus())
 }
+
+function closeLogin() {
+  showLogin.value = false
+  loginError.value = ''
+}
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape' && showLogin.value) closeLogin()
+}
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
+
+watch(showLogin, (open) => {
+  if (!import.meta.client) return
+  document.body.style.overflow = open ? 'hidden' : ''
+  if (open) {
+    previouslyFocused = document.activeElement as HTMLElement
+    nextTick(() => loginEmailInput.value?.focus())
+  } else {
+    previouslyFocused?.focus()
+  }
+})
 
 async function login() {
   loginError.value = ''
@@ -52,17 +84,44 @@ async function login() {
 </script>
 
 <template>
-  <div class="flex-grow flex flex-col relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none opacity-10 bg-blueprint"></div>
+  <div class="relative flex-grow flex flex-col overflow-hidden">
+    <img
+      :src="HERO_IMAGE"
+      alt=""
+      aria-hidden="true"
+      fetchpriority="high"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <video
+      v-if="allowMotion"
+      class="absolute inset-0 w-full h-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      aria-hidden="true"
+    >
+      <source :src="HERO_VIDEO" type="video/mp4" />
+    </video>
+    <div class="absolute inset-0 bg-primary/75"></div>
+
+    <button
+      type="button"
+      class="fixed top-4 right-4 md:top-6 md:right-6 z-30 min-h-11 px-4 flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-on-primary font-label-sm text-label-sm uppercase tracking-widest cursor-pointer transition-colors duration-200 hover:bg-white/20 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+      @click="openLogin"
+    >
+      <span class="material-symbols-outlined text-[18px]" aria-hidden="true">lock</span>
+      Prihlásiť sa
+    </button>
 
     <div class="relative z-10 flex-grow flex flex-col items-center justify-center text-center px-gutter md:px-grid-margin py-stack-lg gap-stack-lg md:gap-8">
-      <NuxtLink to="/coming-soon" class="font-headline-md text-headline-sm md:text-headline-md font-bold tracking-tighter">
-        SLICKL<span class="logo-dot">Y</span>
-      </NuxtLink>
+      <p class="font-headline-md font-extrabold tracking-tighter leading-none text-[clamp(3.5rem,18vw,11rem)]">
+        SL<span class="relative inline-block after:content-[''] after:absolute after:-top-[0.17em] after:left-1/2 after:-translate-x-1/2 after:w-[0.17em] after:h-[0.17em] after:bg-secondary-container after:rounded-full">I</span>CKLY
+      </p>
 
       <div class="flex flex-col items-center gap-stack-sm md:gap-4 max-w-2xl">
         <span class="font-technical-data text-technical-data uppercase text-secondary-container tracking-widest">Spúšťame sa</span>
-        <h1 class="font-headline-xl text-headline-xl md:text-display-lg uppercase">Čoskoro</h1>
+        <h1 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase">Čoskoro</h1>
         <p class="font-body-md md:text-body-lg text-white/70 max-w-xl">
           Pripravujeme nový e-shop s laboratórne kalibrovanou keramickou ochranou, detailingom a starostlivosťou o vozidlo. Zostaňte naladení.
         </p>
@@ -95,65 +154,88 @@ async function login() {
       </div>
     </div>
 
-    <div class="relative z-10 w-full px-gutter md:px-grid-margin py-stack-md flex flex-col items-center gap-stack-sm border-t border-white/10">
-      <button
-        v-if="!showLogin"
-        type="button"
-        class="font-label-sm text-label-sm uppercase tracking-widest text-white/50 hover:text-white cursor-pointer transition-colors duration-200 py-stack-sm rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
-        @click="openLogin"
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition-opacity duration-200 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-opacity duration-150 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
       >
-        Máte prístup? Prihláste sa
-      </button>
-
-      <form v-else class="w-full max-w-sm flex flex-col gap-stack-sm" @submit.prevent="login">
-        <div class="flex items-center justify-between">
-          <span class="font-label-sm text-label-sm uppercase tracking-widest text-white/70">Prihlásenie</span>
-          <button
-            type="button"
-            aria-label="Zavrieť prihlásenie"
-            class="min-w-11 min-h-11 -mr-2 flex items-center justify-center text-white/50 hover:text-white cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
-            @click="showLogin = false; loginError = ''"
-          >
-            <span class="material-symbols-outlined" aria-hidden="true">close</span>
-          </button>
-        </div>
-
-        <label for="coming-soon-login-email" class="sr-only">E-mail</label>
-        <input
-          id="coming-soon-login-email"
-          ref="loginEmailInput"
-          v-model="loginEmail"
-          type="email"
-          required
-          autocomplete="email"
-          placeholder="E-mail"
-          class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
+        <div
+          v-if="showLogin"
+          class="fixed inset-0 z-[60] bg-on-background/60"
+          @click="closeLogin"
         />
+      </Transition>
 
-        <label for="coming-soon-login-password" class="sr-only">Heslo</label>
-        <input
-          id="coming-soon-login-password"
-          v-model="loginPassword"
-          type="password"
-          required
-          autocomplete="current-password"
-          placeholder="Heslo"
-          class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
-        />
-
-        <p v-if="loginError" role="alert" class="font-label-sm text-label-sm text-error-container">
-          {{ loginError }}
-        </p>
-
-        <button
-          type="submit"
-          :disabled="isLoggingIn"
-          class="h-12 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      <Transition
+        enter-active-class="transition-opacity duration-200 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-opacity duration-150 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="showLogin"
+          class="fixed inset-0 z-[70] flex items-center justify-center px-gutter"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Prihlásenie"
         >
-          <span class="material-symbols-outlined" :class="isLoggingIn ? 'animate-spin' : ''" aria-hidden="true">{{ isLoggingIn ? 'progress_activity' : 'lock_open' }}</span>
-          {{ isLoggingIn ? 'Prihlasovanie...' : 'Vstúpiť' }}
-        </button>
-      </form>
-    </div>
+          <form class="w-full max-w-sm bg-primary text-on-primary border border-white/10 rounded-default p-stack-lg flex flex-col gap-stack-sm shadow-xl" @submit.prevent="login">
+            <div class="flex items-center justify-between">
+              <span class="font-label-sm text-label-sm uppercase tracking-widest text-white/70">Prihlásenie</span>
+              <button
+                type="button"
+                aria-label="Zavrieť prihlásenie"
+                class="min-w-11 min-h-11 -mr-2 flex items-center justify-center text-white/50 hover:text-white cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+                @click="closeLogin"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">close</span>
+              </button>
+            </div>
+
+            <label for="coming-soon-login-email" class="sr-only">E-mail</label>
+            <input
+              id="coming-soon-login-email"
+              ref="loginEmailInput"
+              v-model="loginEmail"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="E-mail"
+              class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
+            />
+
+            <label for="coming-soon-login-password" class="sr-only">Heslo</label>
+            <input
+              id="coming-soon-login-password"
+              v-model="loginPassword"
+              type="password"
+              required
+              autocomplete="current-password"
+              placeholder="Heslo"
+              class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
+            />
+
+            <p v-if="loginError" role="alert" class="font-label-sm text-label-sm text-error-container">
+              {{ loginError }}
+            </p>
+
+            <button
+              type="submit"
+              :disabled="isLoggingIn"
+              class="h-12 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              <span class="material-symbols-outlined" :class="isLoggingIn ? 'animate-spin' : ''" aria-hidden="true">{{ isLoggingIn ? 'progress_activity' : 'lock_open' }}</span>
+              {{ isLoggingIn ? 'Prihlasovanie...' : 'Vstúpiť' }}
+            </button>
+          </form>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>

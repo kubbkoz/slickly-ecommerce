@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const heroImage =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuAI8N-dfsByjce2Dl-vav0-QgPBBhmacpaNSRluOPskO-O3r55efCUmVjquZr_LtOSJkXrZhlUUuT15Hxj4_0vkLVGIOHygbmfDXbkA-cjm6RRTYd_706Ji-jSBbBAOeDQQZ-KEPELBVMtWn4NwqtNhL3tsbFUk_hoQbaLwXFN-ltZBSNHnG3VJI1jyoXO6DOxtZrBtsQhXJJbijIuU5v9nxwWgfZP8k9bxLyErqzWrfF_5Ra9Ok8Y817xctq5K2BIycgsITFTx6VGh'
+import { HERO_IMAGE, HERO_VIDEO } from '~/data/media'
 
 // SSR renders only the poster images (great for LCP + no wasted bandwidth).
 // After mount we detect the active breakpoint and reduced-motion preference,
@@ -26,7 +25,7 @@ const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === 
     <!-- Mobile hero -->
     <div class="md:hidden relative aspect-square w-full overflow-hidden">
       <img
-        :src="heroImage"
+        :src="HERO_IMAGE"
         alt=""
         aria-hidden="true"
         fetchpriority="high"
@@ -41,7 +40,7 @@ const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === 
         playsinline
         aria-hidden="true"
       >
-        <source src="/videos/hero.mp4" type="video/mp4" />
+        <source :src="HERO_VIDEO" type="video/mp4" />
       </video>
       <div class="absolute inset-0 bg-primary/40 z-10"></div>
       <div class="relative z-20 h-full flex flex-col justify-end p-gutter pb-stack-lg">
@@ -63,7 +62,7 @@ const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === 
       <div class="max-w-[1536px] mx-auto px-grid-margin">
         <div class="relative aspect-video bg-on-background flex items-center overflow-hidden">
           <img
-            :src="heroImage"
+            :src="HERO_IMAGE"
             alt=""
             aria-hidden="true"
             class="absolute inset-0 w-full h-full object-cover opacity-40"
@@ -77,7 +76,7 @@ const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === 
             playsinline
             aria-hidden="true"
           >
-            <source src="/videos/hero.mp4" type="video/mp4" />
+            <source :src="HERO_VIDEO" type="video/mp4" />
           </video>
           <div class="relative z-10 p-12 flex flex-col gap-4">
             <span class="bg-secondary-container text-on-background px-3 py-1 text-[10px] w-fit font-bold uppercase">Limitovaná ponuka</span>
