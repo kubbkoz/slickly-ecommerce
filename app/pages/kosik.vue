@@ -89,10 +89,12 @@ const recommended = computed<Product[]>(() => {
             </NuxtLink>
             <span class="font-price-display text-price-display text-on-background md:hidden">{{ formatPrice(item.price) }}</span>
             <button
-              class="flex items-center gap-1 font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-error w-fit mt-1"
+              type="button"
+              class="flex items-center gap-1 font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-error w-fit mt-1 cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error"
+              :aria-label="`Odstrániť položku: ${item.name}`"
               @click="cart.removeItem(item.productId)"
             >
-              <span class="material-symbols-outlined text-[16px]">delete</span>
+              <span class="material-symbols-outlined text-[16px]" aria-hidden="true">delete</span>
               Odstrániť
             </button>
           </div>
@@ -101,21 +103,23 @@ const recommended = computed<Product[]>(() => {
             {{ formatPrice(item.price) }}
           </span>
 
-          <div class="flex items-center border border-outline-variant rounded-default shrink-0">
+          <div class="flex items-center border border-outline-variant rounded-default shrink-0" role="group" aria-label="Množstvo">
             <button
-              class="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-on-surface-variant hover:text-on-background"
-              aria-label="Znížiť množstvo"
+              type="button"
+              class="min-w-11 min-h-11 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              :aria-label="`Znížiť množstvo: ${item.name}`"
               @click="decrement(item.productId, item.quantity)"
             >
-              <span class="material-symbols-outlined">remove</span>
+              <span class="material-symbols-outlined" aria-hidden="true">remove</span>
             </button>
-            <span class="w-8 md:w-10 text-center font-technical-data text-technical-data">{{ item.quantity }}</span>
+            <span class="w-8 md:w-10 text-center font-technical-data text-technical-data" aria-live="polite">{{ item.quantity }}</span>
             <button
-              class="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-on-surface-variant hover:text-on-background"
-              aria-label="Zvýšiť množstvo"
+              type="button"
+              class="min-w-11 min-h-11 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              :aria-label="`Zvýšiť množstvo: ${item.name}`"
               @click="increment(item.productId, item.quantity)"
             >
-              <span class="material-symbols-outlined">add</span>
+              <span class="material-symbols-outlined" aria-hidden="true">add</span>
             </button>
           </div>
 

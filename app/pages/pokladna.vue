@@ -11,9 +11,14 @@ useSeo({
   noindex: true,
 })
 
-if (!cart.items.length) {
-  await navigateTo('/kosik')
-}
+// Cart is hydrated from localStorage client-side only, so the store is
+// always empty during SSR. Check after hydration (on mount) instead of at
+// the top of setup — otherwise a hard refresh on /pokladna with items in
+// the cart would bounce the user back to /kosik.
+onMounted(() => {
+  if (!cart.items.length) cart.hydrate()
+  if (!cart.items.length) navigateTo('/kosik', { replace: true })
+})
 
 const formattedSubtotal = computed(() => formatPrice(cart.subtotal))
 
@@ -180,17 +185,17 @@ async function placeOrder() {
             Spôsob platby
           </legend>
           <label class="flex items-center gap-stack-sm border border-outline-variant px-4 py-3 rounded-default cursor-pointer transition-colors duration-200 hover:border-on-surface-variant focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary" :class="form.payment === 'card' ? 'border-primary' : ''">
-            <input v-model="form.payment" type="radio" name="payment" value="card" class="accent-black" />
+            <input v-model="form.payment" type="radio" name="payment" value="card" class="accent-primary" />
             <span class="material-symbols-outlined" aria-hidden="true">credit_card</span>
             <span class="font-body-md text-body-md">Platobná karta</span>
           </label>
           <label class="flex items-center gap-stack-sm border border-outline-variant px-4 py-3 rounded-default cursor-pointer transition-colors duration-200 hover:border-on-surface-variant focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary" :class="form.payment === 'transfer' ? 'border-primary' : ''">
-            <input v-model="form.payment" type="radio" name="payment" value="transfer" class="accent-black" />
+            <input v-model="form.payment" type="radio" name="payment" value="transfer" class="accent-primary" />
             <span class="material-symbols-outlined" aria-hidden="true">account_balance</span>
             <span class="font-body-md text-body-md">Bankový prevod</span>
           </label>
           <label class="flex items-center gap-stack-sm border border-outline-variant px-4 py-3 rounded-default cursor-pointer transition-colors duration-200 hover:border-on-surface-variant focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary" :class="form.payment === 'cod' ? 'border-primary' : ''">
-            <input v-model="form.payment" type="radio" name="payment" value="cod" class="accent-black" />
+            <input v-model="form.payment" type="radio" name="payment" value="cod" class="accent-primary" />
             <span class="material-symbols-outlined" aria-hidden="true">local_shipping</span>
             <span class="font-body-md text-body-md">Dobierka</span>
           </label>
