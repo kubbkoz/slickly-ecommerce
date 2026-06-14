@@ -31,8 +31,8 @@ const features = [
             <span class="material-symbols-outlined" aria-hidden="true">{{ feature.icon }}</span>
           </div>
           <div>
-            <h3 class="font-headline-md text-[18px] md:text-headline-sm mb-1">{{ feature.title }}</h3>
-            <p class="text-on-surface-variant text-sm md:text-body-md">{{ feature.description }}</p>
+            <h3 class="font-headline-sm text-headline-sm mb-1">{{ feature.title }}</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">{{ feature.description }}</p>
           </div>
         </div>
       </div>

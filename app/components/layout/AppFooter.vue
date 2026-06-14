@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const links = [
-  { label: 'Ochrana súkromia', to: '/' },
-  { label: 'Obchodné podmienky', to: '/' },
-  { label: 'MSDS dáta', to: '/' },
-  { label: 'Certifikáty', to: '/' },
+  { label: 'Ochrana súkromia', to: '/ochrana-sukromia' },
+  { label: 'Obchodné podmienky', to: '/obchodne-podmienky' },
+  { label: 'MSDS dáta', to: '/msds' },
+  { label: 'Certifikáty', to: '/certifikaty' },
 ]
 
 const contact = [
