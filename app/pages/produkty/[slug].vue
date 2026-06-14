@@ -121,7 +121,7 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(produc
       <!-- Details -->
       <div class="flex flex-col gap-stack-md">
         <div>
-          <p class="font-technical-data text-technical-data text-on-tertiary-container uppercase mb-stack-xs">
+          <p class="font-technical-data text-technical-data text-secondary uppercase mb-stack-xs">
             {{ product.tags.join(' • ') }}
           </p>
           <h1 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase">{{ product.name }}</h1>

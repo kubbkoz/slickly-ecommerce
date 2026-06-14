@@ -176,6 +176,16 @@ function clearDeals() {
         <!-- Mobile: horizontal chips -->
         <div class="flex md:hidden gap-2 overflow-x-auto hide-scrollbar pb-2">
           <button
+            v-if="onlyDeals"
+            type="button"
+            aria-label="Zrušiť filter Iba akcie"
+            class="font-label-sm text-label-sm uppercase px-4 py-2 whitespace-nowrap rounded-default border border-secondary-container bg-secondary-container text-on-background flex items-center gap-2 cursor-pointer transition-opacity duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            @click="clearDeals"
+          >
+            <span class="material-symbols-outlined text-[16px]" aria-hidden="true">close</span>
+            Iba akcie
+          </button>
+          <button
             type="button"
             :aria-pressed="!selectedCategory && !onlyDeals"
             class="font-label-sm text-label-sm uppercase px-4 py-2 whitespace-nowrap rounded-default border cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
