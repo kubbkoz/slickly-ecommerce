@@ -115,6 +115,7 @@ export function useProductJsonLd(product: Product) {
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
       itemCondition: 'https://schema.org/NewCondition',
+      seller: { '@type': 'Organization', name: SITE_NAME },
     },
   }
 

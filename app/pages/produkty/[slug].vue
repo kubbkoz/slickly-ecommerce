@@ -33,7 +33,9 @@ onMounted(() => {
 })
 
 useSeo({
-  title: `${product.name} | SLICKLY`,
+  title: categoryName.value
+    ? `${product.name} | ${categoryName.value} | SLICKLY`
+    : `${product.name} | SLICKLY`,
   description: product.description,
   canonicalPath: `/produkty/${product.slug}`,
   image: product.image,
@@ -100,7 +102,12 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(produc
           >
             {{ product.badge }}
           </span>
-          <img :src="activeImage" :alt="product.name" fetchpriority="high" class="w-full h-full object-cover" />
+          <img
+            :src="activeImage"
+            :alt="categoryName ? `${product.name} – ${categoryName}` : product.name"
+            fetchpriority="high"
+            class="w-full h-full object-cover"
+          />
         </div>
         <div v-if="product.gallery.length > 1" class="flex gap-stack-sm" role="group" aria-label="Galéria produktu">
           <button
