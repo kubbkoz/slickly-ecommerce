@@ -105,6 +105,7 @@ export const products: Product[] = [
     reviews: [
       { author: 'Martin K.', rating: 5, date: '28. 4. 2026', text: 'Aplikácia bola jednoduchšia ako som čakal, výsledok vydržal cez celú zimu vrátane soli na cestách. Lak vyzerá ako nový.' },
       { author: 'Zuzana H.', rating: 5, date: '15. 3. 2026', text: 'Investícia, ktorá sa oplatí. Auto stačí opláchnuť a voda steká bez šmúh. Odporúčam aj nano sklo k tomu.' },
+      { author: 'Branislav O.', rating: 4, date: '2. 2. 2026', text: 'Po troch mesiacoch dennej jazdy je lak stále hydrofóbny, špina sa drží minimálne. Aplikácia trvala dlhšie, ale stojí to za to.' },
     ],
     bundleSlugs: ['paint-correction-polish', 'hydro-gloss-detail'],
   },
@@ -143,6 +144,7 @@ export const products: Product[] = [
     reviews: [
       { author: 'Tomáš R.', rating: 4, date: '2. 5. 2026', text: 'Skvelý rýchly lesk po umytí, vôňa je príjemná. Jediná výhrada - na veľké auto treba viac sprejov.' },
       { author: 'Petra V.', rating: 5, date: '20. 4. 2026', text: 'Používam po každom umytí, voda krásne perlí aj na sklách. Cena/výkon top.' },
+      { author: 'Ivana P.', rating: 5, date: '8. 3. 2026', text: 'Super na rýchle osvieženie pred predajom auta. Stačilo nastriekať a vyleštiť, povrch hneď vypadal ako po vosku.' },
     ],
     bundleSlugs: ['ceramic-shield-v2', 'nano-glass-coating'],
   },
@@ -180,6 +182,7 @@ export const products: Product[] = [
     reviews: [
       { author: 'Jakub S.', rating: 5, date: '10. 5. 2026', text: 'Fialová reakcia je naozaj efektná, vidno ako produkt funguje. Disky aj lak boli po aplikácii citeľne hladšie.' },
       { author: 'Lukáš M.', rating: 4, date: '3. 4. 2026', text: 'Funguje presne podľa popisu, treba ale pracovať v tieni, inak rýchlo zasychá.' },
+      { author: 'Patrik H.', rating: 5, date: '19. 2. 2026', text: 'Použil som po zime plnej soli, fialová reakcia bola intenzívna na celom prahu. Lak je teraz hladký na dotyk.' },
     ],
     bundleSlugs: ['alloy-wheel-cleaner-pro', 'paint-correction-polish'],
   },
@@ -215,6 +218,7 @@ export const products: Product[] = [
     reviews: [
       { author: 'Michaela T.', rating: 5, date: '18. 5. 2026', text: 'Vrátila kožené sedadlá takmer do pôvodného stavu, žiadny mastný film. Vôňa je neutrálna, čo som ocenila.' },
       { author: 'Roman B.', rating: 4, date: '29. 3. 2026', text: 'Na palubovku ideálne, na silnejšie škvrny na koberci som musel aplikovať dvakrát.' },
+      { author: 'Barbora N.', rating: 5, date: '6. 2. 2026', text: 'Ideálne na auto po deťoch a psovi. Odstránilo fľaky z koženky a v interiéri zostala čerstvá vôňa.' },
     ],
     bundleSlugs: ['leather-conditioner-elite'],
   },
@@ -250,6 +254,7 @@ export const products: Product[] = [
     reviews: [
       { author: 'Filip D.', rating: 5, date: '7. 5. 2026', text: 'Disky po rokoch zanedbávania vyzerajú ako nové. Farebná reakcia ukáže presne kde treba pridať.' },
       { author: 'Veronika K.', rating: 5, date: '22. 2. 2026', text: 'Acid-free formula ma presvedčila, žiadne biele škvrny na elox dráhach. Pena dobre drží aj na zvislých plochách.' },
+      { author: 'Ondrej Š.', rating: 4, date: '30. 1. 2026', text: 'Konečne čistič, ktorý zvládne aj zaschnutý brzdový prach na zadných diskoch. Bez drhnutia, len nastriekať a opláchnuť.' },
     ],
     bundleSlugs: ['synthetic-iron-decon', 'nano-glass-coating'],
   },
@@ -285,6 +290,7 @@ export const products: Product[] = [
     reviews: [
       { author: 'Marek J.', rating: 5, date: '30. 4. 2026', text: 'Odstránil väčšinu vírových škrabancov po prvom prejdení leštičkou. Lak pred coatingom vypadal skvele.' },
       { author: 'Simona F.', rating: 4, date: '14. 3. 2026', text: 'Mierne abrazívna, takže treba pracovať postupne, ale výsledok stojí za to.' },
+      { author: 'Tibor L.', rating: 5, date: '12. 2. 2026', text: 'Pred aplikáciou keramiky som prešiel celé auto touto leštenkou, rozdiel bol viditeľný okamžite aj pri bočnom svetle.' },
     ],
     bundleSlugs: ['ceramic-shield-v2', 'synthetic-iron-decon'],
   },
@@ -320,6 +326,7 @@ export const products: Product[] = [
     ],
     reviews: [
       { author: 'Adrián P.', rating: 5, date: '9. 5. 2026', text: 'Pri daždi na diaľnici už takmer nepotrebujem stierače. Aplikácia trvala 10 minút na celé čelné sklo.' },
+      { author: 'Erik V.', rating: 5, date: '3. 3. 2026', text: 'Aplikoval som aj na bočné okná, za dažďa pri prejdení kamiónu je výhľad oveľa lepší. Vydrží naozaj mesiace.' },
       { author: 'Natália Š.', rating: 4, date: '25. 1. 2026', text: 'Výdrž okolo 4 mesiacov pri dennom používaní, potom efekt postupne slabne, ale stojí to za opakovanú aplikáciu.' },
     ],
     bundleSlugs: ['hydro-gloss-detail', 'alloy-wheel-cleaner-pro'],
@@ -356,6 +363,7 @@ export const products: Product[] = [
     reviews: [
       { author: 'Daniel V.', rating: 4, date: '11. 5. 2026', text: 'Koža je po aplikácii mäkšia a matný efekt vypadá prémiovo, žiadny lesklý plastový vzhľad.' },
       { author: 'Lenka G.', rating: 5, date: '5. 4. 2026', text: 'Konečne kondicionér, ktorý nezanecháva mastné odtlačky. Vôňa je jemná a nedráždi.' },
+      { author: 'Monika R.', rating: 4, date: '22. 2. 2026', text: 'Sedadlá v staršom aute mali popraskanú kožu, po dvoch aplikáciách sú viditeľne mäkšie a praskliny menej výrazné.' },
     ],
     bundleSlugs: ['interior-revive-foam'],
   },
