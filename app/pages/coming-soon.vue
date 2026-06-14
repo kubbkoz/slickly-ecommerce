@@ -5,7 +5,7 @@ definePageMeta({ layout: 'coming-soon' })
 
 useSeo({
   title: 'Pripravujeme niečo nové | SLICKLY',
-  description: 'Nový e-shop SLICKLY sa pripravuje. Laboratórne kalibrovaná keramická ochrana, detailing a starostlivosť o vozidlo. Zostaňte naladení.',
+  description: 'Nový e-shop SLICKLY sa pripravuje. Prémiová kozmetika na starostlivosť o interiér a exteriér vozidla, detailing a veľa iného. Zostaňte naladení.',
   noindex: true,
 })
 
@@ -120,32 +120,46 @@ async function login() {
       </p>
 
       <div class="flex flex-col items-center gap-stack-sm md:gap-4 max-w-2xl">
-        <span class="font-technical-data text-technical-data uppercase text-secondary-container tracking-widest">Spúšťame sa</span>
+        <span class="font-technical-data text-technical-data uppercase text-secondary-container tracking-widest">Spúšťame už</span>
         <h1 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase">Čoskoro</h1>
         <p class="font-body-md md:text-body-lg text-white/70 max-w-xl">
-          Pripravujeme nový e-shop s laboratórne kalibrovanou keramickou ochranou, detailingom a starostlivosťou o vozidlo. Zostaňte naladení.
+          Pripravujeme nový e-shop s prémiovou kozmetikou na starostlivosť o interiér a exteriér vozidla, detailing a veľa iného.
         </p>
       </div>
 
-      <form v-if="!subscribed" class="w-full max-w-md flex flex-col sm:flex-row gap-stack-sm" @submit.prevent="subscribe">
-        <label for="coming-soon-email" class="sr-only">E-mailová adresa</label>
-        <input
-          id="coming-soon-email"
-          v-model="newsletterEmail"
-          type="email"
-          required
-          autocomplete="email"
-          placeholder="vas@email.sk"
-          class="flex-grow h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
-        />
-        <button
-          type="submit"
-          :disabled="isSubscribing"
-          class="h-12 px-8 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-        >
-          <span class="material-symbols-outlined" :class="isSubscribing ? 'animate-spin' : ''" aria-hidden="true">{{ isSubscribing ? 'progress_activity' : 'notifications' }}</span>
-          {{ isSubscribing ? 'Spracúva sa...' : 'Upozorniť ma' }}
-        </button>
+      <div class="flex flex-col items-center gap-stack-xs max-w-xl">
+        <p class="font-body-md md:text-body-lg text-on-primary">
+          <span class="text-secondary-container font-bold">Stay tuned</span> a vyhraj balíček prémiovej autokozmetiky v hodnote 100 €.
+        </p>
+        <p class="font-body-md text-white/60">
+          Zo zapojených mailov vyžrebujeme troch víťazov.
+        </p>
+      </div>
+
+      <form v-if="!subscribed" class="w-full max-w-md flex flex-col items-center gap-stack-sm" @submit.prevent="subscribe">
+        <p class="font-label-sm text-label-sm text-white/50 max-w-md text-center">
+          * Kliknutím na tlačidlo súhlasíte so spracovaním osobných údajov.
+        </p>
+        <div class="w-full flex flex-col sm:flex-row gap-stack-sm">
+          <label for="coming-soon-email" class="sr-only">E-mailová adresa</label>
+          <input
+            id="coming-soon-email"
+            v-model="newsletterEmail"
+            type="email"
+            required
+            autocomplete="email"
+            placeholder="vas@email.sk"
+            class="flex-grow h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
+          />
+          <button
+            type="submit"
+            :disabled="isSubscribing"
+            class="h-12 px-8 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <span class="material-symbols-outlined" :class="isSubscribing ? 'animate-spin' : ''" aria-hidden="true">{{ isSubscribing ? 'progress_activity' : 'notifications' }}</span>
+            {{ isSubscribing ? 'Spracúva sa...' : 'Upozorniť ma' }}
+          </button>
+        </div>
       </form>
 
       <div v-else role="status" class="flex items-center gap-2 text-secondary-container">
