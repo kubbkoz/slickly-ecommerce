@@ -6,8 +6,8 @@ const offers = products.filter((p) => p.badge).slice(0, 3)
 
 <template>
   <section class="py-stack-lg md:py-12 md:border-b md:border-grid-line bg-surface">
-    <div class="md:max-w-[1536px] md:mx-auto md:px-grid-margin">
-      <div class="flex justify-between items-center md:items-end px-gutter md:px-0 mb-stack-md md:mb-8">
+    <div class="md:max-w-[1536px] md:mx-auto px-gutter md:px-grid-margin">
+      <div class="flex justify-between items-center md:items-end mb-stack-md md:mb-8">
         <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight">Špeciálne ponuky</h2>
         <NuxtLink
           to="/produkty?akcia=1"
@@ -25,7 +25,7 @@ const offers = products.filter((p) => p.badge).slice(0, 3)
       </div>
 
       <!-- Mobile: horizontal scroll -->
-      <div class="md:hidden flex gap-gutter overflow-x-auto px-gutter hide-scrollbar snap-x">
+      <div class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter hide-scrollbar snap-x">
         <div v-for="product in offers" :key="product.id" class="min-w-[240px] snap-start">
           <ProductCard :product="product" />
         </div>
