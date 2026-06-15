@@ -10,8 +10,8 @@ const desktopSearchInput = ref<HTMLInputElement | null>(null)
 const hamburgerBtn = ref<HTMLElement | null>(null)
 const menuCloseBtn = ref<HTMLElement | null>(null)
 
-const navLinks = [
-  { label: 'Obchod', to: '/produkty' },
+const navLinks: { label: string; to: string; mega?: boolean }[] = [
+  { label: 'Obchod', to: '/produkty', mega: true },
   { label: 'Výskum', to: '/#umenie-cistoty' },
   { label: 'Laboratórium', to: '/#preco-slickly' },
   { label: 'Blog', to: '/blog' },
@@ -199,8 +199,9 @@ watch(isMenuOpen, (open) => {
     </Teleport>
 
     <!-- Desktop bar -->
-    <div class="hidden md:block w-full bg-primary sticky top-0 z-50">
-      <div class="max-w-[1536px] mx-auto px-grid-margin h-20 flex items-center gap-8 relative">
+    <div class="hidden md:block w-full bg-primary sticky top-0 z-50 relative">
+      <!-- Row 1: logo, search, icons -->
+      <div class="max-w-[1536px] mx-auto px-grid-margin h-20 flex items-center gap-8">
         <template v-if="!search.isOpen">
           <NuxtLink
             to="/"
@@ -208,20 +209,10 @@ watch(isMenuOpen, (open) => {
           >
             SL<span class="logo-i">I</span>CKLY
           </NuxtLink>
-          <nav class="shrink-0 flex items-center gap-8">
-            <NuxtLink
-              v-for="link in navLinks"
-              :key="link.label"
-              :to="link.to"
-              class="font-label-sm text-label-sm text-white/70 hover:text-white transition-colors duration-150 uppercase"
-            >
-              {{ link.label }}
-            </NuxtLink>
-          </nav>
           <div class="flex-1 flex justify-center">
             <button
               type="button"
-              class="relative w-full max-w-2xl h-12 text-left cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+              class="relative w-full max-w-xl h-12 text-left cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
               @click="search.open()"
             >
               <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-black/40 text-[22px]" aria-hidden="true">search</span>
@@ -281,19 +272,57 @@ watch(isMenuOpen, (open) => {
             <span class="material-symbols-outlined" aria-hidden="true">close</span>
           </button>
         </form>
+      </div>
 
-        <div
-          v-if="search.isOpen"
-          class="absolute top-full left-0 right-0 mt-2 bg-background border border-grid-line shadow-xl rounded-default max-h-[70vh] overflow-y-auto p-6 z-50"
-        >
-          <SearchContent
-            :query="search.query"
-            :results="results"
-            :recommended="recommended"
-            :featured="featured"
-            :categories="categories"
-            @select="search.close()"
-          />
+      <!-- Row 2: nav links with mega menu -->
+      <nav class="border-t border-white/10">
+        <div class="max-w-[1536px] mx-auto px-grid-margin h-12 flex items-center gap-8 relative">
+          <div v-for="link in navLinks" :key="link.label" class="group h-full flex items-center">
+            <NuxtLink
+              :to="link.to"
+              class="h-full flex items-center font-label-sm text-label-sm text-white/70 hover:text-white transition-colors duration-150 uppercase rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+            >
+              {{ link.label }}
+            </NuxtLink>
+
+            <!-- Mega menu -->
+            <div
+              v-if="link.mega"
+              class="absolute left-0 right-0 top-full pt-2 opacity-0 invisible -translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0"
+            >
+              <div class="bg-background border border-grid-line shadow-xl rounded-default p-6 grid grid-cols-4 gap-4">
+                <NuxtLink
+                  v-for="category in categories"
+                  :key="category.slug"
+                  :to="`/produkty?kategoria=${category.slug}`"
+                  class="group/card flex flex-col gap-3 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                >
+                  <div class="aspect-[4/3] w-full overflow-hidden rounded-default bg-surface-container-low">
+                    <img :src="category.image" :alt="category.name" class="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105" />
+                  </div>
+                  <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-background group-hover/card:text-primary transition-colors duration-150">
+                    {{ category.name }}
+                  </span>
+                </NuxtLink>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Search results dropdown -->
+      <div v-if="search.isOpen" class="absolute top-full left-0 right-0 z-50">
+        <div class="max-w-[1536px] mx-auto px-grid-margin mt-2">
+          <div class="bg-background border border-grid-line shadow-xl rounded-default max-h-[70vh] overflow-y-auto p-6">
+            <SearchContent
+              :query="search.query"
+              :results="results"
+              :recommended="recommended"
+              :featured="featured"
+              :categories="categories"
+              @select="search.close()"
+            />
+          </div>
         </div>
       </div>
     </div>
