@@ -58,40 +58,37 @@ const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === 
     </div>
 
     <!-- Desktop hero -->
-    <div class="hidden md:block bg-surface-container-low py-10">
-      <div class="max-w-[1536px] mx-auto px-grid-margin">
-        <div class="relative aspect-video bg-on-background flex items-center overflow-hidden">
-          <img
-            :src="HERO_IMAGE"
-            alt=""
-            aria-hidden="true"
-            class="absolute inset-0 w-full h-full object-cover opacity-40"
-          />
-          <video
-            v-if="showDesktopVideo"
-            class="absolute inset-0 w-full h-full object-cover opacity-40"
-            autoplay
-            muted
-            loop
-            playsinline
-            aria-hidden="true"
-          >
-            <source :src="HERO_VIDEO" type="video/mp4" />
-          </video>
-          <div class="relative z-10 p-12 flex flex-col gap-4">
-            <span class="bg-secondary-container text-on-background px-3 py-1 text-[10px] w-fit font-bold uppercase">Limitovaná ponuka</span>
-            <p class="text-surface text-headline-xl uppercase font-headline-lg">ŠPECIÁLNA ZĽAVA -20%</p>
-            <p class="text-surface-variant font-body-md max-w-md">
-              Získajte exkluzívny prístup k našej prémiovej rade keramickej ochrany za zvýhodnenú cenu.
-            </p>
-            <NuxtLink
-              to="/produkty"
-              class="mt-4 border border-surface text-surface px-6 py-2 w-fit uppercase font-label-sm cursor-pointer hover:bg-surface hover:text-on-background transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
-            >
-              Kúpiť teraz
-            </NuxtLink>
-          </div>
-        </div>
+    <div class="hidden md:block relative w-full aspect-video bg-on-background overflow-hidden">
+      <img
+        :src="HERO_IMAGE"
+        alt=""
+        aria-hidden="true"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+      <video
+        v-if="showDesktopVideo"
+        class="absolute inset-0 w-full h-full object-cover"
+        autoplay
+        muted
+        loop
+        playsinline
+        aria-hidden="true"
+      >
+        <source :src="HERO_VIDEO" type="video/mp4" />
+      </video>
+      <div class="absolute inset-0 bg-primary/40"></div>
+      <div class="relative z-10 h-full max-w-[1536px] mx-auto px-grid-margin flex flex-col justify-center gap-4">
+        <span class="bg-secondary-container text-on-background px-3 py-1 text-[10px] w-fit font-bold uppercase">Limitovaná ponuka</span>
+        <p class="text-surface text-headline-xl uppercase font-headline-lg">ŠPECIÁLNA ZĽAVA -20%</p>
+        <p class="text-surface-variant font-body-md max-w-md">
+          Získajte exkluzívny prístup k našej prémiovej rade keramickej ochrany za zvýhodnenú cenu.
+        </p>
+        <NuxtLink
+          to="/produkty"
+          class="mt-4 bg-secondary-container text-on-secondary-container px-stack-lg py-3 rounded-default font-bold transition-all duration-200 active:scale-95 w-fit cursor-pointer hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+        >
+          Kúpiť teraz
+        </NuxtLink>
       </div>
     </div>
   </section>

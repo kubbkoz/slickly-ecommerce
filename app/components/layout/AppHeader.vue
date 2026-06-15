@@ -199,16 +199,16 @@ watch(isMenuOpen, (open) => {
     </Teleport>
 
     <!-- Desktop bar -->
-    <div class="hidden md:block w-full pt-4 pb-2 px-grid-margin bg-surface-container-lowest sticky top-0 z-50">
-      <div class="bg-primary border-none max-w-[1536px] mx-auto px-6 py-4 flex justify-between items-center shadow-sm rounded-default relative">
+    <div class="hidden md:block w-full bg-primary sticky top-0 z-50">
+      <div class="max-w-[1536px] mx-auto px-grid-margin h-20 flex items-center gap-8 relative">
         <template v-if="!search.isOpen">
           <NuxtLink
             to="/"
-            class="font-headline-md text-headline-sm font-bold tracking-tighter text-white hover:opacity-90 transition-opacity duration-150"
+            class="shrink-0 font-headline-md text-headline-md font-extrabold tracking-tighter text-white hover:opacity-90 transition-opacity duration-150"
           >
-            SLICKL<span class="logo-dot">Y</span>
+            SL<span class="logo-i">I</span>CKLY
           </NuxtLink>
-          <nav class="flex items-center gap-8 order-1">
+          <nav class="shrink-0 flex items-center gap-8">
             <NuxtLink
               v-for="link in navLinks"
               :key="link.label"
@@ -218,17 +218,17 @@ watch(isMenuOpen, (open) => {
               {{ link.label }}
             </NuxtLink>
           </nav>
-          <div class="flex-grow max-w-xl px-12 order-2">
+          <div class="flex-1 flex justify-center">
             <button
               type="button"
-              class="relative w-full text-left cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+              class="relative w-full max-w-2xl h-12 text-left cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
               @click="search.open()"
             >
-              <span class="block w-full bg-white text-black/40 font-label-sm text-label-sm px-4 py-2 rounded-default uppercase">VYHĽADAŤ PRODUKT...</span>
-              <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-black/40" aria-hidden="true">search</span>
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-black/40 text-[22px]" aria-hidden="true">search</span>
+              <span class="absolute inset-0 flex items-center bg-white text-black/40 font-body-md text-body-md pl-12 pr-4 rounded-default uppercase tracking-wide whitespace-nowrap overflow-hidden">Vyhľadať produkt, kategóriu...</span>
             </button>
           </div>
-          <div class="flex items-center gap-6 order-3">
+          <div class="shrink-0 flex items-center gap-6">
             <LocaleSwitcher variant="dark" />
             <NuxtLink
               to="/oblubene"

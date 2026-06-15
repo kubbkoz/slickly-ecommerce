@@ -24,7 +24,7 @@ const badges = [
     <!-- Desktop grid -->
     <div class="hidden md:block py-6 border-y border-on-secondary-container/10">
       <div class="max-w-[1536px] mx-auto px-grid-margin grid grid-cols-4 gap-6">
-        <div v-for="badge in badges" :key="badge.label" class="flex items-center justify-start gap-3 text-on-secondary-container">
+        <div v-for="badge in badges" :key="badge.label" class="flex items-center justify-center gap-3 text-on-secondary-container">
           <span class="material-symbols-outlined text-[24px]" aria-hidden="true">{{ badge.icon }}</span>
           <span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">{{ badge.label }}</span>
         </div>
