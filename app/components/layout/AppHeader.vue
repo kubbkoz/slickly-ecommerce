@@ -68,7 +68,7 @@ watch(isMenuOpen, (open) => {
 </script>
 
 <template>
-  <header class="w-full">
+  <header class="w-full md:sticky md:top-0 md:z-50">
     <!-- Mobile top bar -->
     <div
       class="md:hidden fixed top-0 left-0 right-0 z-50 bg-primary text-on-primary flex items-center justify-between px-gutter h-16 border-b border-outline-variant"
@@ -199,7 +199,7 @@ watch(isMenuOpen, (open) => {
     </Teleport>
 
     <!-- Desktop bar -->
-    <div class="hidden md:block w-full bg-primary sticky top-0 z-50 relative">
+    <div class="hidden md:block w-full bg-primary">
       <!-- Row 1: logo, search, icons -->
       <div class="max-w-[1536px] mx-auto px-grid-margin h-20 flex items-center gap-8">
         <template v-if="!search.isOpen">

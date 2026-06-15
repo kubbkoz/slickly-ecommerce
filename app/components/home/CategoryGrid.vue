@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { categories } from '~/data/products'
 
-// Asymmetric layout spans matching the desktop 12-col / mobile 2-col grid mockups
+// Asymmetric bento layout: Karoséria spans the top, Interiér is a tall
+// right-hand column, Kolesá and Ochrana fill the bottom row beside it.
+// Spans add up to full rows on both the 2-col mobile and 12-col desktop
+// grids, so every card stays inside the section (no overflow row).
 const spans = [
-  'col-span-2 md:col-span-8 md:row-span-1', // Karoséria - large
-  'col-span-1 md:col-span-4 md:row-span-2', // Interiér - tall side
-  'col-span-1 md:col-span-4 md:row-span-1', // Kolesá - small
-  'col-span-2 md:col-span-8 md:row-span-1', // Ochrana - wide
+  'col-span-2 md:col-span-8 md:row-span-1', // Karoséria - large top
+  'col-span-1 md:col-span-4 row-span-2', // Interiér - tall side
+  'col-span-1 md:col-span-4 md:row-span-1', // Kolesá - bottom left
+  'col-span-1 md:col-span-4 md:row-span-1', // Ochrana - bottom right
 ]
-
-const featured = [true, true, false, false]
 </script>
 
 <template>
@@ -28,25 +29,17 @@ const featured = [true, true, false, false]
             :src="category.image"
             :alt="category.name"
             :loading="index === 0 ? 'eager' : 'lazy'"
-            class="absolute inset-0 w-full h-full object-cover opacity-60 md:opacity-70 transition-transform duration-700 group-hover:scale-105"
+            class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-700 group-hover:scale-105"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-          <div class="absolute bottom-stack-md md:bottom-8 left-stack-md md:left-8">
-            <h3
-              class="text-white font-bold uppercase mb-1"
-              :class="featured[index] ? 'font-headline-md text-headline-md md:text-headline-lg md:mb-2' : 'font-headline-md text-headline-md'"
-            >
+          <div class="absolute bottom-stack-md md:bottom-8 left-stack-md md:left-8 right-stack-md md:right-8">
+            <h3 class="text-white font-headline-md text-headline-md md:text-headline-lg font-bold uppercase mb-1 md:mb-2">
               {{ category.name }}
             </h3>
-            <span
-              v-if="featured[index]"
-              class="hidden md:flex text-white/80 font-label-sm text-label-sm uppercase items-center gap-2 group-hover:text-secondary-container transition-colors"
-            >
+            <span class="flex text-white/80 font-label-sm text-label-sm uppercase items-center gap-2 group-hover:text-secondary-container transition-colors duration-200">
               Preskúmať produkty
-              <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
+              <span class="material-symbols-outlined text-[16px] transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
             </span>
-            <span v-else class="text-white/80 text-[12px] uppercase">Zobraziť viac</span>
-            <div v-if="featured[index]" class="md:hidden w-8 h-1 bg-secondary-container mt-2"></div>
           </div>
         </NuxtLink>
       </div>
