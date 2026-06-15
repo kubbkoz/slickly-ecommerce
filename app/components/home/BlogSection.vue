@@ -28,7 +28,7 @@ const posts = blogPosts.slice(0, 3)
       </div>
 
       <!-- Mobile: horizontal scroll -->
-      <div class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter hide-scrollbar snap-x">
+      <div class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter scroll-px-gutter hide-scrollbar snap-x">
         <NuxtLink
           v-for="post in posts"
           :key="post.id"

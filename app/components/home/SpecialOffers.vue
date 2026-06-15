@@ -25,7 +25,7 @@ const offers = products.filter((p) => p.badge).slice(0, 3)
       </div>
 
       <!-- Mobile: horizontal scroll -->
-      <div class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter hide-scrollbar snap-x">
+      <div class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter scroll-px-gutter hide-scrollbar snap-x">
         <div v-for="product in offers" :key="product.id" class="min-w-[240px] snap-start">
           <ProductCard :product="product" />
         </div>
