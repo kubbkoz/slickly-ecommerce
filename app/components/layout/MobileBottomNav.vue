@@ -24,7 +24,7 @@ function isActive(to: string) {
 </script>
 
 <template>
-  <nav class="md:hidden fixed bottom-0 w-full z-50 h-16 bg-surface border-t border-outline-variant flex justify-around items-center">
+  <nav aria-label="Spodná navigácia" class="md:hidden fixed bottom-0 w-full z-50 h-16 bg-surface border-t border-outline-variant flex justify-around items-center">
     <NuxtLink
       v-for="link in links"
       :key="link.label"

@@ -20,7 +20,7 @@ async function subscribe() {
       <span class="font-technical-data text-technical-data uppercase text-secondary-container tracking-widest">Newsletter</span>
       <h2 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase max-w-2xl">Získajte 10% zľavu na prvú objednávku</h2>
       <p class="font-body-md md:text-body-lg text-white/70 max-w-xl">
-        Prihláste sa na odber a buďte prví, ktorí sa dozvedia o nových produktoch, laboratórnych testoch a exkluzívnych akciách.
+        Prihláste sa na odber a buďte prví, ktorí sa dozvedia o nových značkách, recenziách produktov a exkluzívnych akciách.
       </p>
 
       <form v-if="!submitted" class="w-full max-w-md flex flex-col sm:flex-row gap-stack-sm mt-stack-sm" @submit.prevent="subscribe">

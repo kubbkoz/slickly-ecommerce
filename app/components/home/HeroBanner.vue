@@ -79,7 +79,7 @@ const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === 
       <div class="absolute inset-0 bg-primary/40"></div>
       <div class="relative z-10 h-full max-w-[1536px] mx-auto px-grid-margin flex flex-col justify-center gap-4">
         <span class="bg-secondary-container text-on-background px-3 py-1 text-[10px] w-fit font-bold uppercase">Limitovaná ponuka</span>
-        <p class="text-surface text-headline-xl uppercase font-headline-lg">ŠPECIÁLNA ZĽAVA -20%</p>
+        <h1 class="text-surface text-headline-xl uppercase font-headline-lg">ŠPECIÁLNA ZĽAVA -20%</h1>
         <p class="text-surface-variant font-body-md max-w-md">
           Získajte exkluzívny prístup k našej prémiovej rade keramickej ochrany za zvýhodnenú cenu.
         </p>
