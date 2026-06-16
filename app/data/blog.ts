@@ -39,7 +39,7 @@ export const blogPosts: BlogPost[] = [
     content: [
       {
         type: 'paragraph',
-        text: 'Keramická ochrana je len tak dobrá, ako povrch, na ktorý ju aplikujete. Bez dôkladnej prípravy karosérie sa pod vrstvu SiO2 uzavrú nečistoty, zvyšky starého vosku či drobné škrabance — a tie budú viditeľné ešte mesiace po aplikácii. V tomto návode prejdeme krok za krokom postupom, ktorý používame v našom laboratóriu pred každou aplikáciou Ceramic Shield V2.',
+        text: 'Keramická ochrana je len tak dobrá, ako povrch, na ktorý ju aplikujete. Bez dôkladnej prípravy karosérie sa pod vrstvu SiO2 uzavrú nečistoty, zvyšky starého vosku či drobné škrabance — a tie budú viditeľné ešte mesiace po aplikácii. V tomto návode prejdeme krok za krokom postupom, ktorý odporúčajú profesionálni detaileri pred každou aplikáciou keramickej ochrany.',
       },
       { type: 'heading', text: 'Prečo je príprava kľúčová' },
       {
@@ -85,7 +85,7 @@ export const blogPosts: BlogPost[] = [
       {
         type: 'quote',
         text: 'Príprava je 80 % výsledku. Samotná aplikácia keramickej ochrany trvá pár minút — ale kvalita povrchu pod ňou rozhoduje o tom, ako bude vyzerať o dva roky.',
-        author: 'Vedúci detailing štúdia SLICKLY',
+        author: 'Detailingový poradca SLICKLY',
       },
       {
         type: 'paragraph',
@@ -158,7 +158,7 @@ export const blogPosts: BlogPost[] = [
     id: 'sio2-infusion',
     slug: 'sio2-infusion',
     category: 'Novinky',
-    title: 'SiO2 Infusion: nová generácia ochrany prichádza do nášho laboratória',
+    title: 'SiO2 Infusion: nová generácia keramickej ochrany prichádza do sortimentu',
     excerpt:
       'Predstavujeme technológiu, ktorá posúva hydrofóbne vlastnosti keramických náterov na novú úroveň odolnosti a lesku.',
     date: '3. 4. 2026',
@@ -170,7 +170,7 @@ export const blogPosts: BlogPost[] = [
     content: [
       {
         type: 'paragraph',
-        text: 'V našom laboratóriu už niekoľko mesiacov testujeme novú generáciu keramickej chémie s pracovným názvom SiO2 Infusion. Cieľom bolo jednoduché zadanie — posunúť hranice odolnosti a hydrofóbneho efektu, ktoré dnes ponúka Ceramic Shield V2, na ešte vyššiu úroveň.',
+        text: 'Do sortimentu SLICKLY čoskoro pribudne nová generácia keramickej chémie s názvom SiO2 Infusion od jedného z našich partnerských výrobcov. Cieľom bolo jednoduché zadanie — posunúť hranice odolnosti a hydrofóbneho efektu, ktoré dnes ponúka Ceramic Shield V2, na ešte vyššiu úroveň.',
       },
       { type: 'heading', text: 'Čo je SiO2 Infusion' },
       {
@@ -190,7 +190,7 @@ export const blogPosts: BlogPost[] = [
       { type: 'heading', text: 'Kedy bude dostupná' },
       {
         type: 'paragraph',
-        text: 'SiO2 Infusion momentálne prechádza záverečnou fázou testovania odolnosti v reálnej prevádzke. O termíne uvedenia do našej ponuky budeme informovať prostredníctvom newslettera — prihláste sa, aby ste sa o novej technológii dozvedeli medzi prvými.',
+        text: 'SiO2 Infusion momentálne prechádza záverečnou fázou certifikácie. O zaradení do nášho sortimentu budeme informovať prostredníctvom newslettera — prihláste sa, aby ste sa o novej technológii dozvedeli medzi prvými.',
       },
     ],
   },
