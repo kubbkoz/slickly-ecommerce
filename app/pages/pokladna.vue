@@ -45,10 +45,53 @@ const form = reactive({
   payment: 'card',
 })
 
+const touched = reactive<Record<string, boolean>>({
+  email: false,
+  firstName: false,
+  lastName: false,
+  address: false,
+  city: false,
+  postalCode: false,
+  country: false,
+})
+
+const errors = computed(() => ({
+  email: !form.email
+    ? 'E-mailová adresa je povinná'
+    : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+      ? 'Zadajte platný e-mail'
+      : '',
+  firstName: !form.firstName.trim() ? 'Meno je povinné' : '',
+  lastName: !form.lastName.trim() ? 'Priezvisko je povinné' : '',
+  address: !form.address.trim() ? 'Adresa je povinná' : '',
+  city: !form.city.trim() ? 'Mesto je povinné' : '',
+  postalCode: !form.postalCode.trim()
+    ? 'PSČ je povinné'
+    : !/^\d{5}$/.test(form.postalCode.replace(/\s/g, ''))
+      ? 'PSČ musí mať 5 číslic'
+      : '',
+  country: !form.country.trim() ? 'Krajina je povinná' : '',
+}))
+
+function touch(field: string) {
+  touched[field] = true
+}
+
+function inputClass(field: string) {
+  const hasError = touched[field] && errors.value[field as keyof typeof errors.value]
+  return hasError
+    ? 'border-error focus:border-error'
+    : 'border-outline-variant focus:border-primary'
+}
+
 const isPlacing = ref(false)
 const isPlaced = ref(false)
 
 async function placeOrder() {
+  // Touch all fields so errors appear if user submitted without filling them
+  Object.keys(touched).forEach((k) => (touched[k] = true))
+  if (Object.values(errors.value).some((e) => e)) return
+
   isPlacing.value = true
   await new Promise((resolve) => setTimeout(resolve, 800))
   isPlaced.value = true
@@ -82,7 +125,7 @@ async function placeOrder() {
       </p>
     </div>
 
-    <form v-else id="checkout-form" class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg md:gap-16" @submit.prevent="placeOrder">
+    <form v-else id="checkout-form" class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg md:gap-16" novalidate @submit.prevent="placeOrder">
       <!-- Form -->
       <div class="md:col-span-2 flex flex-col gap-stack-lg">
         <fieldset class="flex flex-col gap-stack-sm">
@@ -95,11 +138,17 @@ async function placeOrder() {
               id="checkout-email"
               v-model="form.email"
               type="email"
-              required
               autocomplete="email"
               placeholder="vas@email.sk"
-              class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+              :aria-describedby="touched.email && errors.email ? 'err-email' : undefined"
+              :aria-invalid="touched.email && !!errors.email"
+              class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default"
+              :class="inputClass('email')"
+              @blur="touch('email')"
             />
+            <p v-if="touched.email && errors.email" id="err-email" role="alert" class="font-technical-data text-technical-data text-error">
+              {{ errors.email }}
+            </p>
           </div>
         </fieldset>
 
@@ -114,10 +163,16 @@ async function placeOrder() {
                 id="checkout-first-name"
                 v-model="form.firstName"
                 type="text"
-                required
                 autocomplete="given-name"
-                class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+                :aria-describedby="touched.firstName && errors.firstName ? 'err-first-name' : undefined"
+                :aria-invalid="touched.firstName && !!errors.firstName"
+                class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default"
+                :class="inputClass('firstName')"
+                @blur="touch('firstName')"
               />
+              <p v-if="touched.firstName && errors.firstName" id="err-first-name" role="alert" class="font-technical-data text-technical-data text-error">
+                {{ errors.firstName }}
+              </p>
             </div>
             <div class="flex flex-col gap-1">
               <label for="checkout-last-name" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Priezvisko</label>
@@ -125,10 +180,16 @@ async function placeOrder() {
                 id="checkout-last-name"
                 v-model="form.lastName"
                 type="text"
-                required
                 autocomplete="family-name"
-                class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+                :aria-describedby="touched.lastName && errors.lastName ? 'err-last-name' : undefined"
+                :aria-invalid="touched.lastName && !!errors.lastName"
+                class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default"
+                :class="inputClass('lastName')"
+                @blur="touch('lastName')"
               />
+              <p v-if="touched.lastName && errors.lastName" id="err-last-name" role="alert" class="font-technical-data text-technical-data text-error">
+                {{ errors.lastName }}
+              </p>
             </div>
           </div>
           <div class="flex flex-col gap-1">
@@ -137,10 +198,16 @@ async function placeOrder() {
               id="checkout-address"
               v-model="form.address"
               type="text"
-              required
               autocomplete="street-address"
-              class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+              :aria-describedby="touched.address && errors.address ? 'err-address' : undefined"
+              :aria-invalid="touched.address && !!errors.address"
+              class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default"
+              :class="inputClass('address')"
+              @blur="touch('address')"
             />
+            <p v-if="touched.address && errors.address" id="err-address" role="alert" class="font-technical-data text-technical-data text-error">
+              {{ errors.address }}
+            </p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
             <div class="flex flex-col gap-1">
@@ -149,10 +216,16 @@ async function placeOrder() {
                 id="checkout-city"
                 v-model="form.city"
                 type="text"
-                required
                 autocomplete="address-level2"
-                class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+                :aria-describedby="touched.city && errors.city ? 'err-city' : undefined"
+                :aria-invalid="touched.city && !!errors.city"
+                class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default"
+                :class="inputClass('city')"
+                @blur="touch('city')"
               />
+              <p v-if="touched.city && errors.city" id="err-city" role="alert" class="font-technical-data text-technical-data text-error">
+                {{ errors.city }}
+              </p>
             </div>
             <div class="flex flex-col gap-1">
               <label for="checkout-postal-code" class="font-technical-data text-technical-data uppercase text-on-surface-variant">PSČ</label>
@@ -160,11 +233,17 @@ async function placeOrder() {
                 id="checkout-postal-code"
                 v-model="form.postalCode"
                 type="text"
-                required
                 autocomplete="postal-code"
                 inputmode="numeric"
-                class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+                :aria-describedby="touched.postalCode && errors.postalCode ? 'err-postal-code' : undefined"
+                :aria-invalid="touched.postalCode && !!errors.postalCode"
+                class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default"
+                :class="inputClass('postalCode')"
+                @blur="touch('postalCode')"
               />
+              <p v-if="touched.postalCode && errors.postalCode" id="err-postal-code" role="alert" class="font-technical-data text-technical-data text-error">
+                {{ errors.postalCode }}
+              </p>
             </div>
           </div>
           <div class="flex flex-col gap-1">
@@ -173,10 +252,16 @@ async function placeOrder() {
               id="checkout-country"
               v-model="form.country"
               type="text"
-              required
               autocomplete="country-name"
-              class="h-12 px-4 border border-outline-variant bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 focus:border-primary rounded-default"
+              :aria-describedby="touched.country && errors.country ? 'err-country' : undefined"
+              :aria-invalid="touched.country && !!errors.country"
+              class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default"
+              :class="inputClass('country')"
+              @blur="touch('country')"
             />
+            <p v-if="touched.country && errors.country" id="err-country" role="alert" class="font-technical-data text-technical-data text-error">
+              {{ errors.country }}
+            </p>
           </div>
         </fieldset>
 

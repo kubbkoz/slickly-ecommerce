@@ -266,8 +266,18 @@ function clearDeals() {
         <div v-if="filtered.length" class="grid grid-cols-2 lg:grid-cols-3 gap-px bg-grid-line border border-grid-line">
           <ProductCard v-for="product in filtered" :key="product.id" :product="product" />
         </div>
-        <div v-else class="py-stack-lg text-center text-on-surface-variant font-body-md">
-          V tejto kategórii momentálne nie sú dostupné žiadne produkty.
+        <div v-else class="flex flex-col items-center text-center gap-stack-md py-stack-lg md:py-section-padding">
+          <span class="material-symbols-outlined text-[48px] text-on-surface-variant opacity-30" aria-hidden="true">{{ searchQuery ? 'search_off' : 'inventory_2' }}</span>
+          <p class="font-body-md text-body-md text-on-surface-variant max-w-sm">
+            {{ searchQuery ? `Nenašli sme žiadne produkty pre „${searchQuery}".` : 'V tejto kategórii momentálne nie sú dostupné žiadne produkty.' }}
+          </p>
+          <button
+            type="button"
+            class="font-label-sm text-label-sm uppercase tracking-widest px-6 h-10 border border-outline-variant rounded-default text-on-surface-variant hover:border-primary hover:text-on-background transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            @click="setCategory(undefined)"
+          >
+            Zobraziť všetky produkty
+          </button>
         </div>
       </div>
     </div>
