@@ -13,9 +13,9 @@ const averageRating = computed(() => {
 const featured = allReviews.filter((r) => r.rating >= 4).slice(0, 6)
 
 const stats = [
-  { value: '12 000+', label: 'Spokojných klientov' },
-  { value: '24+', label: 'Mesiacov ochrany' },
-  { value: '99.8%', label: 'Efektivita odpudzovania vody' },
+  { value: '12 000+', label: 'Spokojných zákazníkov' },
+  { value: '50+', label: 'Prémiových značiek' },
+  { value: '4.8/5', label: 'Priemerné hodnotenie' },
 ]
 </script>
 

@@ -205,8 +205,8 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(produc
             <span class="font-technical-data text-technical-data uppercase">Doprava zdarma</span>
           </div>
           <div class="flex items-center gap-2 text-on-surface-variant">
-            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">science</span>
-            <span class="font-technical-data text-technical-data uppercase">Lab. certifikované</span>
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">shield</span>
+            <span class="font-technical-data text-technical-data uppercase">Overená kvalita</span>
           </div>
         </div>
       </div>
