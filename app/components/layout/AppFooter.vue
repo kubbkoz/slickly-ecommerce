@@ -2,12 +2,12 @@
 const links = [
   { label: 'Ochrana súkromia', to: '/ochrana-sukromia' },
   { label: 'Obchodné podmienky', to: '/obchodne-podmienky' },
-  { label: 'MSDS dáta', to: '/msds' },
-  { label: 'Certifikáty', to: '/certifikaty' },
+  { label: 'Značky', to: '/produkty' },
+  { label: 'Sprievodca', to: '/blog' },
 ]
 
 const contact = [
-  { icon: 'location_on', text: 'Laboratórna 1, 851 01 Bratislava, Slovensko' },
+  { icon: 'location_on', text: 'Mlynské nivy 5, 821 09 Bratislava, Slovensko' },
   { icon: 'mail', text: 'info@slickly.sk', href: 'mailto:info@slickly.sk' },
   { icon: 'call', text: '+421 900 123 456', href: 'tel:+421900123456' },
   { icon: 'schedule', text: 'Po – Pia: 8:00 – 17:00' },
@@ -22,7 +22,7 @@ const contact = [
       <div class="absolute inset-0 flex items-center justify-center">
         <div class="flex flex-col items-center gap-2">
           <span class="material-symbols-outlined text-[40px] text-primary" aria-hidden="true">location_on</span>
-          <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-background">SLICKLY R&amp;D Laboratórium</span>
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-background">SLICKLY — Bratislava, SK</span>
         </div>
       </div>
       <span class="absolute top-3 left-3 font-technical-data text-technical-data text-on-surface-variant">48.1486° N, 17.1077° E</span>
@@ -35,10 +35,10 @@ const contact = [
           SL<span class="logo-i">I</span>CKLY
         </div>
         <p class="font-body-md text-body-md text-on-surface-variant max-w-sm">
-          Umenie čistoty. Laboratórne kalibrované zloženia pre profesionálnu ochranu a detailing vozidiel.
+          Umenie čistoty. Kurátorský výber prémiových značiek pre starostlivosť, ochranu a detailing vozidiel.
         </p>
         <div class="font-label-sm text-label-sm tracking-widest text-on-surface-variant uppercase mt-auto pt-8">
-          © 2026 SLICKLY R&amp;D. ALL RIGHTS RESERVED.
+          © 2026 SLICKLY. ALL RIGHTS RESERVED.
         </div>
       </div>
       <div class="col-span-1 md:col-span-4 flex flex-col gap-stack-sm mt-4 md:mt-0">

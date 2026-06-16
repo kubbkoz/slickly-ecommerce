@@ -1,19 +1,19 @@
 <script setup lang="ts">
 const features = [
   {
-    icon: 'science',
-    title: 'Pokročilé Polyméry',
-    description: 'Naše zloženia využívajú najnovšiu nano-technológiu pre extrémnu životnosť.',
+    icon: 'storefront',
+    title: 'Top Značky',
+    description: 'Vyberáme výlučne overených výrobcov s najlepším pomerom kvality a výkonu na trhu.',
   },
   {
     icon: 'shield',
     title: 'Maximálna Ochrana',
-    description: 'Chránime váš lak pred UV žiarením, cestnou soľou a kyslými dažďami.',
+    description: 'Každý produkt v sortimente chráni lak pred UV žiarením, soľou a kyslými dažďami.',
   },
   {
     icon: 'verified_user',
-    title: 'Garancia Kvality',
-    description: 'Každá šarža prechádza laboratórnou kontrolou pred expedíciou.',
+    title: 'Overené Expertmi',
+    description: 'Každý produkt v našom sortimente prešiel testovaním a hodnotením detailingových expertov.',
   },
 ]
 </script>
@@ -23,7 +23,7 @@ const features = [
     <div class="md:max-w-[1536px] md:mx-auto">
       <div class="text-center mb-stack-lg md:mb-12">
         <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase mb-2">Prečo Slickly?</h2>
-        <p class="text-on-surface-variant font-body-md md:text-body-lg">Vedecký prístup k čistote.</p>
+        <p class="text-on-surface-variant font-body-md md:text-body-lg">Kurátorský výber. Najlepšie značky. Jeden obchod.</p>
       </div>
       <div class="space-y-stack-lg md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
         <div v-for="feature in features" :key="feature.title" class="flex items-start gap-stack-md md:flex-col md:items-start">

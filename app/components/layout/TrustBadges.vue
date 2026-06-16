@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const badges = [
   { icon: 'local_shipping', label: 'Doprava zdarma' },
-  { icon: 'science', label: 'Laboratórne certifikované' },
+  { icon: 'verified', label: 'Overené produkty' },
   { icon: 'workspace_premium', label: 'Garancia kvality' },
   { icon: 'support_agent', label: '24/7 podpora' },
 ]

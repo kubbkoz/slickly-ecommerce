@@ -15,7 +15,7 @@ useJsonLd([
     url: site,
     logo: `${site}/favicon.ico`,
     description:
-      'Prémiová autokozmetika: laboratórne kalibrovaná keramická ochrana, detailing a starostlivosť o vozidlo.',
+      'Prémiový marketplace pre starostlivosť o auto. Kurátorský výber keramickej ochrany, detailingu a autokozmetiky od najlepších svetových značiek.',
     slogan: 'Umenie Čistoty',
   },
   {

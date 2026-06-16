@@ -187,7 +187,7 @@ const recommended = computed<Product[]>(() => {
       <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30" aria-hidden="true">shopping_bag</span>
       <h2 class="font-headline-md text-headline-md uppercase">Váš košík je prázdny</h2>
       <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
-        Zatiaľ ste si nepridali žiadne produkty. Preskúmajte náš sortiment a nájdite si laboratórne kalibrovanú ochranu pre vaše vozidlo.
+        Zatiaľ ste si nepridali žiadne produkty. Preskúmajte náš sortiment prémiových značiek a nájdite to najlepšie pre vaše vozidlo.
       </p>
       <NuxtLink
         to="/produkty"

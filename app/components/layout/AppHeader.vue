@@ -12,8 +12,8 @@ const menuCloseBtn = ref<HTMLElement | null>(null)
 
 const navLinks: { label: string; to: string; mega?: boolean }[] = [
   { label: 'Obchod', to: '/produkty', mega: true },
-  { label: 'Výskum', to: '/#umenie-cistoty' },
-  { label: 'Laboratórium', to: '/#preco-slickly' },
+  { label: 'Značky', to: '/#umenie-cistoty' },
+  { label: 'Sprievodca', to: '/#preco-slickly' },
   { label: 'Blog', to: '/blog' },
 ]
 

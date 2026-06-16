@@ -4,9 +4,13 @@ Tento súbor poskytuje kontext pre Claude Code (claude.ai/code) pri práci s tý
 
 ## Prehľad projektu
 
-**SLICKLY** ("Umenie Čistoty") je e-shop s prémiovou autokozmetikou (keramická ochrana, detailing,
-starostlivosť o vozidlo). Frontend je postavený na **Nuxt 4**, dizajn vychádza z dizajnového
-systému **"Minimalist Precision"**. Aplikácia je v slovenčine (`lang="sk"`).
+**SLICKLY** ("Umenie Čistoty") je **prémiový multi-brand marketplace** pre starostlivosť o auto
+(keramická ochrana, detailing, autokozmetika). Ide o kurátorský výber najlepších svetových značiek
+predávaných pod hlavičkou SLICKLY — **nie vlastná výroba ani vlastné formulácie**. Vlastný private
+label je plánovaný do budúcna, ale aktuálne je SLICKLY výlučne multi-brand e-shop.
+
+Frontend je postavený na **Nuxt 4**, dizajn vychádza z dizajnového systému **"Minimalist
+Precision"**. Aplikácia je v slovenčine (`lang="sk"`).
 
 Backendová architektúra je plánovaná rovnako ako pri projekte `mtstore-nuxt` — **headless
 Shopware 6 (Store API)**. Aktuálne beží frontend nad mockovanými dátami (`app/data/products.ts`),

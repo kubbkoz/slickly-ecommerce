@@ -3,10 +3,10 @@ const figureImage =
   'https://lh3.googleusercontent.com/aida-public/AB6AXuAOw3lcJ-AW0k4WJ8N4g4_VB8pU10OCmDputy-CLuk2mBkMaDK_qhDpSZ7Q-pMcsb78ykOvxV4ejEjcoMPVNeJBvF_5Gk7Qb5ndRTPF9XBAMcLXXtnDdKskLjMKFm_XFVk1XRvfkUTaPGyKbG6LcULbKIEa70zN2NjmWfdqvsJoKkWHNcTTX8xOkfLVHSkZTq7VEsoShRn41t2ipTpzn9ao8g0xtHmZHD9Ey65uYxPSasbgL9KjsJ7LejJDgXq_Z2yfhiU1V4vWVvhX'
 
 const certifications = [
-  { label: 'ISO 9001:2015', icon: 'verified', style: 'filled' },
-  { label: 'pH Neutrálne', style: 'outline' },
-  { label: 'SiO2 Infusion', style: 'tonal' },
-  { label: 'REACH Compliant', style: 'outline' },
+  { label: 'Prémiové značky', icon: 'verified', style: 'filled' },
+  { label: 'Overené expertmi', style: 'outline' },
+  { label: 'Rýchle doručenie', style: 'tonal' },
+  { label: 'Vrátenie 30 dní', style: 'outline' },
 ]
 </script>
 
@@ -18,8 +18,7 @@ const certifications = [
         <div class="md:col-span-5 flex flex-col gap-stack-md md:gap-8">
           <h2 class="font-headline-lg text-headline-lg md:text-headline-xl text-on-surface uppercase">Umenie Čistoty</h2>
           <p class="font-body-md md:font-body-lg text-body-md md:text-body-lg text-on-surface-variant border-l-2 border-secondary-container pl-4">
-            Odmietame kompromisy. Každá zlúčenina je kalibrovaná s mikroskopickou presnosťou pre dosiahnutie zrkadlového lesku a nepriestrelnej
-            ochrany proti environmentálnym kontaminantom.
+            Odmietame priemernosť. Prinášame ti to najlepšie z celého sveta autodetailingu — prémiové značky s doloženými výsledkami pre zrkadlový lesk a dlhodobú ochranu laku.
           </p>
           <div class="flex flex-wrap gap-3 mt-2 md:mt-4">
             <span

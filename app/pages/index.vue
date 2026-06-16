@@ -1,7 +1,7 @@
 <script setup lang="ts">
 useSeo({
   title: 'SLICKLY | Umenie Čistoty',
-  description: 'Laboratórne kalibrovaná keramická ochrana, detailing a starostlivosť o vozidlo.',
+  description: 'Kurátorský výber prémiových značiek pre starostlivosť o vozidlo. Keramická ochrana, detailing a autokozmetika na jednom mieste.',
   canonicalPath: '/',
 })
 </script>
