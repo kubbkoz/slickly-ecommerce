@@ -9,7 +9,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-background text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
+  <div class="min-h-dvh flex flex-col bg-background text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-primary focus:text-on-primary focus:px-4 focus:py-2 focus:rounded-default font-label-sm text-label-sm uppercase tracking-widest focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
@@ -17,7 +17,7 @@ onMounted(() => {
       Preskočiť na obsah
     </a>
 
-    <header class="h-16 border-b border-grid-line bg-surface-container-lowest shrink-0">
+    <header class="border-b border-grid-line bg-surface-container-lowest shrink-0 safe-top" style="padding-top: env(safe-area-inset-top, 0px)">
       <div class="h-full w-full md:max-w-[1536px] md:mx-auto px-gutter md:px-grid-margin flex items-center justify-between">
         <NuxtLink
           to="/kosik"

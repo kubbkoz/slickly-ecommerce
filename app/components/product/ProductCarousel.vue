@@ -19,7 +19,7 @@ function scroll(direction: 'left' | 'right') {
   <div class="relative">
     <div
       ref="scrollContainer"
-      class="flex gap-stack-sm overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar -mx-gutter md:mx-0 px-gutter md:px-0 scroll-px-gutter md:scroll-px-0"
+      class="flex gap-stack-sm overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar -mx-gutter md:mx-0 px-gutter md:px-0 scroll-px-gutter md:scroll-px-0 overscroll-x-contain [touch-action:pan-x]"
       role="region"
       aria-label="Karusel produktov"
       tabindex="0"

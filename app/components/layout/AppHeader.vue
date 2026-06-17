@@ -56,12 +56,18 @@ function onKeydown(e: KeyboardEvent) {
 onMounted(() => window.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
+let scrollY = 0
 watch(isMenuOpen, (open) => {
   if (!import.meta.client) return
-  document.body.style.overflow = open ? 'hidden' : ''
   if (open) {
+    scrollY = window.scrollY
+    document.body.classList.add('overflow-locked')
+    document.body.style.top = `-${scrollY}px`
     nextTick(() => menuCloseBtn.value?.focus())
   } else {
+    document.body.classList.remove('overflow-locked')
+    document.body.style.top = ''
+    window.scrollTo(0, scrollY)
     hamburgerBtn.value?.focus()
   }
 })
@@ -71,31 +77,32 @@ watch(isMenuOpen, (open) => {
   <header class="w-full md:sticky md:top-0 md:z-50">
     <!-- Mobile top bar -->
     <div
-      class="md:hidden fixed top-0 left-0 right-0 z-50 bg-primary text-on-primary flex items-center justify-between px-gutter h-16 border-b border-outline-variant"
+      class="md:hidden fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-lg text-on-primary flex items-center justify-between px-gutter safe-top"
+      style="padding-top: max(env(safe-area-inset-top, 0px), 0px)"
     >
-      <div class="flex items-center gap-stack-md">
+      <div class="flex items-center gap-stack-md h-16">
         <button
           ref="hamburgerBtn"
           type="button"
           aria-label="Menu"
           aria-haspopup="dialog"
           :aria-expanded="isMenuOpen"
-          class="min-w-11 min-h-11 -ml-2 flex items-center justify-center cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+          class="min-w-11 min-h-11 -ml-2 flex items-center justify-center cursor-pointer rounded-default [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
           @click="toggleMenu"
         >
-          <span class="material-symbols-outlined transition-opacity duration-200 active:scale-95" aria-hidden="true">{{ isMenuOpen ? 'close' : 'menu' }}</span>
+          <span class="material-symbols-outlined transition-transform duration-200 active:scale-90" aria-hidden="true">{{ isMenuOpen ? 'close' : 'menu' }}</span>
         </button>
-        <NuxtLink to="/" class="font-headline-md text-headline-md font-extrabold tracking-tighter">
+        <NuxtLink to="/" class="font-headline-md text-headline-md font-extrabold tracking-tighter [touch-action:manipulation]">
           SL<span class="logo-i">I</span>CKLY
         </NuxtLink>
       </div>
-      <div class="flex items-center gap-stack-md">
-        <button type="button" aria-label="Hľadať" class="min-w-11 min-h-11 flex items-center justify-center cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container" @click="search.open()">
-          <span class="material-symbols-outlined transition-opacity duration-200 active:scale-95" aria-hidden="true">search</span>
+      <div class="flex items-center gap-stack-sm h-16">
+        <button type="button" aria-label="Hľadať" class="min-w-11 min-h-11 flex items-center justify-center cursor-pointer rounded-default [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container" @click="search.open()">
+          <span class="material-symbols-outlined transition-transform duration-200 active:scale-90" aria-hidden="true">search</span>
         </button>
-        <button type="button" aria-label="Košík" class="min-w-11 min-h-11 -mr-2 flex items-center justify-center cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container" @click="cart.toggleDrawer()">
+        <button type="button" aria-label="Košík" class="min-w-11 min-h-11 -mr-2 flex items-center justify-center cursor-pointer rounded-default [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container" @click="cart.toggleDrawer()">
           <span class="relative">
-            <span class="material-symbols-outlined transition-opacity duration-200 active:scale-95" aria-hidden="true">shopping_bag</span>
+            <span class="material-symbols-outlined transition-transform duration-200 active:scale-90" aria-hidden="true">shopping_bag</span>
             <span
               v-if="cart.itemCount > 0"
               class="absolute -top-1.5 -right-2 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
@@ -119,12 +126,12 @@ watch(isMenuOpen, (open) => {
       >
         <div
           v-if="isMenuOpen"
-          class="md:hidden fixed inset-0 z-[80] bg-background flex flex-col"
+          class="md:hidden fixed inset-0 z-[80] bg-background flex flex-col safe-top"
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
         >
-          <div class="flex items-center justify-between px-gutter h-16 border-b border-grid-line shrink-0">
+          <div class="flex items-center justify-between px-gutter h-16 border-b border-grid-line shrink-0" style="margin-top: env(safe-area-inset-top, 0px)">
             <NuxtLink to="/" class="font-headline-md text-headline-md font-extrabold tracking-tighter text-on-background" @click="isMenuOpen = false">
               SL<span class="logo-i">I</span>CKLY
             </NuxtLink>
@@ -167,7 +174,7 @@ watch(isMenuOpen, (open) => {
             </div>
           </nav>
 
-          <div class="border-t border-grid-line px-gutter py-stack-md flex flex-col gap-stack-md shrink-0">
+          <div class="border-t border-grid-line px-gutter py-stack-md flex flex-col gap-stack-md shrink-0 safe-bottom">
             <LocaleSwitcher variant="light" drop-direction="up" />
             <div class="grid grid-cols-3 gap-stack-sm">
               <NuxtLink

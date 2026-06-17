@@ -30,7 +30,7 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
 </script>
 
 <template>
-  <div class="group relative flex flex-col h-full bg-surface-container-lowest border border-grid-line transition-colors duration-300 hover:bg-surface">
+  <div class="group relative flex flex-col h-full bg-surface-container-lowest border border-grid-line transition-colors duration-300 hover:bg-surface active:scale-[0.98] md:active:scale-100 transition-transform">
     <button
       type="button"
       class="absolute top-2 right-2 z-20 min-w-11 min-h-11 flex items-center justify-center bg-surface-container-lowest/80 backdrop-blur-sm rounded-full cursor-pointer transition-colors duration-200 hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [touch-action:manipulation]"

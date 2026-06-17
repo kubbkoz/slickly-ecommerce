@@ -1,0 +1,18 @@
+{
+  "name": "SLICKLY | Umenie Čistoty",
+  "short_name": "SLICKLY",
+  "description": "Prémiový marketplace pre starostlivosť o auto",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f9fb",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["shopping", "lifestyle"]
+}

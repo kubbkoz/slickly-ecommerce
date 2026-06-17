@@ -218,7 +218,8 @@ const recommended = computed<Product[]>(() => {
     <!-- Sticky mobile checkout bar -->
     <div
       v-if="cart.items.length"
-      class="md:hidden fixed bottom-16 left-0 right-0 z-40 bg-surface-container-lowest border-t border-grid-line px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_8px_rgba(0,0,0,0.06)]"
+      class="md:hidden fixed left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-lg border-t border-grid-line/50 px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_12px_rgba(0,0,0,0.08)]"
+      style="bottom: calc(64px + env(safe-area-inset-bottom, 0px))"
     >
       <div class="flex flex-col leading-none">
         <span class="font-technical-data text-technical-data text-on-surface-variant uppercase">Spolu</span>

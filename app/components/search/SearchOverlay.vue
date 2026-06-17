@@ -20,14 +20,23 @@ function onKeydown(e: KeyboardEvent) {
 onMounted(() => window.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
+let scrollY = 0
 watch(
   () => search.isOpen,
   (open) => {
     if (!import.meta.client) return
     const isMobile = window.matchMedia('(max-width: 767px)').matches
     if (isMobile) {
-      document.body.style.overflow = open ? 'hidden' : ''
-      if (open) nextTick(() => mobileInput.value?.focus())
+      if (open) {
+        scrollY = window.scrollY
+        document.body.classList.add('overflow-locked')
+        document.body.style.top = `-${scrollY}px`
+        nextTick(() => mobileInput.value?.focus())
+      } else {
+        document.body.classList.remove('overflow-locked')
+        document.body.style.top = ''
+        window.scrollTo(0, scrollY)
+      }
     }
   },
 )
@@ -58,7 +67,7 @@ watch(
         aria-modal="true"
         aria-label="Vyhľadávanie"
       >
-        <div class="flex items-center gap-stack-sm px-gutter h-16 border-b border-grid-line shrink-0">
+        <div class="flex items-center gap-stack-sm px-gutter h-16 border-b border-grid-line shrink-0" style="margin-top: env(safe-area-inset-top, 0px)">
           <button
             type="button"
             aria-label="Zavrieť vyhľadávanie"
@@ -88,7 +97,7 @@ watch(
           </form>
         </div>
 
-        <div class="flex-grow overflow-y-auto px-gutter py-stack-md">
+        <div class="flex-grow overflow-y-auto overscroll-y-contain px-gutter py-stack-md">
           <SearchContent
             :query="search.query"
             :results="results"

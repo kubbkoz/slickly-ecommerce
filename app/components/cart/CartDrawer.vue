@@ -32,13 +32,19 @@ function onKeydown(e: KeyboardEvent) {
 onMounted(() => window.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
+let scrollY = 0
 watch(() => cart.isDrawerOpen, (open) => {
   if (!import.meta.client) return
-  document.body.style.overflow = open ? 'hidden' : ''
   if (open) {
+    scrollY = window.scrollY
+    document.body.classList.add('overflow-locked')
+    document.body.style.top = `-${scrollY}px`
     previouslyFocused = document.activeElement as HTMLElement
     nextTick(() => closeBtn.value?.focus())
   } else {
+    document.body.classList.remove('overflow-locked')
+    document.body.style.top = ''
+    window.scrollTo(0, scrollY)
     previouslyFocused?.focus()
   }
 })
@@ -84,12 +90,12 @@ function decrement(productId: string, quantity: number) {
     >
       <aside
         v-if="cart.isDrawerOpen"
-        class="fixed top-0 right-0 bottom-0 z-[70] w-full max-w-md bg-background flex flex-col shadow-xl"
+        class="fixed top-0 right-0 bottom-0 z-[70] w-full max-w-md bg-background flex flex-col shadow-xl safe-top"
         role="dialog"
         aria-modal="true"
         aria-label="Košík"
       >
-        <div class="flex items-center justify-between px-stack-md md:px-6 h-16 border-b border-grid-line shrink-0">
+        <div class="flex items-center justify-between px-stack-md md:px-6 h-16 border-b border-grid-line shrink-0" style="margin-top: env(safe-area-inset-top, 0px)">
           <h2 class="font-headline-sm text-headline-sm uppercase">Košík ({{ cart.itemCount }})</h2>
           <button
             ref="closeBtn"
@@ -159,7 +165,7 @@ function decrement(productId: string, quantity: number) {
           <!-- Upsell section -->
           <section v-if="upsellProducts.length" class="pt-stack-md pb-stack-sm border-t border-grid-line mt-stack-sm">
             <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-stack-sm">Odporúčame dokúpiť</h3>
-            <div class="flex gap-stack-sm overflow-x-auto -mx-stack-md md:-mx-6 px-stack-md md:px-6 pb-2 snap-x hide-scrollbar">
+            <div class="flex gap-stack-sm overflow-x-auto -mx-stack-md md:-mx-6 px-stack-md md:px-6 pb-2 snap-x snap-mandatory hide-scrollbar overscroll-x-contain [touch-action:pan-x]">
               <CartUpsellCard v-for="p in upsellProducts" :key="p.id" :product="p" />
             </div>
           </section>
@@ -170,7 +176,7 @@ function decrement(productId: string, quantity: number) {
           <p class="font-body-md text-body-md text-on-surface-variant">Váš košík je prázdny</p>
         </div>
 
-        <div v-if="cart.items.length" class="border-t border-grid-line px-stack-md md:px-6 py-stack-md flex flex-col gap-stack-sm shrink-0">
+        <div v-if="cart.items.length" class="border-t border-grid-line px-stack-md md:px-6 py-stack-md flex flex-col gap-stack-sm shrink-0 safe-bottom">
           <div class="flex justify-between items-baseline">
             <span class="font-body-md text-body-md text-on-surface-variant">Medzisúčet</span>
             <span class="font-price-display text-headline-sm text-on-background">{{ formattedSubtotal }}</span>
