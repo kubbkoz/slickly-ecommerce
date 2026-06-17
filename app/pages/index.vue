@@ -11,14 +11,14 @@ useSeo({
     <HeroBanner />
     <TrustBadges />
     <SpecialOffers />
-    <CategoryGrid />
-    <LazyTestimonialsSection hydrate-on-visible />
-    <LazyUsageCategories hydrate-on-visible />
-    <LazyCleanlinessSection hydrate-on-visible />
-    <LazyPerformancePortfolio hydrate-on-visible />
-    <LazyWhySlickly hydrate-on-visible />
-    <LazyNewsletterSection hydrate-on-visible />
-    <LazyVideoTestsSection hydrate-on-visible />
-    <LazyBlogSection hydrate-on-visible />
+    <CategoryGrid v-reveal />
+    <LazyTestimonialsSection v-reveal hydrate-on-visible />
+    <LazyUsageCategories v-reveal hydrate-on-visible />
+    <LazyCleanlinessSection v-reveal hydrate-on-visible />
+    <LazyPerformancePortfolio v-reveal hydrate-on-visible />
+    <LazyWhySlickly v-reveal hydrate-on-visible />
+    <LazyNewsletterSection v-reveal hydrate-on-visible />
+    <LazyVideoTestsSection v-reveal hydrate-on-visible />
+    <LazyBlogSection v-reveal hydrate-on-visible />
   </div>
 </template>

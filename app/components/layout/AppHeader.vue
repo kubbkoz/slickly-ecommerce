@@ -105,7 +105,8 @@ watch(isMenuOpen, (open) => {
             <span class="material-symbols-outlined transition-transform duration-200 active:scale-90" aria-hidden="true">shopping_bag</span>
             <span
               v-if="cart.itemCount > 0"
-              class="absolute -top-1.5 -right-2 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+              :key="cart.itemCount"
+              class="badge-pop absolute -top-1.5 -right-2 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
             >
               {{ cart.itemCount }}
             </span>
@@ -236,7 +237,8 @@ watch(isMenuOpen, (open) => {
               <span class="material-symbols-outlined text-[22px]" aria-hidden="true">favorite</span>
               <span
                 v-if="wishlist.count > 0"
-                class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
+                :key="wishlist.count"
+                class="badge-pop absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
               >
                 {{ wishlist.count }}
               </span>
@@ -253,7 +255,8 @@ watch(isMenuOpen, (open) => {
               <span class="material-symbols-outlined text-[22px]" aria-hidden="true">shopping_cart</span>
               <span
                 v-if="cart.itemCount > 0"
-                class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
+                :key="cart.itemCount"
+                class="badge-pop absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
               >
                 {{ cart.itemCount }}
               </span>
