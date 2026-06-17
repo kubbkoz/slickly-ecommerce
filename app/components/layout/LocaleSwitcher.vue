@@ -41,6 +41,7 @@ function select(code: string) {
     <button
       ref="trigger"
       type="button"
+      aria-label="Zmeniť jazyk a menu"
       aria-haspopup="menu"
       :aria-expanded="isOpen"
       class="flex items-center gap-1.5 min-h-11 px-1 -mx-1 font-label-sm text-label-sm uppercase tracking-widest cursor-pointer transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2"

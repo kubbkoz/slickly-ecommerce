@@ -260,6 +260,7 @@ watch(isMenuOpen, (open) => {
             ref="desktopSearchInput"
             v-model="search.query"
             type="search"
+            aria-label="Vyhľadávanie"
             placeholder="VYHĽADAŤ PRODUKT, KATEGÓRIU..."
             class="flex-grow bg-transparent text-white placeholder:text-white/50 font-label-sm text-label-sm uppercase tracking-wider outline-none border-none"
           />

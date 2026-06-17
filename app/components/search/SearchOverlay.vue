@@ -72,6 +72,7 @@ watch(
               ref="mobileInput"
               v-model="search.query"
               type="search"
+              aria-label="Vyhľadávanie"
               placeholder="Hľadať produkty, kategórie..."
               class="w-full bg-surface-container-lowest border border-grid-line text-on-background font-body-md text-body-md px-4 py-2.5 pr-10 rounded-default outline-none focus:ring-1 focus:ring-secondary-container focus:border-secondary-container"
             />
