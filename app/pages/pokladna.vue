@@ -179,11 +179,11 @@ async function placeOrder() {
 }
 
 const trackingSteps = [
-  { label: 'Objednávka prijatá', icon: 'check_circle', done: true },
-  { label: 'Spracovanie platby', icon: 'payments', done: false, current: true },
-  { label: 'Príprava zásielky', icon: 'inventory_2', done: false },
-  { label: 'Odoslaná', icon: 'local_shipping', done: false },
-  { label: 'Doručená', icon: 'home', done: false },
+  { label: 'Prijatá', labelDesktop: 'Objednávka prijatá', icon: 'check_circle', done: true },
+  { label: 'Platba', labelDesktop: 'Spracovanie platby', icon: 'payments', done: false, current: true },
+  { label: 'Príprava', labelDesktop: 'Príprava zásielky', icon: 'inventory_2', done: false },
+  { label: 'Odoslaná', labelDesktop: 'Odoslaná', icon: 'local_shipping', done: false },
+  { label: 'Doručená', labelDesktop: 'Doručená', icon: 'home', done: false },
 ]
 </script>
 
@@ -204,29 +204,35 @@ const trackingSteps = [
         <!-- Order tracking timeline -->
         <div class="border border-grid-line p-stack-md md:p-8 mb-stack-md">
           <h2 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-stack-md">Stav objednávky</h2>
-          <div class="flex items-start justify-between relative">
-            <div class="absolute top-4 left-0 right-0 h-px bg-outline-variant" aria-hidden="true" />
-            <div
-              v-for="(ts, idx) in trackingSteps"
-              :key="ts.label"
-              class="flex flex-col items-center text-center relative z-10 w-1/5"
-            >
-              <span
-                class="w-8 h-8 rounded-full flex items-center justify-center mb-2"
-                :class="ts.done
-                  ? 'bg-primary text-on-primary'
-                  : ts.current
-                    ? 'bg-secondary-container text-on-secondary-container'
-                    : 'bg-surface-container border border-outline-variant text-on-surface-variant'
-                "
-              >
-                <span class="material-symbols-outlined text-[18px]" aria-hidden="true">{{ ts.done ? 'check' : ts.icon }}</span>
-              </span>
-              <span
-                class="font-technical-data text-technical-data uppercase leading-tight"
-                :class="ts.done || ts.current ? 'text-on-background' : 'text-on-surface-variant'"
-              >{{ ts.label }}</span>
-            </div>
+          <div class="flex items-start">
+            <template v-for="(ts, idx) in trackingSteps" :key="ts.label">
+              <div class="flex flex-col items-center text-center shrink-0" :class="idx === 0 || idx === trackingSteps.length - 1 ? 'w-14 md:w-auto' : 'w-14 md:w-auto'">
+                <span
+                  class="w-9 h-9 rounded-full flex items-center justify-center"
+                  :class="ts.done
+                    ? 'bg-primary text-on-primary'
+                    : ts.current
+                      ? 'bg-secondary-container text-on-secondary-container'
+                      : 'bg-surface-container border border-outline-variant text-on-surface-variant'
+                  "
+                >
+                  <span class="material-symbols-outlined text-[18px]" aria-hidden="true">{{ ts.done ? 'check' : ts.icon }}</span>
+                </span>
+                <span
+                  class="font-technical-data text-technical-data uppercase leading-tight mt-1.5 max-w-[4.5rem] md:max-w-none"
+                  :class="ts.done || ts.current ? 'text-on-background' : 'text-on-surface-variant'"
+                >
+                  <span class="md:hidden">{{ ts.label }}</span>
+                  <span class="hidden md:inline">{{ ts.labelDesktop }}</span>
+                </span>
+              </div>
+              <div
+                v-if="idx < trackingSteps.length - 1"
+                class="flex-grow h-px mt-[18px] mx-1 md:mx-2"
+                :class="trackingSteps[idx + 1]?.done || trackingSteps[idx + 1]?.current ? 'bg-primary' : 'bg-outline-variant'"
+                aria-hidden="true"
+              />
+            </template>
           </div>
         </div>
 
