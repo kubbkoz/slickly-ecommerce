@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { products as allProducts } from '~/data/products'
 
+definePageMeta({ layout: 'checkout' })
+
 const cart = useCartStore()
 const router = useRouter()
 const { formatPrice } = useCurrency()
@@ -11,10 +13,6 @@ useSeo({
   noindex: true,
 })
 
-// Cart is hydrated from localStorage client-side only, so the store is
-// always empty during SSR. Check after hydration (on mount) instead of at
-// the top of setup — otherwise a hard refresh on /pokladna with items in
-// the cart would bounce the user back to /kosik.
 onMounted(() => {
   if (!cart.items.length) cart.hydrate()
   if (!cart.items.length) navigateTo('/kosik', { replace: true })
@@ -22,7 +20,6 @@ onMounted(() => {
 
 const formattedSubtotal = computed(() => formatPrice(cart.subtotal))
 
-// Total saved vs. original prices — shown in the summary as a conversion nudge.
 const savingsTotal = computed(() => {
   return cart.items.reduce((total, item) => {
     const product = allProducts.find((p) => p.id === item.productId)
@@ -88,7 +85,6 @@ const isPlacing = ref(false)
 const isPlaced = ref(false)
 
 async function placeOrder() {
-  // Touch all fields so errors appear if user submitted without filling them
   Object.keys(touched).forEach((k) => (touched[k] = true))
   if (Object.values(errors.value).some((e) => e)) return
 
@@ -103,29 +99,47 @@ async function placeOrder() {
 
 <template>
   <div
-    class="w-full md:max-w-[1536px] md:mx-auto px-gutter md:px-grid-margin py-stack-lg md:py-12"
+    class="w-full md:max-w-[1536px] md:mx-auto px-gutter md:px-grid-margin py-stack-md md:py-8"
     :class="!isPlaced ? 'pb-28 md:pb-12' : ''"
   >
-    <!-- Breadcrumb -->
-    <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant block mb-stack-lg md:mb-8">
-      <NuxtLink to="/" class="hover:text-on-background">Domov</NuxtLink> /
-      <NuxtLink to="/kosik" class="hover:text-on-background">Košík</NuxtLink> / Pokladňa
-    </span>
-
-    <h1 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-lg md:mb-8">
-      Pokladňa
-    </h1>
+    <!-- Progress indicator -->
+    <nav v-if="!isPlaced" aria-label="Postup objednávky" class="mb-stack-lg md:mb-8">
+      <ol class="flex items-center justify-center gap-0">
+        <li class="flex items-center">
+          <NuxtLink to="/kosik" class="flex items-center gap-1.5 group cursor-pointer">
+            <span class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center font-technical-data text-technical-data">
+              <span class="material-symbols-outlined text-[16px]" aria-hidden="true">check</span>
+            </span>
+            <span class="hidden md:inline font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant group-hover:text-primary transition-colors duration-200">Košík</span>
+          </NuxtLink>
+        </li>
+        <li aria-hidden="true" class="w-8 md:w-12 h-px bg-primary mx-1 md:mx-2" />
+        <li class="flex items-center" aria-current="step">
+          <span class="flex items-center gap-1.5">
+            <span class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center font-technical-data text-technical-data font-bold">2</span>
+            <span class="hidden md:inline font-label-sm text-label-sm uppercase tracking-widest text-on-background font-bold">Doručenie a platba</span>
+          </span>
+        </li>
+        <li aria-hidden="true" class="w-8 md:w-12 h-px bg-outline-variant mx-1 md:mx-2" />
+        <li class="flex items-center">
+          <span class="flex items-center gap-1.5">
+            <span class="w-7 h-7 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant flex items-center justify-center font-technical-data text-technical-data">3</span>
+            <span class="hidden md:inline font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Hotovo</span>
+          </span>
+        </li>
+      </ol>
+    </nav>
 
     <!-- Success state -->
     <div v-if="isPlaced" role="status" class="flex flex-col items-center text-center gap-stack-md py-stack-lg md:py-section-padding-lg">
       <span class="material-symbols-outlined text-[64px] text-on-secondary-container" aria-hidden="true">check_circle</span>
-      <h2 class="font-headline-md text-headline-md uppercase">Ďakujeme za objednávku!</h2>
+      <h1 class="font-headline-md text-headline-md uppercase">Ďakujeme za objednávku!</h1>
       <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
         Potvrdenie objednávky sme odoslali na váš e-mail. Budete presmerovaní na domovskú stránku.
       </p>
     </div>
 
-    <form v-else id="checkout-form" class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg md:gap-16" novalidate @submit.prevent="placeOrder">
+    <form v-else id="checkout-form" class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg md:gap-12" novalidate @submit.prevent="placeOrder">
       <!-- Form -->
       <div class="md:col-span-2 flex flex-col gap-stack-lg">
         <fieldset class="flex flex-col gap-stack-sm">
@@ -287,64 +301,78 @@ async function placeOrder() {
         </fieldset>
       </div>
 
-      <!-- Summary -->
-      <div class="flex flex-col gap-stack-md h-fit border border-grid-line p-stack-md md:p-6">
-        <div class="flex items-center justify-between border-b border-grid-line pb-stack-sm">
-          <h2 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">
-            Vaša objednávka
-          </h2>
-          <NuxtLink
-            to="/kosik"
-            class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant underline hover:text-primary transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-default"
-          >
-            Upraviť
-          </NuxtLink>
-        </div>
-        <div class="flex flex-col gap-stack-sm divide-y divide-grid-line">
-          <div v-for="item in cart.items" :key="item.productId" class="flex justify-between items-center gap-stack-sm pt-stack-sm first:pt-0">
-            <div class="flex items-center gap-stack-sm min-w-0">
-              <div class="w-12 h-12 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden">
-                <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
-              </div>
-              <div class="min-w-0">
-                <p class="font-body-md text-body-md truncate">{{ item.name }}</p>
-                <p class="font-technical-data text-technical-data text-on-surface-variant uppercase">x{{ item.quantity }}</p>
-              </div>
-            </div>
-            <span class="font-price-display text-price-display shrink-0">{{ formatPrice(item.price * item.quantity) }}</span>
+      <!-- Summary sidebar — sticky on desktop -->
+      <div class="flex flex-col gap-stack-md h-fit md:sticky md:top-6">
+        <div class="flex flex-col gap-stack-md border border-grid-line p-stack-md md:p-6">
+          <div class="flex items-center justify-between border-b border-grid-line pb-stack-sm">
+            <h2 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">
+              Vaša objednávka ({{ cart.itemCount }})
+            </h2>
+            <NuxtLink
+              to="/kosik"
+              class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant underline hover:text-primary transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-default"
+            >
+              Upraviť
+            </NuxtLink>
           </div>
+          <div class="flex flex-col gap-stack-sm divide-y divide-grid-line">
+            <div v-for="item in cart.items" :key="item.productId" class="flex justify-between items-center gap-stack-sm pt-stack-sm first:pt-0">
+              <div class="flex items-center gap-stack-sm min-w-0">
+                <div class="w-12 h-12 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden rounded-default">
+                  <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
+                </div>
+                <div class="min-w-0">
+                  <p class="font-body-md text-body-md truncate">{{ item.name }}</p>
+                  <p class="font-technical-data text-technical-data text-on-surface-variant uppercase">x{{ item.quantity }}</p>
+                </div>
+              </div>
+              <span class="font-price-display text-price-display shrink-0">{{ formatPrice(item.price * item.quantity) }}</span>
+            </div>
+          </div>
+          <div v-if="savingsTotal > 0" class="flex justify-between items-baseline">
+            <span class="font-body-md text-body-md text-on-surface-variant">Vaša úspora</span>
+            <span class="font-technical-data text-technical-data uppercase text-on-secondary-container">−{{ formattedSavings }}</span>
+          </div>
+          <div class="flex justify-between items-baseline pt-stack-sm border-t border-grid-line">
+            <span class="font-body-md text-body-md text-on-surface-variant">Doprava</span>
+            <span class="font-technical-data text-technical-data uppercase text-on-secondary-container">Zdarma</span>
+          </div>
+          <div class="flex justify-between items-baseline pt-stack-sm border-t border-grid-line">
+            <span class="font-headline-sm text-headline-sm uppercase">Spolu</span>
+            <span class="font-price-display text-headline-md text-on-background">{{ formattedSubtotal }}</span>
+          </div>
+          <button
+            type="submit"
+            :disabled="isPlacing"
+            class="h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-50 disabled:cursor-not-allowed rounded-default mt-stack-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            <span class="material-symbols-outlined" :class="isPlacing ? 'animate-spin' : ''" aria-hidden="true">{{ isPlacing ? 'progress_activity' : 'lock' }}</span>
+            {{ isPlacing ? 'Spracúva sa...' : 'Odoslať objednávku' }}
+          </button>
+          <span class="sr-only" role="status">{{ isPlacing ? 'Objednávka sa spracúva' : '' }}</span>
         </div>
-        <div v-if="savingsTotal > 0" class="flex justify-between items-baseline">
-          <span class="font-body-md text-body-md text-on-surface-variant">Vaša úspora</span>
-          <span class="font-technical-data text-technical-data uppercase text-on-secondary-container">−{{ formattedSavings }}</span>
-        </div>
-        <div class="flex justify-between items-baseline pt-stack-sm border-t border-grid-line">
-          <span class="font-body-md text-body-md text-on-surface-variant">Doprava</span>
-          <span class="font-technical-data text-technical-data uppercase text-on-secondary-container">Zdarma</span>
-        </div>
-        <div class="flex justify-between items-baseline pt-stack-sm border-t border-grid-line">
-          <span class="font-headline-sm text-headline-sm uppercase">Spolu</span>
-          <span class="font-price-display text-headline-md text-on-background">{{ formattedSubtotal }}</span>
-        </div>
-        <button
-          type="submit"
-          :disabled="isPlacing"
-          class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-50 disabled:cursor-not-allowed rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-        >
-          <span class="material-symbols-outlined" :class="isPlacing ? 'animate-spin' : ''" aria-hidden="true">{{ isPlacing ? 'progress_activity' : 'lock' }}</span>
-          {{ isPlacing ? 'Spracúva sa...' : 'Odoslať objednávku' }}
-        </button>
-        <span class="sr-only" role="status">{{ isPlacing ? 'Objednávka sa spracúva' : '' }}</span>
 
-        <!-- Trust signals -->
-        <div class="flex flex-col gap-2 pt-stack-sm border-t border-grid-line mt-1">
-          <div class="flex items-center gap-2 text-on-surface-variant">
-            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">lock</span>
+        <!-- Trust signals — expanded -->
+        <div class="border border-grid-line p-stack-md md:p-6 flex flex-col gap-3">
+          <div class="flex items-center gap-2.5 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">lock</span>
             <span class="font-technical-data text-technical-data uppercase">256-bit SSL šifrovanie</span>
           </div>
-          <div class="flex items-center gap-2 text-on-surface-variant">
-            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">replay</span>
+          <div class="flex items-center gap-2.5 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">local_shipping</span>
+            <span class="font-technical-data text-technical-data uppercase">Doprava zdarma na všetky objednávky</span>
+          </div>
+          <div class="flex items-center gap-2.5 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">replay</span>
             <span class="font-technical-data text-technical-data uppercase">30-dňová záruka vrátenia peňazí</span>
+          </div>
+          <div class="flex items-center gap-2.5 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">verified</span>
+            <span class="font-technical-data text-technical-data uppercase">Originálne produkty od autorizovaných distribútorov</span>
+          </div>
+          <div class="flex items-center gap-2.5 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">group</span>
+            <span class="font-technical-data text-technical-data uppercase">12 000+ spokojných zákazníkov</span>
           </div>
         </div>
       </div>
@@ -353,7 +381,7 @@ async function placeOrder() {
     <!-- Sticky mobile submit bar -->
     <div
       v-if="!isPlaced"
-      class="md:hidden fixed bottom-16 left-0 right-0 z-40 bg-surface-container-lowest border-t border-grid-line px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_8px_rgba(0,0,0,0.06)]"
+      class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest border-t border-grid-line px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_8px_rgba(0,0,0,0.06)]"
     >
       <div class="flex flex-col leading-none">
         <span class="font-technical-data text-technical-data text-on-surface-variant uppercase">Spolu</span>

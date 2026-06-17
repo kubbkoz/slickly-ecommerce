@@ -23,14 +23,14 @@ const trimmedQuery = computed(() => props.query.trim())
         <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant border-b border-grid-line pb-stack-sm mb-stack-sm">
           Návrhy
         </h3>
-        <ul v-if=”results.length” class=”flex flex-col divide-y divide-grid-line”>
-          <li v-for=”item in results” :key=”item.id”>
-            <SearchResultItem :product=”item” @click=”emit('select')” />
+        <ul v-if="results.length" class="flex flex-col divide-y divide-grid-line">
+          <li v-for="item in results" :key="item.id">
+            <SearchResultItem :product="item" @click="emit('select')" />
           </li>
         </ul>
-        <div v-else class=”flex items-center gap-3 py-stack-sm text-on-surface-variant”>
-          <span class=”material-symbols-outlined text-[24px] shrink-0” aria-hidden=”true”>search_off</span>
-          <p class=”font-body-md text-body-md”>Žiadne produkty pre „{{ trimmedQuery }}”.</p>
+        <div v-else class="flex items-center gap-3 py-stack-sm text-on-surface-variant">
+          <span class="material-symbols-outlined text-[24px] shrink-0" aria-hidden="true">search_off</span>
+          <p class="font-body-md text-body-md">Žiadne produkty pre „{{ trimmedQuery }}".</p>
         </div>
       </div>
 
@@ -39,7 +39,7 @@ const trimmedQuery = computed(() => props.query.trim())
         class="flex items-center justify-between gap-2 font-label-sm text-label-sm uppercase tracking-widest text-primary hover:text-secondary transition-colors duration-200 py-stack-sm border-t border-grid-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-default"
         @click="emit('select')"
       >
-        Zobraziť všetky výsledky pre „{{ trimmedQuery }}“
+        Zobraziť všetky výsledky pre „{{ trimmedQuery }}"
         <span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_forward</span>
       </NuxtLink>
     </template>

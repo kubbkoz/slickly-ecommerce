@@ -130,9 +130,9 @@ const recommended = computed<Product[]>(() => {
       </div>
 
       <!-- Summary -->
-      <div class="flex flex-col gap-stack-md h-fit border border-grid-line p-stack-md md:p-6">
+      <div class="flex flex-col gap-stack-md h-fit md:sticky md:top-6 border border-grid-line p-stack-md md:p-6">
         <h2 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant border-b border-grid-line pb-stack-sm">
-          Súhrn objednávky
+          Súhrn objednávky ({{ cart.itemCount }})
         </h2>
         <div class="flex justify-between items-baseline">
           <span class="font-body-md text-body-md text-on-surface-variant">Medzisúčet</span>
@@ -152,11 +152,15 @@ const recommended = computed<Product[]>(() => {
         </div>
         <NuxtLink
           to="/pokladna"
-          class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           <span class="material-symbols-outlined" aria-hidden="true">lock</span>
           Pokračovať k pokladni
         </NuxtLink>
+        <p class="font-technical-data text-technical-data text-center text-on-surface-variant uppercase">
+          <span class="material-symbols-outlined text-[14px] align-middle mr-0.5" aria-hidden="true">lock</span>
+          Bezpečná pokladňa
+        </p>
         <NuxtLink
           to="/produkty"
           class="h-12 border border-outline-variant text-on-background font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-colors duration-200 hover:border-primary rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
@@ -165,18 +169,26 @@ const recommended = computed<Product[]>(() => {
         </NuxtLink>
 
         <!-- Trust signals -->
-        <div class="flex flex-col gap-2 pt-stack-sm border-t border-grid-line mt-1">
-          <div class="flex items-center gap-2 text-on-surface-variant">
-            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">lock</span>
-            <span class="font-technical-data text-technical-data uppercase">Bezpečná platba so šifrovaním SSL</span>
+        <div class="flex flex-col gap-2.5 pt-stack-sm border-t border-grid-line mt-1">
+          <div class="flex items-center gap-2.5 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">lock</span>
+            <span class="font-technical-data text-technical-data uppercase">256-bit SSL šifrovanie</span>
           </div>
-          <div class="flex items-center gap-2 text-on-surface-variant">
-            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">replay</span>
-            <span class="font-technical-data text-technical-data uppercase">30-dňová záruka vrátenia</span>
-          </div>
-          <div class="flex items-center gap-2 text-on-surface-variant">
-            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">local_shipping</span>
+          <div class="flex items-center gap-2.5 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">local_shipping</span>
             <span class="font-technical-data text-technical-data uppercase">Doprava zdarma na všetky objednávky</span>
+          </div>
+          <div class="flex items-center gap-2.5 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">replay</span>
+            <span class="font-technical-data text-technical-data uppercase">30-dňová záruka vrátenia peňazí</span>
+          </div>
+          <div class="flex items-center gap-2.5 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">verified</span>
+            <span class="font-technical-data text-technical-data uppercase">Originálne produkty od autorizovaných distribútorov</span>
+          </div>
+          <div class="flex items-center gap-2.5 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">group</span>
+            <span class="font-technical-data text-technical-data uppercase">12 000+ spokojných zákazníkov</span>
           </div>
         </div>
       </div>
