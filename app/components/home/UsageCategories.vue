@@ -42,7 +42,7 @@ const useCases = [
             :src="useCase.image"
             :alt="useCase.label"
             loading="lazy"
-            class="absolute inset-0 w-full h-full object-cover opacity-80 md:opacity-90 transition-transform duration-700 group-hover:scale-105"
+            class="absolute inset-0 w-full h-full object-cover opacity-80 md:opacity-90 transition-transform duration-500 group-hover:scale-105"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
 

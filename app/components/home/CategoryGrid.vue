@@ -29,7 +29,7 @@ const spans = [
             :src="category.image"
             :alt="category.name"
             :loading="index === 0 ? 'eager' : 'lazy'"
-            class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-700 group-hover:scale-105"
+            class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-500 group-hover:scale-105"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
           <div class="absolute bottom-stack-md md:bottom-8 left-stack-md md:left-8 right-stack-md md:right-8">
