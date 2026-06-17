@@ -2,7 +2,7 @@
 import { products as allProducts } from '~/data/products'
 import { useForm, useField } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { checkoutAddressSchema } from '~/composables/useCheckoutSchema'
+import { checkoutAddressSchema, SUPPORTED_COUNTRIES } from '~/composables/useCheckoutSchema'
 
 definePageMeta({ layout: 'checkout' })
 
@@ -56,7 +56,7 @@ const { validate: validateAddress, errors } = useForm({
     address: '',
     city: '',
     postalCode: '',
-    country: 'Slovensko',
+    country: 'SK',
     isBusiness: false,
     companyName: '',
     ico: '',
@@ -85,10 +85,26 @@ const dic = useCheckoutField('dic')
 const icDph = useCheckoutField('icDph')
 
 function fieldClass(name: string) {
-  const field = { email, phone, firstName, lastName, address, city, postalCode, country, companyName, ico, dic, icDph }[name]
+  const fields = { email, phone, firstName, lastName, address, city, postalCode, country, companyName, ico, dic, icDph } as Record<string, typeof email>
+  const field = fields[name]
   const hasError = field?.meta.touched && errors.value[name]
   return hasError ? 'border-error focus:border-error' : 'border-outline-variant focus:border-primary'
 }
+
+const phonePlaceholder = computed(() => {
+  const placeholders: Record<string, string> = {
+    SK: '+421 9XX XXX XXX', CZ: '+420 XXX XXX XXX', HU: '+36 XX XXX XXXX',
+    AT: '+43 XXXX XXXXXX', PL: '+48 XXX XXX XXX', DE: '+49 XXXX XXXXXXX',
+  }
+  return placeholders[country.value.value as string] ?? '+XXX XXX XXX XXX'
+})
+
+const postalPlaceholder = computed(() => {
+  const placeholders: Record<string, string> = {
+    SK: '841 01', CZ: '110 00', HU: '1011', AT: '1010', PL: '00-001', DE: '10115',
+  }
+  return placeholders[country.value.value as string] ?? '00000'
+})
 
 // ── Steps 2 & 3: simple reactive (no complex validation needed) ──
 const shipping = ref('gls')
@@ -150,7 +166,7 @@ async function placeOrder() {
     shipping: { label: shippingOpt.label, time: shippingOpt.time, price: shippingOpt.price },
     payment: paymentLabels[payment.value] ?? payment.value,
     total: orderTotal.value,
-    address: `${firstName.value.value} ${lastName.value.value}, ${address.value.value}, ${postalCode.value.value} ${city.value.value}`,
+    address: `${firstName.value.value} ${lastName.value.value}, ${address.value.value}, ${postalCode.value.value} ${city.value.value}, ${SUPPORTED_COUNTRIES.find((c) => c.code === country.value.value)?.name ?? country.value.value}`,
     date: new Date().toLocaleDateString('sk-SK', { day: 'numeric', month: 'long', year: 'numeric' }),
   }
 
@@ -393,7 +409,7 @@ const trackingSteps = [
                 </div>
                 <div class="flex flex-col gap-1 md:col-span-2">
                   <label for="checkout-phone" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Telefón</label>
-                  <input id="checkout-phone" v-model="phone.value.value" type="tel" autocomplete="tel" placeholder="+421 9XX XXX XXX"
+                  <input id="checkout-phone" v-model="phone.value.value" type="tel" autocomplete="tel" :placeholder="phonePlaceholder"
                     :aria-describedby="phone.meta.touched && errors.phone ? 'err-phone' : undefined" :aria-invalid="phone.meta.touched && !!errors.phone"
                     class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('phone')" @blur="phone.handleBlur" />
                   <p v-if="phone.meta.touched && errors.phone" id="err-phone" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.phone }}</p>
@@ -438,7 +454,7 @@ const trackingSteps = [
                 </div>
                 <div class="flex flex-col gap-1">
                   <label for="checkout-postal-code" class="font-technical-data text-technical-data uppercase text-on-surface-variant">PSČ</label>
-                  <input id="checkout-postal-code" v-model="postalCode.value.value" type="text" autocomplete="postal-code" inputmode="numeric"
+                  <input id="checkout-postal-code" v-model="postalCode.value.value" type="text" autocomplete="postal-code" inputmode="numeric" :placeholder="postalPlaceholder"
                     :aria-describedby="postalCode.meta.touched && errors.postalCode ? 'err-postal-code' : undefined" :aria-invalid="postalCode.meta.touched && !!errors.postalCode"
                     class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('postalCode')" @blur="postalCode.handleBlur" />
                   <p v-if="postalCode.meta.touched && errors.postalCode" id="err-postal-code" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.postalCode }}</p>
@@ -446,9 +462,11 @@ const trackingSteps = [
               </div>
               <div class="flex flex-col gap-1">
                 <label for="checkout-country" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Krajina</label>
-                <input id="checkout-country" v-model="country.value.value" type="text" autocomplete="country-name"
+                <select id="checkout-country" v-model="country.value.value" autocomplete="country"
                   :aria-describedby="country.meta.touched && errors.country ? 'err-country' : undefined" :aria-invalid="country.meta.touched && !!errors.country"
-                  class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('country')" @blur="country.handleBlur" />
+                  class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default appearance-none cursor-pointer" :class="fieldClass('country')" @blur="country.handleBlur">
+                  <option v-for="c in SUPPORTED_COUNTRIES" :key="c.code" :value="c.code">{{ c.name }}</option>
+                </select>
                 <p v-if="country.meta.touched && errors.country" id="err-country" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.country }}</p>
               </div>
             </fieldset>
@@ -494,8 +512,10 @@ const trackingSteps = [
                     </div>
                     <div class="flex flex-col gap-1">
                       <label for="checkout-ic-dph" class="font-technical-data text-technical-data uppercase text-on-surface-variant">IČ DPH <span class="normal-case text-on-surface-variant/60">(nepovinné)</span></label>
-                      <input id="checkout-ic-dph" v-model="icDph.value.value" type="text"
-                        class="h-12 px-4 border border-outline-variant focus:border-primary bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" />
+                      <input id="checkout-ic-dph" v-model="icDph.value.value" type="text" :placeholder="country.value.value === 'CZ' ? 'CZ12345678' : 'SK2012345678'"
+                        :aria-describedby="icDph.meta.touched && errors.icDph ? 'err-ic-dph' : undefined" :aria-invalid="icDph.meta.touched && !!errors.icDph"
+                        class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('icDph')" @blur="icDph.handleBlur" />
+                      <p v-if="icDph.meta.touched && errors.icDph" id="err-ic-dph" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.icDph }}</p>
                     </div>
                   </div>
                 </div>
