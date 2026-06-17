@@ -7,6 +7,8 @@ defineProps<{
 
 const scrollContainer = ref<HTMLElement | null>(null)
 
+useAutoScroll(scrollContainer)
+
 function scroll(direction: 'left' | 'right') {
   const el = scrollContainer.value
   if (!el) return

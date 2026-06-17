@@ -12,6 +12,9 @@ const averageRating = computed(() => {
 
 const featured = allReviews.filter((r) => r.rating >= 4).slice(0, 6)
 
+const mobileScroller = ref<HTMLElement | null>(null)
+useAutoScroll(mobileScroller)
+
 const stats = [
   { value: '12 000+', label: 'Spokojných zákazníkov' },
   { value: '50+', label: 'Prémiových značiek' },
@@ -43,7 +46,7 @@ const stats = [
       </div>
 
       <!-- Mobile: horizontal scroll -->
-      <div class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter scroll-px-gutter hide-scrollbar snap-x">
+      <div ref="mobileScroller" class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter scroll-px-gutter hide-scrollbar snap-x overscroll-x-contain [touch-action:pan-x]">
         <article
           v-for="review in featured"
           :key="`${review.author}-${review.date}`"

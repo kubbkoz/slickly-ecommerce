@@ -2,6 +2,9 @@
 import { blogPosts } from '~/data/blog'
 
 const posts = blogPosts.slice(0, 3)
+
+const mobileScroller = ref<HTMLElement | null>(null)
+useAutoScroll(mobileScroller)
 </script>
 
 <template>
@@ -28,7 +31,7 @@ const posts = blogPosts.slice(0, 3)
       </div>
 
       <!-- Mobile: horizontal scroll -->
-      <div class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter scroll-px-gutter hide-scrollbar snap-x">
+      <div ref="mobileScroller" class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter scroll-px-gutter hide-scrollbar snap-x overscroll-x-contain [touch-action:pan-x]">
         <NuxtLink
           v-for="post in posts"
           :key="post.id"

@@ -45,6 +45,9 @@ const videos: VideoTest[] = [
 ]
 
 const activeVideo = ref<VideoTest | null>(null)
+
+const mobileScroller = ref<HTMLElement | null>(null)
+useAutoScroll(mobileScroller)
 const closeBtn = ref<HTMLButtonElement | null>(null)
 let previouslyFocused: HTMLElement | null = null
 
@@ -83,7 +86,7 @@ watch(activeVideo, (video) => {
       </div>
 
       <!-- Mobile: horizontal scroll -->
-      <div class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter scroll-px-gutter hide-scrollbar snap-x">
+      <div ref="mobileScroller" class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter scroll-px-gutter hide-scrollbar snap-x overscroll-x-contain [touch-action:pan-x]">
         <button
           v-for="video in videos"
           :key="video.id"

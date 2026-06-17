@@ -2,6 +2,9 @@
 import { products } from '~/data/products'
 
 const offers = products.filter((p) => p.badge).slice(0, 3)
+
+const mobileScroller = ref<HTMLElement | null>(null)
+useAutoScroll(mobileScroller)
 </script>
 
 <template>
@@ -25,7 +28,7 @@ const offers = products.filter((p) => p.badge).slice(0, 3)
       </div>
 
       <!-- Mobile: horizontal scroll -->
-      <div class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter scroll-px-gutter hide-scrollbar snap-x">
+      <div ref="mobileScroller" class="md:hidden flex gap-stack-sm overflow-x-auto px-gutter -mx-gutter scroll-px-gutter hide-scrollbar snap-x overscroll-x-contain [touch-action:pan-x]">
         <div v-for="product in offers" :key="product.id" class="min-w-[240px] snap-start">
           <ProductCard :product="product" />
         </div>

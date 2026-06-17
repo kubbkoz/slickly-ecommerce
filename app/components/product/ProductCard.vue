@@ -10,6 +10,50 @@ const wishlist = useWishlistStore()
 const { formatPrice } = useCurrency()
 const justAdded = ref(false)
 
+// Cover image first, then any additional gallery shots (deduped). Used for the
+// mobile swipe gallery on the card.
+const cardImages = computed(() => {
+  const seen = new Set<string>()
+  const out: string[] = []
+  for (const src of [props.product.image, ...props.product.gallery]) {
+    if (src && !seen.has(src)) {
+      seen.add(src)
+      out.push(src)
+    }
+  }
+  return out
+})
+
+const cardRoot = ref<HTMLElement | null>(null)
+const galleryEl = ref<HTMLElement | null>(null)
+const activeImage = ref(0)
+
+function onGalleryScroll() {
+  const node = galleryEl.value
+  if (!node) return
+  activeImage.value = Math.round(node.scrollLeft / node.clientWidth)
+}
+
+// Reset back to the cover image whenever the card leaves the viewport, so the
+// next time it scrolls into view (or the user moves to the next product) it
+// always presents its first image.
+onMounted(() => {
+  if (!import.meta.client || cardImages.value.length < 2) return
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting && galleryEl.value && galleryEl.value.scrollLeft !== 0) {
+          galleryEl.value.scrollTo({ left: 0 })
+          activeImage.value = 0
+        }
+      }
+    },
+    { threshold: 0 },
+  )
+  if (cardRoot.value) io.observe(cardRoot.value)
+  onBeforeUnmount(() => io.disconnect())
+})
+
 function addToCart() {
   if (!props.product.inStock) return
   cart.addItem(props.product)
@@ -30,7 +74,7 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
 </script>
 
 <template>
-  <div class="group relative flex flex-col h-full bg-surface-container-lowest border border-grid-line transition-all duration-200 hover:bg-surface active:scale-[0.98] md:active:scale-100">
+  <div ref="cardRoot" class="group relative flex flex-col h-full bg-surface-container-lowest border border-grid-line transition-all duration-200 hover:bg-surface active:scale-[0.98] md:active:scale-100">
     <button
       type="button"
       class="absolute top-2 right-2 z-20 min-w-11 min-h-11 flex items-center justify-center bg-surface-container-lowest/80 backdrop-blur-sm rounded-full cursor-pointer transition-colors duration-200 hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [touch-action:manipulation]"
@@ -43,21 +87,63 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
     </button>
     <NuxtLink :to="`/produkty/${product.slug}`" class="relative aspect-square overflow-hidden block bg-surface-container-lowest">
       <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant bg-surface-container-lowest/85 backdrop-blur-sm px-1.5 py-0.5 rounded-xs">{{ product.sku }}</span>
+
+      <!-- Mobile: swipeable gallery -->
+      <div
+        v-if="cardImages.length > 1"
+        ref="galleryEl"
+        class="md:hidden absolute inset-0 flex overflow-x-auto snap-x snap-mandatory hide-scrollbar overscroll-x-contain [touch-action:pan-x]"
+        @scroll.passive="onGalleryScroll"
+      >
+        <img
+          v-for="(img, idx) in cardImages"
+          :key="idx"
+          :src="img"
+          :alt="idx === 0 ? product.name : `${product.name} – obrázok ${idx + 1}`"
+          loading="lazy"
+          class="w-full h-full shrink-0 snap-center object-cover"
+        />
+      </div>
+      <!-- Mobile single image (no gallery) -->
+      <img
+        v-else
+        :src="product.image"
+        :alt="product.name"
+        loading="lazy"
+        class="md:hidden w-full h-full object-cover"
+      />
+
+      <!-- Desktop: cover image with hover zoom -->
       <img
         :src="product.image"
         :alt="product.name"
         loading="lazy"
-        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        class="hidden md:block w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
+
+      <!-- Image indicator dots (mobile, multi-image only) -->
+      <div
+        v-if="cardImages.length > 1"
+        class="md:hidden absolute bottom-2 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5"
+        aria-hidden="true"
+      >
+        <span
+          v-for="(img, idx) in cardImages"
+          :key="idx"
+          class="h-1.5 rounded-full transition-all duration-200 shadow-sm"
+          :class="idx === activeImage ? 'w-4 bg-primary' : 'w-1.5 bg-surface-container-lowest/90'"
+        />
+      </div>
+
       <span
         v-if="product.badge"
-        class="absolute bottom-0 left-0 bg-secondary-container text-on-background text-badge-label font-badge-label px-2 py-1 uppercase rounded-tr-xs"
+        class="absolute bottom-0 left-0 z-10 bg-secondary-container text-on-background text-badge-label font-badge-label px-2 py-1 uppercase rounded-tr-xs"
       >
         {{ product.badge }}
       </span>
       <span
         v-if="!product.inStock"
-        class="absolute inset-0 bg-surface-container-lowest/70 flex items-center justify-center font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
+        class="absolute inset-0 z-10 bg-surface-container-lowest/70 flex items-center justify-center font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
       >
         Vypredané
       </span>
