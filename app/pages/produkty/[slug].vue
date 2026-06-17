@@ -77,6 +77,60 @@ function addToCart() {
 
 const formattedPrice = computed(() => formatPrice(product!.price))
 const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(product!.oldPrice) : null))
+
+// ── Gallery lightbox ──
+const lightboxOpen = ref(false)
+const lightboxIndex = ref(0)
+const zoomed = ref(false)
+const zoomPos = ref({ x: 50, y: 50 })
+
+function openLightbox(idx: number) {
+  lightboxIndex.value = idx
+  lightboxOpen.value = true
+  zoomed.value = false
+  document.body.style.overflow = 'hidden'
+}
+
+function closeLightbox() {
+  lightboxOpen.value = false
+  zoomed.value = false
+  document.body.style.overflow = ''
+}
+
+function lightboxPrev() {
+  zoomed.value = false
+  lightboxIndex.value = (lightboxIndex.value - 1 + product.gallery.length) % product.gallery.length
+}
+
+function lightboxNext() {
+  zoomed.value = false
+  lightboxIndex.value = (lightboxIndex.value + 1) % product.gallery.length
+}
+
+function toggleZoom(e: MouseEvent) {
+  zoomed.value = !zoomed.value
+  if (zoomed.value) updateZoomPos(e)
+}
+
+function updateZoomPos(e: MouseEvent) {
+  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+  zoomPos.value = {
+    x: ((e.clientX - rect.left) / rect.width) * 100,
+    y: ((e.clientY - rect.top) / rect.height) * 100,
+  }
+}
+
+function onLightboxKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape') closeLightbox()
+  else if (e.key === 'ArrowLeft') lightboxPrev()
+  else if (e.key === 'ArrowRight') lightboxNext()
+}
+
+onMounted(() => window.addEventListener('keydown', onLightboxKeydown))
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', onLightboxKeydown)
+  document.body.style.overflow = ''
+})
 </script>
 
 <template>
@@ -94,7 +148,12 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(produc
     <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg md:gap-16">
       <!-- Gallery -->
       <div class="flex flex-col gap-stack-sm">
-        <div class="relative aspect-square bg-surface-container-lowest border border-grid-line overflow-hidden">
+        <button
+          type="button"
+          class="relative aspect-square bg-surface-container-lowest border border-grid-line overflow-hidden cursor-zoom-in group/gallery"
+          aria-label="Zväčšiť obrázok"
+          @click="openLightbox(product.gallery.indexOf(activeImage))"
+        >
           <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant opacity-50">{{ product.sku }}</span>
           <span
             v-if="product.badge"
@@ -106,10 +165,13 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(produc
             :src="activeImage"
             :alt="categoryName ? `${product.name} – ${categoryName}` : product.name"
             fetchpriority="high"
-            class="w-full h-full object-cover"
+            class="w-full h-full object-cover transition-transform duration-500 group-hover/gallery:scale-105"
           />
-        </div>
-        <div v-if="product.gallery.length > 1" class="flex gap-stack-sm" role="group" aria-label="Galéria produktu">
+          <span class="absolute bottom-3 right-3 z-10 w-10 h-10 bg-surface-container-lowest/80 backdrop-blur-sm flex items-center justify-center rounded-full text-on-surface-variant opacity-0 group-hover/gallery:opacity-100 transition-opacity duration-200">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">zoom_in</span>
+          </span>
+        </button>
+        <div v-if="product.gallery.length > 1" class="flex gap-stack-sm overflow-x-auto hide-scrollbar" role="group" aria-label="Galéria produktu">
           <button
             v-for="(img, idx) in product.gallery"
             :key="idx"
@@ -342,5 +404,97 @@ const formattedOldPrice = computed(() => (product!.oldPrice ? formatPrice(produc
       </h2>
       <ProductCarousel :products="recentlyViewedProducts" />
     </section>
+
+    <!-- Gallery lightbox -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition-opacity duration-200 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-opacity duration-150 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="lightboxOpen"
+          class="fixed inset-0 z-[80] bg-on-background/95 flex flex-col"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Galéria produktu"
+        >
+          <!-- Top bar -->
+          <div class="flex items-center justify-between px-4 md:px-8 h-16 shrink-0">
+            <span class="font-technical-data text-technical-data text-white/60 uppercase">
+              {{ lightboxIndex + 1 }} / {{ product.gallery.length }}
+            </span>
+            <button
+              type="button"
+              aria-label="Zavrieť galériu"
+              class="min-w-11 min-h-11 flex items-center justify-center text-white/60 hover:text-white cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              @click="closeLightbox"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true">close</span>
+            </button>
+          </div>
+
+          <!-- Main image area -->
+          <div class="flex-grow flex items-center justify-center relative overflow-hidden min-h-0 px-4 md:px-20">
+            <!-- Prev arrow -->
+            <button
+              v-if="product.gallery.length > 1"
+              type="button"
+              aria-label="Predchádzajúci obrázok"
+              class="absolute left-2 md:left-6 z-10 min-w-11 min-h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              @click="lightboxPrev"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+            </button>
+
+            <!-- Image -->
+            <div
+              class="max-w-full max-h-full aspect-square md:aspect-auto md:max-w-[80vh] flex items-center justify-center"
+              :class="zoomed ? 'cursor-zoom-out overflow-auto' : 'cursor-zoom-in'"
+              @click="toggleZoom"
+              @mousemove="zoomed && updateZoomPos($event)"
+            >
+              <img
+                :src="product.gallery[lightboxIndex]"
+                :alt="`${product.name} – obrázok ${lightboxIndex + 1}`"
+                class="select-none transition-transform duration-300"
+                :class="zoomed ? 'scale-[2.5]' : 'max-w-full max-h-[calc(100vh-12rem)] object-contain'"
+                :style="zoomed ? { transformOrigin: `${zoomPos.x}% ${zoomPos.y}%` } : {}"
+                draggable="false"
+              />
+            </div>
+
+            <!-- Next arrow -->
+            <button
+              v-if="product.gallery.length > 1"
+              type="button"
+              aria-label="Ďalší obrázok"
+              class="absolute right-2 md:right-6 z-10 min-w-11 min-h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              @click="lightboxNext"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+            </button>
+          </div>
+
+          <!-- Thumbnail strip -->
+          <div v-if="product.gallery.length > 1" class="flex justify-center gap-2 px-4 py-4 shrink-0">
+            <button
+              v-for="(img, idx) in product.gallery"
+              :key="idx"
+              type="button"
+              class="w-16 h-16 md:w-20 md:h-20 border-2 overflow-hidden shrink-0 cursor-pointer transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              :class="lightboxIndex === idx ? 'border-white opacity-100' : 'border-transparent opacity-40 hover:opacity-70'"
+              :aria-label="`Zobraziť obrázok ${idx + 1}`"
+              @click="lightboxIndex = idx; zoomed = false"
+            >
+              <img :src="img" :alt="`${product.name} – ${idx + 1}`" loading="lazy" class="w-full h-full object-cover" />
+            </button>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
