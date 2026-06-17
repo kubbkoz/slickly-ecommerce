@@ -83,7 +83,7 @@ const recommended = computed<Product[]>(() => {
           </NuxtLink>
 
           <div class="flex-grow flex flex-col gap-1 min-w-0">
-            <span class="font-technical-data text-technical-data text-on-surface-variant opacity-50 uppercase">{{ item.sku }}</span>
+            <span class="font-technical-data text-technical-data text-on-surface-variant opacity-80 uppercase">{{ item.sku }}</span>
             <NuxtLink :to="`/produkty/${item.slug}`" class="font-headline-sm text-headline-sm uppercase hover:text-primary line-clamp-2 md:truncate">
               {{ item.name }}
             </NuxtLink>

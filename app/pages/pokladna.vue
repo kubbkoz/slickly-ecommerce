@@ -505,7 +505,7 @@ const trackingSteps = [
                     </div>
                     <div class="flex flex-col gap-1">
                       <label for="checkout-dic" class="font-technical-data text-technical-data uppercase text-on-surface-variant">DIČ</label>
-                      <input id="checkout-dic" v-model="dic.value.value" type="text"
+                      <input id="checkout-dic" v-model="dic.value.value" type="text" inputmode="numeric"
                         :aria-describedby="dic.meta.touched && errors.dic ? 'err-dic' : undefined" :aria-invalid="dic.meta.touched && !!errors.dic"
                         class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('dic')" @blur="dic.handleBlur" />
                       <p v-if="dic.meta.touched && errors.dic" id="err-dic" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.dic }}</p>

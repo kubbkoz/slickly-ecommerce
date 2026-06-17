@@ -185,7 +185,7 @@ onBeforeUnmount(() => {
           aria-label="Zväčšiť obrázok"
           @click="openLightbox(product.gallery.indexOf(activeImage))"
         >
-          <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant opacity-50">{{ product.sku }}</span>
+          <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant bg-surface-container-lowest/85 backdrop-blur-sm px-1.5 py-0.5 rounded-xs">{{ product.sku }}</span>
           <span
             v-if="product.badge"
             class="absolute bottom-0 left-0 bg-secondary-container text-on-background text-badge-label font-badge-label px-2 py-1 uppercase z-10"

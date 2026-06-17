@@ -42,7 +42,7 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
       <span class="material-symbols-outlined text-[18px]" :style="wishlist.has(product.id) ? { fontVariationSettings: &quot;'FILL' 1&quot; } : {}" aria-hidden="true">favorite</span>
     </button>
     <NuxtLink :to="`/produkty/${product.slug}`" class="relative aspect-square overflow-hidden block bg-surface-container-lowest">
-      <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant opacity-50">{{ product.sku }}</span>
+      <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant bg-surface-container-lowest/85 backdrop-blur-sm px-1.5 py-0.5 rounded-xs">{{ product.sku }}</span>
       <img
         :src="product.image"
         :alt="product.name"
