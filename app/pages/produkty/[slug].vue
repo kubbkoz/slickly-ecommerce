@@ -83,18 +83,23 @@ const lightboxOpen = ref(false)
 const lightboxIndex = ref(0)
 const zoomed = ref(false)
 const zoomPos = ref({ x: 50, y: 50 })
+const lightboxRef = ref<HTMLElement | null>(null)
+let previouslyFocused: HTMLElement | null = null
 
 function openLightbox(idx: number) {
   lightboxIndex.value = idx
   lightboxOpen.value = true
   zoomed.value = false
+  previouslyFocused = document.activeElement as HTMLElement
   document.body.style.overflow = 'hidden'
+  nextTick(() => lightboxRef.value?.focus())
 }
 
 function closeLightbox() {
   lightboxOpen.value = false
   zoomed.value = false
   document.body.style.overflow = ''
+  previouslyFocused?.focus()
 }
 
 function lightboxPrev() {
@@ -120,10 +125,36 @@ function updateZoomPos(e: MouseEvent) {
   }
 }
 
+// Touch swipe support
+let touchStartX = 0
+let touchStartY = 0
+function onTouchStart(e: TouchEvent) {
+  touchStartX = e.touches[0].clientX
+  touchStartY = e.touches[0].clientY
+}
+function onTouchEnd(e: TouchEvent) {
+  if (zoomed.value) return
+  const dx = e.changedTouches[0].clientX - touchStartX
+  const dy = e.changedTouches[0].clientY - touchStartY
+  if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return
+  if (dx > 0) lightboxPrev()
+  else lightboxNext()
+}
+
+// Focus trap inside lightbox
 function onLightboxKeydown(e: KeyboardEvent) {
+  if (!lightboxOpen.value) return
   if (e.key === 'Escape') closeLightbox()
   else if (e.key === 'ArrowLeft') lightboxPrev()
   else if (e.key === 'ArrowRight') lightboxNext()
+  else if (e.key === 'Tab') {
+    const focusable = lightboxRef.value?.querySelectorAll<HTMLElement>('button, [tabindex="0"]')
+    if (!focusable?.length) return
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+  }
 }
 
 onMounted(() => window.addEventListener('keydown', onLightboxKeydown))
@@ -408,29 +439,33 @@ onBeforeUnmount(() => {
     <!-- Gallery lightbox -->
     <Teleport to="body">
       <Transition
-        enter-active-class="transition-opacity duration-200 ease-out"
+        enter-active-class="transition-opacity duration-200 ease-out motion-reduce:duration-0"
         enter-from-class="opacity-0"
         enter-to-class="opacity-100"
-        leave-active-class="transition-opacity duration-150 ease-in"
+        leave-active-class="transition-opacity duration-150 ease-in motion-reduce:duration-0"
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
         <div
           v-if="lightboxOpen"
-          class="fixed inset-0 z-[80] bg-on-background/95 flex flex-col"
+          ref="lightboxRef"
+          tabindex="-1"
+          class="fixed inset-0 z-[80] bg-on-background/95 flex flex-col outline-none"
           role="dialog"
           aria-modal="true"
           aria-label="Galéria produktu"
+          @touchstart.passive="onTouchStart"
+          @touchend="onTouchEnd"
         >
           <!-- Top bar -->
           <div class="flex items-center justify-between px-4 md:px-8 h-16 shrink-0">
-            <span class="font-technical-data text-technical-data text-white/60 uppercase">
+            <span class="font-technical-data text-technical-data text-white/60 uppercase" aria-live="polite">
               {{ lightboxIndex + 1 }} / {{ product.gallery.length }}
             </span>
             <button
               type="button"
               aria-label="Zavrieť galériu"
-              class="min-w-11 min-h-11 flex items-center justify-center text-white/60 hover:text-white cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              class="min-w-11 min-h-11 flex items-center justify-center text-white/60 hover:text-white cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               @click="closeLightbox"
             >
               <span class="material-symbols-outlined" aria-hidden="true">close</span>
@@ -444,7 +479,7 @@ onBeforeUnmount(() => {
               v-if="product.gallery.length > 1"
               type="button"
               aria-label="Predchádzajúci obrázok"
-              class="absolute left-2 md:left-6 z-10 min-w-11 min-h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              class="absolute left-2 md:left-6 z-10 min-w-11 min-h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               @click="lightboxPrev"
             >
               <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
@@ -452,7 +487,7 @@ onBeforeUnmount(() => {
 
             <!-- Image -->
             <div
-              class="max-w-full max-h-full aspect-square md:aspect-auto md:max-w-[80vh] flex items-center justify-center"
+              class="max-w-full max-h-full aspect-square md:aspect-auto md:max-w-[80vh] flex items-center justify-center [touch-action:manipulation]"
               :class="zoomed ? 'cursor-zoom-out overflow-auto' : 'cursor-zoom-in'"
               @click="toggleZoom"
               @mousemove="zoomed && updateZoomPos($event)"
@@ -460,8 +495,8 @@ onBeforeUnmount(() => {
               <img
                 :src="product.gallery[lightboxIndex]"
                 :alt="`${product.name} – obrázok ${lightboxIndex + 1}`"
-                class="select-none transition-transform duration-300"
-                :class="zoomed ? 'scale-[2.5]' : 'max-w-full max-h-[calc(100vh-12rem)] object-contain'"
+                class="select-none transition-transform duration-300 motion-reduce:duration-0"
+                :class="zoomed ? 'scale-[2.5]' : 'max-w-full max-h-[calc(100dvh-12rem)] object-contain'"
                 :style="zoomed ? { transformOrigin: `${zoomPos.x}% ${zoomPos.y}%` } : {}"
                 draggable="false"
               />
@@ -472,7 +507,7 @@ onBeforeUnmount(() => {
               v-if="product.gallery.length > 1"
               type="button"
               aria-label="Ďalší obrázok"
-              class="absolute right-2 md:right-6 z-10 min-w-11 min-h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              class="absolute right-2 md:right-6 z-10 min-w-11 min-h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               @click="lightboxNext"
             >
               <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
@@ -480,12 +515,12 @@ onBeforeUnmount(() => {
           </div>
 
           <!-- Thumbnail strip -->
-          <div v-if="product.gallery.length > 1" class="flex justify-center gap-2 px-4 py-4 shrink-0">
+          <div v-if="product.gallery.length > 1" class="flex justify-center gap-3 px-4 py-4 shrink-0 overflow-x-auto hide-scrollbar">
             <button
               v-for="(img, idx) in product.gallery"
               :key="idx"
               type="button"
-              class="w-16 h-16 md:w-20 md:h-20 border-2 overflow-hidden shrink-0 cursor-pointer transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              class="w-16 h-16 md:w-20 md:h-20 border-2 overflow-hidden shrink-0 cursor-pointer transition-all duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               :class="lightboxIndex === idx ? 'border-white opacity-100' : 'border-transparent opacity-40 hover:opacity-70'"
               :aria-label="`Zobraziť obrázok ${idx + 1}`"
               @click="lightboxIndex = idx; zoomed = false"
