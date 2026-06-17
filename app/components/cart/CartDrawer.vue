@@ -1,9 +1,30 @@
 <script setup lang="ts">
+import { products as allProducts, getRelatedProducts, type Product } from '~/data/products'
+
 const cart = useCartStore()
 const { formatPrice } = useCurrency()
 
 const closeBtn = ref<HTMLButtonElement | null>(null)
 let previouslyFocused: HTMLElement | null = null
+
+const upsellProducts = computed<Product[]>(() => {
+  const cartIds = new Set(cart.items.map((i) => i.productId))
+  const seen = new Set<string>()
+  const result: Product[] = []
+  for (const item of cart.items) {
+    const product = allProducts.find((p) => p.id === item.productId)
+    if (!product) continue
+    for (const rel of getRelatedProducts(product, 6)) {
+      if (result.length >= 6) break
+      if (cartIds.has(rel.id) || seen.has(rel.id)) continue
+      if (!rel.inStock) continue
+      seen.add(rel.id)
+      result.push(rel)
+    }
+    if (result.length >= 6) break
+  }
+  return result
+})
 
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && cart.isDrawerOpen) cart.closeDrawer()
@@ -81,57 +102,67 @@ function decrement(productId: string, quantity: number) {
           </button>
         </div>
 
-        <div v-if="cart.items.length" class="flex-grow overflow-y-auto overscroll-y-contain divide-y divide-grid-line px-stack-md md:px-6">
-          <div v-for="item in cart.items" :key="item.productId" class="flex items-center gap-stack-sm py-stack-sm">
-            <NuxtLink
-              :to="`/produkty/${item.slug}`"
-              class="w-16 h-16 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden"
-              @click="cart.closeDrawer()"
-            >
-              <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
-            </NuxtLink>
-
-            <div class="flex-grow min-w-0 flex flex-col gap-1">
+        <div v-if="cart.items.length" class="flex-grow overflow-y-auto overscroll-y-contain px-stack-md md:px-6">
+          <div class="divide-y divide-grid-line">
+            <div v-for="item in cart.items" :key="item.productId" class="flex items-center gap-stack-sm py-stack-sm">
               <NuxtLink
                 :to="`/produkty/${item.slug}`"
-                class="font-body-md text-body-md uppercase hover:text-primary truncate transition-colors duration-200"
+                class="w-16 h-16 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden"
                 @click="cart.closeDrawer()"
               >
-                {{ item.name }}
+                <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
               </NuxtLink>
-              <div class="flex items-center border border-outline-variant rounded-default w-fit" role="group" aria-label="Množstvo">
+
+              <div class="flex-grow min-w-0 flex flex-col gap-1">
+                <NuxtLink
+                  :to="`/produkty/${item.slug}`"
+                  class="font-body-md text-body-md uppercase hover:text-primary truncate transition-colors duration-200"
+                  @click="cart.closeDrawer()"
+                >
+                  {{ item.name }}
+                </NuxtLink>
+                <div class="flex items-center border border-outline-variant rounded-default w-fit" role="group" aria-label="Množstvo">
+                  <button
+                    type="button"
+                    class="min-w-11 min-h-11 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                    :aria-label="`Znížiť množstvo: ${item.name}`"
+                    @click="decrement(item.productId, item.quantity)"
+                  >
+                    <span class="material-symbols-outlined text-[16px]" aria-hidden="true">remove</span>
+                  </button>
+                  <span class="w-7 text-center font-technical-data text-technical-data" aria-live="polite">{{ item.quantity }}</span>
+                  <button
+                    type="button"
+                    class="min-w-11 min-h-11 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                    :aria-label="`Zvýšiť množstvo: ${item.name}`"
+                    @click="increment(item.productId, item.quantity)"
+                  >
+                    <span class="material-symbols-outlined text-[16px]" aria-hidden="true">add</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex flex-col items-end shrink-0">
+                <span class="font-price-display text-price-display">{{ lineTotal(item.price, item.quantity) }}</span>
                 <button
                   type="button"
-                  class="min-w-11 min-h-11 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                  :aria-label="`Znížiť množstvo: ${item.name}`"
-                  @click="decrement(item.productId, item.quantity)"
+                  class="min-w-11 min-h-11 -mr-2 flex items-center justify-center text-on-surface-variant hover:text-error cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error"
+                  :aria-label="`Odstrániť položku: ${item.name}`"
+                  @click="cart.removeItem(item.productId)"
                 >
-                  <span class="material-symbols-outlined text-[16px]" aria-hidden="true">remove</span>
-                </button>
-                <span class="w-7 text-center font-technical-data text-technical-data" aria-live="polite">{{ item.quantity }}</span>
-                <button
-                  type="button"
-                  class="min-w-11 min-h-11 flex items-center justify-center text-on-surface-variant hover:text-on-background cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                  :aria-label="`Zvýšiť množstvo: ${item.name}`"
-                  @click="increment(item.productId, item.quantity)"
-                >
-                  <span class="material-symbols-outlined text-[16px]" aria-hidden="true">add</span>
+                  <span class="material-symbols-outlined text-[18px]" aria-hidden="true">delete</span>
                 </button>
               </div>
             </div>
-
-            <div class="flex flex-col items-end shrink-0">
-              <span class="font-price-display text-price-display">{{ lineTotal(item.price, item.quantity) }}</span>
-              <button
-                type="button"
-                class="min-w-11 min-h-11 -mr-2 flex items-center justify-center text-on-surface-variant hover:text-error cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error"
-                :aria-label="`Odstrániť položku: ${item.name}`"
-                @click="cart.removeItem(item.productId)"
-              >
-                <span class="material-symbols-outlined text-[18px]" aria-hidden="true">delete</span>
-              </button>
-            </div>
           </div>
+
+          <!-- Upsell section -->
+          <section v-if="upsellProducts.length" class="pt-stack-md pb-stack-sm border-t border-grid-line mt-stack-sm">
+            <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-stack-sm">Odporúčame dokúpiť</h3>
+            <div class="flex gap-stack-sm overflow-x-auto -mx-stack-md md:-mx-6 px-stack-md md:px-6 pb-2 snap-x hide-scrollbar">
+              <CartUpsellCard v-for="p in upsellProducts" :key="p.id" :product="p" />
+            </div>
+          </section>
         </div>
 
         <div v-else class="flex-grow flex flex-col items-center justify-center gap-stack-md text-center px-stack-md">
