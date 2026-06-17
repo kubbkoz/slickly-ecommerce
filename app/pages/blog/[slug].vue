@@ -33,9 +33,14 @@ useJsonLd({
   description: post.excerpt,
   image: absoluteUrl(post.image),
   datePublished: post.isoDate,
-  author: { '@type': 'Organization', name: 'SLICKLY' },
-  publisher: { '@type': 'Organization', name: 'SLICKLY' },
-  mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
+  dateModified: post.isoDate,
+  author: { '@type': 'Organization', name: post.author || 'SLICKLY', url: useSiteUrl() },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SLICKLY',
+    logo: { '@type': 'ImageObject', url: absoluteUrl('/favicon.ico') },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': absoluteUrl(`/blog/${post.slug}`) },
 })
 </script>
 

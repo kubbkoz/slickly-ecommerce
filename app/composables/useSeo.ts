@@ -89,6 +89,18 @@ export function useBreadcrumbJsonLd(crumbs: Breadcrumb[]) {
   })
 }
 
+/**
+ * Convert a Slovak-formatted date ("28. 4. 2026") to ISO 8601 ("2026-04-28").
+ * Schema.org dates must be ISO 8601 for Google rich results. Returns undefined
+ * if the input can't be parsed.
+ */
+function toIsoDate(date: string): string | undefined {
+  const m = date.match(/(\d{1,2})\.\s*(\d{1,2})\.\s*(\d{4})/)
+  if (!m) return undefined
+  const [, day, month, year] = m
+  return `${year}-${month!.padStart(2, '0')}-${day!.padStart(2, '0')}`
+}
+
 /** Emit Product + Offer + AggregateRating + Review JSON-LD for a product. */
 export function useProductJsonLd(product: Product) {
   const url = absoluteUrl(`/produkty/${product.slug}`)
@@ -96,6 +108,11 @@ export function useProductJsonLd(product: Product) {
   const avg = reviewCount
     ? product.reviews.reduce((s, r) => s + r.rating, 0) / reviewCount
     : 0
+
+  // priceValidUntil keeps the Offer rich result eligible; default ~1 year out.
+  const priceValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10)
 
   const data: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -111,6 +128,7 @@ export function useProductJsonLd(product: Product) {
       url,
       priceCurrency: 'EUR',
       price: product.price.toFixed(2),
+      priceValidUntil,
       availability: product.inStock
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
@@ -145,18 +163,22 @@ export function useProductJsonLd(product: Product) {
       bestRating: 5,
       worstRating: 1,
     }
-    data.review = product.reviews.map((r) => ({
-      '@type': 'Review',
-      author: { '@type': 'Person', name: r.author },
-      datePublished: r.date,
-      reviewBody: r.text,
-      reviewRating: {
-        '@type': 'Rating',
-        ratingValue: r.rating,
-        bestRating: 5,
-        worstRating: 1,
-      },
-    }))
+    data.review = product.reviews.map((r) => {
+      const review: Record<string, unknown> = {
+        '@type': 'Review',
+        author: { '@type': 'Person', name: r.author },
+        reviewBody: r.text,
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: r.rating,
+          bestRating: 5,
+          worstRating: 1,
+        },
+      }
+      const iso = toIsoDate(r.date)
+      if (iso) review.datePublished = iso
+      return review
+    })
   }
 
   useJsonLd(data)
