@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { products as allProducts } from '~/data/products'
+import { useForm, useField } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import { checkoutAddressSchema } from '~/composables/useCheckoutSchema'
 
 definePageMeta({ layout: 'checkout' })
 
@@ -42,93 +45,71 @@ const shippingOptions = [
   { id: 'express', label: 'Expresné doručenie', description: 'GLS Express na adresu', time: 'Nasledujúci prac. deň', price: 4.90, icon: 'bolt' },
 ] as const
 
+// ── VeeValidate + Zod: Step 1 (Address) ──
+const { validate: validateAddress, errors } = useForm({
+  validationSchema: toTypedSchema(checkoutAddressSchema),
+  initialValues: {
+    email: '',
+    phone: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    country: 'Slovensko',
+    isBusiness: false,
+    companyName: '',
+    ico: '',
+    dic: '',
+    icDph: '',
+  },
+})
+
+function useCheckoutField(name: string) {
+  const { value, handleBlur, meta } = useField(() => name)
+  return { value, handleBlur, meta }
+}
+
+const email = useCheckoutField('email')
+const phone = useCheckoutField('phone')
+const firstName = useCheckoutField('firstName')
+const lastName = useCheckoutField('lastName')
+const address = useCheckoutField('address')
+const city = useCheckoutField('city')
+const postalCode = useCheckoutField('postalCode')
+const country = useCheckoutField('country')
+const isBusiness = useCheckoutField('isBusiness')
+const companyName = useCheckoutField('companyName')
+const ico = useCheckoutField('ico')
+const dic = useCheckoutField('dic')
+const icDph = useCheckoutField('icDph')
+
+function fieldClass(name: string) {
+  const field = { email, phone, firstName, lastName, address, city, postalCode, country, companyName, ico, dic, icDph }[name]
+  const hasError = field?.meta.touched && errors.value[name]
+  return hasError ? 'border-error focus:border-error' : 'border-outline-variant focus:border-primary'
+}
+
+// ── Steps 2 & 3: simple reactive (no complex validation needed) ──
+const shipping = ref('gls')
+const payment = ref('card')
+
 const shippingCost = computed(() => {
-  const opt = shippingOptions.find((o) => o.id === form.shipping)
+  const opt = shippingOptions.find((o) => o.id === shipping.value)
   return opt?.price ?? 0
 })
 const formattedShipping = computed(() => (shippingCost.value === 0 ? 'Zdarma' : formatPrice(shippingCost.value)))
 const orderTotal = computed(() => cart.subtotal + shippingCost.value)
 const formattedTotal = computed(() => formatPrice(orderTotal.value))
 
-// ── Form state ──
-const form = reactive({
-  email: '',
-  firstName: '',
-  lastName: '',
-  phone: '',
-  address: '',
-  city: '',
-  postalCode: '',
-  country: 'Slovensko',
-  isBusiness: false,
-  companyName: '',
-  ico: '',
-  dic: '',
-  icDph: '',
-  shipping: 'gls',
-  payment: 'card',
-})
-
-const touched = reactive<Record<string, boolean>>({})
-function touch(field: string) { touched[field] = true }
-
-const errors = computed(() => {
-  const e: Record<string, string> = {
-    email: !form.email
-      ? 'E-mailová adresa je povinná'
-      : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
-        ? 'Zadajte platný e-mail'
-        : '',
-    firstName: !form.firstName.trim() ? 'Meno je povinné' : '',
-    lastName: !form.lastName.trim() ? 'Priezvisko je povinné' : '',
-    phone: !form.phone.trim()
-      ? 'Telefónne číslo je povinné'
-      : !/^[+]?[\d\s-]{6,}$/.test(form.phone.trim())
-        ? 'Zadajte platné telefónne číslo'
-        : '',
-    address: !form.address.trim() ? 'Adresa je povinná' : '',
-    city: !form.city.trim() ? 'Mesto je povinné' : '',
-    postalCode: !form.postalCode.trim()
-      ? 'PSČ je povinné'
-      : !/^\d{5}$/.test(form.postalCode.replace(/\s/g, ''))
-        ? 'PSČ musí mať 5 číslic'
-        : '',
-    country: !form.country.trim() ? 'Krajina je povinná' : '',
-  }
-  if (form.isBusiness) {
-    e.companyName = !form.companyName.trim() ? 'Názov firmy je povinný' : ''
-    e.ico = !form.ico.trim()
-      ? 'IČO je povinné'
-      : !/^\d{6,8}$/.test(form.ico.replace(/\s/g, ''))
-        ? 'IČO musí mať 6–8 číslic'
-        : ''
-    e.dic = !form.dic.trim() ? 'DIČ je povinné' : ''
-  }
-  return e
-})
-
-const step1Fields = ['email', 'firstName', 'lastName', 'phone', 'address', 'city', 'postalCode', 'country']
-const step1BusinessFields = ['companyName', 'ico', 'dic']
-
-function inputClass(field: string) {
-  const hasError = touched[field] && errors.value[field]
-  return hasError
-    ? 'border-error focus:border-error'
-    : 'border-outline-variant focus:border-primary'
-}
-
-function goToStep(target: number) {
-  if (target > step.value) {
-    if (step.value === 1 && !validateStep1()) return
+// ── Step navigation with validation ──
+async function goToStep(target: number) {
+  if (target > step.value && step.value === 1) {
+    const result = await validateAddress()
+    if (!result.valid) return
   }
   step.value = target
   window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-function validateStep1(): boolean {
-  const fields = [...step1Fields, ...(form.isBusiness ? step1BusinessFields : [])]
-  fields.forEach((f) => (touched[f] = true))
-  return fields.every((f) => !errors.value[f])
 }
 
 // ── Order placement ──
@@ -158,18 +139,18 @@ async function placeOrder() {
   isPlacing.value = true
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  const shippingOpt = shippingOptions.find((o) => o.id === form.shipping)!
+  const shippingOpt = shippingOptions.find((o) => o.id === shipping.value)!
   const paymentLabels: Record<string, string> = { card: 'Platobná karta', transfer: 'Bankový prevod', cod: 'Dobierka' }
 
   placedOrder.value = {
     orderNumber: generateOrderNumber(),
-    email: form.email,
+    email: email.value.value as string,
     items: [...cart.items],
     subtotal: cart.subtotal,
     shipping: { label: shippingOpt.label, time: shippingOpt.time, price: shippingOpt.price },
-    payment: paymentLabels[form.payment] ?? form.payment,
+    payment: paymentLabels[payment.value] ?? payment.value,
     total: orderTotal.value,
-    address: `${form.firstName} ${form.lastName}, ${form.address}, ${form.postalCode} ${form.city}`,
+    address: `${firstName.value.value} ${lastName.value.value}, ${address.value.value}, ${postalCode.value.value} ${city.value.value}`,
     date: new Date().toLocaleDateString('sk-SK', { day: 'numeric', month: 'long', year: 'numeric' }),
   }
 
@@ -405,17 +386,17 @@ const trackingSteps = [
               <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
                 <div class="flex flex-col gap-1 md:col-span-2">
                   <label for="checkout-email" class="font-technical-data text-technical-data uppercase text-on-surface-variant">E-mailová adresa</label>
-                  <input id="checkout-email" v-model="form.email" type="email" autocomplete="email" placeholder="vas@email.sk"
-                    :aria-describedby="touched.email && errors.email ? 'err-email' : undefined" :aria-invalid="touched.email && !!errors.email"
-                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('email')" @blur="touch('email')" />
-                  <p v-if="touched.email && errors.email" id="err-email" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.email }}</p>
+                  <input id="checkout-email" v-model="email.value.value" type="email" autocomplete="email" placeholder="vas@email.sk"
+                    :aria-describedby="email.meta.touched && errors.email ? 'err-email' : undefined" :aria-invalid="email.meta.touched && !!errors.email"
+                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('email')" @blur="email.handleBlur" />
+                  <p v-if="email.meta.touched && errors.email" id="err-email" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.email }}</p>
                 </div>
                 <div class="flex flex-col gap-1 md:col-span-2">
                   <label for="checkout-phone" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Telefón</label>
-                  <input id="checkout-phone" v-model="form.phone" type="tel" autocomplete="tel" placeholder="+421 9XX XXX XXX"
-                    :aria-describedby="touched.phone && errors.phone ? 'err-phone' : undefined" :aria-invalid="touched.phone && !!errors.phone"
-                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('phone')" @blur="touch('phone')" />
-                  <p v-if="touched.phone && errors.phone" id="err-phone" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.phone }}</p>
+                  <input id="checkout-phone" v-model="phone.value.value" type="tel" autocomplete="tel" placeholder="+421 9XX XXX XXX"
+                    :aria-describedby="phone.meta.touched && errors.phone ? 'err-phone' : undefined" :aria-invalid="phone.meta.touched && !!errors.phone"
+                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('phone')" @blur="phone.handleBlur" />
+                  <p v-if="phone.meta.touched && errors.phone" id="err-phone" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.phone }}</p>
                 </div>
               </div>
             </fieldset>
@@ -427,55 +408,55 @@ const trackingSteps = [
               <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
                 <div class="flex flex-col gap-1">
                   <label for="checkout-first-name" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Meno</label>
-                  <input id="checkout-first-name" v-model="form.firstName" type="text" autocomplete="given-name"
-                    :aria-describedby="touched.firstName && errors.firstName ? 'err-first-name' : undefined" :aria-invalid="touched.firstName && !!errors.firstName"
-                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('firstName')" @blur="touch('firstName')" />
-                  <p v-if="touched.firstName && errors.firstName" id="err-first-name" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.firstName }}</p>
+                  <input id="checkout-first-name" v-model="firstName.value.value" type="text" autocomplete="given-name"
+                    :aria-describedby="firstName.meta.touched && errors.firstName ? 'err-first-name' : undefined" :aria-invalid="firstName.meta.touched && !!errors.firstName"
+                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('firstName')" @blur="firstName.handleBlur" />
+                  <p v-if="firstName.meta.touched && errors.firstName" id="err-first-name" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.firstName }}</p>
                 </div>
                 <div class="flex flex-col gap-1">
                   <label for="checkout-last-name" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Priezvisko</label>
-                  <input id="checkout-last-name" v-model="form.lastName" type="text" autocomplete="family-name"
-                    :aria-describedby="touched.lastName && errors.lastName ? 'err-last-name' : undefined" :aria-invalid="touched.lastName && !!errors.lastName"
-                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('lastName')" @blur="touch('lastName')" />
-                  <p v-if="touched.lastName && errors.lastName" id="err-last-name" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.lastName }}</p>
+                  <input id="checkout-last-name" v-model="lastName.value.value" type="text" autocomplete="family-name"
+                    :aria-describedby="lastName.meta.touched && errors.lastName ? 'err-last-name' : undefined" :aria-invalid="lastName.meta.touched && !!errors.lastName"
+                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('lastName')" @blur="lastName.handleBlur" />
+                  <p v-if="lastName.meta.touched && errors.lastName" id="err-last-name" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.lastName }}</p>
                 </div>
               </div>
               <div class="flex flex-col gap-1">
                 <label for="checkout-address" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Adresa (ulica a číslo domu)</label>
-                <input id="checkout-address" v-model="form.address" type="text" autocomplete="street-address"
-                  :aria-describedby="touched.address && errors.address ? 'err-address' : undefined" :aria-invalid="touched.address && !!errors.address"
-                  class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('address')" @blur="touch('address')" />
-                <p v-if="touched.address && errors.address" id="err-address" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.address }}</p>
+                <input id="checkout-address" v-model="address.value.value" type="text" autocomplete="street-address"
+                  :aria-describedby="address.meta.touched && errors.address ? 'err-address' : undefined" :aria-invalid="address.meta.touched && !!errors.address"
+                  class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('address')" @blur="address.handleBlur" />
+                <p v-if="address.meta.touched && errors.address" id="err-address" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.address }}</p>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
                 <div class="flex flex-col gap-1">
                   <label for="checkout-city" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Mesto</label>
-                  <input id="checkout-city" v-model="form.city" type="text" autocomplete="address-level2"
-                    :aria-describedby="touched.city && errors.city ? 'err-city' : undefined" :aria-invalid="touched.city && !!errors.city"
-                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('city')" @blur="touch('city')" />
-                  <p v-if="touched.city && errors.city" id="err-city" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.city }}</p>
+                  <input id="checkout-city" v-model="city.value.value" type="text" autocomplete="address-level2"
+                    :aria-describedby="city.meta.touched && errors.city ? 'err-city' : undefined" :aria-invalid="city.meta.touched && !!errors.city"
+                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('city')" @blur="city.handleBlur" />
+                  <p v-if="city.meta.touched && errors.city" id="err-city" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.city }}</p>
                 </div>
                 <div class="flex flex-col gap-1">
                   <label for="checkout-postal-code" class="font-technical-data text-technical-data uppercase text-on-surface-variant">PSČ</label>
-                  <input id="checkout-postal-code" v-model="form.postalCode" type="text" autocomplete="postal-code" inputmode="numeric"
-                    :aria-describedby="touched.postalCode && errors.postalCode ? 'err-postal-code' : undefined" :aria-invalid="touched.postalCode && !!errors.postalCode"
-                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('postalCode')" @blur="touch('postalCode')" />
-                  <p v-if="touched.postalCode && errors.postalCode" id="err-postal-code" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.postalCode }}</p>
+                  <input id="checkout-postal-code" v-model="postalCode.value.value" type="text" autocomplete="postal-code" inputmode="numeric"
+                    :aria-describedby="postalCode.meta.touched && errors.postalCode ? 'err-postal-code' : undefined" :aria-invalid="postalCode.meta.touched && !!errors.postalCode"
+                    class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('postalCode')" @blur="postalCode.handleBlur" />
+                  <p v-if="postalCode.meta.touched && errors.postalCode" id="err-postal-code" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.postalCode }}</p>
                 </div>
               </div>
               <div class="flex flex-col gap-1">
                 <label for="checkout-country" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Krajina</label>
-                <input id="checkout-country" v-model="form.country" type="text" autocomplete="country-name"
-                  :aria-describedby="touched.country && errors.country ? 'err-country' : undefined" :aria-invalid="touched.country && !!errors.country"
-                  class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('country')" @blur="touch('country')" />
-                <p v-if="touched.country && errors.country" id="err-country" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.country }}</p>
+                <input id="checkout-country" v-model="country.value.value" type="text" autocomplete="country-name"
+                  :aria-describedby="country.meta.touched && errors.country ? 'err-country' : undefined" :aria-invalid="country.meta.touched && !!errors.country"
+                  class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('country')" @blur="country.handleBlur" />
+                <p v-if="country.meta.touched && errors.country" id="err-country" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.country }}</p>
               </div>
             </fieldset>
 
             <!-- Business toggle -->
             <fieldset class="flex flex-col gap-stack-sm">
               <label class="flex items-center gap-stack-sm cursor-pointer select-none">
-                <input v-model="form.isBusiness" type="checkbox" class="w-5 h-5 accent-primary rounded cursor-pointer" />
+                <input v-model="isBusiness.value.value" type="checkbox" class="w-5 h-5 accent-primary rounded cursor-pointer" />
                 <span class="font-body-md text-body-md">Nakupujem na firmu</span>
               </label>
 
@@ -487,33 +468,33 @@ const trackingSteps = [
                 leave-from-class="opacity-100 translate-y-0"
                 leave-to-class="opacity-0 -translate-y-2"
               >
-                <div v-if="form.isBusiness" class="flex flex-col gap-stack-sm border border-grid-line p-stack-md rounded-default bg-surface-container-lowest">
+                <div v-if="isBusiness.value.value" class="flex flex-col gap-stack-sm border border-grid-line p-stack-md rounded-default bg-surface-container-lowest">
                   <p class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant border-b border-grid-line pb-stack-sm">Firemné údaje</p>
                   <div class="flex flex-col gap-1">
                     <label for="checkout-company" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Názov firmy</label>
-                    <input id="checkout-company" v-model="form.companyName" type="text" autocomplete="organization"
-                      :aria-describedby="touched.companyName && errors.companyName ? 'err-company' : undefined" :aria-invalid="touched.companyName && !!errors.companyName"
-                      class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('companyName')" @blur="touch('companyName')" />
-                    <p v-if="touched.companyName && errors.companyName" id="err-company" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.companyName }}</p>
+                    <input id="checkout-company" v-model="companyName.value.value" type="text" autocomplete="organization"
+                      :aria-describedby="companyName.meta.touched && errors.companyName ? 'err-company' : undefined" :aria-invalid="companyName.meta.touched && !!errors.companyName"
+                      class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('companyName')" @blur="companyName.handleBlur" />
+                    <p v-if="companyName.meta.touched && errors.companyName" id="err-company" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.companyName }}</p>
                   </div>
                   <div class="grid grid-cols-1 md:grid-cols-3 gap-stack-sm">
                     <div class="flex flex-col gap-1">
                       <label for="checkout-ico" class="font-technical-data text-technical-data uppercase text-on-surface-variant">IČO</label>
-                      <input id="checkout-ico" v-model="form.ico" type="text" inputmode="numeric"
-                        :aria-describedby="touched.ico && errors.ico ? 'err-ico' : undefined" :aria-invalid="touched.ico && !!errors.ico"
-                        class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('ico')" @blur="touch('ico')" />
-                      <p v-if="touched.ico && errors.ico" id="err-ico" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.ico }}</p>
+                      <input id="checkout-ico" v-model="ico.value.value" type="text" inputmode="numeric"
+                        :aria-describedby="ico.meta.touched && errors.ico ? 'err-ico' : undefined" :aria-invalid="ico.meta.touched && !!errors.ico"
+                        class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('ico')" @blur="ico.handleBlur" />
+                      <p v-if="ico.meta.touched && errors.ico" id="err-ico" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.ico }}</p>
                     </div>
                     <div class="flex flex-col gap-1">
                       <label for="checkout-dic" class="font-technical-data text-technical-data uppercase text-on-surface-variant">DIČ</label>
-                      <input id="checkout-dic" v-model="form.dic" type="text"
-                        :aria-describedby="touched.dic && errors.dic ? 'err-dic' : undefined" :aria-invalid="touched.dic && !!errors.dic"
-                        class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="inputClass('dic')" @blur="touch('dic')" />
-                      <p v-if="touched.dic && errors.dic" id="err-dic" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.dic }}</p>
+                      <input id="checkout-dic" v-model="dic.value.value" type="text"
+                        :aria-describedby="dic.meta.touched && errors.dic ? 'err-dic' : undefined" :aria-invalid="dic.meta.touched && !!errors.dic"
+                        class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('dic')" @blur="dic.handleBlur" />
+                      <p v-if="dic.meta.touched && errors.dic" id="err-dic" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.dic }}</p>
                     </div>
                     <div class="flex flex-col gap-1">
                       <label for="checkout-ic-dph" class="font-technical-data text-technical-data uppercase text-on-surface-variant">IČ DPH <span class="normal-case text-on-surface-variant/60">(nepovinné)</span></label>
-                      <input id="checkout-ic-dph" v-model="form.icDph" type="text"
+                      <input id="checkout-ic-dph" v-model="icDph.value.value" type="text"
                         class="h-12 px-4 border border-outline-variant focus:border-primary bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" />
                     </div>
                   </div>
@@ -541,9 +522,9 @@ const trackingSteps = [
                 v-for="opt in shippingOptions"
                 :key="opt.id"
                 class="flex items-center gap-stack-sm border px-4 py-4 rounded-default cursor-pointer transition-colors duration-200 hover:border-on-surface-variant focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary"
-                :class="form.shipping === opt.id ? 'border-primary bg-surface-container-lowest' : 'border-outline-variant'"
+                :class="shipping === opt.id ? 'border-primary bg-surface-container-lowest' : 'border-outline-variant'"
               >
-                <input v-model="form.shipping" type="radio" name="shipping" :value="opt.id" class="accent-primary shrink-0" />
+                <input v-model="shipping" type="radio" name="shipping" :value="opt.id" class="accent-primary shrink-0" />
                 <span class="material-symbols-outlined text-[22px] shrink-0" aria-hidden="true">{{ opt.icon }}</span>
                 <span class="flex-grow flex flex-col">
                   <span class="font-body-md text-body-md">{{ opt.label }}</span>
@@ -559,8 +540,8 @@ const trackingSteps = [
             <div class="border border-grid-line p-stack-md rounded-default flex items-start justify-between gap-stack-sm">
               <div>
                 <p class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-1">Doručiť na</p>
-                <p class="font-body-md text-body-md">{{ form.firstName }} {{ form.lastName }}</p>
-                <p class="font-body-md text-body-md text-on-surface-variant">{{ form.address }}, {{ form.postalCode }} {{ form.city }}</p>
+                <p class="font-body-md text-body-md">{{ firstName.value.value }} {{ lastName.value.value }}</p>
+                <p class="font-body-md text-body-md text-on-surface-variant">{{ address.value.value }}, {{ postalCode.value.value }} {{ city.value.value }}</p>
               </div>
               <button type="button" class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant underline hover:text-primary cursor-pointer transition-colors duration-200 shrink-0" @click="goToStep(1)">
                 Zmeniť
@@ -594,9 +575,9 @@ const trackingSteps = [
               </legend>
               <label
                 class="flex items-center gap-stack-sm border px-4 py-4 rounded-default cursor-pointer transition-colors duration-200 hover:border-on-surface-variant focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary"
-                :class="form.payment === 'card' ? 'border-primary bg-surface-container-lowest' : 'border-outline-variant'"
+                :class="payment === 'card' ? 'border-primary bg-surface-container-lowest' : 'border-outline-variant'"
               >
-                <input v-model="form.payment" type="radio" name="payment" value="card" class="accent-primary" />
+                <input v-model="payment" type="radio" name="payment" value="card" class="accent-primary" />
                 <span class="material-symbols-outlined text-[22px]" aria-hidden="true">credit_card</span>
                 <span class="flex-grow flex flex-col">
                   <span class="font-body-md text-body-md">Platobná karta</span>
@@ -605,9 +586,9 @@ const trackingSteps = [
               </label>
               <label
                 class="flex items-center gap-stack-sm border px-4 py-4 rounded-default cursor-pointer transition-colors duration-200 hover:border-on-surface-variant focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary"
-                :class="form.payment === 'transfer' ? 'border-primary bg-surface-container-lowest' : 'border-outline-variant'"
+                :class="payment === 'transfer' ? 'border-primary bg-surface-container-lowest' : 'border-outline-variant'"
               >
-                <input v-model="form.payment" type="radio" name="payment" value="transfer" class="accent-primary" />
+                <input v-model="payment" type="radio" name="payment" value="transfer" class="accent-primary" />
                 <span class="material-symbols-outlined text-[22px]" aria-hidden="true">account_balance</span>
                 <span class="flex-grow flex flex-col">
                   <span class="font-body-md text-body-md">Bankový prevod</span>
@@ -616,9 +597,9 @@ const trackingSteps = [
               </label>
               <label
                 class="flex items-center gap-stack-sm border px-4 py-4 rounded-default cursor-pointer transition-colors duration-200 hover:border-on-surface-variant focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary"
-                :class="form.payment === 'cod' ? 'border-primary bg-surface-container-lowest' : 'border-outline-variant'"
+                :class="payment === 'cod' ? 'border-primary bg-surface-container-lowest' : 'border-outline-variant'"
               >
-                <input v-model="form.payment" type="radio" name="payment" value="cod" class="accent-primary" />
+                <input v-model="payment" type="radio" name="payment" value="cod" class="accent-primary" />
                 <span class="material-symbols-outlined text-[22px]" aria-hidden="true">payments</span>
                 <span class="flex-grow flex flex-col">
                   <span class="font-body-md text-body-md">Dobierka</span>
@@ -632,15 +613,15 @@ const trackingSteps = [
               <p class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant border-b border-grid-line pb-stack-sm">Súhrn pred odoslaním</p>
               <div class="flex justify-between items-baseline">
                 <span class="font-body-md text-body-md text-on-surface-variant">Doručenie</span>
-                <span class="font-body-md text-body-md">{{ shippingOptions.find(o => o.id === form.shipping)?.label }} &middot; {{ formattedShipping }}</span>
+                <span class="font-body-md text-body-md">{{ shippingOptions.find(o => o.id === shipping)?.label }} &middot; {{ formattedShipping }}</span>
               </div>
               <div class="flex justify-between items-baseline">
                 <span class="font-body-md text-body-md text-on-surface-variant">Adresa</span>
-                <span class="font-body-md text-body-md text-right">{{ form.firstName }} {{ form.lastName }}, {{ form.city }}</span>
+                <span class="font-body-md text-body-md text-right">{{ firstName.value.value }} {{ lastName.value.value }}, {{ city.value.value }}</span>
               </div>
               <div class="flex justify-between items-baseline">
                 <span class="font-body-md text-body-md text-on-surface-variant">Kontakt</span>
-                <span class="font-body-md text-body-md">{{ form.email }}</span>
+                <span class="font-body-md text-body-md">{{ email.value.value }}</span>
               </div>
             </div>
 
