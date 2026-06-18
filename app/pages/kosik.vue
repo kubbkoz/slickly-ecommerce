@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getProductById, getRelatedProducts, type Product } from '~/data/products'
+import { categories } from '~/data/categories'
 
 const cart = useCartStore()
 const { formatPrice } = useCurrency()
@@ -195,17 +196,43 @@ const recommended = computed<Product[]>(() => {
     </div>
 
     <!-- Empty state -->
-    <div v-else class="flex flex-col items-center text-center gap-stack-md py-stack-lg md:py-section-padding-lg">
-      <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30" aria-hidden="true">shopping_bag</span>
-      <h2 class="font-headline-md text-headline-md uppercase">Váš košík je prázdny</h2>
-      <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+    <div v-else class="flex flex-col items-center text-center py-stack-lg md:py-section-padding">
+      <span class="material-symbols-outlined text-[72px] md:text-[96px] text-on-surface-variant opacity-20" aria-hidden="true">shopping_bag</span>
+      <h2 class="font-headline-lg text-headline-xl md:text-display-lg uppercase mt-stack-md">Váš košík je prázdny</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mt-stack-sm">
         Zatiaľ ste si nepridali žiadne produkty. Preskúmajte náš sortiment prémiových značiek a nájdite to najlepšie pre vaše vozidlo.
       </p>
       <NuxtLink
         to="/produkty"
-        class="h-12 px-8 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        class="h-14 px-10 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default mt-stack-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">storefront</span>
         Prejsť do obchodu
+      </NuxtLink>
+
+      <div class="w-full max-w-2xl mt-12 md:mt-16">
+        <p class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-stack-md">Obľúbené kategórie</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-stack-sm md:gap-stack-md">
+          <NuxtLink
+            v-for="cat in categories"
+            :key="cat.slug"
+            :to="`/produkty?kategoria=${cat.slug}`"
+            class="group flex flex-col items-center gap-stack-sm p-stack-md border border-grid-line rounded-default cursor-pointer transition-colors duration-200 hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-surface-container border border-grid-line">
+              <img :src="cat.image" :alt="cat.name" loading="lazy" class="w-full h-full object-cover" />
+            </div>
+            <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant group-hover:text-on-background transition-colors duration-200">{{ cat.name }}</span>
+          </NuxtLink>
+        </div>
+      </div>
+
+      <NuxtLink
+        to="/produkty?akcia=1"
+        class="mt-stack-lg h-12 px-8 border border-secondary-container bg-secondary-container/20 text-on-background font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-colors duration-200 hover:bg-secondary-container/40 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        <span class="material-symbols-outlined text-[18px]" aria-hidden="true">local_offer</span>
+        Pozrieť akciové ponuky
       </NuxtLink>
     </div>
 
