@@ -440,12 +440,14 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- Naposledy prezerané -->
-    <section v-if="recentlyViewedProducts.length" class="mt-stack-lg md:mt-section-padding-lg">
-      <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
-        Naposledy prezerané
-      </h2>
-      <ProductCarousel :products="recentlyViewedProducts" />
-    </section>
+    <ClientOnly>
+      <section v-if="recentlyViewedProducts.length" class="mt-stack-lg md:mt-section-padding-lg">
+        <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
+          Naposledy prezerané
+        </h2>
+        <ProductCarousel :products="recentlyViewedProducts" />
+      </section>
+    </ClientOnly>
 
     <!-- Gallery lightbox -->
     <Teleport to="body">

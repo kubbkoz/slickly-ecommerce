@@ -19,43 +19,32 @@ export const countries: CountryOption[] = [
   { code: 'AT', name: 'Rakúsko', language: 'de', languageLabel: 'Deutsch (AT)', currency: 'EUR', locale: 'de-AT', rate: 1 },
 ]
 
-const STORAGE_KEY = 'slickly-locale'
 const DEFAULT_COUNTRY = 'SK'
 
-export const useLocaleStore = defineStore('locale', {
-  state: () => ({
-    countryCode: DEFAULT_COUNTRY,
-  }),
+export const useLocaleStore = defineStore('locale', () => {
+  const cookie = useCookie<string>('slickly-locale', {
+    maxAge: 60 * 60 * 24 * 365,
+    sameSite: 'lax',
+    default: () => DEFAULT_COUNTRY,
+  })
 
-  getters: {
-    country: (state): CountryOption =>
-      countries.find((c) => c.code === state.countryCode) ?? countries[0]!,
-    currency(): CountryOption['currency'] { return this.country.currency },
-    rate(): number { return this.country.rate },
-    language(): string { return this.country.language },
-    localeTag(): string { return this.country.locale },
-  },
+  const countryCode = ref(
+    (cookie.value && countries.some((c) => c.code === cookie.value) ? cookie.value : DEFAULT_COUNTRY),
+  )
 
-  actions: {
-    setCountry(code: string) {
-      if (!countries.some((c) => c.code === code)) return
-      this.countryCode = code
-      this.persist()
-    },
+  const country = computed((): CountryOption =>
+    countries.find((c) => c.code === countryCode.value) ?? countries[0]!,
+  )
+  const currency = computed((): CountryOption['currency'] => country.value.currency)
+  const rate = computed((): number => country.value.rate)
+  const language = computed((): string => country.value.language)
+  const localeTag = computed((): string => country.value.locale)
 
-    persist() {
-      if (import.meta.client) {
-        localStorage.setItem(STORAGE_KEY, this.countryCode)
-      }
-    },
+  function setCountry(code: string) {
+    if (!countries.some((c) => c.code === code)) return
+    countryCode.value = code
+    cookie.value = code
+  }
 
-    hydrate() {
-      if (import.meta.client) {
-        const raw = localStorage.getItem(STORAGE_KEY)
-        if (raw && countries.some((c) => c.code === raw)) {
-          this.countryCode = raw
-        }
-      }
-    },
-  },
+  return { countryCode, country, currency, rate, language, localeTag, setCountry }
 })

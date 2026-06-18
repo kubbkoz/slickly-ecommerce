@@ -23,18 +23,26 @@ const items = computed(() => products.filter((p) => wishlist.has(p.id)))
       Obľúbené produkty
     </h1>
 
-    <div v-if="items.length" class="grid grid-cols-2 lg:grid-cols-3 gap-px bg-grid-line border border-grid-line">
-      <ProductCard v-for="product in items" :key="product.id" :product="product" />
-    </div>
-    <div v-else class="py-stack-lg flex flex-col items-center gap-stack-md text-center">
-      <span class="material-symbols-outlined text-[56px] text-on-surface-variant opacity-30" aria-hidden="true">favorite</span>
-      <p class="font-body-md text-body-md text-on-surface-variant">Zatiaľ nemáte žiadne obľúbené produkty.</p>
-      <NuxtLink
-        to="/produkty"
-        class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-      >
-        Prehliadať produkty
-      </NuxtLink>
-    </div>
+    <ClientOnly>
+      <div v-if="items.length" class="grid grid-cols-2 lg:grid-cols-3 gap-px bg-grid-line border border-grid-line">
+        <ProductCard v-for="product in items" :key="product.id" :product="product" />
+      </div>
+      <div v-else class="py-stack-lg flex flex-col items-center gap-stack-md text-center">
+        <span class="material-symbols-outlined text-[56px] text-on-surface-variant opacity-30" aria-hidden="true">favorite</span>
+        <p class="font-body-md text-body-md text-on-surface-variant">Zatiaľ nemáte žiadne obľúbené produkty.</p>
+        <NuxtLink
+          to="/produkty"
+          class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          Prehliadať produkty
+        </NuxtLink>
+      </div>
+      <template #fallback>
+        <div class="py-stack-lg flex flex-col items-center gap-stack-md text-center">
+          <span class="material-symbols-outlined text-[56px] text-on-surface-variant opacity-30" aria-hidden="true">favorite</span>
+          <p class="font-body-md text-body-md text-on-surface-variant">Načítavajú sa obľúbené…</p>
+        </div>
+      </template>
+    </ClientOnly>
   </div>
 </template>

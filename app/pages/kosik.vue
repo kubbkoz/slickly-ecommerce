@@ -58,8 +58,7 @@ const recommended = computed<Product[]>(() => {
 
 <template>
   <div
-    class="w-full md:max-w-[1536px] md:mx-auto px-gutter md:px-grid-margin py-stack-lg md:py-12"
-    :class="cart.items.length ? 'pb-28 md:pb-12' : ''"
+    class="w-full md:max-w-[1536px] md:mx-auto px-gutter md:px-grid-margin py-stack-lg md:py-12 pb-28 md:pb-12"
   >
     <!-- Breadcrumb -->
     <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant block mb-stack-lg md:mb-8">
@@ -70,6 +69,7 @@ const recommended = computed<Product[]>(() => {
       Nákupný košík
     </h1>
 
+    <ClientOnly>
     <div v-if="cart.items.length" class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg md:gap-16">
       <!-- Items -->
       <div class="md:col-span-2 flex flex-col divide-y divide-grid-line border-y border-grid-line">
@@ -209,6 +209,14 @@ const recommended = computed<Product[]>(() => {
       </NuxtLink>
     </div>
 
+    <template #fallback>
+      <div class="flex flex-col items-center text-center gap-stack-md py-stack-lg md:py-section-padding-lg">
+        <span class="material-symbols-outlined text-[64px] text-on-surface-variant opacity-30" aria-hidden="true">shopping_bag</span>
+        <p class="font-body-md text-body-md text-on-surface-variant">Načítava sa košík…</p>
+      </div>
+    </template>
+    </ClientOnly>
+
     <!-- Cross-sell -->
     <section v-if="recommended.length" class="mt-stack-lg md:mt-16 pt-stack-lg md:pt-12 border-t border-grid-line">
       <h2 class="font-headline-md text-headline-md uppercase mb-stack-md md:mb-8">Mohlo by sa vám páčiť</h2>
@@ -216,6 +224,7 @@ const recommended = computed<Product[]>(() => {
     </section>
 
     <!-- Sticky mobile checkout bar -->
+    <ClientOnly>
     <div
       v-if="cart.items.length"
       class="md:hidden fixed left-0 right-0 z-40 bg-surface-container-lowest border-t border-grid-line px-gutter py-stack-sm flex items-center justify-between gap-stack-sm"
@@ -233,5 +242,6 @@ const recommended = computed<Product[]>(() => {
         Pokladňa
       </NuxtLink>
     </div>
+    </ClientOnly>
   </div>
 </template>

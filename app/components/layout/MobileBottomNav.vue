@@ -60,10 +60,9 @@ function haptic() {
           >{{ link.icon }}</span>
         </span>
         <span
-          v-if="link.label === 'Obľúbené' && wishlist.count > 0"
+          v-if="link.label === 'Obľúbené' && hydrated && wishlist.count > 0"
           :key="wishlist.count"
-          class="absolute top-1 right-1/4 bg-error text-on-error text-[9px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
-          :class="hydrated ? 'badge-pop' : ''"
+          class="absolute top-1 right-1/4 bg-error text-on-error text-[9px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1 badge-pop"
         >
           {{ wishlist.count }}
         </span>

@@ -114,10 +114,9 @@ watch(isMenuOpen, (open) => {
           <span class="relative">
             <span class="material-symbols-outlined transition-transform duration-200 active:scale-90" aria-hidden="true">shopping_bag</span>
             <span
-              v-if="cart.itemCount > 0"
+              v-if="hydrated && cart.itemCount > 0"
               :key="cart.itemCount"
-              class="absolute -top-1.5 -right-2 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
-              :class="hydrated ? 'badge-pop' : ''"
+              class="absolute -top-1.5 -right-2 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1 badge-pop"
             >
               {{ cart.itemCount }}
             </span>
@@ -247,10 +246,9 @@ watch(isMenuOpen, (open) => {
             >
               <span class="material-symbols-outlined text-[22px]" aria-hidden="true">favorite</span>
               <span
-                v-if="wishlist.count > 0"
+                v-if="hydrated && wishlist.count > 0"
                 :key="wishlist.count"
-                class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
-                :class="hydrated ? 'badge-pop' : ''"
+                class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center badge-pop"
               >
                 {{ wishlist.count }}
               </span>
@@ -266,10 +264,9 @@ watch(isMenuOpen, (open) => {
             >
               <span class="material-symbols-outlined text-[22px]" aria-hidden="true">shopping_cart</span>
               <span
-                v-if="cart.itemCount > 0"
+                v-if="hydrated && cart.itemCount > 0"
                 :key="cart.itemCount"
-                class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
-                :class="hydrated ? 'badge-pop' : ''"
+                class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center badge-pop"
               >
                 {{ cart.itemCount }}
               </span>
