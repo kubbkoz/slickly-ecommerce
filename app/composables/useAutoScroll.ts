@@ -3,8 +3,6 @@ import type { Ref } from 'vue'
 interface AutoScrollOptions {
   /** Milliseconds between auto-advances. Default 4000. */
   interval?: number
-  /** How long to stay paused after a user interaction (ms). Default 6000. */
-  resumeDelay?: number
 }
 
 /**
@@ -12,23 +10,26 @@ interface AutoScrollOptions {
  * loops back to the start at the end. Designed for product/testimonial/blog
  * carousels.
  *
- * Behaviour:
- * - Pauses on hover, focus-within and touch; resumes after `resumeDelay`.
+ * Pause behaviour:
+ * - Desktop (mouse): pauses while hovered, resumes on mouse leave.
+ * - Keyboard: pauses while focus is inside, resumes on focus out.
+ * - Touch / mobile: the first tap, click or focus stops autoscroll for good —
+ *   we never fight a user who has taken manual control.
  * - Only runs while the container is in the viewport (IntersectionObserver).
- * - Disabled entirely when the user prefers reduced motion.
+ * - Disabled entirely under prefers-reduced-motion.
  */
 export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOptions = {}) {
   const interval = options.interval ?? 4000
-  const resumeDelay = options.resumeDelay ?? 6000
 
   let timer: ReturnType<typeof setInterval> | null = null
-  let resumeTimer: ReturnType<typeof setTimeout> | null = null
-  let paused = false
   let visible = false
+  let hovering = false
+  let focused = false
+  let stoppedByUser = false
 
-  function step() {
+  function tick() {
     const node = el.value
-    if (!node || paused || !visible) return
+    if (!node || hovering || focused || stoppedByUser || !visible) return
     const max = node.scrollWidth - node.clientWidth
     if (node.scrollLeft >= max - 4) {
       node.scrollTo({ left: 0, behavior: 'smooth' })
@@ -41,8 +42,8 @@ export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOp
   }
 
   function start() {
-    if (timer) return
-    timer = setInterval(step, interval)
+    if (timer || stoppedByUser) return
+    timer = setInterval(tick, interval)
   }
   function stop() {
     if (timer) {
@@ -50,19 +51,19 @@ export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOp
       timer = null
     }
   }
-
-  function pause() {
-    paused = true
-    if (resumeTimer) {
-      clearTimeout(resumeTimer)
-      resumeTimer = null
-    }
+  /** Permanent stop — used once a mobile user takes manual control. */
+  function stopForGood() {
+    stoppedByUser = true
+    stop()
   }
-  function scheduleResume() {
-    if (resumeTimer) clearTimeout(resumeTimer)
-    resumeTimer = setTimeout(() => {
-      paused = false
-    }, resumeDelay)
+
+  const onMouseEnter = () => (hovering = true)
+  const onMouseLeave = () => (hovering = false)
+  const onFocusIn = () => (focused = true)
+  const onFocusOut = () => (focused = false)
+  const onTouchStart = () => stopForGood()
+  const onPointerDown = (e: PointerEvent) => {
+    if (e.pointerType === 'touch' || e.pointerType === 'pen') stopForGood()
   }
 
   onMounted(() => {
@@ -71,12 +72,12 @@ export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOp
     const node = el.value
     if (!node) return
 
-    node.addEventListener('pointerenter', pause)
-    node.addEventListener('pointerleave', scheduleResume)
-    node.addEventListener('focusin', pause)
-    node.addEventListener('focusout', scheduleResume)
-    node.addEventListener('touchstart', pause, { passive: true })
-    node.addEventListener('touchend', scheduleResume, { passive: true })
+    node.addEventListener('mouseenter', onMouseEnter)
+    node.addEventListener('mouseleave', onMouseLeave)
+    node.addEventListener('focusin', onFocusIn)
+    node.addEventListener('focusout', onFocusOut)
+    node.addEventListener('touchstart', onTouchStart, { passive: true })
+    node.addEventListener('pointerdown', onPointerDown, { passive: true })
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -92,14 +93,13 @@ export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOp
 
     onBeforeUnmount(() => {
       stop()
-      if (resumeTimer) clearTimeout(resumeTimer)
       io.disconnect()
-      node.removeEventListener('pointerenter', pause)
-      node.removeEventListener('pointerleave', scheduleResume)
-      node.removeEventListener('focusin', pause)
-      node.removeEventListener('focusout', scheduleResume)
-      node.removeEventListener('touchstart', pause)
-      node.removeEventListener('touchend', scheduleResume)
+      node.removeEventListener('mouseenter', onMouseEnter)
+      node.removeEventListener('mouseleave', onMouseLeave)
+      node.removeEventListener('focusin', onFocusIn)
+      node.removeEventListener('focusout', onFocusOut)
+      node.removeEventListener('touchstart', onTouchStart)
+      node.removeEventListener('pointerdown', onPointerDown)
     })
   })
 }
