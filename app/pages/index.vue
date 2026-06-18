@@ -8,6 +8,7 @@ useSeo({
 
 <template>
   <div>
+    <h1 class="sr-only">SLICKLY — Prémiová starostlivosť o auto</h1>
     <HeroBanner />
     <TrustBadges />
     <SpecialOffers />

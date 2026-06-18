@@ -158,7 +158,7 @@ watch(isMenuOpen, (open) => {
             </button>
           </div>
 
-          <nav class="flex-grow overflow-y-auto px-gutter py-stack-lg flex flex-col">
+          <nav aria-label="Hlavná navigácia" class="flex-grow overflow-y-auto px-gutter py-stack-lg flex flex-col">
             <NuxtLink to="/" class="font-headline-md text-headline-md uppercase tracking-tight text-on-background hover:text-primary py-stack-sm border-b border-grid-line rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
               Domov
             </NuxtLink>
@@ -299,7 +299,7 @@ watch(isMenuOpen, (open) => {
       </div>
 
       <!-- Row 2: nav links with mega menu -->
-      <nav class="border-t border-white/10">
+      <nav aria-label="Hlavná navigácia" class="border-t border-white/10">
         <div class="max-w-[1536px] mx-auto px-grid-margin h-12 flex items-center gap-8 relative">
           <div v-for="link in navLinks" :key="link.label" class="group h-full flex items-center">
             <NuxtLink

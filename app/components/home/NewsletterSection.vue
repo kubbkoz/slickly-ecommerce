@@ -30,6 +30,8 @@ async function subscribe() {
           v-model="email"
           type="email"
           required
+          aria-required="true"
+          inputmode="email"
           autocomplete="email"
           placeholder="vas@email.sk"
           class="flex-grow h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
@@ -44,7 +46,7 @@ async function subscribe() {
         </button>
       </form>
 
-      <div v-else role="status" class="flex items-center gap-2 mt-stack-sm text-secondary-container">
+      <div v-else role="status" aria-live="polite" aria-atomic="true" class="flex items-center gap-2 mt-stack-sm text-secondary-container">
         <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
         <span class="font-label-sm text-label-sm uppercase tracking-widest">Ďakujeme! Zľavový kód sme odoslali na váš e-mail.</span>
       </div>

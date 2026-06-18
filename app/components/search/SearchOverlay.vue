@@ -19,11 +19,13 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 let scrollY = 0
+let previouslyFocused: HTMLElement | null = null
 watch(
   () => search.isOpen,
   (open) => {
     if (!import.meta.client) return
     if (open) {
+      previouslyFocused = document.activeElement as HTMLElement
       window.addEventListener('keydown', onKeydown)
       const isMobile = window.matchMedia('(max-width: 767px)').matches
       if (isMobile) {
@@ -40,6 +42,7 @@ watch(
         document.body.style.top = ''
         window.scrollTo(0, scrollY)
       }
+      previouslyFocused?.focus()
     }
   },
 )

@@ -2,6 +2,9 @@
 const cart = useCartStore()
 const wishlist = useWishlistStore()
 const locale = useLocaleStore()
+const search = useSearchStore()
+
+const hasOverlay = computed(() => cart.isDrawerOpen || search.isOpen)
 
 const site = useSiteUrl()
 
@@ -51,11 +54,11 @@ onMounted(() => {
       Preskočiť na obsah
     </a>
     <AppHeader />
-    <main id="main-content" class="flex-grow flex flex-col w-full relative main-content-safe">
+    <main id="main-content" class="flex-grow flex flex-col w-full relative main-content-safe" :inert="hasOverlay || undefined">
       <slot />
     </main>
-    <AppFooter />
-    <MobileBottomNav />
+    <AppFooter :inert="hasOverlay || undefined" />
+    <MobileBottomNav :inert="hasOverlay || undefined" />
     <CartDrawer />
     <SearchOverlay />
     <ChatWidget />

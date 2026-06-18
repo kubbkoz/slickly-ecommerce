@@ -338,6 +338,7 @@ const trackingSteps = [
 
     <!-- ════════ CHECKOUT STEPS ════════ -->
     <template v-else>
+      <h1 class="sr-only">Pokladňa — {{ stepLabels[step - 1] }}</h1>
       <!-- Progress indicator -->
       <nav aria-label="Postup objednávky" class="mb-stack-lg md:mb-8">
         <ol class="flex items-center justify-center gap-0">
@@ -662,7 +663,7 @@ const trackingSteps = [
                 <span class="material-symbols-outlined" :class="isPlacing ? 'animate-spin' : ''" aria-hidden="true">{{ isPlacing ? 'progress_activity' : 'lock' }}</span>
                 {{ isPlacing ? 'Spracúva sa...' : 'Odoslať objednávku' }}
               </button>
-              <span class="sr-only" role="status">{{ isPlacing ? 'Objednávka sa spracúva' : '' }}</span>
+              <span class="sr-only" role="status" aria-live="polite" aria-atomic="true">{{ isPlacing ? 'Objednávka sa spracúva' : '' }}</span>
             </div>
           </form>
         </div>
