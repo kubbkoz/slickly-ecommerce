@@ -8,13 +8,17 @@ import { HERO_IMAGE, HERO_VIDEO } from '~/data/media'
 const isMobile = ref<boolean | null>(null)
 const allowMotion = ref(false)
 
+let mqCleanup: (() => void) | undefined
 onMounted(() => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   allowMotion.value = !reduce
   const mq = window.matchMedia('(max-width: 767px)')
   isMobile.value = mq.matches
-  mq.addEventListener('change', (e) => (isMobile.value = e.matches))
+  const handler = (e: MediaQueryListEvent) => { isMobile.value = e.matches }
+  mq.addEventListener('change', handler)
+  mqCleanup = () => mq.removeEventListener('change', handler)
 })
+onBeforeUnmount(() => { mqCleanup?.() })
 
 const showMobileVideo = computed(() => allowMotion.value && isMobile.value === true)
 const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === false)

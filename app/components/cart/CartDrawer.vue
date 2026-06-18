@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { products as allProducts, getRelatedProducts, type Product } from '~/data/products'
+import { getProductById, getRelatedProducts, type Product } from '~/data/products'
 
 const cart = useCartStore()
 const { formatPrice } = useCurrency()
@@ -12,7 +12,7 @@ const upsellProducts = computed<Product[]>(() => {
   const seen = new Set<string>()
   const result: Product[] = []
   for (const item of cart.items) {
-    const product = allProducts.find((p) => p.id === item.productId)
+    const product = getProductById(item.productId)
     if (!product) continue
     for (const rel of getRelatedProducts(product, 6)) {
       if (result.length >= 6) break
@@ -46,6 +46,14 @@ watch(() => cart.isDrawerOpen, (open) => {
     document.body.style.top = ''
     window.scrollTo(0, scrollY)
     previouslyFocused?.focus()
+  }
+})
+
+onBeforeUnmount(() => {
+  if (cart.isDrawerOpen) {
+    window.removeEventListener('keydown', onKeydown)
+    document.body.classList.remove('overflow-locked')
+    document.body.style.top = ''
   }
 })
 

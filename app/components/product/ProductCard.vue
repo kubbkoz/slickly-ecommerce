@@ -28,10 +28,15 @@ const cardRoot = ref<HTMLElement | null>(null)
 const galleryEl = ref<HTMLElement | null>(null)
 const activeImage = ref(0)
 
+let rafId = 0
 function onGalleryScroll() {
-  const node = galleryEl.value
-  if (!node) return
-  activeImage.value = Math.round(node.scrollLeft / node.clientWidth)
+  if (rafId) return
+  rafId = requestAnimationFrame(() => {
+    rafId = 0
+    const node = galleryEl.value
+    if (!node) return
+    activeImage.value = Math.round(node.scrollLeft / node.clientWidth)
+  })
 }
 
 // Reset back to the cover image whenever the card leaves the viewport.

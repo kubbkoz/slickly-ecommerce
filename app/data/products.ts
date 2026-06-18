@@ -385,10 +385,16 @@ export function getProductsByCategory(categorySlug: string): Product[] {
 }
 
 export function getRelatedProducts(product: Product, limit = 3): Product[] {
-  return products
-    .filter((p) => p.id !== product.id && p.category === product.category)
-    .concat(products.filter((p) => p.id !== product.id && p.category !== product.category))
-    .slice(0, limit)
+  const same: Product[] = []
+  const other: Product[] = []
+  for (const p of products) {
+    if (p.id === product.id) continue
+    if (same.length + other.length >= limit && same.length >= limit) break
+    if (p.category === product.category) same.push(p)
+    else other.push(p)
+  }
+  const result = same.concat(other)
+  return result.length <= limit ? result : result.slice(0, limit)
 }
 
 export function getBundleProducts(product: Product): Product[] {

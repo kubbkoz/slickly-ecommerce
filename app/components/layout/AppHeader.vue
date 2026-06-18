@@ -35,7 +35,7 @@ watch(
 )
 
 watch(
-  () => useRoute().fullPath,
+  () => useRoute().path,
   () => {
     isMenuOpen.value = false
     cart.closeDrawer()
@@ -55,6 +55,14 @@ function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape') isMenuOpen.value = false
 }
 onMounted(() => { nextTick(() => { hydrated.value = true }) })
+
+onBeforeUnmount(() => {
+  if (isMenuOpen.value) {
+    window.removeEventListener('keydown', onKeydown)
+    document.body.classList.remove('overflow-locked')
+    document.body.style.top = ''
+  }
+})
 
 let scrollY = 0
 watch(isMenuOpen, (open) => {

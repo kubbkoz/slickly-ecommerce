@@ -84,7 +84,11 @@ export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOp
     node.addEventListener('touchstart', onTouchStart, { passive: true })
     node.addEventListener('pointerdown', onPointerDown, { passive: true })
 
-    const ro = new ResizeObserver(() => { cachedScrollAmount = 0 })
+    let roTimeout: ReturnType<typeof setTimeout> | null = null
+    const ro = new ResizeObserver(() => {
+      if (roTimeout) clearTimeout(roTimeout)
+      roTimeout = setTimeout(() => { cachedScrollAmount = 0 }, 200)
+    })
     ro.observe(node)
 
     const io = new IntersectionObserver(

@@ -43,6 +43,14 @@ watch(
     }
   },
 )
+
+onBeforeUnmount(() => {
+  if (search.isOpen) {
+    window.removeEventListener('keydown', onKeydown)
+    document.body.classList.remove('overflow-locked')
+    document.body.style.top = ''
+  }
+})
 </script>
 
 <template>
