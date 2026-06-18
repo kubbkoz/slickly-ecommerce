@@ -50,7 +50,7 @@ const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === 
         </h1>
         <NuxtLink
           to="/produkty"
-          class="bg-secondary-container text-on-secondary-container px-stack-lg py-3 rounded-default font-bold transition-all duration-200 active:scale-95 w-fit cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+          class="bg-secondary-container text-on-secondary-container px-stack-lg py-3 rounded-default font-bold transition-[background-color,transform,opacity] duration-200 active:scale-95 w-fit cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
         >
           PRESKÚMAŤ KOLEKCIU
         </NuxtLink>
@@ -85,7 +85,7 @@ const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === 
         </p>
         <NuxtLink
           to="/produkty"
-          class="mt-4 bg-secondary-container text-on-secondary-container px-stack-lg py-3 rounded-default font-bold transition-all duration-200 active:scale-95 w-fit cursor-pointer hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+          class="mt-4 bg-secondary-container text-on-secondary-container px-stack-lg py-3 rounded-default font-bold transition-[background-color,transform,opacity] duration-200 active:scale-95 w-fit cursor-pointer hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
         >
           Kúpiť teraz
         </NuxtLink>

@@ -304,7 +304,7 @@ watch(isMenuOpen, (open) => {
             <!-- Mega menu -->
             <div
               v-if="link.mega"
-              class="absolute left-0 right-0 top-full pt-2 opacity-0 invisible -translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0"
+              class="absolute left-0 right-0 top-full pt-2 opacity-0 invisible -translate-y-1 transition-[opacity,visibility,transform] duration-200 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0"
             >
               <div class="bg-background border border-grid-line shadow-xl rounded-default p-6 grid grid-cols-4 gap-4">
                 <NuxtLink
