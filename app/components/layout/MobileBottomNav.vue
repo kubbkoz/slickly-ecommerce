@@ -32,7 +32,7 @@ function haptic() {
 <template>
   <nav
     aria-label="Spodná navigácia"
-    class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface/[.97] backdrop-blur-sm border-t border-outline-variant/50 flex justify-around items-end safe-bottom"
+    class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface border-t border-outline-variant/50 flex justify-around items-end safe-bottom"
     style="padding-bottom: max(env(safe-area-inset-bottom, 0px), 4px)"
   >
     <NuxtLink

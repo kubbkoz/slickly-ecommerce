@@ -107,7 +107,7 @@ async function login() {
 
     <button
       type="button"
-      class="fixed top-4 right-4 md:top-6 md:right-6 z-30 min-h-11 px-4 flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-on-primary font-label-sm text-label-sm uppercase tracking-widest cursor-pointer transition-colors duration-200 hover:bg-white/20 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+      class="fixed top-4 right-4 md:top-6 md:right-6 z-30 min-h-11 px-4 flex items-center gap-2 bg-white/20 border border-white/20 text-on-primary font-label-sm text-label-sm uppercase tracking-widest cursor-pointer transition-colors duration-200 hover:bg-white/30 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
       @click="openLogin"
     >
       <span class="material-symbols-outlined text-[18px]" aria-hidden="true">lock</span>
@@ -154,7 +154,7 @@ async function login() {
           <button
             type="submit"
             :disabled="isSubscribing"
-            class="h-12 px-8 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            class="h-12 px-8 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform,opacity] duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             <span class="material-symbols-outlined" :class="isSubscribing ? 'animate-spin' : ''" aria-hidden="true">{{ isSubscribing ? 'progress_activity' : 'notifications' }}</span>
             {{ isSubscribing ? 'Spracúva sa...' : 'Upozorniť ma' }}
@@ -242,7 +242,7 @@ async function login() {
             <button
               type="submit"
               :disabled="isLoggingIn"
-              class="h-12 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              class="h-12 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform,opacity] duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               <span class="material-symbols-outlined" :class="isLoggingIn ? 'animate-spin' : ''" aria-hidden="true">{{ isLoggingIn ? 'progress_activity' : 'lock_open' }}</span>
               {{ isLoggingIn ? 'Prihlasovanie...' : 'Vstúpiť' }}

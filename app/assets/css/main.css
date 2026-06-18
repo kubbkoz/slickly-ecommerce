@@ -16,7 +16,7 @@
   --color-inverse-surface: #2d3133;
   --color-inverse-on-surface: #eff1f3;
   --color-outline: #7e7576;
-  --color-outline-variant: #cfc4c5;
+  --color-outline-variant: #9e9394;
   --color-surface-tint: #5e5e5e;
   --color-grid-line: #e5e5e5;
 
@@ -134,6 +134,7 @@
   html {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    touch-action: manipulation;
   }
   @media (min-width: 768px) {
     html {

@@ -37,7 +37,7 @@ async function subscribe() {
         <button
           type="submit"
           :disabled="isSubmitting"
-          class="h-12 px-8 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          class="h-12 px-8 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform,opacity] duration-200 active:scale-[0.99] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           <span class="material-symbols-outlined" :class="isSubmitting ? 'animate-spin' : ''" aria-hidden="true">{{ isSubmitting ? 'progress_activity' : 'arrow_forward' }}</span>
           {{ isSubmitting ? 'Spracúva sa...' : 'Získať zľavu' }}

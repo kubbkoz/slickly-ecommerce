@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { products as allProducts } from '~/data/products'
+import { getProductById } from '~/data/products'
 import { useForm, useField } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { checkoutAddressSchema, SUPPORTED_COUNTRIES } from '~/composables/useCheckoutSchema'
@@ -28,7 +28,7 @@ const formattedSubtotal = computed(() => formatPrice(cart.subtotal))
 
 const savingsTotal = computed(() => {
   return cart.items.reduce((total, item) => {
-    const product = allProducts.find((p) => p.id === item.productId)
+    const product = getProductById(item.productId)
     if (product?.oldPrice && product.oldPrice > item.price) {
       return total + (product.oldPrice - item.price) * item.quantity
     }
@@ -403,14 +403,14 @@ const trackingSteps = [
                 <div class="flex flex-col gap-1 md:col-span-2">
                   <label for="checkout-email" class="font-technical-data text-technical-data uppercase text-on-surface-variant">E-mailová adresa</label>
                   <input id="checkout-email" v-model="email.value.value" type="email" inputmode="email" autocomplete="email" placeholder="vas@email.sk"
-                    :aria-describedby="email.meta.touched && errors.email ? 'err-email' : undefined" :aria-invalid="email.meta.touched && !!errors.email"
+                    aria-required="true" :aria-describedby="email.meta.touched && errors.email ? 'err-email' : undefined" :aria-invalid="email.meta.touched && !!errors.email"
                     class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('email')" @blur="email.handleBlur" />
                   <p v-if="email.meta.touched && errors.email" id="err-email" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.email }}</p>
                 </div>
                 <div class="flex flex-col gap-1 md:col-span-2">
                   <label for="checkout-phone" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Telefón</label>
                   <input id="checkout-phone" v-model="phone.value.value" type="tel" autocomplete="tel" :placeholder="phonePlaceholder"
-                    :aria-describedby="phone.meta.touched && errors.phone ? 'err-phone' : undefined" :aria-invalid="phone.meta.touched && !!errors.phone"
+                    aria-required="true" :aria-describedby="phone.meta.touched && errors.phone ? 'err-phone' : undefined" :aria-invalid="phone.meta.touched && !!errors.phone"
                     class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('phone')" @blur="phone.handleBlur" />
                   <p v-if="phone.meta.touched && errors.phone" id="err-phone" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.phone }}</p>
                 </div>
@@ -425,14 +425,14 @@ const trackingSteps = [
                 <div class="flex flex-col gap-1">
                   <label for="checkout-first-name" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Meno</label>
                   <input id="checkout-first-name" v-model="firstName.value.value" type="text" autocomplete="given-name"
-                    :aria-describedby="firstName.meta.touched && errors.firstName ? 'err-first-name' : undefined" :aria-invalid="firstName.meta.touched && !!errors.firstName"
+                    aria-required="true" :aria-describedby="firstName.meta.touched && errors.firstName ? 'err-first-name' : undefined" :aria-invalid="firstName.meta.touched && !!errors.firstName"
                     class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('firstName')" @blur="firstName.handleBlur" />
                   <p v-if="firstName.meta.touched && errors.firstName" id="err-first-name" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.firstName }}</p>
                 </div>
                 <div class="flex flex-col gap-1">
                   <label for="checkout-last-name" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Priezvisko</label>
                   <input id="checkout-last-name" v-model="lastName.value.value" type="text" autocomplete="family-name"
-                    :aria-describedby="lastName.meta.touched && errors.lastName ? 'err-last-name' : undefined" :aria-invalid="lastName.meta.touched && !!errors.lastName"
+                    aria-required="true" :aria-describedby="lastName.meta.touched && errors.lastName ? 'err-last-name' : undefined" :aria-invalid="lastName.meta.touched && !!errors.lastName"
                     class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('lastName')" @blur="lastName.handleBlur" />
                   <p v-if="lastName.meta.touched && errors.lastName" id="err-last-name" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.lastName }}</p>
                 </div>
@@ -440,7 +440,7 @@ const trackingSteps = [
               <div class="flex flex-col gap-1">
                 <label for="checkout-address" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Adresa (ulica a číslo domu)</label>
                 <input id="checkout-address" v-model="address.value.value" type="text" autocomplete="street-address"
-                  :aria-describedby="address.meta.touched && errors.address ? 'err-address' : undefined" :aria-invalid="address.meta.touched && !!errors.address"
+                  aria-required="true" :aria-describedby="address.meta.touched && errors.address ? 'err-address' : undefined" :aria-invalid="address.meta.touched && !!errors.address"
                   class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('address')" @blur="address.handleBlur" />
                 <p v-if="address.meta.touched && errors.address" id="err-address" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.address }}</p>
               </div>
@@ -448,14 +448,14 @@ const trackingSteps = [
                 <div class="flex flex-col gap-1">
                   <label for="checkout-city" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Mesto</label>
                   <input id="checkout-city" v-model="city.value.value" type="text" autocomplete="address-level2"
-                    :aria-describedby="city.meta.touched && errors.city ? 'err-city' : undefined" :aria-invalid="city.meta.touched && !!errors.city"
+                    aria-required="true" :aria-describedby="city.meta.touched && errors.city ? 'err-city' : undefined" :aria-invalid="city.meta.touched && !!errors.city"
                     class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('city')" @blur="city.handleBlur" />
                   <p v-if="city.meta.touched && errors.city" id="err-city" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.city }}</p>
                 </div>
                 <div class="flex flex-col gap-1">
                   <label for="checkout-postal-code" class="font-technical-data text-technical-data uppercase text-on-surface-variant">PSČ</label>
                   <input id="checkout-postal-code" v-model="postalCode.value.value" type="text" autocomplete="postal-code" inputmode="numeric" :placeholder="postalPlaceholder"
-                    :aria-describedby="postalCode.meta.touched && errors.postalCode ? 'err-postal-code' : undefined" :aria-invalid="postalCode.meta.touched && !!errors.postalCode"
+                    aria-required="true" :aria-describedby="postalCode.meta.touched && errors.postalCode ? 'err-postal-code' : undefined" :aria-invalid="postalCode.meta.touched && !!errors.postalCode"
                     class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('postalCode')" @blur="postalCode.handleBlur" />
                   <p v-if="postalCode.meta.touched && errors.postalCode" id="err-postal-code" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.postalCode }}</p>
                 </div>
@@ -479,10 +479,10 @@ const trackingSteps = [
               </label>
 
               <Transition
-                enter-active-class="transition-all duration-200 ease-out"
+                enter-active-class="transition-[opacity,transform] duration-200 ease-out"
                 enter-from-class="opacity-0 -translate-y-2"
                 enter-to-class="opacity-100 translate-y-0"
-                leave-active-class="transition-all duration-150 ease-in"
+                leave-active-class="transition-[opacity,transform] duration-150 ease-in"
                 leave-from-class="opacity-100 translate-y-0"
                 leave-to-class="opacity-0 -translate-y-2"
               >
@@ -737,7 +737,7 @@ const trackingSteps = [
 
       <!-- Sticky mobile bar -->
       <div
-        class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/[.97] backdrop-blur-sm border-t border-grid-line/50 px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_12px_rgba(0,0,0,0.08)] safe-bottom"
+        class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest border-t border-grid-line/50 px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_12px_rgba(0,0,0,0.08)] safe-bottom"
       >
         <div class="flex flex-col leading-none">
           <span class="font-technical-data text-technical-data text-on-surface-variant uppercase">Spolu</span>

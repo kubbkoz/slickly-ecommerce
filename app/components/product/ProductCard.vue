@@ -96,7 +96,7 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
   <div ref="cardRoot" class="group relative flex flex-col h-full bg-surface-container-lowest border border-grid-line transition-[background-color,transform] duration-200 hover:bg-surface active:scale-[0.98] md:active:scale-100">
     <button
       type="button"
-      class="absolute top-2 right-2 z-20 min-w-11 min-h-11 flex items-center justify-center bg-surface-container-lowest/80 backdrop-blur-sm rounded-full cursor-pointer transition-colors duration-200 hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [touch-action:manipulation]"
+      class="absolute top-2 right-2 z-20 min-w-11 min-h-11 flex items-center justify-center bg-surface-container-lowest/90 rounded-full cursor-pointer transition-colors duration-200 hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [touch-action:manipulation]"
       :class="wishlist.has(product.id) ? 'text-error' : 'text-on-surface-variant'"
       :aria-label="wishlist.has(product.id) ? `Odstrániť ${product.name} z obľúbených` : `Pridať ${product.name} do obľúbených`"
       :aria-pressed="wishlist.has(product.id)"
@@ -105,7 +105,7 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
       <span class="material-symbols-outlined text-[18px]" :style="wishlist.has(product.id) ? { fontVariationSettings: &quot;'FILL' 1&quot; } : {}" aria-hidden="true">favorite</span>
     </button>
     <NuxtLink :to="`/produkty/${product.slug}`" class="relative aspect-square overflow-hidden block bg-surface-container-lowest">
-      <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant bg-surface-container-lowest/85 backdrop-blur-sm px-1.5 py-0.5 rounded-xs">{{ product.sku }}</span>
+      <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant bg-surface-container-lowest/90 px-1.5 py-0.5 rounded-xs">{{ product.sku }}</span>
 
       <!-- Mobile: swipeable gallery -->
       <div

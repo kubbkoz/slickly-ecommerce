@@ -63,6 +63,7 @@ const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === 
         :src="HERO_IMAGE"
         alt=""
         aria-hidden="true"
+        fetchpriority="high"
         class="absolute inset-0 w-full h-full object-cover"
       />
       <video

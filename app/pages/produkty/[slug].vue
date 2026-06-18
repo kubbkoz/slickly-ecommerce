@@ -192,7 +192,7 @@ onBeforeUnmount(() => {
           aria-label="Zväčšiť obrázok"
           @click="openLightbox(product.gallery.indexOf(activeImage))"
         >
-          <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant bg-surface-container-lowest/85 backdrop-blur-sm px-1.5 py-0.5 rounded-xs">{{ product.sku }}</span>
+          <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant bg-surface-container-lowest/90 px-1.5 py-0.5 rounded-xs">{{ product.sku }}</span>
           <span
             v-if="product.badge"
             class="absolute bottom-0 left-0 bg-secondary-container text-on-background text-badge-label font-badge-label px-2 py-1 uppercase z-10"
@@ -205,7 +205,7 @@ onBeforeUnmount(() => {
             fetchpriority="high"
             class="w-full h-full object-cover transition-transform duration-500 group-hover/gallery:scale-105"
           />
-          <span class="absolute bottom-3 right-3 z-10 w-10 h-10 bg-surface-container-lowest/80 backdrop-blur-sm flex items-center justify-center rounded-full text-on-surface-variant opacity-0 group-hover/gallery:opacity-100 transition-opacity duration-200">
+          <span class="absolute bottom-3 right-3 z-10 w-10 h-10 bg-surface-container-lowest/90 flex items-center justify-center rounded-full text-on-surface-variant opacity-0 group-hover/gallery:opacity-100 transition-opacity duration-200">
             <span class="material-symbols-outlined text-[20px]" aria-hidden="true">zoom_in</span>
           </span>
         </button>
@@ -486,7 +486,7 @@ onBeforeUnmount(() => {
               v-if="product.gallery.length > 1"
               type="button"
               aria-label="Predchádzajúci obrázok"
-              class="absolute left-2 md:left-6 z-10 min-w-11 min-h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              class="absolute left-2 md:left-6 z-10 min-w-11 min-h-11 flex items-center justify-center bg-white/20 hover:bg-white/30 rounded-full text-white cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               @click="lightboxPrev"
             >
               <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
@@ -514,7 +514,7 @@ onBeforeUnmount(() => {
               v-if="product.gallery.length > 1"
               type="button"
               aria-label="Ďalší obrázok"
-              class="absolute right-2 md:right-6 z-10 min-w-11 min-h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              class="absolute right-2 md:right-6 z-10 min-w-11 min-h-11 flex items-center justify-center bg-white/20 hover:bg-white/30 rounded-full text-white cursor-pointer transition-colors duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               @click="lightboxNext"
             >
               <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
@@ -527,7 +527,7 @@ onBeforeUnmount(() => {
               v-for="(img, idx) in product.gallery"
               :key="idx"
               type="button"
-              class="w-16 h-16 md:w-20 md:h-20 border-2 overflow-hidden shrink-0 cursor-pointer transition-all duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              class="w-16 h-16 md:w-20 md:h-20 border-2 overflow-hidden shrink-0 cursor-pointer transition-[border-color,opacity] duration-200 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               :class="lightboxIndex === idx ? 'border-white opacity-100' : 'border-transparent opacity-40 hover:opacity-70'"
               :aria-label="`Zobraziť obrázok ${idx + 1}`"
               @click="lightboxIndex = idx; zoomed = false"

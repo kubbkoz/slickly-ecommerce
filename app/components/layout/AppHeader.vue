@@ -79,7 +79,7 @@ watch(isMenuOpen, (open) => {
   <header class="w-full md:sticky md:top-0 md:z-50">
     <!-- Mobile top bar -->
     <div
-      class="md:hidden fixed top-0 left-0 right-0 z-50 bg-primary/[.97] backdrop-blur-sm text-on-primary flex items-center justify-between px-gutter safe-top"
+      class="md:hidden fixed top-0 left-0 right-0 z-50 bg-primary text-on-primary flex items-center justify-between px-gutter safe-top"
       style="padding-top: max(env(safe-area-inset-top, 0px), 0px)"
     >
       <div class="flex items-center gap-stack-md h-16">
@@ -314,7 +314,7 @@ watch(isMenuOpen, (open) => {
                   class="group/card flex flex-col gap-3 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 >
                   <div class="aspect-[4/3] w-full overflow-hidden rounded-default bg-surface-container-low">
-                    <img :src="category.image" :alt="category.name" class="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105" />
+                    <img :src="category.image" :alt="category.name" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105" />
                   </div>
                   <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-background group-hover/card:text-primary transition-colors duration-150">
                     {{ category.name }}

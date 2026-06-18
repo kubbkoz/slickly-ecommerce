@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { products as allProducts, getRelatedProducts, type Product } from '~/data/products'
+import { getProductById, getRelatedProducts, type Product } from '~/data/products'
 
 const cart = useCartStore()
 const { formatPrice } = useCurrency()
@@ -26,7 +26,7 @@ function decrement(productId: string, quantity: number) {
 // Total saved vs. original prices — shown in the summary as a conversion nudge.
 const savingsTotal = computed(() => {
   return cart.items.reduce((total, item) => {
-    const product = allProducts.find((p) => p.id === item.productId)
+    const product = getProductById(item.productId)
     if (product?.oldPrice && product.oldPrice > item.price) {
       return total + (product.oldPrice - item.price) * item.quantity
     }
@@ -42,7 +42,7 @@ const recommended = computed<Product[]>(() => {
   const seen = new Set<string>()
   const result: Product[] = []
   for (const item of cart.items) {
-    const product = allProducts.find((p) => p.id === item.productId)
+    const product = getProductById(item.productId)
     if (!product) continue
     for (const rel of getRelatedProducts(product, 4)) {
       if (result.length >= 4) break
@@ -79,7 +79,7 @@ const recommended = computed<Product[]>(() => {
           class="flex items-center gap-stack-md py-stack-md"
         >
           <NuxtLink :to="`/produkty/${item.slug}`" class="w-20 h-20 md:w-28 md:h-28 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden">
-            <img :src="item.image" :alt="item.name" class="w-full h-full object-cover" />
+            <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
           </NuxtLink>
 
           <div class="flex-grow flex flex-col gap-1 min-w-0">
@@ -218,7 +218,7 @@ const recommended = computed<Product[]>(() => {
     <!-- Sticky mobile checkout bar -->
     <div
       v-if="cart.items.length"
-      class="md:hidden fixed left-0 right-0 z-40 bg-surface-container-lowest/[.97] backdrop-blur-sm border-t border-grid-line/50 px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_12px_rgba(0,0,0,0.08)]"
+      class="md:hidden fixed left-0 right-0 z-40 bg-surface-container-lowest border-t border-grid-line/50 px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_12px_rgba(0,0,0,0.08)]"
       style="bottom: calc(64px + env(safe-area-inset-bottom, 0px))"
     >
       <div class="flex flex-col leading-none">

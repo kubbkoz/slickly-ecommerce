@@ -369,8 +369,15 @@ export const products: Product[] = [
   },
 ]
 
+const productBySlug = new Map(products.map((p) => [p.slug, p]))
+const productById = new Map(products.map((p) => [p.id, p]))
+
 export function getProductBySlug(slug: string): Product | undefined {
-  return products.find((product) => product.slug === slug)
+  return productBySlug.get(slug)
+}
+
+export function getProductById(id: string): Product | undefined {
+  return productById.get(id)
 }
 
 export function getProductsByCategory(categorySlug: string): Product[] {
