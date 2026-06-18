@@ -1,20 +1,12 @@
-/**
- * v-reveal — fades elements up as they scroll into view.
- *
- * Usage: <section v-reveal> ... </section>
- *
- * Registered universally (so SSR can resolve the directive) but all browser
- * work is guarded to the client. On the client it adds `.reveal` (hiding the
- * element) and then `.is-revealed` once it intersects the viewport. Skipped
- * when the user prefers reduced motion, so content is never hidden from them.
- */
 export default defineNuxtPlugin((nuxtApp) => {
   let observer: IntersectionObserver | null = null
-  let reduceMotion = false
+  let skipReveal = false
 
   if (import.meta.client) {
-    reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (!reduceMotion && typeof IntersectionObserver !== 'undefined') {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.matchMedia('(max-width: 767px)').matches
+    skipReveal = reduceMotion || isMobile
+    if (!skipReveal && typeof IntersectionObserver !== 'undefined') {
       observer = new IntersectionObserver(
         (entries, obs) => {
           for (const entry of entries) {
@@ -30,10 +22,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   nuxtApp.vueApp.directive('reveal', {
-    // Prevents SSR from choking on a directive with no server behaviour.
     getSSRProps: () => ({}),
     mounted(el: HTMLElement) {
-      if (!import.meta.client || reduceMotion || !observer) return
+      if (!import.meta.client || skipReveal || !observer) return
       el.classList.add('reveal')
       observer.observe(el)
     },

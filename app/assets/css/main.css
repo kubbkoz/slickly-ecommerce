@@ -162,6 +162,15 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Mobile: kill all transitions for instant touch response */
+  @media (max-width: 767px) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+    }
+  }
+
   /* Prevent pull-to-refresh and rubber-band on fixed-layout pages */
   body.overflow-locked {
     position: fixed;
@@ -272,52 +281,62 @@
     }
   }
 
-  /* Haptic-style press feedback for buttons */
+  /* Haptic-style press feedback — desktop only */
   @keyframes press-bounce {
     0% { transform: scale(1); }
     50% { transform: scale(0.95); }
     100% { transform: scale(1); }
   }
-  .press-bounce:active {
-    animation: press-bounce 150ms ease-out;
+  @media (min-width: 768px) {
+    .press-bounce:active {
+      animation: press-bounce 150ms ease-out;
+    }
   }
 
-  /* Cart/wishlist badge pop when the count changes */
+  /* Cart/wishlist badge pop — desktop only */
   @keyframes badge-pop {
     0% { transform: scale(0.4); opacity: 0; }
     60% { transform: scale(1.25); }
     100% { transform: scale(1); opacity: 1; }
   }
-  .badge-pop {
-    animation: badge-pop 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  @media (min-width: 768px) {
+    .badge-pop {
+      animation: badge-pop 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
   }
 
-  /* Scroll-reveal: subtle fade-up as sections enter the viewport.
-     Elements start hidden and reveal once the v-reveal directive adds
-     .is-revealed. */
+  /* Scroll-reveal: desktop only. Mobile shows content instantly. */
   .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-  .reveal.is-revealed {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
+  }
+  @media (min-width: 768px) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .reveal.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
 @layer base {
-  /* Page route transition (fade + subtle lift) */
-  .page-enter-active,
-  .page-leave-active {
-    transition: opacity 0.15s ease, transform 0.15s ease;
-  }
-  .page-enter-from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  .page-leave-to {
-    opacity: 0;
+  /* Page route transition — desktop only */
+  @media (min-width: 768px) {
+    .page-enter-active,
+    .page-leave-active {
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+    .page-enter-from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    .page-leave-to {
+      opacity: 0;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

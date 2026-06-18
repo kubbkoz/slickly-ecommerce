@@ -22,6 +22,12 @@ onBeforeUnmount(() => { mqCleanup?.() })
 
 const showMobileVideo = computed(() => allowMotion.value && isMobile.value === true)
 const showDesktopVideo = computed(() => allowMotion.value && isMobile.value === false)
+
+useHead({
+  link: [
+    { rel: 'preload', as: 'video', href: HERO_VIDEO, type: 'video/mp4' },
+  ],
+})
 </script>
 
 <template>

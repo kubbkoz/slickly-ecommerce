@@ -87,6 +87,15 @@ export default defineNuxtConfig({
     head: {
       htmlAttrs: { lang: 'sk' },
       title: 'SLICKLY | Umenie Čistoty',
+      style: [
+        {
+          innerHTML: `
+            body{margin:0;background:#f7f9fb;color:#191c1e;font-family:"Hanken Grotesk",ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+            .main-content-safe{padding-top:calc(64px + env(safe-area-inset-top,0px));padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+            @media(min-width:768px){.main-content-safe{padding-top:0;padding-bottom:0}}
+          `.replace(/\n\s+/g, ''),
+        },
+      ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { name: 'theme-color', content: '#000000' },
@@ -98,9 +107,16 @@ export default defineNuxtConfig({
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
+        { rel: 'preconnect', href: 'https://lh3.googleusercontent.com' },
+        {
+          rel: 'preload',
+          as: 'image',
+          href: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAI8N-dfsByjce2Dl-vav0-QgPBBhmacpaNSRluOPskO-O3r55efCUmVjquZr_LtOSJkXrZhlUUuT15Hxj4_0vkLVGIOHygbmfDXbkA-cjm6RRTYd_706Ji-jSBbBAOeDQQZ-KEPELBVMtWn4NwqtNhL3tsbFUk_hoQbaLwXFN-ltZBSNHnG3VJI1jyoXO6DOxtZrBtsQhXJJbijIuU5v9nxwWgfZP8k9bxLyErqzWrfF_5Ra9Ok8Y817xctq5K2BIycgsITFTx6VGh',
+          fetchpriority: 'high',
+        },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=optional',
         },
         {
           rel: 'stylesheet',
