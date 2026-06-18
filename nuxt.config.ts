@@ -83,7 +83,7 @@ export default defineNuxtConfig({
   },
 
   app: {
-    pageTransition: { name: 'page', mode: 'default' },
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       htmlAttrs: { lang: 'sk' },
       title: 'SLICKLY | Umenie Čistoty',
