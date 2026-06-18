@@ -74,6 +74,7 @@ export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOp
   onMounted(() => {
     if (!import.meta.client) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (window.matchMedia('(max-width: 767px)').matches) return
     const node = el.value
     if (!node) return
 

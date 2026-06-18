@@ -62,11 +62,12 @@ function closeVideo() {
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && activeVideo.value) closeVideo()
 }
-onMounted(() => window.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
 watch(activeVideo, (video) => {
   if (!import.meta.client) return
+  if (video) window.addEventListener('keydown', onKeydown)
+  else window.removeEventListener('keydown', onKeydown)
   document.body.style.overflow = video ? 'hidden' : ''
   if (video) {
     previouslyFocused = document.activeElement as HTMLElement

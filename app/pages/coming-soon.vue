@@ -55,11 +55,11 @@ function closeLogin() {
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && showLogin.value) closeLogin()
 }
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
-
+onBeforeUnmount(() => { window.removeEventListener('keydown', onKeydown) })
 watch(showLogin, (open) => {
   if (!import.meta.client) return
+  if (open) window.addEventListener('keydown', onKeydown)
+  else window.removeEventListener('keydown', onKeydown)
   document.body.style.overflow = open ? 'hidden' : ''
   if (open) {
     previouslyFocused = document.activeElement as HTMLElement

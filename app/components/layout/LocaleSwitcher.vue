@@ -27,7 +27,10 @@ function onKeydown(e: KeyboardEvent) {
   }
 }
 
-onMounted(() => document.addEventListener('click', onClickOutside))
+watch(isOpen, (open) => {
+  if (open) document.addEventListener('click', onClickOutside)
+  else document.removeEventListener('click', onClickOutside)
+})
 onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
 
 function select(code: string) {
