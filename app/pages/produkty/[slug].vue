@@ -86,19 +86,26 @@ const zoomPos = ref({ x: 50, y: 50 })
 const lightboxRef = ref<HTMLElement | null>(null)
 let previouslyFocused: HTMLElement | null = null
 
+let scrollLockY = 0
 function openLightbox(idx: number) {
   lightboxIndex.value = idx
   lightboxOpen.value = true
   zoomed.value = false
   previouslyFocused = document.activeElement as HTMLElement
-  document.body.style.overflow = 'hidden'
+  scrollLockY = window.scrollY
+  document.body.classList.add('overflow-locked')
+  document.body.style.top = `-${scrollLockY}px`
+  window.addEventListener('keydown', onLightboxKeydown)
   nextTick(() => lightboxRef.value?.focus())
 }
 
 function closeLightbox() {
   lightboxOpen.value = false
   zoomed.value = false
-  document.body.style.overflow = ''
+  window.removeEventListener('keydown', onLightboxKeydown)
+  document.body.classList.remove('overflow-locked')
+  document.body.style.top = ''
+  window.scrollTo(0, scrollLockY)
   previouslyFocused?.focus()
 }
 
@@ -157,10 +164,10 @@ function onLightboxKeydown(e: KeyboardEvent) {
   }
 }
 
-onMounted(() => window.addEventListener('keydown', onLightboxKeydown))
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onLightboxKeydown)
-  document.body.style.overflow = ''
+  document.body.classList.remove('overflow-locked')
+  document.body.style.top = ''
 })
 </script>
 
@@ -282,7 +289,7 @@ onBeforeUnmount(() => {
           <button
             type="button"
             :disabled="!product.inStock"
-            class="flex-grow h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-30 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="flex-grow h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-30 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             @click="addToCart"
           >
             <span class="material-symbols-outlined" aria-hidden="true">{{ justAdded ? 'check' : 'add_shopping_cart' }}</span>

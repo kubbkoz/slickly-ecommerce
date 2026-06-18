@@ -152,7 +152,7 @@ const recommended = computed<Product[]>(() => {
         </div>
         <NuxtLink
           to="/pokladna"
-          class="h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           <span class="material-symbols-outlined" aria-hidden="true">lock</span>
           Pokračovať k pokladni
@@ -203,7 +203,7 @@ const recommended = computed<Product[]>(() => {
       </p>
       <NuxtLink
         to="/produkty"
-        class="h-12 px-8 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        class="h-12 px-8 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default mt-stack-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         Prejsť do obchodu
       </NuxtLink>
@@ -218,7 +218,7 @@ const recommended = computed<Product[]>(() => {
     <!-- Sticky mobile checkout bar -->
     <div
       v-if="cart.items.length"
-      class="md:hidden fixed left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-lg border-t border-grid-line/50 px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_12px_rgba(0,0,0,0.08)]"
+      class="md:hidden fixed left-0 right-0 z-40 bg-surface-container-lowest/[.97] backdrop-blur-sm border-t border-grid-line/50 px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_12px_rgba(0,0,0,0.08)]"
       style="bottom: calc(64px + env(safe-area-inset-bottom, 0px))"
     >
       <div class="flex flex-col leading-none">
@@ -227,7 +227,7 @@ const recommended = computed<Product[]>(() => {
       </div>
       <NuxtLink
         to="/pokladna"
-        class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         <span class="material-symbols-outlined" aria-hidden="true">lock</span>
         Pokladňa

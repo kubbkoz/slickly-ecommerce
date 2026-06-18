@@ -321,7 +321,7 @@ const trackingSteps = [
         <div class="flex flex-col md:flex-row items-center gap-stack-sm">
           <NuxtLink
             to="/ucet"
-            class="w-full md:w-auto h-14 px-8 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="w-full md:w-auto h-14 px-8 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             <span class="material-symbols-outlined" aria-hidden="true">person</span>
             Prejsť na môj účet
@@ -402,7 +402,7 @@ const trackingSteps = [
               <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
                 <div class="flex flex-col gap-1 md:col-span-2">
                   <label for="checkout-email" class="font-technical-data text-technical-data uppercase text-on-surface-variant">E-mailová adresa</label>
-                  <input id="checkout-email" v-model="email.value.value" type="email" autocomplete="email" placeholder="vas@email.sk"
+                  <input id="checkout-email" v-model="email.value.value" type="email" inputmode="email" autocomplete="email" placeholder="vas@email.sk"
                     :aria-describedby="email.meta.touched && errors.email ? 'err-email' : undefined" :aria-invalid="email.meta.touched && !!errors.email"
                     class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('email')" @blur="email.handleBlur" />
                   <p v-if="email.meta.touched && errors.email" id="err-email" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.email }}</p>
@@ -525,7 +525,7 @@ const trackingSteps = [
             <!-- Step 1 submit (desktop) — hidden on mobile, shown in sticky bar -->
             <button
               type="submit"
-              class="hidden md:flex h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              class="hidden md:flex h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               Pokračovať na dopravu
               <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
@@ -579,7 +579,7 @@ const trackingSteps = [
               </button>
               <button
                 type="submit"
-                class="hidden md:flex flex-grow h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                class="hidden md:flex flex-grow h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 Pokračovať na platbu
                 <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
@@ -657,7 +657,7 @@ const trackingSteps = [
               <button
                 type="submit"
                 :disabled="isPlacing"
-                class="hidden md:flex flex-grow h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                class="hidden md:flex flex-grow h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 <span class="material-symbols-outlined" :class="isPlacing ? 'animate-spin' : ''" aria-hidden="true">{{ isPlacing ? 'progress_activity' : 'lock' }}</span>
                 {{ isPlacing ? 'Spracúva sa...' : 'Odoslať objednávku' }}
@@ -737,7 +737,7 @@ const trackingSteps = [
 
       <!-- Sticky mobile bar -->
       <div
-        class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-lg border-t border-grid-line/50 px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_12px_rgba(0,0,0,0.08)] safe-bottom"
+        class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/[.97] backdrop-blur-sm border-t border-grid-line/50 px-gutter py-stack-sm flex items-center justify-between gap-stack-sm shadow-[0_-2px_12px_rgba(0,0,0,0.08)] safe-bottom"
       >
         <div class="flex flex-col leading-none">
           <span class="font-technical-data text-technical-data text-on-surface-variant uppercase">Spolu</span>
@@ -757,7 +757,7 @@ const trackingSteps = [
             v-if="step === 1"
             type="submit"
             form="checkout-step1"
-            class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             Doprava
             <span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_forward</span>
@@ -766,7 +766,7 @@ const trackingSteps = [
             v-else-if="step === 2"
             type="submit"
             form="checkout-step2"
-            class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             Platba
             <span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_forward</span>
@@ -776,7 +776,7 @@ const trackingSteps = [
             type="submit"
             form="checkout-step3"
             :disabled="isPlacing"
-            class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="h-12 px-6 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-50 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             <span class="material-symbols-outlined" :class="isPlacing ? 'animate-spin' : ''" aria-hidden="true">{{ isPlacing ? 'progress_activity' : 'lock' }}</span>
             {{ isPlacing ? '...' : 'Objednať' }}
