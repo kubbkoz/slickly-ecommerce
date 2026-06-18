@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { categories, type Product } from '~/data/products'
+import { categories } from '~/data/categories'
+import type { Product } from '~/data/products'
 
 const props = defineProps<{
   product: Product
@@ -8,7 +9,9 @@ const props = defineProps<{
 const cart = useCartStore()
 const wishlist = useWishlistStore()
 const { formatPrice } = useCurrency()
+const toast = useToast()
 const justAdded = ref(false)
+const heartPulse = ref(false)
 
 // Cover image first, then any additional gallery shots (deduped). Used for the
 // mobile swipe gallery on the card.
@@ -83,7 +86,17 @@ function addToCart() {
   cart.addItem(props.product)
   cart.openDrawer()
   justAdded.value = true
+  toast.show(`${props.product.name} — pridané do košíka`, 'shopping_bag')
   setTimeout(() => (justAdded.value = false), 1200)
+}
+
+function toggleWishlist() {
+  wishlist.toggle(props.product.id)
+  heartPulse.value = true
+  if (wishlist.has(props.product.id)) {
+    toast.show(`${props.product.name} — v obľúbených`, 'favorite')
+  }
+  setTimeout(() => { heartPulse.value = false }, 400)
 }
 
 const formattedPrice = computed(() => formatPrice(props.product.price))
@@ -105,9 +118,9 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
       :class="wishlist.has(product.id) ? 'text-error' : 'text-on-surface-variant'"
       :aria-label="wishlist.has(product.id) ? `Odstrániť ${product.name} z obľúbených` : `Pridať ${product.name} do obľúbených`"
       :aria-pressed="wishlist.has(product.id)"
-      @click="wishlist.toggle(product.id)"
+      @click="toggleWishlist"
     >
-      <span class="material-symbols-outlined text-[18px]" :style="wishlist.has(product.id) ? { fontVariationSettings: &quot;'FILL' 1&quot; } : {}" aria-hidden="true">favorite</span>
+      <span class="material-symbols-outlined text-[18px]" :class="{ 'heart-pulse': heartPulse }" :style="wishlist.has(product.id) ? { fontVariationSettings: &quot;'FILL' 1&quot; } : {}" aria-hidden="true">favorite</span>
     </button>
     <NuxtLink :to="`/produkty/${product.slug}`" class="relative aspect-square overflow-hidden block bg-surface-container-lowest">
       <span class="absolute top-3 left-3 z-10 font-technical-data text-technical-data text-on-surface-variant bg-surface-container-lowest/90 px-1.5 py-0.5 rounded-xs">{{ product.sku }}</span>
@@ -193,7 +206,8 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
         <button
           type="button"
           :disabled="!product.inStock"
-          class="min-w-11 min-h-11 shrink-0 bg-primary text-on-primary flex items-center justify-center rounded-sm cursor-pointer transition-[background-color,transform] duration-200 active:scale-90 hover:bg-primary/85 [touch-action:manipulation] disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="min-w-11 min-h-11 shrink-0 flex items-center justify-center rounded-sm cursor-pointer transition-[background-color,transform] duration-200 active:scale-90 hover:bg-primary/85 [touch-action:manipulation] disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          :class="justAdded ? 'bg-[#2e7d32] text-white cart-success' : 'bg-primary text-on-primary'"
           :aria-label="`Pridať ${product.name} do košíka`"
           @click="addToCart"
         >

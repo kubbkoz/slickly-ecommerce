@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { categories } from '~/data/products'
+import { categories } from '~/data/categories'
 
 const cart = useCartStore()
 const search = useSearchStore()

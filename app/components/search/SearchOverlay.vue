@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { categories } from '~/data/products'
+import { categories } from '~/data/categories'
 
 const search = useSearchStore()
 const router = useRouter()

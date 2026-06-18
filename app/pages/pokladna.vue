@@ -17,7 +17,6 @@ useSeo({
 })
 
 onMounted(() => {
-  if (!cart.items.length) cart.hydrate()
   if (!cart.items.length) navigateTo('/kosik', { replace: true })
 })
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { getProductBySlug, getRelatedProducts, getBundleProducts, categories, type Product } from '~/data/products'
+import { getProductBySlug, getRelatedProducts, getBundleProducts, type Product } from '~/data/products'
+import { categories } from '~/data/categories'
 
 const route = useRoute()
 const slug = route.params.slug as string
@@ -56,6 +57,7 @@ useBreadcrumbJsonLd([
 
 const cart = useCartStore()
 const { formatPrice } = useCurrency()
+const toast = useToast()
 const quantity = ref(1)
 const activeImage = ref(product.gallery[0] ?? product.image)
 const justAdded = ref(false)
@@ -72,6 +74,7 @@ function addToCart() {
   cart.addItem(product, quantity.value)
   cart.openDrawer()
   justAdded.value = true
+  toast.show(`${product.name} — pridané do košíka (${quantity.value}×)`, 'shopping_bag')
   setTimeout(() => (justAdded.value = false), 1500)
 }
 
@@ -289,7 +292,8 @@ onBeforeUnmount(() => {
           <button
             type="button"
             :disabled="!product.inStock"
-            class="flex-grow h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-30 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="flex-grow h-12 font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-30 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            :class="justAdded ? 'bg-[#2e7d32] text-white cart-success' : 'bg-primary text-on-primary'"
             @click="addToCart"
           >
             <span class="material-symbols-outlined" aria-hidden="true">{{ justAdded ? 'check' : 'add_shopping_cart' }}</span>

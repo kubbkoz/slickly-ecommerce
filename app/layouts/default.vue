@@ -1,9 +1,6 @@
 <script setup lang="ts">
 const cart = useCartStore()
-const wishlist = useWishlistStore()
-const locale = useLocaleStore()
 const search = useSearchStore()
-
 const hasOverlay = computed(() => cart.isDrawerOpen || search.isOpen)
 
 const site = useSiteUrl()
@@ -38,11 +35,6 @@ useJsonLd([
   },
 ])
 
-onMounted(() => {
-  cart.hydrate()
-  wishlist.hydrate()
-  locale.hydrate()
-})
 </script>
 
 <template>
@@ -62,5 +54,6 @@ onMounted(() => {
     <CartDrawer />
     <SearchOverlay />
     <ChatWidget />
+    <ToastNotification />
   </div>
 </template>

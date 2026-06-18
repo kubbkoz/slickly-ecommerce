@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { categories } from '~/data/products'
+import { categories } from '~/data/categories'
 
 // Asymmetric bento layout: Karoséria spans the top, Interiér is a tall
 // right-hand column, Kolesá and Ochrana fill the bottom row beside it.

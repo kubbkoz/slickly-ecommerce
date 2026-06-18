@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { products, categories, matchesSearchQuery } from '~/data/products'
+import { products, matchesSearchQuery } from '~/data/products'
+import { categories } from '~/data/categories'
 
 const route = useRoute()
 const router = useRouter()

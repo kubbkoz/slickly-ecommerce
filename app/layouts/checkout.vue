@@ -1,11 +1,5 @@
 <script setup lang="ts">
 const cart = useCartStore()
-const locale = useLocaleStore()
-
-onMounted(() => {
-  cart.hydrate()
-  locale.hydrate()
-})
 </script>
 
 <template>

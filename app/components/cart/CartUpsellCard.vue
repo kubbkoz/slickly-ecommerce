@@ -5,12 +5,14 @@ const props = defineProps<{ product: Product }>()
 
 const cart = useCartStore()
 const { formatPrice } = useCurrency()
+const toast = useToast()
 const justAdded = ref(false)
 
 function quickAdd() {
   if (!props.product.inStock) return
   cart.addItem(props.product, 1)
   justAdded.value = true
+  toast.show(`${props.product.name} — pridané do košíka`, 'shopping_bag')
   setTimeout(() => (justAdded.value = false), 1200)
 }
 
@@ -41,7 +43,8 @@ const formattedOldPrice = computed(() => props.product.oldPrice ? formatPrice(pr
         <button
           type="button"
           :disabled="!product.inStock"
-          class="w-8 h-8 shrink-0 bg-primary text-on-primary flex items-center justify-center rounded-sm cursor-pointer transition-[background-color,transform] duration-200 active:scale-90 hover:bg-primary/85 [touch-action:manipulation] disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="w-8 h-8 shrink-0 flex items-center justify-center rounded-sm cursor-pointer transition-[background-color,transform] duration-200 active:scale-90 hover:bg-primary/85 [touch-action:manipulation] disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          :class="justAdded ? 'bg-[#2e7d32] text-white cart-success' : 'bg-primary text-on-primary'"
           :aria-label="`Pridať ${product.name} do košíka`"
           @click="quickAdd"
         >

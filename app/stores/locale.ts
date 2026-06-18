@@ -30,11 +30,10 @@ export const useLocaleStore = defineStore('locale', {
   getters: {
     country: (state): CountryOption =>
       countries.find((c) => c.code === state.countryCode) ?? countries[0]!,
-    currency: (state): CountryOption['currency'] =>
-      (countries.find((c) => c.code === state.countryCode) ?? countries[0]!).currency,
-    rate: (state): number => (countries.find((c) => c.code === state.countryCode) ?? countries[0]!).rate,
-    language: (state): string => (countries.find((c) => c.code === state.countryCode) ?? countries[0]!).language,
-    localeTag: (state): string => (countries.find((c) => c.code === state.countryCode) ?? countries[0]!).locale,
+    currency(): CountryOption['currency'] { return this.country.currency },
+    rate(): number { return this.country.rate },
+    language(): string { return this.country.language },
+    localeTag(): string { return this.country.locale },
   },
 
   actions: {
