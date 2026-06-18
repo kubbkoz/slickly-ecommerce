@@ -132,9 +132,13 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+  }
+  @media (min-width: 768px) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

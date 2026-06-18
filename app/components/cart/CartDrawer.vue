@@ -27,21 +27,21 @@ const upsellProducts = computed<Product[]>(() => {
 })
 
 function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape' && cart.isDrawerOpen) cart.closeDrawer()
+  if (e.key === 'Escape') cart.closeDrawer()
 }
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
 let scrollY = 0
 watch(() => cart.isDrawerOpen, (open) => {
   if (!import.meta.client) return
   if (open) {
+    window.addEventListener('keydown', onKeydown)
     scrollY = window.scrollY
     document.body.classList.add('overflow-locked')
     document.body.style.top = `-${scrollY}px`
     previouslyFocused = document.activeElement as HTMLElement
     nextTick(() => closeBtn.value?.focus())
   } else {
+    window.removeEventListener('keydown', onKeydown)
     document.body.classList.remove('overflow-locked')
     document.body.style.top = ''
     window.scrollTo(0, scrollY)
@@ -190,7 +190,7 @@ function decrement(productId: string, quantity: number) {
           </NuxtLink>
           <NuxtLink
             to="/pokladna"
-            class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="h-12 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             @click="cart.closeDrawer()"
           >
             <span class="material-symbols-outlined" aria-hidden="true">lock</span>

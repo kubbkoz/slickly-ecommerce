@@ -15,24 +15,27 @@ function submitSearch() {
 }
 
 function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape' && search.isOpen) search.close()
+  if (e.key === 'Escape') search.close()
 }
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
 let scrollY = 0
 watch(
   () => search.isOpen,
   (open) => {
     if (!import.meta.client) return
-    const isMobile = window.matchMedia('(max-width: 767px)').matches
-    if (isMobile) {
-      if (open) {
+    if (open) {
+      window.addEventListener('keydown', onKeydown)
+      const isMobile = window.matchMedia('(max-width: 767px)').matches
+      if (isMobile) {
         scrollY = window.scrollY
         document.body.classList.add('overflow-locked')
         document.body.style.top = `-${scrollY}px`
         nextTick(() => mobileInput.value?.focus())
-      } else {
+      }
+    } else {
+      window.removeEventListener('keydown', onKeydown)
+      const isMobile = window.matchMedia('(max-width: 767px)').matches
+      if (isMobile) {
         document.body.classList.remove('overflow-locked')
         document.body.style.top = ''
         window.scrollTo(0, scrollY)

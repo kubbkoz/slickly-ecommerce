@@ -21,8 +21,10 @@ function onKeydown(e: KeyboardEvent) {
   }
 }
 
-onMounted(() => document.addEventListener('click', onClickOutside))
-onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
+watch(isOpen, (open) => {
+  if (open) document.addEventListener('click', onClickOutside)
+  else document.removeEventListener('click', onClickOutside)
+})
 </script>
 
 <template>
@@ -79,7 +81,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
       :aria-label="isOpen ? 'Zavrieť chat' : 'Otvoriť chat'"
       aria-haspopup="dialog"
       :aria-expanded="isOpen"
-      class="w-14 h-14 flex items-center justify-center bg-primary text-on-primary rounded-full shadow-xl cursor-pointer transition-all duration-200 active:scale-95 hover:bg-primary/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+      class="w-14 h-14 flex items-center justify-center bg-primary text-on-primary rounded-full shadow-xl cursor-pointer transition-[background-color,transform] duration-200 active:scale-95 hover:bg-primary/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
       @click="isOpen = !isOpen"
     >
       <span class="material-symbols-outlined text-[28px]" aria-hidden="true">{{ isOpen ? 'close' : 'chat' }}</span>

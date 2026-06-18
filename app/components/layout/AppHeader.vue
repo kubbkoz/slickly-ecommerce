@@ -52,23 +52,21 @@ function toggleMenu() {
 }
 
 function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape' && isMenuOpen.value) isMenuOpen.value = false
+  if (e.key === 'Escape') isMenuOpen.value = false
 }
-onMounted(() => {
-  window.addEventListener('keydown', onKeydown)
-  nextTick(() => { hydrated.value = true })
-})
-onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
+onMounted(() => { nextTick(() => { hydrated.value = true }) })
 
 let scrollY = 0
 watch(isMenuOpen, (open) => {
   if (!import.meta.client) return
   if (open) {
+    window.addEventListener('keydown', onKeydown)
     scrollY = window.scrollY
     document.body.classList.add('overflow-locked')
     document.body.style.top = `-${scrollY}px`
     nextTick(() => menuCloseBtn.value?.focus())
   } else {
+    window.removeEventListener('keydown', onKeydown)
     document.body.classList.remove('overflow-locked')
     document.body.style.top = ''
     window.scrollTo(0, scrollY)
