@@ -5,6 +5,7 @@ const cart = useCartStore()
 const search = useSearchStore()
 const wishlist = useWishlistStore()
 const isMenuOpen = ref(false)
+const hydrated = ref(false)
 const router = useRouter()
 const desktopSearchInput = ref<HTMLInputElement | null>(null)
 const hamburgerBtn = ref<HTMLElement | null>(null)
@@ -53,7 +54,10 @@ function toggleMenu() {
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && isMenuOpen.value) isMenuOpen.value = false
 }
-onMounted(() => window.addEventListener('keydown', onKeydown))
+onMounted(() => {
+  window.addEventListener('keydown', onKeydown)
+  nextTick(() => { hydrated.value = true })
+})
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
 let scrollY = 0
@@ -77,7 +81,7 @@ watch(isMenuOpen, (open) => {
   <header class="w-full md:sticky md:top-0 md:z-50">
     <!-- Mobile top bar -->
     <div
-      class="md:hidden fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-lg text-on-primary flex items-center justify-between px-gutter safe-top"
+      class="md:hidden fixed top-0 left-0 right-0 z-50 bg-primary/[.97] backdrop-blur-sm text-on-primary flex items-center justify-between px-gutter safe-top"
       style="padding-top: max(env(safe-area-inset-top, 0px), 0px)"
     >
       <div class="flex items-center gap-stack-md h-16">
@@ -106,7 +110,8 @@ watch(isMenuOpen, (open) => {
             <span
               v-if="cart.itemCount > 0"
               :key="cart.itemCount"
-              class="badge-pop absolute -top-1.5 -right-2 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+              class="absolute -top-1.5 -right-2 bg-secondary-container text-on-secondary-container text-[10px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+              :class="hydrated ? 'badge-pop' : ''"
             >
               {{ cart.itemCount }}
             </span>
@@ -238,7 +243,8 @@ watch(isMenuOpen, (open) => {
               <span
                 v-if="wishlist.count > 0"
                 :key="wishlist.count"
-                class="badge-pop absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
+                class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
+                :class="hydrated ? 'badge-pop' : ''"
               >
                 {{ wishlist.count }}
               </span>
@@ -256,7 +262,8 @@ watch(isMenuOpen, (open) => {
               <span
                 v-if="cart.itemCount > 0"
                 :key="cart.itemCount"
-                class="badge-pop absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
+                class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-1 rounded-full min-w-[16px] text-center"
+                :class="hydrated ? 'badge-pop' : ''"
               >
                 {{ cart.itemCount }}
               </span>

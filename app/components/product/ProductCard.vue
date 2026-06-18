@@ -34,24 +34,43 @@ function onGalleryScroll() {
   activeImage.value = Math.round(node.scrollLeft / node.clientWidth)
 }
 
-// Reset back to the cover image whenever the card leaves the viewport, so the
-// next time it scrolls into view (or the user moves to the next product) it
-// always presents its first image.
+// Reset back to the cover image whenever the card leaves the viewport.
+// Uses a shared IntersectionObserver to avoid per-card overhead.
+let sharedGalleryResetObserver: IntersectionObserver | null = null
+const galleryResetCallbacks = new WeakMap<Element, () => void>()
+
+function getGalleryResetObserver(): IntersectionObserver {
+  if (!sharedGalleryResetObserver) {
+    sharedGalleryResetObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) {
+            galleryResetCallbacks.get(entry.target)?.()
+          }
+        }
+      },
+      { threshold: 0 },
+    )
+  }
+  return sharedGalleryResetObserver
+}
+
 onMounted(() => {
   if (!import.meta.client || cardImages.value.length < 2) return
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting && galleryEl.value && galleryEl.value.scrollLeft !== 0) {
-          galleryEl.value.scrollTo({ left: 0 })
-          activeImage.value = 0
-        }
-      }
-    },
-    { threshold: 0 },
-  )
-  if (cardRoot.value) io.observe(cardRoot.value)
-  onBeforeUnmount(() => io.disconnect())
+  const node = cardRoot.value
+  if (!node) return
+  const observer = getGalleryResetObserver()
+  galleryResetCallbacks.set(node, () => {
+    if (galleryEl.value && galleryEl.value.scrollLeft !== 0) {
+      galleryEl.value.scrollTo({ left: 0 })
+      activeImage.value = 0
+    }
+  })
+  observer.observe(node)
+  onBeforeUnmount(() => {
+    observer.unobserve(node)
+    galleryResetCallbacks.delete(node)
+  })
 })
 
 function addToCart() {
@@ -74,7 +93,7 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
 </script>
 
 <template>
-  <div ref="cardRoot" class="group relative flex flex-col h-full bg-surface-container-lowest border border-grid-line transition-all duration-200 hover:bg-surface active:scale-[0.98] md:active:scale-100">
+  <div ref="cardRoot" class="group relative flex flex-col h-full bg-surface-container-lowest border border-grid-line transition-[background-color,transform] duration-200 hover:bg-surface active:scale-[0.98] md:active:scale-100">
     <button
       type="button"
       class="absolute top-2 right-2 z-20 min-w-11 min-h-11 flex items-center justify-center bg-surface-container-lowest/80 backdrop-blur-sm rounded-full cursor-pointer transition-colors duration-200 hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [touch-action:manipulation]"
@@ -130,7 +149,7 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
         <span
           v-for="(img, idx) in cardImages"
           :key="idx"
-          class="h-1.5 rounded-full transition-all duration-200 shadow-sm"
+          class="h-1.5 rounded-full transition-[width,background-color] duration-200 shadow-sm"
           :class="idx === activeImage ? 'w-4 bg-primary' : 'w-1.5 bg-surface-container-lowest/90'"
         />
       </div>
@@ -169,7 +188,7 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
         <button
           type="button"
           :disabled="!product.inStock"
-          class="min-w-11 min-h-11 shrink-0 bg-primary text-on-primary flex items-center justify-center rounded-sm cursor-pointer transition-all duration-200 active:scale-90 hover:bg-primary/85 [touch-action:manipulation] disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="min-w-11 min-h-11 shrink-0 bg-primary text-on-primary flex items-center justify-center rounded-sm cursor-pointer transition-[background-color,transform] duration-200 active:scale-90 hover:bg-primary/85 [touch-action:manipulation] disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           :aria-label="`Pridať ${product.name} do košíka`"
           @click="addToCart"
         >

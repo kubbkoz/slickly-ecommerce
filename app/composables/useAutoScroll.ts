@@ -26,6 +26,13 @@ export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOp
   let hovering = false
   let focused = false
   let stoppedByUser = false
+  let cachedScrollAmount = 0
+
+  function measureScrollAmount(node: HTMLElement) {
+    const child = node.firstElementChild as HTMLElement | null
+    const gap = parseFloat(getComputedStyle(node).columnGap || '0') || 0
+    cachedScrollAmount = child ? child.getBoundingClientRect().width + gap : node.clientWidth * 0.8
+  }
 
   function tick() {
     const node = el.value
@@ -35,10 +42,8 @@ export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOp
       node.scrollTo({ left: 0, behavior: 'smooth' })
       return
     }
-    const child = node.firstElementChild as HTMLElement | null
-    const gap = parseFloat(getComputedStyle(node).columnGap || '0') || 0
-    const amount = child ? child.getBoundingClientRect().width + gap : node.clientWidth * 0.8
-    node.scrollBy({ left: amount, behavior: 'smooth' })
+    if (!cachedScrollAmount) measureScrollAmount(node)
+    node.scrollBy({ left: cachedScrollAmount, behavior: 'smooth' })
   }
 
   function start() {
@@ -79,6 +84,9 @@ export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOp
     node.addEventListener('touchstart', onTouchStart, { passive: true })
     node.addEventListener('pointerdown', onPointerDown, { passive: true })
 
+    const ro = new ResizeObserver(() => { cachedScrollAmount = 0 })
+    ro.observe(node)
+
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -94,6 +102,7 @@ export function useAutoScroll(el: Ref<HTMLElement | null>, options: AutoScrollOp
     onBeforeUnmount(() => {
       stop()
       io.disconnect()
+      ro.disconnect()
       node.removeEventListener('mouseenter', onMouseEnter)
       node.removeEventListener('mouseleave', onMouseLeave)
       node.removeEventListener('focusin', onFocusIn)

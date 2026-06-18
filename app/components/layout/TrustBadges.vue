@@ -5,13 +5,26 @@ const badges = [
   { icon: 'workspace_premium', label: 'Garancia kvality' },
   { icon: 'support_agent', label: '24/7 podpora' },
 ]
+
+const marqueeEl = ref<HTMLElement | null>(null)
+const marquePaused = ref(false)
+
+onMounted(() => {
+  if (!import.meta.client || !marqueeEl.value) return
+  const io = new IntersectionObserver(
+    (entries) => { marquePaused.value = !entries[0]?.isIntersecting },
+    { threshold: 0 },
+  )
+  io.observe(marqueeEl.value)
+  onBeforeUnmount(() => io.disconnect())
+})
 </script>
 
 <template>
   <section class="w-full bg-secondary-container">
     <!-- Mobile marquee -->
-    <div class="md:hidden py-3 overflow-hidden">
-      <div class="flex animate-marquee motion-reduce:animate-none whitespace-nowrap gap-stack-lg items-center px-gutter w-max">
+    <div ref="marqueeEl" class="md:hidden py-3 overflow-hidden">
+      <div class="flex animate-marquee motion-reduce:animate-none whitespace-nowrap gap-stack-lg items-center px-gutter w-max" :class="marquePaused ? 'animate-marquee-paused' : ''">
         <template v-for="n in 3" :key="n">
           <div v-for="badge in badges" :key="`${n}-${badge.label}`" class="flex items-center gap-2 text-on-secondary-container">
             <span class="material-symbols-outlined" aria-hidden="true">{{ badge.icon }}</span>

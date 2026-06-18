@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const route = useRoute()
 const wishlist = useWishlistStore()
+const hydrated = ref(false)
+onMounted(() => { nextTick(() => { hydrated.value = true }) })
 
 const links = [
   { label: 'Domov', icon: 'home', to: '/' },
@@ -30,7 +32,7 @@ function haptic() {
 <template>
   <nav
     aria-label="Spodná navigácia"
-    class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-lg border-t border-outline-variant/50 flex justify-around items-end safe-bottom"
+    class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface/[.97] backdrop-blur-sm border-t border-outline-variant/50 flex justify-around items-end safe-bottom"
     style="padding-bottom: max(env(safe-area-inset-bottom, 0px), 4px)"
   >
     <NuxtLink
@@ -43,12 +45,12 @@ function haptic() {
       <a
         :href="href"
         :aria-current="isActive(link.to) ? 'page' : undefined"
-        class="relative flex flex-col items-center justify-center min-w-14 min-h-14 px-2 pt-2 pb-1 rounded-xl transition-all duration-200 active:scale-90 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        class="relative flex flex-col items-center justify-center min-w-14 min-h-14 px-2 pt-2 pb-1 rounded-xl transition-[color,transform] duration-200 active:scale-90 [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         :class="isActive(link.to) ? 'text-primary' : 'text-on-surface-variant'"
         @click="haptic(); navigate($event)"
       >
         <span
-          class="w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200"
+          class="w-8 h-8 flex items-center justify-center rounded-full transition-[background-color] duration-200"
           :class="isActive(link.to) ? 'bg-secondary-container/30' : ''"
         >
           <span
@@ -60,7 +62,8 @@ function haptic() {
         <span
           v-if="link.label === 'Obľúbené' && wishlist.count > 0"
           :key="wishlist.count"
-          class="badge-pop absolute top-1 right-1/4 bg-error text-on-error text-[9px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+          class="absolute top-1 right-1/4 bg-error text-on-error text-[9px] font-bold leading-none rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+          :class="hydrated ? 'badge-pop' : ''"
         >
           {{ wishlist.count }}
         </span>
