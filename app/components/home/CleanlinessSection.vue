@@ -49,7 +49,7 @@ const certifications = [
             </div>
             <div class="flex justify-between items-center p-4 border-t border-grid-line bg-surface-container-lowest">
               <span class="font-label-sm text-label-sm text-on-surface uppercase">Analýza odpudzovania vody</span>
-              <span class="font-technical-data text-technical-data text-secondary">PRÉMIOVÉ VÝSLEDKY</span>
+              <span class="font-technical-data text-technical-data text-on-surface-variant">PRÉMIOVÉ VÝSLEDKY</span>
             </div>
           </div>
         </div>

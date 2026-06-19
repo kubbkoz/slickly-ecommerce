@@ -11,7 +11,7 @@ const portfolio = products.slice(0, 6)
         <h2 class="font-headline-md text-headline-md md:text-headline-lg text-on-surface uppercase tracking-tight">Výkonnostné portfólio</h2>
         <NuxtLink
           to="/produkty"
-          class="font-label-sm text-label-sm text-primary hover:text-secondary uppercase transition-colors duration-200 flex items-center gap-1 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="font-label-sm text-label-sm text-primary hover:text-on-background uppercase transition-colors duration-200 flex items-center gap-1 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           Zobraziť všetko
           <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>

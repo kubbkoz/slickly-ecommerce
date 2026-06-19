@@ -66,7 +66,7 @@ watch(isOpen, (open) => {
           </p>
           <a
             href="mailto:info@slickly.sk"
-            class="font-label-sm text-label-sm uppercase tracking-widest text-primary flex items-center gap-2 cursor-pointer transition-colors duration-200 hover:text-secondary rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="font-label-sm text-label-sm uppercase tracking-widest text-primary flex items-center gap-2 cursor-pointer transition-colors duration-200 hover:text-on-background rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             <span class="material-symbols-outlined text-[18px]" aria-hidden="true">mail</span>
             info@slickly.sk

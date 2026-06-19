@@ -36,7 +36,7 @@ const trimmedQuery = computed(() => props.query.trim())
 
       <NuxtLink
         :to="{ path: '/produkty', query: { q: trimmedQuery } }"
-        class="flex items-center justify-between gap-2 font-label-sm text-label-sm uppercase tracking-widest text-primary hover:text-secondary transition-colors duration-200 py-stack-sm border-t border-grid-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-default"
+        class="flex items-center justify-between gap-2 font-label-sm text-label-sm uppercase tracking-widest text-primary hover:text-on-background transition-colors duration-200 py-stack-sm border-t border-grid-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-default"
         @click="emit('select')"
       >
         Zobraziť všetky výsledky pre „{{ trimmedQuery }}"

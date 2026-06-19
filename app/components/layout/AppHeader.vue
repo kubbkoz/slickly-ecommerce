@@ -87,7 +87,7 @@ watch(isMenuOpen, (open) => {
   <header class="w-full md:sticky md:top-0 md:z-50">
     <!-- Mobile top bar -->
     <div
-      class="md:hidden fixed top-0 left-0 right-0 z-50 bg-primary text-on-primary flex items-center justify-between px-gutter safe-top"
+      class="md:hidden fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest text-on-background border-b border-grid-line flex items-center justify-between px-gutter safe-top"
       style="padding-top: max(env(safe-area-inset-top, 0px), 0px)"
     >
       <div class="flex items-center gap-stack-md h-16">
@@ -97,7 +97,7 @@ watch(isMenuOpen, (open) => {
           aria-label="Menu"
           aria-haspopup="dialog"
           :aria-expanded="isMenuOpen"
-          class="min-w-11 min-h-11 -ml-2 flex items-center justify-center cursor-pointer rounded-default [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+          class="min-w-11 min-h-11 -ml-2 flex items-center justify-center cursor-pointer rounded-default [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           @click="toggleMenu"
         >
           <span class="material-symbols-outlined transition-transform duration-200 active:scale-90" aria-hidden="true">{{ isMenuOpen ? 'close' : 'menu' }}</span>
@@ -107,10 +107,10 @@ watch(isMenuOpen, (open) => {
         </NuxtLink>
       </div>
       <div class="flex items-center gap-stack-sm h-16">
-        <button type="button" aria-label="Hľadať" class="min-w-11 min-h-11 flex items-center justify-center cursor-pointer rounded-default [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container" @click="search.open()">
+        <button type="button" aria-label="Hľadať" class="min-w-11 min-h-11 flex items-center justify-center cursor-pointer rounded-default [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" @click="search.open()">
           <span class="material-symbols-outlined transition-transform duration-200 active:scale-90" aria-hidden="true">search</span>
         </button>
-        <button type="button" aria-label="Košík" class="min-w-11 min-h-11 -mr-2 flex items-center justify-center cursor-pointer rounded-default [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container" @click="cart.toggleDrawer()">
+        <button type="button" aria-label="Košík" class="min-w-11 min-h-11 -mr-2 flex items-center justify-center cursor-pointer rounded-default [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" @click="cart.toggleDrawer()">
           <span class="relative">
             <span class="material-symbols-outlined transition-transform duration-200 active:scale-90" aria-hidden="true">shopping_bag</span>
             <span

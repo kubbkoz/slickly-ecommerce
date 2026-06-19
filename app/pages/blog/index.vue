@@ -44,7 +44,7 @@ useBreadcrumbJsonLd([
       </div>
       <div class="flex flex-col gap-stack-sm justify-center">
         <div class="flex items-center gap-stack-sm">
-          <span class="font-technical-data text-technical-data uppercase text-secondary tracking-widest">{{ featuredPost.category }}</span>
+          <span class="font-technical-data text-technical-data uppercase text-on-surface-variant tracking-widest">{{ featuredPost.category }}</span>
           <span class="font-technical-data text-technical-data text-on-surface-variant">{{ featuredPost.date }} · {{ featuredPost.readingTime }}</span>
         </div>
         <h2 class="font-headline-md text-headline-md md:text-headline-lg text-on-surface uppercase tracking-tight group-hover:text-primary transition-colors duration-200">
@@ -76,7 +76,7 @@ useBreadcrumbJsonLd([
         </div>
         <div class="flex flex-col gap-stack-sm p-stack-sm md:p-6">
           <div class="flex items-center justify-between gap-stack-sm">
-            <span class="font-technical-data text-technical-data uppercase text-secondary tracking-widest">{{ post.category }}</span>
+            <span class="font-technical-data text-technical-data uppercase text-on-surface-variant tracking-widest">{{ post.category }}</span>
             <span class="font-technical-data text-technical-data text-on-surface-variant">{{ post.date }}</span>
           </div>
           <h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-200">{{ post.title }}</h3>

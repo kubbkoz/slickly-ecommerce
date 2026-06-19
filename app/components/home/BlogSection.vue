@@ -17,7 +17,7 @@ useAutoScroll(mobileScroller)
         </div>
         <NuxtLink
           to="/blog"
-          class="hidden md:flex gap-2 items-center font-label-sm text-label-sm text-primary hover:text-secondary uppercase transition-colors duration-200 shrink-0 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="hidden md:flex gap-2 items-center font-label-sm text-label-sm text-primary hover:text-on-background uppercase transition-colors duration-200 shrink-0 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           Zobraziť všetko
           <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
@@ -49,7 +49,7 @@ useAutoScroll(mobileScroller)
           </div>
           <div class="flex flex-col gap-stack-sm p-stack-sm">
             <div class="flex items-center justify-between gap-stack-sm">
-              <span class="font-technical-data text-technical-data uppercase text-secondary tracking-widest">{{ post.category }}</span>
+              <span class="font-technical-data text-technical-data uppercase text-on-surface-variant tracking-widest">{{ post.category }}</span>
               <span class="font-technical-data text-technical-data text-on-surface-variant">{{ post.date }}</span>
             </div>
             <h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-200">{{ post.title }}</h3>
@@ -77,7 +77,7 @@ useAutoScroll(mobileScroller)
           </div>
           <div class="flex flex-col gap-stack-sm p-6">
             <div class="flex items-center justify-between gap-stack-sm">
-              <span class="font-technical-data text-technical-data uppercase text-secondary tracking-widest">{{ post.category }}</span>
+              <span class="font-technical-data text-technical-data uppercase text-on-surface-variant tracking-widest">{{ post.category }}</span>
               <span class="font-technical-data text-technical-data text-on-surface-variant">{{ post.date }}</span>
             </div>
             <h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-200">{{ post.title }}</h3>

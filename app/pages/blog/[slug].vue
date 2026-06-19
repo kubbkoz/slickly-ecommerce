@@ -56,7 +56,7 @@ useJsonLd({
     <article class="max-w-3xl mx-auto">
       <!-- Header -->
       <header class="flex flex-col gap-stack-sm mb-stack-lg md:mb-12">
-        <span class="font-technical-data text-technical-data uppercase text-secondary tracking-widest">{{ post.category }}</span>
+        <span class="font-technical-data text-technical-data uppercase text-on-surface-variant tracking-widest">{{ post.category }}</span>
         <h1 class="font-headline-lg text-headline-lg md:text-headline-xl uppercase">{{ post.title }}</h1>
         <div class="flex items-center gap-2 font-technical-data text-technical-data text-on-surface-variant">
           <span>{{ post.author }}</span>
@@ -116,7 +116,7 @@ useJsonLd({
         <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight">Ďalšie články</h2>
         <NuxtLink
           to="/blog"
-          class="font-label-sm text-label-sm text-primary hover:text-secondary uppercase transition-colors duration-200 flex items-center gap-1 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="font-label-sm text-label-sm text-primary hover:text-on-background uppercase transition-colors duration-200 flex items-center gap-1 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           Všetky články
           <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
@@ -134,7 +134,7 @@ useJsonLd({
           </div>
           <div class="flex flex-col gap-stack-sm p-stack-sm md:p-6">
             <div class="flex items-center justify-between gap-stack-sm">
-              <span class="font-technical-data text-technical-data uppercase text-secondary tracking-widest">{{ other.category }}</span>
+              <span class="font-technical-data text-technical-data uppercase text-on-surface-variant tracking-widest">{{ other.category }}</span>
               <span class="font-technical-data text-technical-data text-on-surface-variant">{{ other.date }}</span>
             </div>
             <h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-200">{{ other.title }}</h3>

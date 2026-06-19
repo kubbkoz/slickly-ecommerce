@@ -149,7 +149,7 @@ async function login() {
             required
             autocomplete="email"
             placeholder="vas@email.sk"
-            class="flex-grow h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
+            class="flex-grow h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-primary"
           />
           <button
             type="submit"
@@ -221,7 +221,7 @@ async function login() {
               required
               autocomplete="email"
               placeholder="E-mail"
-              class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
+              class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-primary"
             />
 
             <label for="coming-soon-login-password" class="sr-only">Heslo</label>
@@ -232,7 +232,7 @@ async function login() {
               required
               autocomplete="current-password"
               placeholder="Heslo"
-              class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
+              class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-primary"
             />
 
             <p v-if="loginError" role="alert" class="font-label-sm text-label-sm text-error-container">

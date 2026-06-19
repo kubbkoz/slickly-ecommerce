@@ -104,7 +104,7 @@ watch(activeVideo, (video) => {
             <span class="absolute bottom-2 right-2 font-technical-data text-technical-data text-on-primary bg-on-background/70 px-2 py-0.5">{{ video.duration }}</span>
           </div>
           <div class="flex flex-col gap-1">
-            <span class="font-technical-data text-technical-data uppercase text-secondary tracking-widest">{{ video.category }}</span>
+            <span class="font-technical-data text-technical-data uppercase text-on-surface-variant tracking-widest">{{ video.category }}</span>
             <h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-200">{{ video.title }}</h3>
           </div>
         </button>
@@ -128,7 +128,7 @@ watch(activeVideo, (video) => {
             <span class="absolute bottom-2 right-2 font-technical-data text-technical-data text-on-primary bg-on-background/70 px-2 py-0.5">{{ video.duration }}</span>
           </div>
           <div class="flex flex-col gap-1">
-            <span class="font-technical-data text-technical-data uppercase text-secondary tracking-widest">{{ video.category }}</span>
+            <span class="font-technical-data text-technical-data uppercase text-on-surface-variant tracking-widest">{{ video.category }}</span>
             <h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-200">{{ video.title }}</h3>
           </div>
         </button>

@@ -55,14 +55,14 @@ useHead({
       <div class="absolute inset-0 bg-primary/40 z-10"></div>
       <div class="relative z-20 h-full flex flex-col justify-end p-gutter pb-stack-lg">
         <span class="text-secondary-container font-badge-label text-badge-label uppercase tracking-widest mb-stack-sm">Novinka: V2 Séria</span>
-        <h1 class="font-headline-lg text-headline-lg text-on-primary max-w-[280px] leading-tight mb-stack-md">
+        <h1 class="font-headline-xl text-headline-xl text-on-primary max-w-[320px] leading-tight mb-stack-md">
           TECHNICKÁ <br />DOKONALOSŤ <br />PRE VAŠE AUTO
         </h1>
         <NuxtLink
           to="/produkty"
-          class="bg-secondary-container text-on-secondary-container px-stack-lg py-3 rounded-default font-bold transition-[background-color,transform,opacity] duration-200 active:scale-95 w-fit cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+          class="bg-primary text-on-primary px-stack-lg py-3 rounded-default font-label-sm text-label-sm uppercase tracking-widest transition-[background-color,transform,opacity] duration-200 active:scale-[0.99] w-fit cursor-pointer hover:bg-primary/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-primary"
         >
-          PRESKÚMAŤ KOLEKCIU
+          Preskúmať kolekciu
         </NuxtLink>
       </div>
     </div>
@@ -89,14 +89,14 @@ useHead({
       </video>
       <div class="absolute inset-0 bg-primary/40"></div>
       <div class="relative z-10 h-full max-w-[1536px] mx-auto px-grid-margin flex flex-col justify-center gap-4">
-        <span class="bg-secondary-container text-on-background px-3 py-1 text-[10px] w-fit font-bold uppercase">Limitovaná ponuka</span>
-        <h1 class="text-surface text-headline-xl uppercase font-headline-lg">ŠPECIÁLNA ZĽAVA -20%</h1>
-        <p class="text-surface-variant font-body-md max-w-md">
+        <span class="bg-secondary-container text-on-secondary-container px-3 py-1 font-badge-label text-badge-label w-fit uppercase">Limitovaná ponuka</span>
+        <h1 class="text-on-primary font-display-lg text-display-lg uppercase">Špeciálna zľava -20%</h1>
+        <p class="text-on-primary/70 font-body-md max-w-md">
           Získajte exkluzívny prístup k našej prémiovej rade keramickej ochrany za zvýhodnenú cenu.
         </p>
         <NuxtLink
           to="/produkty"
-          class="mt-4 bg-secondary-container text-on-secondary-container px-stack-lg py-3 rounded-default font-bold transition-[background-color,transform,opacity] duration-200 active:scale-95 w-fit cursor-pointer hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
+          class="mt-4 bg-on-primary text-primary px-stack-lg h-12 rounded-default font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center transition-[background-color,transform,opacity] duration-200 active:scale-[0.99] w-fit cursor-pointer hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-primary"
         >
           Kúpiť teraz
         </NuxtLink>

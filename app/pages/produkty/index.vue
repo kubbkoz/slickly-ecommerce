@@ -258,7 +258,7 @@ function clearDeals() {
           <select
             v-model="sort"
             aria-label="Zoradiť produkty"
-            class="font-label-sm text-label-sm uppercase border border-outline-variant px-3 py-2 bg-surface-container-lowest rounded-default outline-none cursor-pointer transition-colors duration-200 focus:ring-1 focus:ring-secondary-container focus:border-secondary-container"
+            class="font-label-sm text-label-sm uppercase border border-outline-variant px-3 py-2 bg-surface-container-lowest rounded-default outline-none cursor-pointer transition-colors duration-200 focus:ring-1 focus:ring-primary focus:border-primary"
           >
             <option v-for="opt in sortOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
           </select>

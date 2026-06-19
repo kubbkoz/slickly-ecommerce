@@ -19,7 +19,7 @@ useSeo({
       <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
         Karty bezpečnostných údajov (MSDS) pre jednotlivé produkty pripravujeme na zverejnenie. Do tej doby vám ich
         na požiadanie zašleme e-mailom na
-        <a href="mailto:info@slickly.sk" class="text-primary underline hover:text-secondary rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">info@slickly.sk</a>.
+        <a href="mailto:info@slickly.sk" class="text-primary underline hover:text-on-background rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">info@slickly.sk</a>.
       </p>
       <NuxtLink
         to="/produkty"

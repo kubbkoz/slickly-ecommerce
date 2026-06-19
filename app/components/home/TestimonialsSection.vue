@@ -59,7 +59,7 @@ const stats = [
           <p class="font-body-md text-body-md text-on-surface-variant flex-grow">{{ review.text }}</p>
           <div class="flex items-center justify-between gap-stack-sm pt-stack-sm border-t border-grid-line">
             <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-background">{{ review.author }}</span>
-            <NuxtLink :to="`/produkty/${review.productSlug}`" class="font-technical-data text-technical-data text-primary hover:text-secondary uppercase truncate ml-2">
+            <NuxtLink :to="`/produkty/${review.productSlug}`" class="font-technical-data text-technical-data text-primary hover:text-on-background uppercase truncate ml-2">
               {{ review.productName }}
             </NuxtLink>
           </div>
@@ -80,7 +80,7 @@ const stats = [
           <p class="font-body-md text-body-md text-on-surface-variant flex-grow">{{ review.text }}</p>
           <div class="flex items-center justify-between gap-stack-sm pt-stack-sm border-t border-grid-line">
             <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-background">{{ review.author }}</span>
-            <NuxtLink :to="`/produkty/${review.productSlug}`" class="font-technical-data text-technical-data text-primary hover:text-secondary uppercase truncate ml-2">
+            <NuxtLink :to="`/produkty/${review.productSlug}`" class="font-technical-data text-technical-data text-primary hover:text-on-background uppercase truncate ml-2">
               {{ review.productName }}
             </NuxtLink>
           </div>

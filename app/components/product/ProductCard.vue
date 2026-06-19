@@ -111,10 +111,10 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
 </script>
 
 <template>
-  <div ref="cardRoot" class="group relative flex flex-col h-full bg-surface-container-lowest border border-grid-line transition-[background-color,transform] duration-200 hover:bg-surface active:scale-[0.98] md:active:scale-100">
+  <div ref="cardRoot" class="group relative flex flex-col h-full bg-surface-container-lowest border border-grid-line transition-[background-color,transform] duration-200 hover:bg-surface active:scale-[0.99] md:active:scale-100">
     <button
       type="button"
-      class="absolute top-2 right-2 z-20 min-w-11 min-h-11 flex items-center justify-center bg-surface-container-lowest/90 rounded-full cursor-pointer transition-colors duration-200 hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [touch-action:manipulation]"
+      class="absolute top-2 right-2 z-20 min-w-11 min-h-11 flex items-center justify-center bg-surface-container-lowest/90 rounded-default cursor-pointer transition-colors duration-200 hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [touch-action:manipulation]"
       :class="wishlist.has(product.id) ? 'text-error' : 'text-on-surface-variant'"
       :aria-label="wishlist.has(product.id) ? `Odstrániť ${product.name} z obľúbených` : `Pridať ${product.name} do obľúbených`"
       :aria-pressed="wishlist.has(product.id)"
@@ -187,13 +187,13 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
     </NuxtLink>
     <div class="p-stack-md flex flex-col gap-stack-xs flex-grow">
       <NuxtLink :to="`/produkty/${product.slug}`">
-        <h3 class="font-headline-sm text-headline-sm text-on-surface line-clamp-2 hover:text-primary transition-colors">{{ product.name }}</h3>
+        <h3 class="font-body-md text-body-md text-on-background uppercase line-clamp-2 hover:text-primary transition-colors">{{ product.name }}</h3>
       </NuxtLink>
       <div v-if="product.reviews.length" class="flex items-center gap-1.5">
         <ProductRating :rating="averageRating" :size="14" />
         <span class="font-technical-data text-technical-data text-on-surface-variant">({{ product.reviews.length }})</span>
       </div>
-      <p class="font-technical-data text-technical-data text-secondary uppercase truncate">
+      <p class="font-technical-data text-technical-data text-on-surface-variant uppercase truncate">
         {{ categoryName }}
       </p>
       <div class="flex justify-between items-end mt-auto pt-stack-sm">

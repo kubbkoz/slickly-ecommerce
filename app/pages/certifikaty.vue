@@ -19,7 +19,7 @@ useSeo({
       <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
         Naše certifikáty kvality a zhody (ISO 9001:2015, REACH) pripravujeme na zverejnenie. Kópie certifikátov vám
         na požiadanie zašleme e-mailom na
-        <a href="mailto:info@slickly.sk" class="text-primary underline hover:text-secondary rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">info@slickly.sk</a>.
+        <a href="mailto:info@slickly.sk" class="text-primary underline hover:text-on-background rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">info@slickly.sk</a>.
       </p>
       <NuxtLink
         to="/produkty"

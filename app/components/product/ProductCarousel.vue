@@ -38,7 +38,7 @@ function scroll(direction: 'left' | 'right') {
     <button
       type="button"
       aria-label="Predchádzajúce produkty"
-      class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-11 items-center justify-center bg-background border border-grid-line rounded-full cursor-pointer transition-colors duration-200 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-11 items-center justify-center bg-background border border-grid-line rounded-default cursor-pointer transition-colors duration-200 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       @click="scroll('left')"
     >
       <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
@@ -46,7 +46,7 @@ function scroll(direction: 'left' | 'right') {
     <button
       type="button"
       aria-label="Ďalšie produkty"
-      class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-11 h-11 items-center justify-center bg-background border border-grid-line rounded-full cursor-pointer transition-colors duration-200 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-11 h-11 items-center justify-center bg-background border border-grid-line rounded-default cursor-pointer transition-colors duration-200 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       @click="scroll('right')"
     >
       <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>

@@ -14,7 +14,7 @@ useAutoScroll(mobileScroller)
         <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight">Špeciálne ponuky</h2>
         <NuxtLink
           to="/produkty?akcia=1"
-          class="hidden md:flex gap-2 items-center font-label-sm text-label-sm text-primary hover:text-secondary uppercase transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="hidden md:flex gap-2 items-center font-label-sm text-label-sm text-primary hover:text-on-background uppercase transition-colors duration-200 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           Zobraziť všetko
           <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
