@@ -170,15 +170,15 @@ function decrement(productId: string, quantity: number) {
               </div>
             </div>
           </div>
-
-          <!-- Upsell section -->
-          <section v-if="upsellProducts.length" class="pt-stack-md pb-stack-sm border-t border-grid-line mt-stack-sm">
-            <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-stack-sm">Odporúčame dokúpiť</h3>
-            <div class="flex gap-stack-sm overflow-x-auto -mx-stack-md md:-mx-6 px-stack-md md:px-6 pb-2 snap-x snap-mandatory hide-scrollbar overscroll-x-contain [touch-action:pan-x]">
-              <CartUpsellCard v-for="p in upsellProducts" :key="p.id" :product="p" />
-            </div>
-          </section>
         </div>
+
+        <!-- Upsell section — stuck to bottom, grid on desktop -->
+        <section v-if="cart.items.length && upsellProducts.length" class="shrink-0 border-t border-grid-line px-stack-md md:px-6 pt-stack-sm pb-stack-sm">
+          <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-stack-sm">Odporúčame dokúpiť</h3>
+          <div class="flex gap-stack-sm overflow-x-auto -mx-stack-md px-stack-md pb-2 snap-x snap-mandatory hide-scrollbar overscroll-x-contain [touch-action:pan-x] md:grid md:grid-cols-3 md:overflow-visible md:snap-none md:mx-0 md:px-0 md:pb-0 md:[touch-action:auto]">
+            <CartUpsellCard v-for="(p, i) in upsellProducts" :key="p.id" :product="p" :class="{ 'md:hidden': i >= 3 }" />
+          </div>
+        </section>
 
         <div v-else class="flex-grow flex flex-col items-center justify-center text-center px-stack-md md:px-6 overflow-y-auto">
           <span class="material-symbols-outlined text-[72px] text-on-surface-variant opacity-20" aria-hidden="true">shopping_bag</span>
@@ -221,7 +221,7 @@ function decrement(productId: string, quantity: number) {
           </NuxtLink>
         </div>
 
-        <div v-if="cart.items.length" class="border-t border-grid-line px-stack-md md:px-6 py-stack-md flex flex-col gap-stack-sm shrink-0 safe-bottom">
+        <div v-if="cart.items.length" class="border-t border-grid-line px-stack-md md:px-6 pt-stack-md pb-stack-lg flex flex-col gap-stack-sm shrink-0 safe-bottom">
           <div class="flex justify-between items-baseline">
             <span class="font-body-md text-body-md text-on-surface-variant">Medzisúčet</span>
             <span class="font-price-display text-headline-sm text-on-background">{{ formattedSubtotal }}</span>

@@ -21,7 +21,7 @@ const formattedOldPrice = computed(() => props.product.oldPrice ? formatPrice(pr
 </script>
 
 <template>
-  <div class="w-32 shrink-0 flex flex-col bg-surface-container-lowest border border-grid-line snap-start">
+  <div class="w-32 shrink-0 md:w-full flex flex-col bg-surface-container-lowest border border-grid-line snap-start md:snap-none">
     <NuxtLink :to="`/produkty/${product.slug}`" class="relative aspect-square overflow-hidden block" @click="cart.closeDrawer()">
       <img :src="product.image" :alt="product.name" loading="lazy" class="w-full h-full object-cover" />
       <span
