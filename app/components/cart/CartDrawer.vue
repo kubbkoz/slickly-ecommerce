@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getProductById, getRelatedProducts, type Product } from '~/data/products'
+import { categories } from '~/data/categories'
 
 const cart = useCartStore()
 const { formatPrice } = useCurrency()
@@ -179,9 +180,45 @@ function decrement(productId: string, quantity: number) {
           </section>
         </div>
 
-        <div v-else class="flex-grow flex flex-col items-center justify-center gap-stack-md text-center px-stack-md">
-          <span class="material-symbols-outlined text-[56px] text-on-surface-variant opacity-30" aria-hidden="true">shopping_bag</span>
-          <p class="font-body-md text-body-md text-on-surface-variant">Váš košík je prázdny</p>
+        <div v-else class="flex-grow flex flex-col items-center justify-center text-center px-stack-md md:px-6 overflow-y-auto">
+          <span class="material-symbols-outlined text-[72px] text-on-surface-variant opacity-20" aria-hidden="true">shopping_bag</span>
+          <h3 class="font-headline-md text-headline-md uppercase mt-stack-md">Váš košík je prázdny</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-stack-xs max-w-xs">
+            Preskúmajte naše kategórie a nájdite prémiové produkty pre vaše vozidlo.
+          </p>
+
+          <div class="grid grid-cols-2 gap-stack-sm w-full mt-stack-lg">
+            <NuxtLink
+              v-for="cat in categories"
+              :key="cat.slug"
+              :to="`/produkty?kategoria=${cat.slug}`"
+              class="group flex flex-col items-center gap-2 p-stack-sm border border-grid-line rounded-default cursor-pointer transition-colors duration-200 hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              @click="cart.closeDrawer()"
+            >
+              <div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container border border-grid-line">
+                <img :src="cat.image" :alt="cat.name" loading="lazy" class="w-full h-full object-cover" />
+              </div>
+              <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant group-hover:text-on-background transition-colors duration-200">{{ cat.name }}</span>
+            </NuxtLink>
+          </div>
+
+          <NuxtLink
+            to="/produkty?akcia=1"
+            class="mt-stack-md h-11 px-6 w-full border border-secondary-container bg-secondary-container/20 text-on-background font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-colors duration-200 hover:bg-secondary-container/40 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            @click="cart.closeDrawer()"
+          >
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">local_offer</span>
+            Akciové ponuky
+          </NuxtLink>
+
+          <NuxtLink
+            to="/produkty"
+            class="mt-stack-sm h-11 px-6 w-full bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            @click="cart.closeDrawer()"
+          >
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">storefront</span>
+            Prejsť do obchodu
+          </NuxtLink>
         </div>
 
         <div v-if="cart.items.length" class="border-t border-grid-line px-stack-md md:px-6 py-stack-md flex flex-col gap-stack-sm shrink-0 safe-bottom">
