@@ -34,7 +34,7 @@ async function subscribe() {
           inputmode="email"
           autocomplete="email"
           placeholder="vas@email.sk"
-          class="flex-grow h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
+          class="flex-grow h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default focus:ring-2 focus:ring-secondary-container"
         />
         <button
           type="submit"

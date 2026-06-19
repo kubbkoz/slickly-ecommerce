@@ -233,8 +233,8 @@ watch(isMenuOpen, (open) => {
               class="relative w-full max-w-xl h-12 text-left cursor-pointer rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-container"
               @click="search.open()"
             >
-              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-black/40 text-[22px]" aria-hidden="true">search</span>
-              <span class="absolute inset-0 flex items-center bg-white text-black/40 font-body-md text-body-md pl-12 pr-4 rounded-default uppercase tracking-wide whitespace-nowrap overflow-hidden">Vyhľadať produkt, kategóriu...</span>
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-primary/40 text-[22px]" aria-hidden="true">search</span>
+              <span class="absolute inset-0 flex items-center bg-surface-container-lowest text-on-surface-variant/40 font-body-md text-body-md pl-12 pr-4 rounded-default uppercase tracking-wide whitespace-nowrap overflow-hidden">Vyhľadať produkt, kategóriu...</span>
             </button>
           </div>
           <div class="shrink-0 flex items-center gap-6">

@@ -492,7 +492,7 @@ const trackingSteps = [
                     <label for="checkout-company" class="font-technical-data text-technical-data uppercase text-on-surface-variant">Názov firmy</label>
                     <input id="checkout-company" v-model="companyName.value.value" type="text" autocomplete="organization"
                       :aria-describedby="companyName.meta.touched && errors.companyName ? 'err-company' : undefined" :aria-invalid="companyName.meta.touched && !!errors.companyName"
-                      class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('companyName')" @blur="companyName.handleBlur" />
+                      class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('companyName')" @blur="companyName.handleBlur" />
                     <p v-if="companyName.meta.touched && errors.companyName" id="err-company" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.companyName }}</p>
                   </div>
                   <div class="grid grid-cols-1 md:grid-cols-3 gap-stack-sm">
@@ -500,21 +500,21 @@ const trackingSteps = [
                       <label for="checkout-ico" class="font-technical-data text-technical-data uppercase text-on-surface-variant">IČO</label>
                       <input id="checkout-ico" v-model="ico.value.value" type="text" inputmode="numeric"
                         :aria-describedby="ico.meta.touched && errors.ico ? 'err-ico' : undefined" :aria-invalid="ico.meta.touched && !!errors.ico"
-                        class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('ico')" @blur="ico.handleBlur" />
+                        class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('ico')" @blur="ico.handleBlur" />
                       <p v-if="ico.meta.touched && errors.ico" id="err-ico" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.ico }}</p>
                     </div>
                     <div class="flex flex-col gap-1">
                       <label for="checkout-dic" class="font-technical-data text-technical-data uppercase text-on-surface-variant">DIČ</label>
                       <input id="checkout-dic" v-model="dic.value.value" type="text" inputmode="numeric"
                         :aria-describedby="dic.meta.touched && errors.dic ? 'err-dic' : undefined" :aria-invalid="dic.meta.touched && !!errors.dic"
-                        class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('dic')" @blur="dic.handleBlur" />
+                        class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('dic')" @blur="dic.handleBlur" />
                       <p v-if="dic.meta.touched && errors.dic" id="err-dic" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.dic }}</p>
                     </div>
                     <div class="flex flex-col gap-1">
                       <label for="checkout-ic-dph" class="font-technical-data text-technical-data uppercase text-on-surface-variant">IČ DPH <span class="normal-case text-on-surface-variant/60">(nepovinné)</span></label>
                       <input id="checkout-ic-dph" v-model="icDph.value.value" type="text" :placeholder="country.value.value === 'CZ' ? 'CZ12345678' : 'SK2012345678'"
                         :aria-describedby="icDph.meta.touched && errors.icDph ? 'err-ic-dph' : undefined" :aria-invalid="icDph.meta.touched && !!errors.icDph"
-                        class="h-12 px-4 border bg-white font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('icDph')" @blur="icDph.handleBlur" />
+                        class="h-12 px-4 border bg-surface-container-lowest font-body-md text-body-md outline-none transition-colors duration-200 rounded-default" :class="fieldClass('icDph')" @blur="icDph.handleBlur" />
                       <p v-if="icDph.meta.touched && errors.icDph" id="err-ic-dph" role="alert" class="font-technical-data text-technical-data text-error">{{ errors.icDph }}</p>
                     </div>
                   </div>

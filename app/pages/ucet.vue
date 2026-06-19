@@ -130,10 +130,10 @@ function toggleOrder(id: string) {
 
 function statusColor(status: MockOrder['status']) {
   switch (status) {
-    case 'dorucena': return 'bg-green-100 text-green-800'
-    case 'odoslana': return 'bg-blue-100 text-blue-800'
-    case 'spracovava-sa': return 'bg-amber-100 text-amber-800'
-    case 'zrusena': return 'bg-red-100 text-red-800'
+    case 'dorucena': return 'bg-primary/10 text-primary'
+    case 'odoslana': return 'bg-primary/5 text-on-surface-variant'
+    case 'spracovava-sa': return 'bg-secondary-container/20 text-on-secondary-container'
+    case 'zrusena': return 'bg-error/10 text-error'
   }
 }
 
@@ -320,10 +320,10 @@ const claims = ref<MockClaim[]>([
 
 function claimStatusColor(status: MockClaim['status']) {
   switch (status) {
-    case 'prijata': return 'bg-blue-100 text-blue-800'
-    case 'posudzuje-sa': return 'bg-amber-100 text-amber-800'
-    case 'schvalena': return 'bg-green-100 text-green-800'
-    case 'zamietnuta': return 'bg-red-100 text-red-800'
+    case 'prijata': return 'bg-primary/5 text-on-surface-variant'
+    case 'posudzuje-sa': return 'bg-secondary-container/20 text-on-secondary-container'
+    case 'schvalena': return 'bg-primary/10 text-primary'
+    case 'zamietnuta': return 'bg-error/10 text-error'
   }
 }
 
@@ -419,7 +419,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
             v-for="tab in tabs"
             :key="tab.id"
             type="button"
-            class="flex items-center gap-1.5 min-h-11 px-4 py-2 rounded-full whitespace-nowrap shrink-0 cursor-pointer [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="flex items-center gap-1.5 min-h-11 px-4 py-2 rounded-default whitespace-nowrap shrink-0 cursor-pointer [touch-action:manipulation] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             :class="activeTab === tab.id ? 'bg-primary text-on-primary' : 'border border-outline-variant text-on-surface-variant'"
             @click="activeTab = tab.id"
           >
@@ -484,7 +484,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
                 </div>
                 <div class="flex items-center gap-stack-sm shrink-0">
                   <span
-                    class="px-2 py-0.5 rounded-full font-technical-data text-technical-data uppercase"
+                    class="px-2 py-0.5 rounded-default font-technical-data text-technical-data uppercase"
                     :class="statusColor(order.status)"
                   >{{ order.statusLabel }}</span>
                   <span class="font-price-display text-price-display">{{ formatPrice(order.total) }}</span>
@@ -567,7 +567,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
                 </div>
                 <div class="flex items-center gap-stack-sm shrink-0">
                   <span
-                    class="px-2 py-0.5 rounded-full font-technical-data text-technical-data uppercase hidden md:inline"
+                    class="px-2 py-0.5 rounded-default font-technical-data text-technical-data uppercase hidden md:inline"
                     :class="statusColor(order.status)"
                   >{{ order.statusLabel }}</span>
                   <span class="font-price-display text-price-display">{{ formatPrice(order.total) }}</span>
@@ -581,7 +581,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
 
               <!-- Mobile status badge (outside the accordion header for compact layout) -->
               <span
-                class="md:hidden px-2 py-0.5 rounded-full font-technical-data text-technical-data uppercase -mt-2 mb-2 inline-block"
+                class="md:hidden px-2 py-0.5 rounded-default font-technical-data text-technical-data uppercase -mt-2 mb-2 inline-block"
                 :class="statusColor(order.status)"
                 v-if="expandedOrder !== order.id"
               >{{ order.statusLabel }}</span>
@@ -589,7 +589,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
               <div v-if="expandedOrder === order.id" class="pb-stack-md">
                 <!-- Mobile status -->
                 <span
-                  class="md:hidden px-2 py-0.5 rounded-full font-technical-data text-technical-data uppercase mb-stack-sm inline-block"
+                  class="md:hidden px-2 py-0.5 rounded-default font-technical-data text-technical-data uppercase mb-stack-sm inline-block"
                   :class="statusColor(order.status)"
                 >{{ order.statusLabel }}</span>
 
@@ -669,7 +669,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
             leave-from-class="opacity-100 translate-y-0"
             leave-to-class="opacity-0 -translate-y-2"
           >
-            <p v-if="addressSuccess" class="flex items-center gap-2 font-technical-data text-technical-data uppercase text-green-700 bg-green-50 px-4 py-2 rounded-default">
+            <p v-if="addressSuccess" class="flex items-center gap-2 font-technical-data text-technical-data uppercase text-primary bg-primary/10 px-4 py-2 rounded-default">
               <span class="material-symbols-outlined text-[16px]" aria-hidden="true">check_circle</span>
               Adresa bola uložená.
             </p>
@@ -683,29 +683,29 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
             <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
               <div class="flex flex-col gap-1">
                 <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Meno a priezvisko</label>
-                <input v-model="addressForm.name" type="text" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+                <input v-model="addressForm.name" type="text" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
               </div>
               <div class="flex flex-col gap-1">
                 <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Telefón</label>
-                <input v-model="addressForm.phone" type="tel" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+                <input v-model="addressForm.phone" type="tel" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
               </div>
             </div>
             <div class="flex flex-col gap-1">
               <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Ulica a číslo domu</label>
-              <input v-model="addressForm.street" type="text" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+              <input v-model="addressForm.street" type="text" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-stack-sm">
               <div class="flex flex-col gap-1">
                 <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Mesto</label>
-                <input v-model="addressForm.city" type="text" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+                <input v-model="addressForm.city" type="text" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
               </div>
               <div class="flex flex-col gap-1">
                 <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">PSČ</label>
-                <input v-model="addressForm.postalCode" type="text" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+                <input v-model="addressForm.postalCode" type="text" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
               </div>
               <div class="flex flex-col gap-1">
                 <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Krajina</label>
-                <select v-model="addressForm.country" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary appearance-none cursor-pointer">
+                <select v-model="addressForm.country" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary appearance-none cursor-pointer">
                   <option>Slovensko</option>
                   <option>Česko</option>
                   <option>Maďarsko</option>
@@ -745,7 +745,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
             >
               <div class="flex items-start justify-between">
                 <div>
-                  <span v-if="addr.isDefault" class="inline-block px-2 py-0.5 rounded-full bg-primary text-on-primary font-technical-data text-technical-data uppercase mb-1">
+                  <span v-if="addr.isDefault" class="inline-block px-2 py-0.5 rounded-default bg-primary text-on-primary font-technical-data text-technical-data uppercase mb-1">
                     Predvolená
                   </span>
                   <p class="font-headline-sm text-headline-sm">{{ addr.name }}</p>
@@ -823,7 +823,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
               leave-from-class="opacity-100 translate-y-0"
               leave-to-class="opacity-0 -translate-y-2"
             >
-              <p v-if="settingsSuccess" class="flex items-center gap-2 font-technical-data text-technical-data uppercase text-green-700 bg-green-50 px-4 py-2 rounded-default">
+              <p v-if="settingsSuccess" class="flex items-center gap-2 font-technical-data text-technical-data uppercase text-primary bg-primary/10 px-4 py-2 rounded-default">
                 <span class="material-symbols-outlined text-[16px]" aria-hidden="true">check_circle</span>
                 Údaje boli uložené.
               </p>
@@ -831,20 +831,20 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
             <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
               <div class="flex flex-col gap-1">
                 <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Meno</label>
-                <input v-model="settingsForm.firstName" type="text" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+                <input v-model="settingsForm.firstName" type="text" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
               </div>
               <div class="flex flex-col gap-1">
                 <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Priezvisko</label>
-                <input v-model="settingsForm.lastName" type="text" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+                <input v-model="settingsForm.lastName" type="text" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
               </div>
             </div>
             <div class="flex flex-col gap-1">
               <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">E-mailová adresa</label>
-              <input v-model="settingsForm.email" type="email" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+              <input v-model="settingsForm.email" type="email" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
             </div>
             <div class="flex flex-col gap-1">
               <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Telefón</label>
-              <input v-model="settingsForm.phone" type="tel" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+              <input v-model="settingsForm.phone" type="tel" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
             </div>
             <div class="flex items-center gap-stack-sm mt-stack-xs">
               <button
@@ -871,7 +871,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
               leave-from-class="opacity-100 translate-y-0"
               leave-to-class="opacity-0 -translate-y-2"
             >
-              <p v-if="passwordSuccess" class="flex items-center gap-2 font-technical-data text-technical-data uppercase text-green-700 bg-green-50 px-4 py-2 rounded-default">
+              <p v-if="passwordSuccess" class="flex items-center gap-2 font-technical-data text-technical-data uppercase text-primary bg-primary/10 px-4 py-2 rounded-default">
                 <span class="material-symbols-outlined text-[16px]" aria-hidden="true">check_circle</span>
                 Heslo bolo zmenené.
               </p>
@@ -879,16 +879,16 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
             <p v-if="passwordError" class="font-technical-data text-technical-data text-error">{{ passwordError }}</p>
             <div class="flex flex-col gap-1">
               <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Aktuálne heslo</label>
-              <input v-model="passwordForm.current" type="password" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+              <input v-model="passwordForm.current" type="password" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-sm">
               <div class="flex flex-col gap-1">
                 <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Nové heslo</label>
-                <input v-model="passwordForm.newPass" type="password" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+                <input v-model="passwordForm.newPass" type="password" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
               </div>
               <div class="flex flex-col gap-1">
                 <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Potvrdenie hesla</label>
-                <input v-model="passwordForm.confirm" type="password" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
+                <input v-model="passwordForm.confirm" type="password" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary" />
               </div>
             </div>
             <button
@@ -972,7 +972,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
             leave-from-class="opacity-100 translate-y-0"
             leave-to-class="opacity-0 -translate-y-2"
           >
-            <p v-if="claimSuccess" class="flex items-center gap-2 font-technical-data text-technical-data uppercase text-green-700 bg-green-50 px-4 py-2 rounded-default">
+            <p v-if="claimSuccess" class="flex items-center gap-2 font-technical-data text-technical-data uppercase text-primary bg-primary/10 px-4 py-2 rounded-default">
               <span class="material-symbols-outlined text-[16px]" aria-hidden="true">check_circle</span>
               Reklamácia bola podaná.
             </p>
@@ -985,28 +985,28 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
             </p>
             <div class="flex flex-col gap-1">
               <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Objednávka</label>
-              <select v-model="claimForm.orderId" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary appearance-none cursor-pointer">
+              <select v-model="claimForm.orderId" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary appearance-none cursor-pointer">
                 <option value="" disabled>Vyberte objednávku</option>
                 <option v-for="o in claimableOrders" :key="o.id" :value="o.id">{{ o.id }} ({{ o.date }})</option>
               </select>
             </div>
             <div v-if="claimForm.orderId" class="flex flex-col gap-1">
               <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Produkt</label>
-              <select v-model="claimForm.itemName" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary appearance-none cursor-pointer">
+              <select v-model="claimForm.itemName" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary appearance-none cursor-pointer">
                 <option value="" disabled>Vyberte produkt</option>
                 <option v-for="item in claimableItems" :key="item.sku" :value="item.name">{{ item.name }}</option>
               </select>
             </div>
             <div class="flex flex-col gap-1">
               <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Dôvod reklamácie</label>
-              <select v-model="claimForm.reason" class="h-12 px-4 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary appearance-none cursor-pointer">
+              <select v-model="claimForm.reason" class="h-12 px-4 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary appearance-none cursor-pointer">
                 <option value="" disabled>Vyberte dôvod</option>
                 <option v-for="r in claimReasons" :key="r" :value="r">{{ r }}</option>
               </select>
             </div>
             <div class="flex flex-col gap-1">
               <label class="font-technical-data text-technical-data uppercase text-on-surface-variant">Popis problému</label>
-              <textarea v-model="claimForm.description" rows="3" class="px-4 py-3 bg-white text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary resize-none" />
+              <textarea v-model="claimForm.description" rows="3" class="px-4 py-3 bg-surface-container-lowest text-on-background font-body-md text-body-md outline-none rounded-default border border-outline-variant focus:ring-2 focus:ring-primary resize-none" />
             </div>
             <div class="flex gap-stack-sm mt-stack-xs">
               <button
@@ -1035,7 +1035,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
                 <div class="flex items-center gap-stack-sm flex-wrap">
                   <span class="font-body-md text-body-md font-semibold">{{ claim.id }}</span>
                   <span
-                    class="px-2 py-0.5 rounded-full font-technical-data text-technical-data uppercase"
+                    class="px-2 py-0.5 rounded-default font-technical-data text-technical-data uppercase"
                     :class="claimStatusColor(claim.status)"
                   >{{ claim.statusLabel }}</span>
                 </div>

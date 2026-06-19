@@ -2,6 +2,28 @@
 
 Tento súbor poskytuje kontext pre Claude Code (claude.ai/code) pri práci s týmto repozitárom.
 
+## PRAVIDLO: Dizajnový systém (DESIGN.md)
+
+**STRIKTNE sa drž `DESIGN.md` pri každej zmene UI.** Pred akoukoľvek úpravou komponentu alebo
+stránky si prečítaj `DESIGN.md` a použi VÝLUČNE tam definované tokeny:
+
+- **Farby:** Len `@theme` tokeny (`bg-primary`, `text-on-surface-variant`, `bg-secondary-container`…).
+  NIKDY nepoužívaj raw Tailwind farby (`bg-green-100`, `bg-blue-500`, `bg-white`, `text-red-800`…).
+- **Typografia:** Len `font-*` a `text-*` tokeny z `@theme` (`font-headline-lg text-headline-lg`,
+  `font-technical-data text-technical-data`…). Font Hanken Grotesk pre text, Geist pre technické dáta.
+- **Shape:** `rounded-default` (6px) pre všetky CTA, inputy, karty. NIKDY `rounded-full` na tlačidlá.
+- **Spacing:** Len `stack-xs/sm/md/lg`, `gutter`, `grid-margin`, `section-padding(-lg)`.
+- **Tlačidlá:** Primárne = `bg-primary text-on-primary h-12 font-label-sm text-label-sm uppercase tracking-widest rounded-default`.
+  Outline = `border border-outline-variant text-on-background h-12 rounded-default`.
+  NIKDY pill-shaped.
+- **Ikony:** Výlučne Material Symbols Outlined ligatures. NIKDY emoji, NIKDY SVG ikony.
+- **Stav badge:** Amber `bg-secondary-container` pre akcie, `bg-primary` pre nové, `bg-error` pre vypredané.
+- **Formuláre:** Input = `h-12 bg-surface-container-lowest border border-outline-variant rounded-default focus:ring-2 focus:ring-primary`.
+  Label = `font-technical-data text-technical-data uppercase text-on-surface-variant`.
+- **Status farby:** Použiť design system farby s opacity variantmi, nie raw Tailwind.
+  Success = `bg-primary/10 text-primary`. Warning = `bg-secondary-container/20 text-on-secondary-container`.
+  Error = `bg-error/10 text-error`. Info = `bg-primary/5 text-on-surface-variant`.
+
 ## Prehľad projektu
 
 **SLICKLY** ("Umenie Čistoty") je **prémiový multi-brand marketplace** pre starostlivosť o auto
