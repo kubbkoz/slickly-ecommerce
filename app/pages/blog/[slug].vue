@@ -69,7 +69,7 @@ useJsonLd({
 
       <!-- Hero image -->
       <div class="aspect-video w-full overflow-hidden mb-stack-lg md:mb-12 bg-on-background">
-        <NuxtImg :src="post.image" :alt="post.title" fetchpriority="high" width="1200" height="675" sizes="640px md:1024px" class="w-full h-full object-cover" />
+        <NuxtImg :src="post.image" :alt="post.title" fetchpriority="high" preload width="1200" height="675" sizes="640px md:1024px" class="w-full h-full object-cover" />
       </div>
 
       <!-- Content -->
