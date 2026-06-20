@@ -242,7 +242,7 @@ const trackingSteps = [
           <div class="flex flex-col gap-stack-sm divide-y divide-grid-line mb-stack-md">
             <div v-for="item in placedOrder.items" :key="item.productId" class="flex items-center gap-stack-sm pt-stack-sm first:pt-0">
               <div class="w-14 h-14 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden rounded-default">
-                <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
+                <NuxtImg :src="item.image" :alt="item.name" loading="lazy" width="200" height="200" sizes="80px" class="w-full h-full object-cover" />
               </div>
               <div class="flex-grow min-w-0">
                 <p class="font-body-md text-body-md truncate">{{ item.name }}</p>
@@ -685,7 +685,7 @@ const trackingSteps = [
               <div v-for="item in cart.items" :key="item.productId" class="flex justify-between items-center gap-stack-sm pt-stack-sm first:pt-0">
                 <div class="flex items-center gap-stack-sm min-w-0">
                   <div class="w-12 h-12 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden rounded-default">
-                    <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
+                    <NuxtImg :src="item.image" :alt="item.name" loading="lazy" width="200" height="200" sizes="80px" class="w-full h-full object-cover" />
                   </div>
                   <div class="min-w-0">
                     <p class="font-body-md text-body-md truncate">{{ item.name }}</p>

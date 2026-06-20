@@ -25,10 +25,13 @@ const spans = [
           class="relative group overflow-hidden bg-on-background focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-secondary-container"
           :class="spans[index]"
         >
-          <img
+          <NuxtImg
             :src="category.image"
             :alt="category.name"
             :loading="index === 0 ? 'eager' : 'lazy'"
+            width="600"
+            height="400"
+            sizes="320px md:340px"
             class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-500 group-hover:scale-105"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>

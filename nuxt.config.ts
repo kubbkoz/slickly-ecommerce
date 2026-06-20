@@ -34,7 +34,13 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', '@nuxt/image'],
+
+  image: {
+    domains: ['lh3.googleusercontent.com'],
+    format: ['avif', 'webp'],
+    quality: 80,
+  },
 
   // Public runtime config — `siteUrl` is the canonical production origin used
   // to build absolute URLs for canonical tags, Open Graph, JSON-LD and the
@@ -51,21 +57,32 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  // Route-level caching rules. The homepage is static enough to prerender at
-  // build time. Marketing/catalog pages are cached (SWR) so they're served
-  // instantly while revalidating in the background. Cart/checkout/account
-  // keep default SSR (no caching) since their content is driven by
-  // client-side cart state (localStorage today, Shopware context token
-  // later).
+  // Static pages (homepage, catalog, blog, legal) are prerendered at build
+  // time for near-zero TTFB. Cart/checkout/account keep default SSR since
+  // their content is driven by client-side state. Hashed assets and
+  // optimised images get immutable cache headers.
   routeRules: {
     '/**': { headers: securityHeaders },
+    '/_nuxt/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+    '/_ipx/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
     '/': { prerender: true },
-    '/produkty': { swr: 3600 },
-    '/produkty/**': { swr: 3600 },
+    '/produkty': { prerender: true },
+    '/produkty/**': { prerender: true },
+    '/blog': { prerender: true },
+    '/blog/**': { prerender: true },
+    '/certifikaty': { prerender: true },
+    '/obchodne-podmienky': { prerender: true },
+    '/ochrana-sukromia': { prerender: true },
+    '/msds': { prerender: true },
   },
 
   nitro: {
-    compressPublicAssets: true,
+    compressPublicAssets: { gzip: true, brotli: true },
+    prerender: {
+      crawlLinks: true,
+      routes: ['/'],
+      ignore: ['/kosik', '/pokladna', '/ucet', '/oblubene', '/coming-soon', '/_ipx'],
+    },
   },
 
   vite: {

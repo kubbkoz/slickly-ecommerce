@@ -23,7 +23,7 @@ const formattedOldPrice = computed(() => props.product.oldPrice ? formatPrice(pr
 <template>
   <div class="w-32 shrink-0 md:w-full flex flex-col bg-surface-container-lowest border border-grid-line snap-start md:snap-none">
     <NuxtLink :to="`/produkty/${product.slug}`" class="relative aspect-square overflow-hidden block" @click="cart.closeDrawer()">
-      <img :src="product.image" :alt="product.name" loading="lazy" class="w-full h-full object-cover" />
+      <NuxtImg :src="product.image" :alt="product.name" loading="lazy" width="200" height="200" sizes="80px" class="w-full h-full object-cover" />
       <span
         v-if="product.badge"
         class="absolute bottom-0 left-0 bg-secondary-container text-on-background text-[9px] font-badge-label px-1.5 py-0.5 uppercase"

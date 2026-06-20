@@ -85,11 +85,15 @@ async function login() {
 
 <template>
   <div class="relative flex-grow flex flex-col overflow-hidden">
-    <img
+    <NuxtImg
       :src="HERO_IMAGE"
       alt=""
       aria-hidden="true"
       fetchpriority="high"
+      preload
+      width="1920"
+      height="1080"
+      sizes="640px md:1024px"
       class="absolute inset-0 w-full h-full object-cover"
     />
     <video

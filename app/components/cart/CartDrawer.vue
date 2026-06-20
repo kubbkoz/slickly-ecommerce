@@ -125,7 +125,7 @@ function decrement(productId: string, quantity: number) {
                 class="w-16 h-16 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden"
                 @click="cart.closeDrawer()"
               >
-                <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
+                <NuxtImg :src="item.image" :alt="item.name" loading="lazy" width="200" height="200" sizes="80px" class="w-full h-full object-cover" />
               </NuxtLink>
 
               <div class="flex-grow min-w-0 flex flex-col gap-1">
@@ -196,7 +196,7 @@ function decrement(productId: string, quantity: number) {
               @click="cart.closeDrawer()"
             >
               <div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container border border-grid-line">
-                <img :src="cat.image" :alt="cat.name" loading="lazy" class="w-full h-full object-cover" />
+                <NuxtImg :src="cat.image" :alt="cat.name" loading="lazy" width="400" height="300" sizes="320px md:340px" class="w-full h-full object-cover" />
               </div>
               <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant group-hover:text-on-background transition-colors duration-200">{{ cat.name }}</span>
             </NuxtLink>

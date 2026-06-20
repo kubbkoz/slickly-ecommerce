@@ -475,7 +475,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
               <div v-for="order in recentOrders" :key="order.id" class="flex items-center justify-between gap-stack-sm py-stack-sm">
                 <div class="flex items-center gap-stack-sm min-w-0">
                   <div class="w-10 h-10 bg-surface-container-lowest border border-grid-line overflow-hidden rounded-default shrink-0">
-                    <img :src="order.items[0]!.image" :alt="order.items[0]!.name" loading="lazy" class="w-full h-full object-cover" />
+                    <NuxtImg :src="order.items[0]!.image" :alt="order.items[0]!.name" loading="lazy" width="200" height="200" sizes="80px" class="w-full h-full object-cover" />
                   </div>
                   <div class="min-w-0">
                     <p class="font-body-md text-body-md truncate">{{ order.id }}</p>
@@ -557,7 +557,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
                       class="w-10 h-10 bg-surface-container-lowest border border-grid-line overflow-hidden rounded-default"
                       :class="idx > 0 ? 'border-l-0' : ''"
                     >
-                      <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
+                      <NuxtImg :src="item.image" :alt="item.name" loading="lazy" width="200" height="200" sizes="80px" class="w-full h-full object-cover" />
                     </div>
                   </div>
                   <div class="min-w-0">
@@ -596,7 +596,7 @@ const deliveredCount = computed(() => mockOrders.filter((o) => o.status === 'dor
                 <div class="flex flex-col gap-stack-sm border border-grid-line p-stack-md rounded-default">
                   <div v-for="item in order.items" :key="item.sku" class="flex items-center gap-stack-sm">
                     <div class="w-12 h-12 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden rounded-default">
-                      <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
+                      <NuxtImg :src="item.image" :alt="item.name" loading="lazy" width="200" height="200" sizes="80px" class="w-full h-full object-cover" />
                     </div>
                     <div class="flex-grow min-w-0">
                       <NuxtLink :to="`/produkty/${item.slug}`" class="font-body-md text-body-md truncate block hover:text-primary transition-colors duration-200">{{ item.name }}</NuxtLink>

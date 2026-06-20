@@ -34,7 +34,7 @@ function addBundleToCart() {
       <template v-for="(item, idx) in allProducts" :key="item.id">
         <NuxtLink :to="`/produkty/${item.slug}`" class="group flex flex-col items-center gap-stack-xs w-20 md:w-24">
           <div class="w-20 h-20 md:w-24 md:h-24 bg-surface-container-lowest border border-grid-line overflow-hidden">
-            <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+            <NuxtImg :src="item.image" :alt="item.name" loading="lazy" width="200" height="200" sizes="80px" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
           </div>
           <span class="font-technical-data text-technical-data text-center text-on-surface-variant truncate w-full group-hover:text-primary transition-colors duration-200">{{ item.name }}</span>
         </NuxtLink>

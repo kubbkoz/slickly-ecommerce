@@ -35,10 +35,14 @@ useBreadcrumbJsonLd([
         <span class="absolute top-3 left-3 z-10 bg-secondary-container text-on-secondary-container text-badge-label font-badge-label px-2 py-1 uppercase">
           Featured
         </span>
-        <img
+        <NuxtImg
           :src="featuredPost.image"
           :alt="featuredPost.title"
           fetchpriority="high"
+          preload
+          width="1200"
+          height="675"
+          sizes="640px md:1024px"
           class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>
@@ -67,10 +71,13 @@ useBreadcrumbJsonLd([
         class="group flex flex-col gap-stack-sm bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         <div class="aspect-video w-full overflow-hidden">
-          <img
+          <NuxtImg
             :src="post.image"
             :alt="post.title"
             loading="lazy"
+            width="800"
+            height="450"
+            sizes="640px md:512px"
             class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>

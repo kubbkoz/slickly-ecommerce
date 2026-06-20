@@ -132,29 +132,38 @@ const categoryName = computed(() => categories.find((c) => c.slug === props.prod
         class="md:hidden absolute inset-0 flex overflow-x-auto snap-x snap-mandatory hide-scrollbar overscroll-x-contain [touch-action:pan-x]"
         @scroll.passive="onGalleryScroll"
       >
-        <img
+        <NuxtImg
           v-for="(img, idx) in cardImages"
           :key="idx"
           :src="img"
           :alt="idx === 0 ? product.name : `${product.name} – obrázok ${idx + 1}`"
           loading="lazy"
+          width="600"
+          height="600"
+          sizes="640px md:1024px"
           class="w-full h-full shrink-0 snap-center object-cover"
         />
       </div>
       <!-- Mobile single image (no gallery) -->
-      <img
+      <NuxtImg
         v-else
         :src="product.image"
         :alt="product.name"
         loading="lazy"
+        width="600"
+        height="600"
+        sizes="640px md:1024px"
         class="md:hidden w-full h-full object-cover"
       />
 
       <!-- Desktop: cover image with hover zoom -->
-      <img
+      <NuxtImg
         :src="product.image"
         :alt="product.name"
         loading="lazy"
+        width="600"
+        height="600"
+        sizes="320px md:256px"
         class="hidden md:block w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
 

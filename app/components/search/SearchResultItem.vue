@@ -13,7 +13,7 @@ const formattedPrice = computed(() => formatPrice(props.product.price))
     class="flex items-center gap-stack-sm py-stack-sm group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-default"
   >
     <div class="w-14 h-14 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden">
-      <img :src="product.image" :alt="product.name" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+      <NuxtImg :src="product.image" :alt="product.name" loading="lazy" width="200" height="200" sizes="80px" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
     </div>
     <div class="flex-grow min-w-0">
       <p class="font-body-md text-body-md text-on-surface truncate group-hover:text-primary transition-colors duration-200">{{ product.name }}</p>

@@ -202,10 +202,14 @@ onBeforeUnmount(() => {
           >
             {{ product.badge }}
           </span>
-          <img
+          <NuxtImg
             :src="activeImage"
             :alt="categoryName ? `${product.name} – ${categoryName}` : product.name"
             fetchpriority="high"
+            preload
+            width="800"
+            height="800"
+            sizes="640px md:512px"
             class="w-full h-full object-cover transition-transform duration-500 group-hover/gallery:scale-105"
           />
           <span class="absolute bottom-3 right-3 z-10 w-10 h-10 bg-surface-container-lowest/90 flex items-center justify-center rounded-full text-on-surface-variant opacity-0 group-hover/gallery:opacity-100 transition-opacity duration-200">
@@ -223,7 +227,7 @@ onBeforeUnmount(() => {
             :aria-pressed="activeImage === img"
             @click="activeImage = img"
           >
-            <img :src="img" :alt="`${product.name} - obrázok ${idx + 1}`" loading="lazy" class="w-full h-full object-cover" />
+            <NuxtImg :src="img" :alt="`${product.name} - obrázok ${idx + 1}`" loading="lazy" width="600" height="600" sizes="80px" class="w-full h-full object-cover" />
           </button>
         </div>
       </div>
@@ -505,9 +509,12 @@ onBeforeUnmount(() => {
               @click="toggleZoom"
               @mousemove="zoomed && updateZoomPos($event)"
             >
-              <img
+              <NuxtImg
                 :src="product.gallery[lightboxIndex]"
                 :alt="`${product.name} – obrázok ${lightboxIndex + 1}`"
+                width="1200"
+                height="1200"
+                sizes="640px md:1024px"
                 class="select-none transition-transform duration-300 motion-reduce:duration-0"
                 :class="zoomed ? 'scale-[2.5]' : 'max-w-full max-h-[calc(100dvh-12rem)] object-contain'"
                 :style="zoomed ? { transformOrigin: `${zoomPos.x}% ${zoomPos.y}%` } : {}"
@@ -538,7 +545,7 @@ onBeforeUnmount(() => {
               :aria-label="`Zobraziť obrázok ${idx + 1}`"
               @click="lightboxIndex = idx; zoomed = false"
             >
-              <img :src="img" :alt="`${product.name} – ${idx + 1}`" loading="lazy" class="w-full h-full object-cover" />
+              <NuxtImg :src="img" :alt="`${product.name} – ${idx + 1}`" loading="lazy" width="800" height="800" sizes="640px md:512px" class="w-full h-full object-cover" />
             </button>
           </div>
         </div>

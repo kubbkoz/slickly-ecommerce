@@ -38,10 +38,13 @@ const useCases = [
           :to="useCase.to"
           class="group relative overflow-hidden aspect-[3/4] bg-on-background focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-secondary-container"
         >
-          <img
+          <NuxtImg
             :src="useCase.image"
             :alt="useCase.label"
             loading="lazy"
+            width="450"
+            height="600"
+            sizes="320px md:256px"
             class="absolute inset-0 w-full h-full object-cover opacity-80 md:opacity-90 transition-transform duration-500 group-hover:scale-105"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>

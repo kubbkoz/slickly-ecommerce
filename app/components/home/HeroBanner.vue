@@ -34,11 +34,15 @@ useHead({
   <section class="relative w-full overflow-hidden">
     <!-- Mobile hero -->
     <div class="md:hidden relative aspect-square w-full overflow-hidden">
-      <img
+      <NuxtImg
         :src="HERO_IMAGE"
         alt=""
         aria-hidden="true"
         fetchpriority="high"
+        preload
+        width="600"
+        height="600"
+        sizes="640px md:1024px"
         class="absolute inset-0 w-full h-full object-cover"
       />
       <video
@@ -69,11 +73,15 @@ useHead({
 
     <!-- Desktop hero -->
     <div class="hidden md:block relative w-full aspect-video bg-on-background overflow-hidden">
-      <img
+      <NuxtImg
         :src="HERO_IMAGE"
         alt=""
         aria-hidden="true"
         fetchpriority="high"
+        preload
+        width="800"
+        height="450"
+        sizes="640px md:1024px"
         class="absolute inset-0 w-full h-full object-cover"
       />
       <video

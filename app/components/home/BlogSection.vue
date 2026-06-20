@@ -45,7 +45,7 @@ useAutoScroll(mobileScroller)
             >
               Featured
             </span>
-            <img :src="post.image" :alt="post.title" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+            <NuxtImg :src="post.image" :alt="post.title" loading="lazy" width="800" height="450" sizes="640px md:512px" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
           </div>
           <div class="flex flex-col gap-stack-sm p-stack-sm">
             <div class="flex items-center justify-between gap-stack-sm">
@@ -73,7 +73,7 @@ useAutoScroll(mobileScroller)
             >
               Featured
             </span>
-            <img :src="post.image" :alt="post.title" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+            <NuxtImg :src="post.image" :alt="post.title" loading="lazy" width="800" height="450" sizes="640px md:512px" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
           </div>
           <div class="flex flex-col gap-stack-sm p-6">
             <div class="flex items-center justify-between gap-stack-sm">

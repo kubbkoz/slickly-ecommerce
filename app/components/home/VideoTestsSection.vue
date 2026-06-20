@@ -97,7 +97,7 @@ watch(activeVideo, (video) => {
           @click="openVideo(video)"
         >
           <div class="relative aspect-video w-full overflow-hidden bg-on-background">
-            <img :src="video.image" :alt="`Náhľad videa – ${video.title}`" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-300 group-hover:scale-105" />
+            <NuxtImg :src="video.image" :alt="`Náhľad videa – ${video.title}`" loading="lazy" width="800" height="450" sizes="640px md:512px" class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-300 group-hover:scale-105" />
             <div class="absolute inset-0 flex items-center justify-center">
               <span class="material-symbols-outlined text-[48px] text-on-primary drop-shadow" aria-hidden="true">play_circle</span>
             </div>
@@ -121,7 +121,7 @@ watch(activeVideo, (video) => {
           @click="openVideo(video)"
         >
           <div class="relative aspect-video w-full overflow-hidden bg-on-background">
-            <img :src="video.image" :alt="`Náhľad videa – ${video.title}`" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-300 group-hover:scale-105" />
+            <NuxtImg :src="video.image" :alt="`Náhľad videa – ${video.title}`" loading="lazy" width="800" height="450" sizes="640px md:512px" class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-300 group-hover:scale-105" />
             <div class="absolute inset-0 flex items-center justify-center">
               <span class="material-symbols-outlined text-[48px] text-on-primary drop-shadow transition-transform duration-200 group-hover:scale-110" aria-hidden="true">play_circle</span>
             </div>

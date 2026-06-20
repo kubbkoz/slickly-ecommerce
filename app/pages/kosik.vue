@@ -80,7 +80,7 @@ const recommended = computed<Product[]>(() => {
           class="flex items-center gap-stack-md py-stack-md"
         >
           <NuxtLink :to="`/produkty/${item.slug}`" class="w-20 h-20 md:w-28 md:h-28 shrink-0 bg-surface-container-lowest border border-grid-line overflow-hidden">
-            <img :src="item.image" :alt="item.name" loading="lazy" class="w-full h-full object-cover" />
+            <NuxtImg :src="item.image" :alt="item.name" loading="lazy" width="200" height="200" sizes="80px" class="w-full h-full object-cover" />
           </NuxtLink>
 
           <div class="flex-grow flex flex-col gap-1 min-w-0">
@@ -220,7 +220,7 @@ const recommended = computed<Product[]>(() => {
             class="group flex flex-col items-center gap-stack-sm p-stack-md border border-grid-line rounded-default cursor-pointer transition-colors duration-200 hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             <div class="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-surface-container border border-grid-line">
-              <img :src="cat.image" :alt="cat.name" loading="lazy" class="w-full h-full object-cover" />
+              <NuxtImg :src="cat.image" :alt="cat.name" loading="lazy" width="400" height="300" sizes="320px md:340px" class="w-full h-full object-cover" />
             </div>
             <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant group-hover:text-on-background transition-colors duration-200">{{ cat.name }}</span>
           </NuxtLink>

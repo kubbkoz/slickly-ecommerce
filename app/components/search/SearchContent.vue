@@ -57,10 +57,13 @@ const trimmedQuery = computed(() => props.query.trim())
             class="group relative aspect-[2/1] md:aspect-square overflow-hidden border border-grid-line focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-secondary-container"
             @click="emit('select')"
           >
-            <img
+            <NuxtImg
               :src="category.image"
               :alt="category.name"
               loading="lazy"
+              width="400"
+              height="300"
+              sizes="320px md:256px"
               class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-300 group-hover:scale-105"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>

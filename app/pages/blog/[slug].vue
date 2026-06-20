@@ -69,7 +69,7 @@ useJsonLd({
 
       <!-- Hero image -->
       <div class="aspect-video w-full overflow-hidden mb-stack-lg md:mb-12 bg-on-background">
-        <img :src="post.image" :alt="post.title" fetchpriority="high" class="w-full h-full object-cover" />
+        <NuxtImg :src="post.image" :alt="post.title" fetchpriority="high" width="1200" height="675" sizes="640px md:1024px" class="w-full h-full object-cover" />
       </div>
 
       <!-- Content -->
@@ -130,7 +130,7 @@ useJsonLd({
           class="group flex flex-col gap-stack-sm bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           <div class="aspect-video w-full overflow-hidden">
-            <img :src="other.image" :alt="other.title" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+            <NuxtImg :src="other.image" :alt="other.title" loading="lazy" width="800" height="450" sizes="640px md:340px" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
           </div>
           <div class="flex flex-col gap-stack-sm p-stack-sm md:p-6">
             <div class="flex items-center justify-between gap-stack-sm">

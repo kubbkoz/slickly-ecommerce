@@ -319,7 +319,7 @@ watch(isMenuOpen, (open) => {
                   class="group/card flex flex-col gap-3 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 >
                   <div class="aspect-[4/3] w-full overflow-hidden rounded-default bg-surface-container-low">
-                    <img :src="category.image" :alt="category.name" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105" />
+                    <NuxtImg :src="category.image" :alt="category.name" loading="lazy" width="400" height="300" sizes="200px" class="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105" />
                   </div>
                   <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-background group-hover/card:text-primary transition-colors duration-150">
                     {{ category.name }}
