@@ -136,16 +136,18 @@
     text-size-adjust: 100%;
     touch-action: manipulation;
   }
-  @media (min-width: 768px) {
-    html {
-      scroll-behavior: smooth;
-    }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
     *,
     *::before,
     *::after {

@@ -34,12 +34,42 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
-  modules: ['@pinia/nuxt', '@nuxt/image'],
+  modules: ['@pinia/nuxt', '@nuxt/image', '@vueuse/motion/nuxt', 'nuxt-lenis'],
 
   image: {
     domains: ['lh3.googleusercontent.com'],
     format: ['avif', 'webp'],
     quality: 80,
+  },
+
+  lenis: {
+    autoRaf: true,
+    root: true,
+    options: {
+      lerp: 0.1,
+      smoothWheel: true,
+    },
+  },
+
+  motion: {
+    directives: {
+      'slide-up': {
+        initial: { opacity: 0, y: 24 },
+        visibleOnce: { opacity: 1, y: 0, transition: { duration: 600, ease: 'easeOut' } },
+      },
+      'fade-in': {
+        initial: { opacity: 0 },
+        visibleOnce: { opacity: 1, transition: { duration: 500, ease: 'easeOut' } },
+      },
+      'slide-left': {
+        initial: { opacity: 0, x: -24 },
+        visibleOnce: { opacity: 1, x: 0, transition: { duration: 600, ease: 'easeOut' } },
+      },
+      'slide-right': {
+        initial: { opacity: 0, x: 24 },
+        visibleOnce: { opacity: 1, x: 0, transition: { duration: 600, ease: 'easeOut' } },
+      },
+    },
   },
 
   // Public runtime config — `siteUrl` is the canonical production origin used
@@ -93,6 +123,7 @@ export default defineNuxtConfig({
           manualChunks: {
             'vendor-vue': ['vue', 'vue-router'],
             'vendor-pinia': ['pinia'],
+            'vendor-motion': ['@vueuse/motion'],
           },
         },
       },
