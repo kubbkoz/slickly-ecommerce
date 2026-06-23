@@ -111,7 +111,7 @@ useJsonLd({
     </article>
 
     <!-- Ďalšie články -->
-    <section v-if="otherPosts.length" class="mt-stack-lg md:mt-section-padding-lg">
+    <section v-if="otherPosts.length" v-reveal class="mt-stack-lg md:mt-section-padding-lg">
       <div class="flex items-end justify-between border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
         <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight">Ďalšie články</h2>
         <NuxtLink

@@ -252,8 +252,9 @@ onBeforeUnmount(() => {
             {{ formattedOldPrice }}
           </span>
           <span class="font-price-display text-price-display md:text-headline-lg text-on-background">{{ formattedPrice }}</span>
-          <span v-if="!product.inStock" class="font-label-sm text-label-sm uppercase text-error">Vypredané</span>
-          <span v-else class="font-label-sm text-label-sm uppercase text-on-secondary-container">Skladom</span>
+          <span v-if="product.availability === 'out-of-stock'" class="font-label-sm text-label-sm uppercase text-error">Vypredané</span>
+          <span v-else-if="product.availability === 'on-order'" class="font-label-sm text-label-sm uppercase text-warning">Na objednávku</span>
+          <span v-else class="font-label-sm text-label-sm uppercase text-success">Skladom</span>
         </div>
 
         <p class="font-body-md md:text-body-lg text-on-surface-variant border-l-2 border-secondary-container pl-4">
@@ -297,7 +298,7 @@ onBeforeUnmount(() => {
             type="button"
             :disabled="!product.inStock"
             class="flex-grow h-12 font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 disabled:opacity-30 disabled:cursor-not-allowed rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-            :class="justAdded ? 'bg-[#2e7d32] text-white cart-success' : 'bg-primary text-on-primary'"
+            :class="justAdded ? 'bg-success text-on-success cart-success' : 'bg-primary text-on-primary'"
             @click="addToCart"
           >
             <span class="material-symbols-outlined" aria-hidden="true">{{ justAdded ? 'check' : 'add_shopping_cart' }}</span>
@@ -342,7 +343,7 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- Popis -->
-    <section class="mt-stack-lg md:mt-section-padding-lg">
+    <section v-reveal class="mt-stack-lg md:mt-section-padding-lg">
       <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
         Popis
       </h2>
@@ -364,7 +365,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- Špecifikácia -->
-    <section v-if="product.specifications.length" class="mt-stack-lg md:mt-section-padding-lg">
+    <section v-if="product.specifications.length" v-reveal class="mt-stack-lg md:mt-section-padding-lg">
       <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
         Špecifikácia
       </h2>
@@ -381,7 +382,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- Použitie -->
-    <section v-if="product.usage.length" class="mt-stack-lg md:mt-section-padding-lg">
+    <section v-if="product.usage.length" v-reveal class="mt-stack-lg md:mt-section-padding-lg">
       <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
         Použitie
       </h2>
@@ -396,7 +397,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- Čo hovoria zákazníci -->
-    <section class="mt-stack-lg md:mt-section-padding-lg">
+    <section v-reveal class="mt-stack-lg md:mt-section-padding-lg">
       <div class="flex flex-wrap items-baseline justify-between gap-stack-sm border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
         <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight">
           Čo hovoria zákazníci
@@ -428,7 +429,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- Odporúčame k tomu -->
-    <section v-if="bundleProducts.length" class="mt-stack-lg md:mt-section-padding-lg">
+    <section v-if="bundleProducts.length" v-reveal class="mt-stack-lg md:mt-section-padding-lg">
       <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
         Odporúčame k tomu
       </h2>
@@ -436,7 +437,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- Podobné produkty -->
-    <section v-if="related.length" class="mt-stack-lg md:mt-section-padding-lg">
+    <section v-if="related.length" v-reveal class="mt-stack-lg md:mt-section-padding-lg">
       <h2 class="font-headline-md text-headline-md md:text-headline-lg uppercase tracking-tight border-b border-grid-line pb-stack-sm md:pb-6 mb-stack-md md:mb-8">
         Podobné produkty
       </h2>

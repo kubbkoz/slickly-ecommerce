@@ -10,6 +10,8 @@ export interface ProductReview {
   text: string
 }
 
+export type Availability = 'in-stock' | 'on-order' | 'out-of-stock'
+
 export interface Product {
   id: string
   sku: string
@@ -25,6 +27,7 @@ export interface Product {
   image: string
   gallery: string[]
   inStock: boolean
+  availability: Availability
   specifications: ProductSpec[]
   usage: string[]
   reviews: ProductReview[]
@@ -55,6 +58,7 @@ export const products: Product[] = [
       'https://lh3.googleusercontent.com/aida-public/AB6AXuDqfvgYp-kJav9gkqgmOCsYjiC4So4GJqBaDdrvshiS8mq5C6hkxkm8oDWK8B-dGiOWMMRwf3BBR-0y0ESfGIzvVIhANKwAwABI0mCNdZbAssr5124Ae98epxLYqYIaO-JIQXTvYiTIW0FqIxbg7U-S4yrZ28DWrgYXb68xQU4qAloA0KW2BiiZdT2l71fQqWHagcpUhDZlDbnCsNuLaB1sGiwQuPu9yxPGK_itWLZ-xAnbUba8N0PptKYneergNR78yuNGghEppTOZ',
     ],
     inStock: true,
+    availability: 'in-stock',
     specifications: [
       { label: 'Objem', value: '50 ml' },
       { label: 'Životnosť', value: '24+ mesiacov' },
@@ -94,6 +98,7 @@ export const products: Product[] = [
       'https://lh3.googleusercontent.com/aida-public/AB6AXuA5aA8CRrfqsNMeW-klM7TClh8cBn9aEEuUjxNst4pZZJ98ZU5O1Vkj0nJv4r6302LdvwQQu_ulyBMcVf7T-Qi2EtDcbB_qzIhlXuRfjFJYsEp-eqpGVnF8E8oY1vfSGD0TLTVWPzCEk2jaj-Y-AIxlH0lwFLSOfZgr5lCtGw3FRt4GAyyDgAcil3fbJZjL1K8zszAlQM8rj5ad1UvXa5i2ohvVxQoWzTUCVJYdSbC49XG_6Crxazh8AGZdh_jnGfWOWE_BIlNJoNu1',
     ],
     inStock: true,
+    availability: 'in-stock',
     specifications: [
       { label: 'Objem', value: '500 ml' },
       { label: 'Aplikácia', value: 'Sprej' },
@@ -132,6 +137,7 @@ export const products: Product[] = [
       'https://lh3.googleusercontent.com/aida-public/AB6AXuAzbcXxqkUsLucW3vQh1NUmDTOBFJJGg62EU0bALrKq71hMXYmEniIRcDBaRrBTnnQeLt28BGFVlXLC1iK2eZv6NP8lUgnVy0LFGkdjl0daMX1PhVry_D2fqkLwmyx1xQaiKuU22zfhQUL0DoLD3X7Jca4MAYeso5GCyNo62sj2WDCVHPjii3Xh71gM2yH_fBWsQxqbsmaeeaLoLqB8zuqB1wCDECx4tlH7F_1sNMIyck1GHvtT7mNbZ_yja6WUJuP8tTN2EuBw31mB',
     ],
     inStock: true,
+    availability: 'in-stock',
     specifications: [
       { label: 'Objem', value: '500 ml' },
       { label: 'pH', value: 'Neutrálne' },
@@ -168,6 +174,7 @@ export const products: Product[] = [
       'https://lh3.googleusercontent.com/aida-public/AB6AXuDUIlL6gCDbQzkzD3xw3uU2u9AAhFHCe7Nt3NRZ0phtbf41TlYyf9_Rxm-HPeg0eSpFTwijP-2unSr9UMFdmQDBKeSIGZ_hxRJNGDU5YU3HbkuogK1HBK0PBU6wLU_c6ExItw1bqYPx6aYcNfYcxln54ppmdDnswAbJbMTP9wpWyktHaUaT9z578MbbYq-SM-EsfIUkgi4qK2H5nQEN_KM6DAuJKFSpeoB0Nr_Ru-tX3E8ssQpdfeBfpnIBVkhTAHvokbU4XF-4bZLU',
     ],
     inStock: true,
+    availability: 'in-stock',
     specifications: [
       { label: 'Objem', value: '400 ml' },
       { label: 'Aplikácia', value: 'Pena v spreji' },
@@ -204,6 +211,7 @@ export const products: Product[] = [
       'https://lh3.googleusercontent.com/aida-public/AB6AXuDjJhaegdVwDaUbbbxP7bA-jd2n0qC0zIeXdAJNfRLjPz_3GxRHtkS2n6H9b7KYI8dPpEo3Xnkbj9BYmiTIgRK9AF_4InoaBujMAQowcAm8o6MCeQyPiZAeWpUokziyU4BB-6b_UnWLZR4-D2o9Gr4bSL4KBF_nWHTKmfFkM7a_o2rF9O39Lig1d7GAPVLoPaYoh5bbTDQO2spYJJ1O2EiJMYQVHrn2EgngAUNtLHNmKLsYPxLsv3mvY44XA6BXnTZgiOpr2-d4mZ3n',
     ],
     inStock: true,
+    availability: 'in-stock',
     specifications: [
       { label: 'Objem', value: '500 ml' },
       { label: 'pH', value: 'Neutrálne (Acid-Free)' },
@@ -240,6 +248,7 @@ export const products: Product[] = [
       'https://lh3.googleusercontent.com/aida-public/AB6AXuAPhRqMDXGipIWDCSSp3ytrO-1MTeWM7S0sSmC7OfFVduwcDV6bPhAizWem3sHYuDcj1m1ycqjpxA5JWiuQEK3cGBAJjJQA23C1qRh14YGBAtdoz6JTjvMBWun8NykFd6LXVJ1XYC5yHDss73M3hVtVl7fFA9oHJv-31_AA2hCs8RtZB8ZNOMY278SHU1wR3rXtHOD81puLNJeCmNa0W36SqLfrAZtjx-bC_1d3NbpcYHpxMfFmhqMe3msj4g_6KUTUQKcQ60rNf1yr',
     ],
     inStock: true,
+    availability: 'on-order',
     specifications: [
       { label: 'Objem', value: '250 ml' },
       { label: 'Abrazívnosť', value: 'Mikro-abrazívna (jemná)' },
@@ -277,6 +286,7 @@ export const products: Product[] = [
       'https://lh3.googleusercontent.com/aida-public/AB6AXuDq1ViUcjBlJwvLwQHWabkgSVZR9HtWnfxWrK-lIinx97BX5vgGvZwiGwcZLiZlXHBEc1eL_1jFvDrdag-p9DeU14Ik55ESI1jpG6aftFLfFca5yKBpDn-F5vPeGvKTqSixPkwjeN9HAGV2vWE1CFXskisv9jaA_isNPuUSMs5T42ATBPVE2aEnfkNKTDfas0efD-sXi99u5832YJSDh9XSEc2sdnI4SyTd5Fn0Jj76xstx87HQxqHwGa6NHkzRN4UYxabyJVYYxyFB',
     ],
     inStock: true,
+    availability: 'in-stock',
     specifications: [
       { label: 'Objem', value: '30 ml' },
       { label: 'Výdrž', value: 'až 6 mesiacov' },
@@ -313,6 +323,7 @@ export const products: Product[] = [
       'https://lh3.googleusercontent.com/aida-public/AB6AXuC-ulpuUATLaBjL8jZ7MD9WYEi75v_DgL6trCmYqofHu0G_XAx4JA1WFl7RyjGxdrGBhDYT3D0le7ZqvZy36-69ygRqVUORR3xl5NwRc7t2SHSaV7hCGdkPWlAoQtU8nem4COrGFysNWiS3_S6fjidq_wnygm4t5d15_pUHS-sKaEQNUxVcyN50KS9Qw1gG7ZT5UEwGtg5-rngYNUVXsXSi2VLkz5-JAmnZds2186rAiDj5jm020E3I3Srr4bNwfacNiGtsHU9u3hAB',
     ],
     inStock: false,
+    availability: 'out-of-stock',
     specifications: [
       { label: 'Objem', value: '250 ml' },
       { label: 'Báza', value: 'Vodná emulzia' },

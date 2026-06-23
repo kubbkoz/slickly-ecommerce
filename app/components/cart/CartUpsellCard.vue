@@ -44,7 +44,7 @@ const formattedOldPrice = computed(() => props.product.oldPrice ? formatPrice(pr
           type="button"
           :disabled="!product.inStock"
           class="w-8 h-8 shrink-0 flex items-center justify-center rounded-sm cursor-pointer transition-[background-color,transform] duration-200 active:scale-90 hover:bg-primary/85 [touch-action:manipulation] disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-          :class="justAdded ? 'bg-[#2e7d32] text-white cart-success' : 'bg-primary text-on-primary'"
+          :class="justAdded ? 'bg-success text-on-success cart-success' : 'bg-primary text-on-primary'"
           :aria-label="`Pridať ${product.name} do košíka`"
           @click="quickAdd"
         >

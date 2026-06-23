@@ -53,6 +53,16 @@
   --color-error-container: #ffdad6;
   --color-on-error-container: #93000a;
 
+  --color-success: #1b7d3a;
+  --color-on-success: #ffffff;
+  --color-success-container: #d4f5de;
+  --color-on-success-container: #0d5424;
+
+  --color-warning: #c87000;
+  --color-on-warning: #ffffff;
+  --color-warning-container: #ffedd4;
+  --color-on-warning-container: #8c4e00;
+
   --color-background: #f7f9fb;
   --color-on-background: #191c1e;
 
@@ -523,18 +533,17 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .page-enter-active,
-    .page-leave-active,
-    .reveal {
-      transition: none !important;
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
     .reveal {
       opacity: 1 !important;
       transform: none !important;
-    }
-    .page-enter-from,
-    .page-leave-to {
-      transform: none;
     }
   }
 }

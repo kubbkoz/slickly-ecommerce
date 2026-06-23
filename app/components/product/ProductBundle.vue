@@ -50,7 +50,7 @@ function addBundleToCart() {
       <button
         type="button"
         class="h-12 px-6 font-label-sm text-label-sm uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-[background-color,transform] duration-200 active:scale-[0.99] hover:bg-primary/85 rounded-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-        :class="justAdded ? 'bg-[#2e7d32] text-white cart-success' : 'bg-primary text-on-primary'"
+        :class="justAdded ? 'bg-success text-on-success cart-success' : 'bg-primary text-on-primary'"
         @click="addBundleToCart"
       >
         <span class="material-symbols-outlined" aria-hidden="true">{{ justAdded ? 'check' : 'add_shopping_cart' }}</span>
