@@ -120,6 +120,14 @@ const availabilityClass = computed(() => {
     case 'out-of-stock': return 'bg-error/15 text-error'
   }
 })
+
+const availabilityIcon = computed(() => {
+  switch (props.product.availability) {
+    case 'in-stock': return 'check_circle'
+    case 'on-order': return 'schedule'
+    case 'out-of-stock': return 'block'
+  }
+})
 </script>
 
 <template>
@@ -130,16 +138,17 @@ const availabilityClass = computed(() => {
         <!-- TOP-LEFT: sale/promo badge -->
         <span
           v-if="product.badge"
-          class="absolute top-0 left-0 z-10 bg-secondary-container text-on-background text-badge-label font-badge-label px-stack-md py-1 uppercase"
+          class="absolute top-0 left-0 z-10 bg-secondary-container text-on-background text-badge-label font-badge-label px-stack-md py-stack-xs uppercase"
         >
           {{ product.badge }}
         </span>
 
         <!-- BOTTOM-LEFT: availability badge -->
         <span
-          class="absolute bottom-0 left-0 z-10 font-badge-label text-badge-label px-stack-md py-1 uppercase"
+          class="absolute bottom-0 left-0 z-10 font-badge-label text-badge-label px-stack-md py-stack-xs uppercase flex items-center gap-1"
           :class="availabilityClass"
         >
+          <span class="material-symbols-outlined text-[11px]" aria-hidden="true">{{ availabilityIcon }}</span>
           {{ availabilityLabel }}
         </span>
 
@@ -188,7 +197,7 @@ const availabilityClass = computed(() => {
         <!-- Image indicator dots (mobile, multi-image only) -->
         <div
           v-if="cardImages.length > 1"
-          class="md:hidden absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5"
+          class="md:hidden absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5"
           aria-hidden="true"
         >
           <span
@@ -209,7 +218,7 @@ const availabilityClass = computed(() => {
       <!-- BOTTOM-RIGHT of image: wishlist button -->
       <button
         type="button"
-        class="absolute bottom-2 right-2 z-20 w-8 h-8 flex items-center justify-center bg-surface-container-lowest/90 rounded-sm cursor-pointer transition-colors duration-200 hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [touch-action:manipulation]"
+        class="absolute bottom-0 right-0 z-20 min-w-11 min-h-11 flex items-center justify-center bg-surface-container-lowest/90 rounded-sm cursor-pointer transition-colors duration-200 hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [touch-action:manipulation]"
         :class="wishlist.has(product.id) ? 'text-error' : 'text-on-surface-variant'"
         :aria-label="wishlist.has(product.id) ? `Odstrániť ${product.name} z obľúbených` : `Pridať ${product.name} do obľúbených`"
         :aria-pressed="wishlist.has(product.id)"
@@ -248,6 +257,7 @@ const availabilityClass = computed(() => {
           <span class="material-symbols-outlined" aria-hidden="true">{{ justAdded ? 'check' : 'add_shopping_cart' }}</span>
         </button>
       </div>
+      <span class="sr-only" role="status" aria-live="polite">{{ justAdded ? `${product.name} pridané do košíka` : '' }}</span>
     </div>
   </div>
 </template>
