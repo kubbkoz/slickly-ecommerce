@@ -2,7 +2,6 @@
 useSeo({
   title: 'Obchodné podmienky | SLICKLY',
   description: 'Všeobecné obchodné podmienky SLICKLY.',
-  noindex: true,
 })
 </script>
 

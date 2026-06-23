@@ -2,7 +2,6 @@
 useSeo({
   title: 'Ochrana súkromia | SLICKLY',
   description: 'Zásady ochrany osobných údajov SLICKLY.',
-  noindex: true,
 })
 </script>
 

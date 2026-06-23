@@ -2,7 +2,6 @@
 useSeo({
   title: 'Certifikáty | SLICKLY',
   description: 'Certifikáty kvality a zhody SLICKLY.',
-  noindex: true,
 })
 </script>
 

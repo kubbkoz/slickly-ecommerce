@@ -2,7 +2,6 @@
 useSeo({
   title: 'MSDS dáta | SLICKLY',
   description: 'Bezpečnostné listy (MSDS) k produktom SLICKLY.',
-  noindex: true,
 })
 </script>
 
