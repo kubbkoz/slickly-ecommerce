@@ -36,5 +36,5 @@ Allow: /
 User-agent: Amazonbot
 Allow: /
 
-Sitemap: https://mtsport.store/sitemap.xml
-Sitemap: https://mtsport.store/llms.txt
+Sitemap: https://slickly.sk/sitemap.xml
+Sitemap: https://slickly.sk/llms.txt

@@ -15,8 +15,8 @@ export default defineAppConfig({
       storeDisplay: '+421 910 199 178',
     },
     email: {
-      info: 'info@mtsport.store',
-      infoHref: 'mailto:info@mtsport.store',
+      info: 'info@slickly.sk',
+      infoHref: 'mailto:info@slickly.sk',
     },
   },
 });

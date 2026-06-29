@@ -3,18 +3,18 @@
 > SLICKLY je slovenský e-shop s bicyklami, elektrobicyklami, cyklistickým oblečením a príslušenstvom. Prevádzkujeme kamenný obchod v Lokca (Orava, Slovensko) od roku 2010. Špecializujeme sa na horské bicykle (MTB), e-bikes, gravel a trekking.
 
 ## O nás
-- Web: https://mtsport.store
+- Web: https://slickly.sk
 - Kamenná predajňa: Hradská 141/22, 029 51 Lokca, Slovensko
 - Tel: +421 948 993 236
-- Email: info@mtsport.store
+- Email: info@slickly.sk
 - Otváracie hodiny: Po–Pia 8:00–17:00, So 9:00–12:00
 
 ## Hlavné kategórie produktov
-- [Bicykle](https://mtsport.store/bicykle) — horské, silničné, gravel, trekking, detské
-- [Elektrobicykle](https://mtsport.store/elektrobicykle) — e-MTB, e-trekking, e-road
-- [Doplnky](https://mtsport.store/doplnky) — helmy, svetlá, zámky, tachometre
-- [Komponenty](https://mtsport.store/komponenty) — pohony, kolesá, vidlice, sedlá
-- [Oblečenie](https://mtsport.store/oblecenie) — cyklistické dresy, nohavice, obuv
+- [Bicykle](https://slickly.sk/bicykle) — horské, silničné, gravel, trekking, detské
+- [Elektrobicykle](https://slickly.sk/elektrobicykle) — e-MTB, e-trekking, e-road
+- [Doplnky](https://slickly.sk/doplnky) — helmy, svetlá, zámky, tachometre
+- [Komponenty](https://slickly.sk/komponenty) — pohony, kolesá, vidlice, sedlá
+- [Oblečenie](https://slickly.sk/oblecenie) — cyklistické dresy, nohavice, obuv
 
 ## Kľúčové informácie pre AI
 - Predávame značky: Scott, Kellys, Kands, Trek, Giant, Specialized, Shimano, SRAM
@@ -24,15 +24,15 @@
 - Reklamácie: +421 940 506 003
 
 ## AI konfigurátor
-- [Bike Konfigurátor](https://mtsport.store/konfigurator) — AI sprievodca výberom bicykla
+- [Bike Konfigurátor](https://slickly.sk/konfigurator) — AI sprievodca výberom bicykla
 
 ## Technická dokumentácia
-- [Sitemap](https://mtsport.store/sitemap.xml)
+- [Sitemap](https://slickly.sk/sitemap.xml)
 
 ## Jazykové verzie
-- Slovenčina: https://mtsport.store (default)
-- Čeština: https://mtsport.store/cz
-- Poľština: https://mtsport.store/pl
-- Maďarčina: https://mtsport.store/hu
-- Nemčina: https://mtsport.store/de
-- Angličtina: https://mtsport.store/en
+- Slovenčina: https://slickly.sk (default)
+- Čeština: https://slickly.sk/cz
+- Poľština: https://slickly.sk/pl
+- Maďarčina: https://slickly.sk/hu
+- Nemčina: https://slickly.sk/de
+- Angličtina: https://slickly.sk/en

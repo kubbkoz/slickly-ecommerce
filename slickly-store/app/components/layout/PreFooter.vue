@@ -21,7 +21,7 @@ const BADGES = [
   {
     icon: Store,
     title: 'Kamenná predajňa',
-    desc: 'Tovar si môžete zadarmo vyzdvihnúť alebo vyskúšať v našej predajni MT‑SPORT Lokca.',
+    desc: 'Tovar si môžete zadarmo vyzdvihnúť alebo vyskúšať v našej predajni SLICKLY.',
   },
 ];
 
