@@ -1,0 +1,68 @@
+msgid "AT"
+msgstr "Austria"
+
+msgid "BE"
+msgstr "Belgium"
+
+msgid "BG"
+msgstr "Bulgaria"
+
+msgid "HR"
+msgstr "Croatia"
+
+msgid "CZ"
+msgstr "Czechia"
+
+msgid "DK"
+msgstr "Denmark"
+
+msgid "EE"
+msgstr "Estonia"
+
+msgid "FI"
+msgstr "Finland"
+
+msgid "FR"
+msgstr "France"
+
+msgid "DE"
+msgstr "Germany"
+
+msgid "HU"
+msgstr "Hungary"
+
+msgid "IT"
+msgstr "Italy"
+
+msgid "LV"
+msgstr "Latvia"
+
+msgid "LT"
+msgstr "Lithuania"
+
+msgid "LU"
+msgstr "Luxemburg"
+
+msgid "NL"
+msgstr "Netherland"
+
+msgid "PL"
+msgstr "Poland"
+
+msgid "PT"
+msgstr "Portugal"
+
+msgid "RO"
+msgstr "Romania"
+
+msgid "SK"
+msgstr "Slovakia"
+
+msgid "SI"
+msgstr "Slovenia"
+
+msgid "ES"
+msgstr "Spain"
+
+msgid "SE"
+msgstr "Sweden"

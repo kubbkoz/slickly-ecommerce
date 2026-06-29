@@ -1,0 +1,474 @@
+msgid "Slovak Parcel Service - balíkovo"
+msgstr "Slovak Parcel Service - balíkovo"
+
+msgid "Slovak Parcel Service - Address"
+msgstr "Slovak Parcel Service - Adresa"
+
+msgid "Slovak Parcel Service delivery balíkovo"
+msgstr "Slovak Parcel Service doručenie balíkovo"
+
+msgid "Slovak Parcel Service delivery to address"
+msgstr "Slovak Parcel Service doručenie na adresu"
+
+msgid "Webship API Username"
+msgstr "Webship API prihlasovacie meno"
+
+msgid "Webship API Password"
+msgstr "Webship API heslo"
+
+msgid "Please select balíkovo"
+msgstr "Prosím vyberte balíkovo"
+
+msgid "Telephone number has to be in \"004219...\" or \"+4219...\" or \"09...\" format"
+msgstr "Telefónne číslo musí byť vo formáte \"004219...\" alebo \"+4219...\" alebo \"09...\""
+
+msgid "Telephone number has to be in \"00420xxxxxxxxx\" or \"+420xxxxxxxxx\" or \"xxxxxxxxx\" format"
+msgstr "Telefónne číslo musí byť vo formáte \"00420xxxxxxxxx\" alebo \"+420xxxxxxxxx\" alebo \"xxxxxxxxx\""
+
+msgid "Telephone number has to be in \"0036xxxxxxxxx\" or \"+36xxxxxxxxx\" or \"06xxxxxxxxx\" format"
+msgstr "Telefónne číslo musí byť vo formáte \"0036xxxxxxxxx\" alebo \"+36xxxxxxxxx\" alebo \"06xxxxxxxxx\""
+
+
+msgid "Settings"
+msgstr "Nastavenia"
+
+msgid "SPS"
+msgstr "SPS"
+
+msgid "Label PDF"
+msgstr "PDF štítok"
+
+msgid "Export Data"
+msgstr "Export dát"
+
+msgid "EndOfDay PDF"
+msgstr "Preberací protokol"
+
+msgid "Export data to Slovak Parcel Service failed for order"
+msgstr "Export dát do SPS zlyhal pre objednávku"
+
+msgid "Export data to Slovak Parcel Service warning for order"
+msgstr "Export dát do SPS s varovaním pre objednávku"
+
+msgid "Export SPS data"
+msgstr "Export SPS dát"
+
+msgid "balíkovo Select"
+msgstr "Výber balíkova"
+
+msgid "Confirm"
+msgstr "Potvrdiť"
+
+msgid "Export data to Slovak Parcel Service failed : missing API username or password."
+msgstr "Export dát do Slovak Parcel Service zlyhal : chýba API prihlasovacie meno alebo heslo."
+
+msgid "Export data to Slovak Parcel Service failed for order(s)"
+msgstr "Export dát do Slovak Parcel Service zlyhal pre zasielku(y)"
+
+msgid "Export data to Slovak Parcel Service : NOT Slovak Parcel Service delivery"
+msgstr "Export dát do Slovak Parcel Service : zásielka nie je pre Slovak Parcel Service"
+
+msgid "Export data to Slovak Parcel Service : already exported"
+msgstr "Export dát do Slovak Parcel Service : dáta uz boli exportované"
+
+msgid "Export data to Slovak Parcel Service : no shipment(s) for export"
+msgstr "Export dát do Slovak Parcel Service : žiadna zásielka(y) na export"
+
+msgid "Export data to Slovak Parcel Service failed : after export status is not avalaible."
+msgstr "Export dát do Slovak Parcel Service zlyhal : poexportný status je nedostupný."
+
+msgid "Export data to Slovak Parcel Service : NOT in state for export"
+msgstr "Export dát do Slovak Parcel Service : zásielka nie v stave povolenom na export"
+
+msgid "Export data to Slovak Parcel Service failed : wrong currency/cod sending setting."
+msgstr "Export dát do Slovak Parcel Service zlyhal : nesprávna mena/nastavenie meny dobierky."
+
+msgid "Export data to Slovak Parcel Service : incorrect count of packages"
+msgstr "Export dát do Slovak Parcel Service zlyhal : chybný počet balíkov pre zásielku"
+
+
+msgid "Slovak Parcel Service orders only"
+msgstr "Iba objednávky Slovak Parcel Service"
+
+msgid "Shipping cost without VAT"
+msgstr "Cena prepravy bez DPH"
+
+msgid "Generate SPS EndOfDay"
+msgstr "Generovať SPS preberací protokol"
+
+msgid "Slovak Parcel Service EndOfDay failed : "
+msgstr "Generovanie SPS preberacieho protokolu zlyhalo : "
+
+msgid "Slovak Parcel Service EndOfDay failed : missing API username or password."
+msgstr "Generovanie SPS preberacieho protokolu zlyhalo : chýba API prihlasovacie meno alebo heslo."
+
+msgid "Name"
+msgstr "Názov"
+
+msgid "Enter name for shipping method"
+msgstr "Ak chcete aby sa prepravná metóda volala inak, zadajte názov sem"
+
+msgid "Tax Status"
+msgstr "Daň"
+
+msgid "Taxable"
+msgstr "Zdanené"
+
+msgid "None"
+msgstr "Bez dane"
+
+msgid "Cost"
+msgstr "Cena"
+
+msgid "COD"
+msgstr "Dobierka"
+
+msgid "Free Shipping Limit"
+msgstr "Limit pre poštovné zdarma"
+
+msgid "Shipping cod fee"
+msgstr "Príplatok za dobierku"
+
+msgid "Enter limit for free shipping"
+msgstr "Zadajte sumu košíku od ktorej je doručenie zdarma"
+
+msgid "Free Shipping Limit is with VAT"
+msgstr "Limit pre poštovné zdarma je s DPH"
+
+msgid "Shipping classes costs"
+msgstr "Ceny prepravných tried"
+
+msgid "Cost for"
+msgstr "Cena pre"
+
+msgid "shipping classes"
+msgstr "prepravné triedy"
+
+msgid "Fill in if you need specific costs for specific"
+msgstr "Vyplňte ak treba špecifické ceny pre konkrétne"
+
+msgid "Final cost calculation type"
+msgstr "Typ výpočtu výslednej ceny"
+
+msgid "On order : charge most expensive shiping class"
+msgstr "Na objednávku: Účtovať poštovné za najdrahšiu triedu prepravy"
+
+msgid "On classes: count shipping class for every product"
+msgstr "Na triedy: Spočítať triedy prepravy pre každý produkt"
+
+msgid "No zip city match, please use one of these cities for shipping :<br>"
+msgstr "Nenašla sa zhoda PSČ a obce, prosím vyberte obec zo zoznamu :<br>"
+
+msgid "No city for zip, please check zip"
+msgstr "Pre zadané PSČ sa nenašli žiadne obce. Prosím skontrolujte PSČ"
+
+msgid "Zip City checking"
+msgstr "Kontrola zhody PSČ a obce"
+
+msgid "Zip City Updater last run"
+msgstr "Posledná aktualizácia zoznamu PSČ a obcí"
+
+msgid "Zip City Updater next run"
+msgstr "Nasledujúca aktualizácia zoznamu PSČ a obcí"
+
+msgid "Manual update zip and city list"
+msgstr "Ručná aktualizácia zoznamu PSČ a obcí"
+ 
+msgid "Update"
+msgstr "Aktualizovať"
+
+msgid "Display Pickup Place of type"
+msgstr "Zobrazovat odberné miesta typu"
+
+msgid "Parcelterminal and Parcelshop"
+msgstr "Samoobslužný box a Obchodná prevádzka"
+
+msgid "Parcelterminal"
+msgstr "Samoobslužný box"
+
+msgid "Parcelshop"
+msgstr "Obchodná prevádzka"
+
+msgid  " contains invalid data. Please select other one."
+msgstr " obsahuje neplatné údaje. Prosím vyberte iné balíkovo."
+
+msgid  "Zip format check failed."
+msgstr "Zlyhala kontrola formátu PSČ."
+
+msgid  " Zip min length : "
+msgstr " Minimálna dĺžka PSČ : "
+
+msgid  ", zip max length : "
+msgstr ", maximálna dĺžka PSČ : "
+
+msgid  ". Digits only."
+msgstr ". Iba číslice."
+
+msgid  ". Digits and letters."
+msgstr ". Číslice a písmená."
+
+msgid  "Cod payments"
+msgstr "Platby dobierkou"
+
+msgid  "Select all cod payment methods"
+msgstr "Vyberte všetky platby typu dobierka" 
+
+msgid  "Cod sending"
+msgstr "Posielanie dobierky"
+
+msgid "Cod sending to Czechia"
+msgstr "Posielanie dobierky do Česka"
+
+msgid  "I'm sending COD to all supported non Eurozone countries (except Czechia) in EUR"
+msgstr "Posielam dobierky do všetkých podporovaných krajín mimo Eurozóny (okrem Česka) v mene EUR"
+
+msgid "I'm sending COD to Czechia in EUR"
+msgstr "Posielam dobierky do Česka v mene EUR"
+
+msgid "Slovak Parcel Service - Selected balíkovo"
+msgstr "Slovak Parcel Service - Vybrané balíkovo"
+
+msgid "Weight (<=)"
+msgstr "Váha (<=)"
+
+msgid "Shipping Cost"
+msgstr "Cena prepravy"
+
+msgid "Add/Set Range"
+msgstr "Pridať/nastaviť rozsah"
+
+msgid "Delete Range"
+msgstr "Zmazať rozsah"
+
+msgid "Cost by weight"
+msgstr "Cena podľa váhy"
+
+msgid "Fixed"
+msgstr "Fixná"
+
+msgid "By weight"
+msgstr "Podľa váhy"
+
+msgid "Cost type"
+msgstr "Typ ceny"
+
+msgid "Cost fixed"
+msgstr "Fixná cena"
+
+msgid "Weight over highest range"
+msgstr "Váha presahujúca najvyšší rozsah"
+
+msgid "Max weight is "
+msgstr "Maximálna váha je "
+
+msgid "kg. Shipping cost without VAT"
+msgstr "kg. Cena prepravy bez DPH"
+
+
+msgid "Set/Unset Over Weight Cost"
+msgstr "Nastaviť/zrušiť cenu nad najvyšší váhový rozsah"
+
+msgid "Label position on A4"
+msgstr "Pozícia štítku na A4"
+
+msgid "1st label position on A4"
+msgstr "Pozícia 1. štítku na A4"
+
+msgid "Use Webship setting"
+msgstr "Podľa Webshipu"
+
+msgid "Printing Settings"
+msgstr "Nastavenie tlače"
+
+msgid "Webship settings"
+msgstr "Nastavenie Webshipu"
+
+msgid "Custom settings"
+msgstr "Vlastné Nastavenie"
+
+msgid "Printing Format"
+msgstr "Formát tlače"
+
+msgid "Paper Format"
+msgstr "Formát paperia"
+
+msgid "Thermal 58mm"
+msgstr "TERMO papier 58mm"
+
+msgid "A4 Start Position"
+msgstr "Začiatočná pozicia na A4"
+
+msgid "PDF Content"
+msgstr "Obsah PDF"
+
+msgid "Native PDF"
+msgstr "Natívne PDF"
+
+msgid "Bitmap"
+msgstr "Bitmapa"
+
+msgid "ZPL Resolution"
+msgstr "Rozlíšenie ZPL"
+
+msgid "Default Printing Settings"
+msgstr "Defaultné nastavenie tlače"
+
+msgid "Default Printing Format"
+msgstr "Defaultný formát tlače"
+
+msgid "Default Paper Format"
+msgstr "Defaultný formát paperia"
+
+msgid "Default A4 Start Position"
+msgstr "Defaultná začiatočná pozicia na A4"
+
+msgid "Default PDF Content"
+msgstr "Defaultný obsah PDF"
+
+msgid "Default ZPL Resolution"
+msgstr "Defaultné rozlíšenie ZPL"
+
+msgid "Email notification"
+msgstr "Emailová notifikácia"
+
+msgid "SMS notification"
+msgstr "SMS notifikácia"
+
+msgid "Phone notification"
+msgstr "Telefonické avízo"
+
+msgid "Paid service"
+msgstr "Spoplatnená služba"
+
+msgid "Use statuses filter for export"
+msgstr "Použiť filter stavov pre export"
+
+msgid "Allowed export statuses"
+msgstr "Povolené exportné stavy"
+
+msgid "Update status after data export"
+msgstr "Aktualizovať stav po exporte dát"
+
+msgid "Status after data export"
+msgstr "Stav po exporte dát"
+
+msgid  "Countries for addr delivery"
+msgstr "Krajiny pre doručenie na adresu"
+
+msgid "Countries for balikovo delivery"
+msgstr "Krajiny pre doručenie balíkovo"
+
+msgid "Currency"
+msgstr "Mena" 
+
+msgid "Custom insurance"
+msgstr "Vlastné poistenie"
+
+msgid "Use custom insurance value. Default order value is used"
+msgstr "Použije sa vlastná hodnota poistenia. Štandardne sa použije hodnota objednávky"
+
+msgid "Custom insurance value"
+msgstr "Vlastná hodnota poistenia"
+
+msgid "Enter custom insurance value"
+msgstr "Zadajte vlastnú hodnotu poistenia"
+
+msgid "AT"
+msgstr  "Rakúsko"
+
+msgid "BE"
+msgstr  "Belgicko"
+
+msgid "BG"
+msgstr  "Bulharsko"
+
+msgid "HR"
+msgstr  "Chorvátsko"
+
+msgid "CZ"
+msgstr  "Česko"
+
+msgid "DK"
+msgstr  "Dánsko"
+
+msgid "EE"
+msgstr  "Estónsko"
+
+msgid "FI"
+msgstr  "Fínsko"
+
+msgid "FR"
+msgstr  "Francúzsko"
+
+msgid "DE"
+msgstr  "Nemecko"
+
+msgid "HU"
+msgstr  "Maďarsko"
+
+msgid "IT"
+msgstr  "Taliansko"
+
+msgid "LV"
+msgstr  "Lotyšsko"
+
+msgid "LT"
+msgstr  "Litva"
+
+msgid "LU"
+msgstr  "Luxemburgsko"
+
+msgid "NL"
+msgstr  "Holandsko"
+
+msgid "PL"
+msgstr  "Poľsko"
+
+msgid "PT"
+msgstr  "Portugalsko"
+
+msgid "RO"
+msgstr  "Rumunsko"
+
+msgid "SK"
+msgstr  "Slovensko"
+
+msgid "SI"
+msgstr  "Slovinsko"
+
+msgid "ES"
+msgstr  "Španielsko"
+
+msgid "SE"
+msgstr  "Švédsko"
+
+msgid "Free"
+msgstr "Zadarmo"
+
+msgid "In case of free shipping display text "
+msgstr "V prípade bezplatnej dopravy zobraziť text "
+
+msgid "Cod type payment is not avalible for "
+msgstr "Platba typu dobierka nie je možná pre "
+
+msgid ". Sending non EUR currency to country with EUR."
+msgstr ". Posielanie ne EUR meny do krajiny s EUR-om."
+
+msgid ". Sending Cod is set to EUR for this non EUR country."
+msgstr ". Posielanie dobierky je nastavené na EUR pre túto ne EUR krajinu."
+
+msgid ". Wrong currency for destination country."
+msgstr ". Nesprávna mena pre cieľovú krajinu."
+
+msgid ". Sending Cod in EUR to non EUR countries is not enabled."
+msgstr ". Posielanie dobierky v EUR-ách nie je povolené pre krajiny bez EUR-a."
+
+msgid ". Cod amount is over limit."
+msgstr ". Hodnota dobierky je cez limit."
+
+msgid ". Selected balikovo does not support Cod payment."
+msgstr ". Vybrané balíkovo nepodporuje platbu dobierkou."
+
+
+
+

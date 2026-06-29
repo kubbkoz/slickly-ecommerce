@@ -1,0 +1,92 @@
+{% block mtsport_returns_list %}
+<sw-page class="mtsport-returns-list">
+
+  {% block mtsport_returns_list_search_bar %}
+    <template #search-bar>
+      <sw-search-bar
+        initial-search-type="mtsport_return_request"
+        :initial-search="term"
+        :placeholder="$tc('mtsport-returns.general.placeholderSearchBar')"
+        @search="onSearch"
+      />
+    </template>
+  {% endblock %}
+
+  {% block mtsport_returns_list_smart_bar_header %}
+    <template #smart-bar-header>
+      <h2>
+        {{ $tc('mtsport-returns.list.textHeadline') }}
+        <span v-if="!isLoading" class="sw-page__smart-bar-amount">({{ total }})</span>
+      </h2>
+    </template>
+  {% endblock %}
+
+  {% block mtsport_returns_list_content %}
+    <template #content>
+      <div class="mtsport-returns-list__content">
+
+        <sw-container columns="200px 200px 1fr" gap="16px" style="padding:16px;">
+          <sw-single-select
+            :value="filterFormType"
+            :label="$tc('mtsport-returns.list.filterFormType')"
+            :options="formTypeOptions"
+            :show-clearable-button="false"
+            @update:value="filterFormType = $event; onFilterChange()"
+          />
+          <sw-single-select
+            :value="filterStatus"
+            :label="$tc('mtsport-returns.list.filterStatus')"
+            :options="statusOptions"
+            :show-clearable-button="false"
+            @update:value="filterStatus = $event; onFilterChange()"
+          />
+          <div />
+        </sw-container>
+
+        <sw-empty-state
+          v-if="!isLoading && (!requests || requests.length === 0) && !term && !filterFormType && !filterStatus"
+          :title="$tc('mtsport-returns.list.emptyStateTitle')"
+          :subline="$tc('mtsport-returns.list.emptyStateText')"
+        />
+
+        <sw-entity-listing
+          v-else
+          :repository="repository"
+          :items="requests"
+          :columns="columns"
+          :is-loading="isLoading"
+          :allow-inline-edit="false"
+          :show-selection="acl.can('mtsport_return_request:delete')"
+          :allow-edit="acl.can('mtsport_return_request:update')"
+          :allow-delete="acl.can('mtsport_return_request:delete')"
+          detail-route="mtsport.returns.detail"
+          @column-sort="onColumnSort"
+          @page-change="onPageChange"
+          @items-delete-finish="getList"
+        >
+          <template #column-formType="{ item }">
+            <span v-if="item.formType === 'reklamacia'" style="color:#d97706;font-weight:600;">
+              {{ $tc('mtsport-returns.detail.formTypeReklamacia') }}
+            </span>
+            <span v-else style="color:#0369a1;font-weight:600;">
+              {{ $tc('mtsport-returns.detail.formTypeVratenie') }}
+            </span>
+          </template>
+
+          <template #column-status="{ item }">
+            <sw-label :variant="statusVariant(item.status)">
+              {{ $tc('mtsport-returns.detail.status' + item.status.charAt(0).toUpperCase() + item.status.slice(1)) }}
+            </sw-label>
+          </template>
+
+          <template #column-createdAt="{ item }">
+            {{ item.createdAt | date }}
+          </template>
+        </sw-entity-listing>
+
+      </div>
+    </template>
+  {% endblock %}
+
+</sw-page>
+{% endblock %}

@@ -1,0 +1,69 @@
+{
+  "mtsport-returns": {
+    "general": {
+      "mainMenuItemGeneral": "MT-SPORT Vrátenia",
+      "descriptionTextModule": "Vrátenie tovaru a reklamácie",
+      "placeholderSearchBar": "Hľadať podľa referencie / objednávky / emailu..."
+    },
+    "list": {
+      "textHeadline": "Vrátenia a reklamácie",
+      "columnReference": "Referencia",
+      "columnFormType": "Typ",
+      "columnOrderNumber": "Objednávka",
+      "columnCustomer": "Zákazník",
+      "columnEmail": "Email",
+      "columnStatus": "Status",
+      "columnCreatedAt": "Vytvorené",
+      "filterFormType": "Filtrovať typ",
+      "filterStatus": "Filtrovať status",
+      "filterAll": "Všetko",
+      "emptyStateTitle": "Žiadne žiadosti",
+      "emptyStateText": "Po prvej odoslanej žiadosti z webu sa tu objavia záznamy."
+    },
+    "detail": {
+      "textHeadlineNew": "Nová žiadosť",
+      "buttonDelete": "Vymazať",
+      "buttonCancel": "Späť",
+      "buttonSave": "Uložiť",
+      "buttonStatusProcessing": "Spracovať",
+      "buttonStatusApproved": "Schváliť",
+      "buttonStatusRejected": "Zamietnuť",
+      "cardStatus": "Stav žiadosti",
+      "cardRequest": "Údaje žiadosti",
+      "cardCustomer": "Zákazník",
+      "cardReason": "Dôvod",
+      "cardAttachments": "Prílohy",
+      "cardAdminNotes": "Interné poznámky",
+      "labelStatus": "Status",
+      "labelReference": "Referencia",
+      "labelFormType": "Typ žiadosti",
+      "labelOrderNumber": "Číslo objednávky",
+      "labelOrderDate": "Dátum objednávky",
+      "labelInvoiceNumber": "Číslo faktúry",
+      "labelItemsDescription": "Popis tovaru",
+      "labelFirstName": "Meno",
+      "labelLastName": "Priezvisko",
+      "labelEmail": "Email",
+      "labelPhone": "Telefón",
+      "labelAddress": "Adresa",
+      "labelBankAccount": "IBAN",
+      "labelReasonCategory": "Kategória dôvodu",
+      "labelReasonDetail": "Detail dôvodu / popis závady",
+      "labelWarrantyFiles": "Záručný list",
+      "labelAttachmentFiles": "Fotografie / videá",
+      "labelAdminNotes": "Interné poznámky (nevidieť zákazníkovi)",
+      "formTypeVratenie": "Vrátenie tovaru",
+      "formTypeReklamacia": "Reklamácia",
+      "statusReceived": "Prijatá",
+      "statusProcessing": "Spracováva sa",
+      "statusApproved": "Schválená",
+      "statusRejected": "Zamietnutá"
+    },
+    "notification": {
+      "saveSuccess": "Žiadosť uložená.",
+      "saveError": "Chyba pri ukladaní.",
+      "deleteSuccess": "Žiadosť vymazaná.",
+      "deleteConfirm": "Naozaj vymazať túto žiadosť?"
+    }
+  }
+}

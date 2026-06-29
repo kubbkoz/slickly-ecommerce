@@ -1,0 +1,379 @@
+{% block mtsport_badge_detail %}
+<sw-page class="mtsport-badge-detail">
+
+  {% block mtsport_badge_detail_smart_bar_header %}
+    <template #smart-bar-header>
+      <h2>{{ identifier }}</h2>
+    </template>
+  {% endblock %}
+
+  {% block mtsport_badge_detail_smart_bar_actions %}
+    <template #smart-bar-actions>
+      <sw-button
+        v-if="!isCreating"
+        variant="danger"
+        :disabled="!acl.can('mtsport_badge:delete') || isLoading"
+        @click="onDelete"
+      >
+        {{ $tc('mtsport-badge.detail.buttonDelete') }}
+      </sw-button>
+      <sw-button @click="onCancel">{{ $tc('mtsport-badge.detail.buttonCancel') }}</sw-button>
+      <sw-button
+        variant="primary"
+        :is-loading="isLoading"
+        :disabled="!acl.can(isCreating ? 'mtsport_badge:create' : 'mtsport_badge:update')"
+        v-tooltip.bottom="tooltipSave"
+        @click="onSave"
+      >
+        {{ $tc('mtsport-badge.detail.buttonSave') }}
+      </sw-button>
+    </template>
+  {% endblock %}
+
+  {% block mtsport_badge_detail_content %}
+    <template #content>
+      <sw-card-view v-if="badge">
+
+        {# Základné nastavenia #}
+        <sw-card :title="$tc('mtsport-badge.detail.cardBasic')" :is-loading="isLoading">
+
+          {# Live preview #}
+          <div style="margin-bottom:16px;">
+            <span :style="previewStyle">{{ badge.text || 'PREVIEW' }}</span>
+          </div>
+
+          <sw-container columns="1fr 1fr" gap="16px">
+            <sw-text-field
+              :value="badge.name"
+              :label="$tc('mtsport-badge.detail.labelName')"
+              :required="true"
+              @update:value="badge.name = $event"
+            />
+            <sw-text-field
+              :value="badge.text"
+              :label="$tc('mtsport-badge.detail.labelText')"
+              :required="true"
+              @update:value="badge.text = $event"
+            />
+          </sw-container>
+
+          <sw-container columns="1fr 1fr 1fr" gap="16px">
+            <sw-colorpicker
+              :value="badge.bgColor || '#22c55e'"
+              :label="$tc('mtsport-badge.detail.labelBgColor')"
+              colorOutput="hex"
+              @update:value="badge.bgColor = $event"
+            />
+            <sw-colorpicker
+              :value="badge.textColor || '#ffffff'"
+              :label="$tc('mtsport-badge.detail.labelTextColor')"
+              colorOutput="hex"
+              @update:value="badge.textColor = $event"
+            />
+            <sw-single-select
+              :value="badge.size"
+              :label="$tc('mtsport-badge.detail.labelSize')"
+              :options="sizeOptions"
+              :show-clearable-button="false"
+              @update:value="badge.size = $event"
+            />
+          </sw-container>
+
+          <sw-container columns="1fr 1fr 1fr" gap="16px">
+            <sw-single-select
+              :value="badge.position"
+              :label="$tc('mtsport-badge.detail.labelPosition')"
+              :options="positionOptions"
+              :show-clearable-button="false"
+              @update:value="badge.position = $event"
+            />
+            <sw-single-select
+              :value="badge.pdpPosition"
+              :label="$tc('mtsport-badge.detail.labelPdpPosition')"
+              :options="pdpPositionOptions"
+              :help-text="$tc('mtsport-badge.detail.helpPdpPosition')"
+              :show-clearable-button="false"
+              @update:value="badge.pdpPosition = $event"
+            />
+            <sw-number-field
+              :value="badge.sort"
+              :label="$tc('mtsport-badge.detail.labelSort')"
+              :help-text="$tc('mtsport-badge.detail.helpSort')"
+              :min="0"
+              @update:value="badge.sort = $event"
+            />
+          </sw-container>
+
+          <sw-container columns="1fr 1fr" gap="16px">
+            <sw-switch-field
+              :value="badge.active"
+              :label="$tc('mtsport-badge.detail.labelActive')"
+              @update:value="badge.active = $event"
+            />
+            <div />
+          </sw-container>
+        </sw-card>
+
+        {# Pravidlá priradenia #}
+        <sw-card :title="$tc('mtsport-badge.detail.cardRules')" :is-loading="isLoading">
+
+          <p style="color:#52667a;font-size:13px;margin:0 0 16px;">
+            {{ $tc('mtsport-badge.detail.rulesHint') }}
+          </p>
+
+          {# ── Kategórie — multi-select + fallback ─────────────────────────── #}
+          <sw-entity-multi-select
+            v-if="categoryCollection"
+            :label="$tc('mtsport-badge.detail.labelApplyCategoryIds')"
+            :placeholder="$tc('mtsport-badge.detail.placeholderCategoryPicker')"
+            entity="category"
+            :entity-collection="categoryCollection"
+            label-property="translated.name"
+            @update:entity-collection="onCategoriesChange"
+          />
+          <div style="margin:-4px 0 16px 0;">
+            <sw-checkbox-field
+              v-model:value="showRaw.category"
+              :label="$tc('mtsport-badge.detail.toggleRawFallback')"
+            />
+            <div v-if="showRaw.category" style="margin-top:6px;">
+              <sw-textarea-field
+                :value="rawInputs.category"
+                :placeholder="$tc('mtsport-badge.detail.placeholderRawUuids')"
+                :help-text="$tc('mtsport-badge.detail.helpRawUuids')"
+                :rows="3"
+                @update:value="rawInputs.category = $event"
+              />
+              <sw-button size="small" variant="ghost" @click="applyRawIds('category')" style="margin-top:4px;">
+                {{ $tc('mtsport-badge.detail.buttonApplyRawIds') }}
+              </sw-button>
+            </div>
+          </div>
+
+          {# ── Produkty — multi-select + fallback ────────────────────────── #}
+          <sw-entity-multi-select
+            v-if="productCollection"
+            :label="$tc('mtsport-badge.detail.labelApplyProductIds')"
+            :placeholder="$tc('mtsport-badge.detail.placeholderProductPicker')"
+            entity="product"
+            :entity-collection="productCollection"
+            :criteria="productCriteria"
+            display-variants
+            @update:entity-collection="onProductsChange"
+          />
+          <div style="margin:-4px 0 16px 0;">
+            <sw-checkbox-field
+              v-model:value="showRaw.product"
+              :label="$tc('mtsport-badge.detail.toggleRawFallback')"
+            />
+            <div v-if="showRaw.product" style="margin-top:6px;">
+              <sw-textarea-field
+                :value="rawInputs.product"
+                :placeholder="$tc('mtsport-badge.detail.placeholderRawUuids')"
+                :help-text="$tc('mtsport-badge.detail.helpRawUuids')"
+                :rows="3"
+                @update:value="rawInputs.product = $event"
+              />
+              <sw-button size="small" variant="ghost" @click="applyRawIds('product')" style="margin-top:4px;">
+                {{ $tc('mtsport-badge.detail.buttonApplyRawIds') }}
+              </sw-button>
+            </div>
+          </div>
+
+          {# ── Výrobcovia — multi-select + fallback ──────────────────────── #}
+          <sw-entity-multi-select
+            v-if="manufacturerCollection"
+            :label="$tc('mtsport-badge.detail.labelApplyManufacturerIds')"
+            :placeholder="$tc('mtsport-badge.detail.placeholderManufacturerPicker')"
+            entity="product_manufacturer"
+            :entity-collection="manufacturerCollection"
+            @update:entity-collection="onManufacturersChange"
+          />
+          <div style="margin:-4px 0 16px 0;">
+            <sw-checkbox-field
+              v-model:value="showRaw.manufacturer"
+              :label="$tc('mtsport-badge.detail.toggleRawFallback')"
+            />
+            <div v-if="showRaw.manufacturer" style="margin-top:6px;">
+              <sw-textarea-field
+                :value="rawInputs.manufacturer"
+                :placeholder="$tc('mtsport-badge.detail.placeholderRawUuids')"
+                :help-text="$tc('mtsport-badge.detail.helpRawUuids')"
+                :rows="3"
+                @update:value="rawInputs.manufacturer = $event"
+              />
+              <sw-button size="small" variant="ghost" @click="applyRawIds('manufacturer')" style="margin-top:4px;">
+                {{ $tc('mtsport-badge.detail.buttonApplyRawIds') }}
+              </sw-button>
+            </div>
+          </div>
+
+          {# ── Dynamické produktové skupiny — multi-select + fallback ────── #}
+          <sw-entity-multi-select
+            v-if="productStreamCollection"
+            :label="$tc('mtsport-badge.detail.labelApplyProductStreamIds')"
+            :placeholder="$tc('mtsport-badge.detail.placeholderProductStreamPicker')"
+            entity="product_stream"
+            :entity-collection="productStreamCollection"
+            @update:entity-collection="onProductStreamsChange"
+          />
+          <div style="margin:-4px 0 16px 0;">
+            <sw-checkbox-field
+              v-model:value="showRaw.productStream"
+              :label="$tc('mtsport-badge.detail.toggleRawFallback')"
+            />
+            <div v-if="showRaw.productStream" style="margin-top:6px;">
+              <sw-textarea-field
+                :value="rawInputs.productStream"
+                :placeholder="$tc('mtsport-badge.detail.placeholderRawUuids')"
+                :help-text="$tc('mtsport-badge.detail.helpRawUuids')"
+                :rows="3"
+                @update:value="rawInputs.productStream = $event"
+              />
+              <sw-button size="small" variant="ghost" @click="applyRawIds('productStream')" style="margin-top:4px;">
+                {{ $tc('mtsport-badge.detail.buttonApplyRawIds') }}
+              </sw-button>
+            </div>
+          </div>
+
+          {# ── Tagy — multi-select + fallback ────────────────────────────── #}
+          <sw-entity-multi-select
+            v-if="tagCollection"
+            :label="$tc('mtsport-badge.detail.labelApplyTagIds')"
+            :placeholder="$tc('mtsport-badge.detail.placeholderTagPicker')"
+            entity="tag"
+            :entity-collection="tagCollection"
+            @update:entity-collection="onTagsChange"
+          />
+          <div style="margin:-4px 0 16px 0;">
+            <sw-checkbox-field
+              v-model:value="showRaw.tag"
+              :label="$tc('mtsport-badge.detail.toggleRawFallback')"
+            />
+            <div v-if="showRaw.tag" style="margin-top:6px;">
+              <sw-textarea-field
+                :value="rawInputs.tag"
+                :placeholder="$tc('mtsport-badge.detail.placeholderRawUuids')"
+                :help-text="$tc('mtsport-badge.detail.helpRawUuids')"
+                :rows="3"
+                @update:value="rawInputs.tag = $event"
+              />
+              <sw-button size="small" variant="ghost" @click="applyRawIds('tag')" style="margin-top:4px;">
+                {{ $tc('mtsport-badge.detail.buttonApplyRawIds') }}
+              </sw-button>
+            </div>
+          </div>
+
+          <sw-container columns="1fr 1fr" gap="16px">
+            <sw-number-field
+              :value="badge.applyIsNewDays"
+              :label="$tc('mtsport-badge.detail.labelApplyIsNewDays')"
+              placeholder="14"
+              :min="1"
+              @update:value="badge.applyIsNewDays = $event"
+            />
+            <sw-switch-field
+              :value="badge.applyHasDiscount"
+              :label="$tc('mtsport-badge.detail.labelApplyHasDiscount')"
+              @update:value="badge.applyHasDiscount = $event"
+            />
+          </sw-container>
+        </sw-card>
+
+        {# ── Advanced gating filters (v2.0) ────────────────────────────────── #}
+        <sw-card :title="$tc('mtsport-badge.detail.cardAdvancedRules')" :is-loading="isLoading">
+          <p style="color:#52667a;font-size:13px;margin:0 0 16px;">
+            {{ $tc('mtsport-badge.detail.advancedRulesHint') }}
+          </p>
+
+          <sw-container columns="1fr 1fr" gap="16px">
+            <sw-number-field
+              :value="badge.applyMinPrice"
+              :label="$tc('mtsport-badge.detail.labelApplyMinPrice')"
+              :digits="2"
+              :min="0"
+              numberType="float"
+              placeholder="0.00"
+              @update:value="badge.applyMinPrice = $event"
+            />
+            <sw-number-field
+              :value="badge.applyMaxPrice"
+              :label="$tc('mtsport-badge.detail.labelApplyMaxPrice')"
+              :digits="2"
+              :min="0"
+              numberType="float"
+              placeholder="9999.99"
+              @update:value="badge.applyMaxPrice = $event"
+            />
+          </sw-container>
+
+          <sw-container columns="1fr 1fr" gap="16px">
+            <sw-number-field
+              :value="badge.applyMinStock"
+              :label="$tc('mtsport-badge.detail.labelApplyMinStock')"
+              :min="0"
+              placeholder="1"
+              @update:value="badge.applyMinStock = $event"
+            />
+            <sw-number-field
+              :value="badge.applyMaxStock"
+              :label="$tc('mtsport-badge.detail.labelApplyMaxStock')"
+              :min="0"
+              placeholder="3"
+              @update:value="badge.applyMaxStock = $event"
+            />
+          </sw-container>
+
+          <sw-container columns="1fr" gap="16px">
+            <sw-number-field
+              :value="badge.applyMinRating"
+              :label="$tc('mtsport-badge.detail.labelApplyMinRating')"
+              :digits="1"
+              :min="0"
+              :max="5"
+              numberType="float"
+              placeholder="4.5"
+              @update:value="badge.applyMinRating = $event"
+            />
+          </sw-container>
+
+          <sw-container columns="1fr 1fr" gap="16px">
+            <sw-datepicker
+              :value="badge.applyDateFrom"
+              :label="$tc('mtsport-badge.detail.labelApplyDateFrom')"
+              dateType="datetime"
+              @update:value="badge.applyDateFrom = $event"
+            />
+            <sw-datepicker
+              :value="badge.applyDateTo"
+              :label="$tc('mtsport-badge.detail.labelApplyDateTo')"
+              dateType="datetime"
+              @update:value="badge.applyDateTo = $event"
+            />
+          </sw-container>
+        </sw-card>
+
+        {# ── Reverse assignment — produkty priradené priamo k tomuto badge ─── #}
+        <sw-card :title="$tc('mtsport-badge.detail.cardAssignedProducts')" :is-loading="isLoading">
+          <p style="color:#52667a;font-size:13px;margin:0 0 16px;">
+            {{ $tc('mtsport-badge.detail.assignedProductsHint') }}
+          </p>
+
+          <sw-entity-multi-select
+            v-if="badge && badge.products"
+            :label="$tc('mtsport-badge.detail.labelAssignedProducts')"
+            :placeholder="$tc('mtsport-badge.detail.placeholderAssignedProducts')"
+            entity="product"
+            :entity-collection="badge.products"
+            :criteria="productCriteria"
+            display-variants
+            @update:entity-collection="badge.products = $event"
+          />
+        </sw-card>
+
+      </sw-card-view>
+    </template>
+  {% endblock %}
+
+</sw-page>
+{% endblock %}

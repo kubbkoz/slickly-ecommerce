@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <services>
+    <!-- Entity definition — auto-discovers Admin API endpoint /api/mtsport-return-request -->
+    <service id="Mtsport\Returns\Content\ReturnRequest\ReturnRequestDefinition">
+      <tag name="shopware.entity.definition" entity="mtsport_return_request"/>
+    </service>
+
+    <!-- Store API: submit form -->
+    <service id="Mtsport\Returns\Content\ReturnRequest\SalesChannel\ReturnRequestRoute" public="true">
+      <argument type="service" id="mtsport_return_request.repository"/>
+    </service>
+
+    <!-- Store API: order lookup -->
+    <service id="Mtsport\Returns\Content\ReturnRequest\SalesChannel\OrderLookupRoute" public="true">
+      <argument type="service" id="order.repository"/>
+    </service>
+
+    <!-- Subscriber: posiela email pri každej zmene statusu (received → processing → approved/rejected) -->
+    <service id="Mtsport\Returns\Subscriber\ReturnStatusSubscriber">
+      <argument type="service" id="Shopware\Core\Content\Mail\Service\MailService"/>
+      <argument type="service" id="mtsport_return_request.repository"/>
+      <argument type="service" id="mail_template.repository"/>
+      <argument type="service" id="sales_channel.repository"/>
+      <argument>%env(default::string:MTSPORT_RETURNS_FROM_EMAIL)%</argument>
+      <argument>%env(default::string:MTSPORT_RETURNS_FROM_NAME)%</argument>
+      <tag name="kernel.event_subscriber"/>
+    </service>
+  </services>
+</container>

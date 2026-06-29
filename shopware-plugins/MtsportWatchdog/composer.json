@@ -1,0 +1,29 @@
+{
+  "name": "mtsport/watchdog",
+  "description": "Fires a webhook to Nuxt when product price/stock changes, triggering watchdog subscriber notifications.",
+  "version": "1.0.0",
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "authors": [
+    { "name": "MT-SPORT", "homepage": "https://mtsport.store" }
+  ],
+  "require": {
+    "shopware/core": "~6.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mtsport\\Watchdog\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Mtsport\\Watchdog\\MtsportWatchdog",
+    "label": {
+      "en-GB": "MT-SPORT Watchdog (Price/Stock Notifications)",
+      "sk-SK": "MT-SPORT Stráženie (Notifikácie cena/sklad)"
+    },
+    "description": {
+      "en-GB": "Sends webhook to Nuxt frontend when product price or stock changes. Triggers email notifications to watchdog subscribers.",
+      "sk-SK": "Posiela webhook na Nuxt frontend pri zmene ceny alebo skladu produktu. Spúšťa emailové notifikácie strážiacim zákazníkom."
+    }
+  }
+}

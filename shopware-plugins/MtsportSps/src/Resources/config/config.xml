@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title>WebShip API</title>
+        <title lang="sk-SK">WebShip API</title>
+
+        <input-field>
+            <name>webshipUsername</name>
+            <label>WebShip username</label>
+            <label lang="sk-SK">WebShip prihlasovacie meno</label>
+        </input-field>
+
+        <input-field type="password">
+            <name>webshipPassword</name>
+            <label>WebShip password</label>
+            <label lang="sk-SK">WebShip heslo</label>
+        </input-field>
+
+        <input-field>
+            <name>triggerStateTechnicalName</name>
+            <label>Order state that triggers shipment creation</label>
+            <label lang="sk-SK">Stav objednávky, ktorý spustí vytvorenie zásielky</label>
+            <defaultValue>kurier_sps</defaultValue>
+            <helpText>Technical name of the order state (default kurier_sps — created by the plugin)</helpText>
+            <helpText lang="sk-SK">Technický názov stavu objednávky (default kurier_sps — vytvorí ho plugin)</helpText>
+        </input-field>
+
+        <input-field type="float">
+            <name>defaultPackageWeightKg</name>
+            <label>Default package weight (kg)</label>
+            <label lang="sk-SK">Predvolená hmotnosť balíka (kg)</label>
+            <defaultValue>1.0</defaultValue>
+            <helpText>Used when no line item has a weight set</helpText>
+            <helpText lang="sk-SK">Použije sa, ak žiadna položka nemá nastavenú hmotnosť</helpText>
+        </input-field>
+
+        <input-field type="float">
+            <name>insuranceValueFixed</name>
+            <label>Fixed insurance value (€)</label>
+            <label lang="sk-SK">Pevná hodnota poistenia (€)</label>
+            <helpText>Hard override of the package insurance value (e.g. 499). Empty = order value (capped at 499 €).</helpText>
+            <helpText lang="sk-SK">Natvrdo prepíše hodnotu poistenia balíka (napr. 499). Prázdne = hodnota objednávky (max 499 €).</helpText>
+        </input-field>
+
+        <input-field type="textarea">
+            <name>bikeCategoryIds</name>
+            <label>Bike / e-bike category IDs</label>
+            <label lang="sk-SK">ID kategórií Bicykle / Elektrobicykle</label>
+            <helpText>UUIDs (comma or new line separated). Courier SPS: each bike from these categories = 1 package (2+ bikes → 2+ packages).</helpText>
+            <helpText lang="sk-SK">UUID (oddelené čiarkou alebo novým riadkom). Kuriér SPS: každý bicykel z týchto kategórií = 1 balík (2+ bicykle → 2+ balíky).</helpText>
+        </input-field>
+
+        <input-field>
+            <name>codPaymentMethodId</name>
+            <label>Cash-on-delivery payment method ID</label>
+            <label lang="sk-SK">ID platobnej metódy Dobierka</label>
+            <helpText>UUID of the Dobierka payment method. If the order uses it, COD amount is sent to WebShip. Empty = COD disabled.</helpText>
+            <helpText lang="sk-SK">UUID platobnej metódy Dobierka. Ak ju objednávka použije, do WebShipu sa pošle suma dobierky. Prázdne = COD vypnuté.</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Label printing</title>
+        <title lang="sk-SK">Tlač štítkov</title>
+
+        <input-field type="single-select">
+            <name>printFormat</name>
+            <label>File format</label>
+            <label lang="sk-SK">Formát súboru</label>
+            <options>
+                <option><id>pdf</id><name>PDF</name></option>
+                <option><id>zpl</id><name>ZPL</name></option>
+            </options>
+            <defaultValue>pdf</defaultValue>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>printPaper</name>
+            <label>Paper format</label>
+            <label lang="sk-SK">Formát papiera</label>
+            <options>
+                <option><id>a4</id><name>A4</name></option>
+                <option><id>a6</id><name>A6</name></option>
+                <option><id>thermal_58</id><name>Thermal 58mm</name><name lang="sk-SK">Termo 58mm</name></option>
+            </options>
+            <defaultValue>a4</defaultValue>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>printContent</name>
+            <label>PDF content</label>
+            <label lang="sk-SK">Obsah PDF</label>
+            <options>
+                <option><id>pdf</id><name>Native PDF</name><name lang="sk-SK">Natívne PDF</name></option>
+                <option><id>bitmap</id><name>Bitmap</name></option>
+            </options>
+            <defaultValue>pdf</defaultValue>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>printPosition</name>
+            <label>A4 start position (1–4)</label>
+            <label lang="sk-SK">A4 počiatočná pozícia (1–4)</label>
+            <options>
+                <option><id>1</id><name>1</name></option>
+                <option><id>2</id><name>2</name></option>
+                <option><id>3</id><name>3</name></option>
+                <option><id>4</id><name>4</name></option>
+            </options>
+            <defaultValue>1</defaultValue>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>printZplResolution</name>
+            <label>ZPL resolution</label>
+            <label lang="sk-SK">ZPL rozlíšenie</label>
+            <options>
+                <option><id>dpi_204</id><name>204 DPI</name></option>
+                <option><id>dpi_300</id><name>300 DPI</name></option>
+                <option><id>dpi_600</id><name>600 DPI</name></option>
+            </options>
+            <defaultValue>dpi_204</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Tracking (Track &amp; Trace)</title>
+        <title lang="sk-SK">Sledovanie zásielok (Track &amp; Trace)</title>
+
+        <input-field type="bool">
+            <name>trackingEnabled</name>
+            <label>Enable automatic tracking</label>
+            <label lang="sk-SK">Zapnúť automatické sledovanie</label>
+            <defaultValue>true</defaultValue>
+            <helpText>Periodically checks SPS T&amp;T and switches orders to "Shipped" on pickup.</helpText>
+            <helpText lang="sk-SK">Pravidelne kontroluje SPS T&amp;T a po prevzatí prepne objednávku na „Odoslané".</helpText>
+        </input-field>
+
+        <input-field>
+            <name>spsCustomerNumber</name>
+            <label>SPS customer number (kundenr)</label>
+            <label lang="sk-SK">SPS zákaznícke číslo (kundenr)</label>
+            <defaultValue>32599</defaultValue>
+            <helpText>Used in T&amp;T URL (verknr = order number). Switch between test and production here.</helpText>
+            <helpText lang="sk-SK">Použité v T&amp;T URL (verknr = číslo objednávky). Tu prepneš test/produkciu.</helpText>
+        </input-field>
+
+        <input-field type="int">
+            <name>trackingStartHour</name>
+            <label>Window start hour (0–23)</label>
+            <label lang="sk-SK">Začiatok okna — hodina (0–23)</label>
+            <defaultValue>16</defaultValue>
+            <helpText>Tracking window start. Task runs every 3 h; processes only within the window (e.g. 16:00 → 01:30).</helpText>
+            <helpText lang="sk-SK">Začiatok okna sledovania. Úloha beží každé 3 h; spracuje iba v okne (napr. 16:00 → 01:30).</helpText>
+        </input-field>
+
+        <input-field type="int">
+            <name>trackingEndHour</name>
+            <label>Window end hour (0–23)</label>
+            <label lang="sk-SK">Koniec okna — hodina (0–23)</label>
+            <defaultValue>1</defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>trackingEndMinute</name>
+            <label>Window end minute (0–59)</label>
+            <label lang="sk-SK">Koniec okna — minúta (0–59)</label>
+            <defaultValue>30</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>trackingWorkingDaysOnly</name>
+            <label>Run tracking on working days only (Mon–Fri)</label>
+            <label lang="sk-SK">Sledovať len v pracovné dni (Po–Pia)</label>
+            <defaultValue>false</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Sender address</title>
+        <title lang="sk-SK">Adresa odosielateľa</title>
+
+        <input-field>
+            <name>senderName</name>
+            <label>Sender name (company)</label>
+            <label lang="sk-SK">Názov odosielateľa (firma)</label>
+            <defaultValue>MTSPORT</defaultValue>
+        </input-field>
+
+        <input-field>
+            <name>senderContactPerson</name>
+            <label>Contact person</label>
+            <label lang="sk-SK">Kontaktná osoba</label>
+        </input-field>
+
+        <input-field>
+            <name>senderStreet</name>
+            <label>Street and number</label>
+            <label lang="sk-SK">Ulica a číslo</label>
+        </input-field>
+
+        <input-field>
+            <name>senderZip</name>
+            <label>ZIP code</label>
+            <label lang="sk-SK">PSČ</label>
+        </input-field>
+
+        <input-field>
+            <name>senderCity</name>
+            <label>City</label>
+            <label lang="sk-SK">Mesto</label>
+        </input-field>
+
+        <input-field>
+            <name>senderCountryIso</name>
+            <label>Country ISO code</label>
+            <label lang="sk-SK">ISO kód krajiny</label>
+            <defaultValue>SK</defaultValue>
+        </input-field>
+
+        <input-field>
+            <name>senderPhone</name>
+            <label>Phone</label>
+            <label lang="sk-SK">Telefón</label>
+        </input-field>
+
+        <input-field>
+            <name>senderEmail</name>
+            <label>Email</label>
+            <label lang="sk-SK">E-mail</label>
+        </input-field>
+    </card>
+</config>

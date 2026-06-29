@@ -1,0 +1,91 @@
+{% block mtsport_badge_list %}
+<sw-page class="mtsport-badge-list">
+
+  {% block mtsport_badge_list_search_bar %}
+    <template #search-bar>
+      <sw-search-bar
+        initial-search-type="mtsport_badge"
+        :initial-search="term"
+        :placeholder="$tc('mtsport-badge.general.placeholderSearchBar')"
+        @search="onSearch"
+      />
+    </template>
+  {% endblock %}
+
+  {% block mtsport_badge_list_smart_bar_header %}
+    <template #smart-bar-header>
+      <h2>
+        {{ $tc('mtsport-badge.list.textHeadline') }}
+        <span v-if="!isLoading" class="sw-page__smart-bar-amount">({{ total }})</span>
+      </h2>
+    </template>
+  {% endblock %}
+
+  {% block mtsport_badge_list_smart_bar_actions %}
+    <template #smart-bar-actions>
+      <sw-button
+        variant="primary"
+        :disabled="!acl.can('mtsport_badge:create')"
+        @click="onAdd"
+      >
+        {{ $tc('mtsport-badge.list.buttonAddBadge') }}
+      </sw-button>
+    </template>
+  {% endblock %}
+
+  {% block mtsport_badge_list_content %}
+    <template #content>
+      <div class="mtsport-badge-list__content">
+
+        <sw-empty-state
+          v-if="!isLoading && (!badges || badges.length === 0) && !term"
+          :title="$tc('mtsport-badge.list.emptyStateTitle')"
+          :subline="$tc('mtsport-badge.list.emptyStateText')"
+        >
+          <template #actions>
+            <sw-button
+              variant="ghost"
+              :disabled="!acl.can('mtsport_badge:create')"
+              @click="onAdd"
+            >
+              {{ $tc('mtsport-badge.list.buttonAddBadge') }}
+            </sw-button>
+          </template>
+        </sw-empty-state>
+
+        <sw-entity-listing
+          v-else
+          :repository="repository"
+          :items="badges"
+          :columns="columns"
+          :is-loading="isLoading"
+          :allow-inline-edit="acl.can('mtsport_badge:update')"
+          :show-selection="acl.can('mtsport_badge:delete')"
+          :allow-edit="acl.can('mtsport_badge:update')"
+          :allow-delete="acl.can('mtsport_badge:delete')"
+          detail-route="mtsport.badge.detail"
+          @column-sort="onColumnSort"
+          @page-change="onPageChange"
+          @items-delete-finish="getList"
+          @inline-edit-save="getList"
+        >
+          {# Color preview swatch #}
+          <template #column-text="{ item }">
+            <span
+              :style="{ backgroundColor: item.bgColor || '#22c55e', color: item.textColor || '#ffffff' }"
+              style="display:inline-block;padding:2px 8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;"
+            >{{ item.text }}</span>
+          </template>
+
+          <template #column-active="{ item }">
+            <sw-icon v-if="item.active" name="regular-checkmark-xs" small color="#37d046" />
+            <sw-icon v-else name="regular-times-s" small color="#d1d9e0" />
+          </template>
+        </sw-entity-listing>
+
+      </div>
+    </template>
+  {% endblock %}
+
+</sw-page>
+{% endblock %}

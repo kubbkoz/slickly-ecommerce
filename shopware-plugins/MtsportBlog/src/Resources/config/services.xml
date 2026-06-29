@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <services>
+    <!--
+      Registrácia EntityDefinition v DI container.
+      Tag `shopware.entity.definition` triggeruje DAL auto-discovery:
+        - vytvorí EntityRepository (auto-injectable)
+        - exposes /api/mtsport-article (Admin API automaticky)
+        - Store API treba explicitne cez vlastný route controller (ArticleRoute)
+    -->
+    <service id="Mtsport\Blog\Content\Article\ArticleDefinition">
+      <tag name="shopware.entity.definition" entity="mtsport_article"/>
+    </service>
+
+    <!--
+      Store API controller — vystavuje POST /store-api/mtsport-article.
+      Public=true je povinné aby Symfony Router vedel routovať na túto class.
+    -->
+    <service id="Mtsport\Blog\Content\Article\SalesChannel\ArticleRoute" public="true">
+      <argument type="service" id="mtsport_article.repository"/>
+    </service>
+    <!--
+      Cache invalidation subscriber — volá Nuxt /api/blog/clear-cache po
+      každom save/delete mtsport_article. Vyžaduje MTSPORT_NUXT_URL v .env.
+    -->
+    <service id="Mtsport\Blog\Subscriber\ArticleCacheSubscriber">
+      <argument>%env(default::MTSPORT_NUXT_URL)%</argument>
+      <tag name="kernel.event_subscriber"/>
+    </service>
+
+    <!-- Invaliduje store:hours cache po zmene Sales Channel (otváracie hodiny custom fields) -->
+    <service id="Mtsport\Blog\Subscriber\StoreCacheSubscriber">
+      <argument>%env(default::MTSPORT_NUXT_URL)%</argument>
+      <tag name="kernel.event_subscriber"/>
+    </service>
+  </services>
+</container>

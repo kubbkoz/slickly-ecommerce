@@ -1,0 +1,25 @@
+{# Pridá kartu "MT-SPORT Badges" do sw-product-detail-base pod existujúce karty #}
+{% block sw_product_detail_base_extension %}
+    {% parent %}
+
+    <sw-card
+        position-identifier="sw-product-detail-mtsport-badges"
+        :title="$tc('mtsport-badge.productExt.cardTitle')"
+        :is-loading="isLoading"
+    >
+        <p style="color:#52667a;font-size:13px;margin:0 0 16px;">
+            {{ $tc('mtsport-badge.productExt.hint') }}
+        </p>
+
+        <sw-entity-multi-select
+            v-if="product && product.extensions && product.extensions.mtsportBadges"
+            :label="$tc('mtsport-badge.productExt.label')"
+            :placeholder="$tc('mtsport-badge.productExt.placeholder')"
+            entity="mtsport_badge"
+            :entity-collection="product.extensions.mtsportBadges"
+            :criteria="badgesCriteria"
+            label-property="name"
+            @update:entity-collection="onMtsportBadgesChange"
+        />
+    </sw-card>
+{% endblock %}

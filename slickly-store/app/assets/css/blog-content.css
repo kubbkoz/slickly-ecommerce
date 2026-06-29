@@ -1,0 +1,486 @@
+/* ─────────────────────────────────────────────────────────────
+   SLICKLY Blog Content Styles — v2.0 (2026 redesign)
+   Trieda: .mtsport-blog-content
+   Použitie: blog detail, statické stránky (type=page)
+   Šírka: plný container (žiadny max-width wrapper)
+   ───────────────────────────────────────────────────────────── */
+
+.mtsport-blog-content {
+  font-family: 'Hanken Grotesk', sans-serif;
+  color: #374151;
+  font-size: 1.0625rem;
+  line-height: 1.85;
+}
+
+/* ── Empty headings from Shopware CMS editor — hide ───────── */
+.mtsport-blog-content h1:empty,
+.mtsport-blog-content h2:empty,
+.mtsport-blog-content h3:empty,
+.mtsport-blog-content h4:empty {
+  display: none;
+}
+
+/* ── Headings — brand decorator pod každým ────────────────── */
+.mtsport-blog-content h1,
+.mtsport-blog-content h2,
+.mtsport-blog-content h3,
+.mtsport-blog-content h4 {
+  font-family: 'Geist Sans', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-style: italic;
+  color: #09090b;
+  line-height: 1.15;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #f3f4f6;
+  position: relative;
+}
+.mtsport-blog-content h1::after,
+.mtsport-blog-content h2::after,
+.mtsport-blog-content h3::after,
+.mtsport-blog-content h4::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 3rem;
+  height: 2px;
+  background: #000000;
+}
+.mtsport-blog-content h1 {
+  font-size: 2.3rem;
+  margin: 3rem 0 1.25rem;
+}
+.mtsport-blog-content h2 {
+  font-size: 1.725rem;
+  margin: 3rem 0 1.25rem;
+}
+.mtsport-blog-content h3 {
+  font-size: 1.44rem;
+  font-weight: 700;
+  margin: 2.5rem 0 1rem;
+}
+.mtsport-blog-content h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 2rem 0 0.75rem;
+  color: #374151;
+}
+
+/* ── Body text ────────────────────────────────────────────── */
+.mtsport-blog-content p {
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  color: #4B5563;
+  margin-bottom: 1.5rem;
+}
+.mtsport-blog-content strong {
+  font-weight: 700;
+  color: #111;
+}
+.mtsport-blog-content em {
+  font-style: italic;
+}
+
+/* ── Links ────────────────────────────────────────────────── */
+.mtsport-blog-content a {
+  color: #000000;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  font-weight: 500;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+.mtsport-blog-content a:hover {
+  color: #000;
+  text-decoration-color: transparent;
+}
+
+/* ── Buttons (Shopware CMS text editor link type: btn) ────── */
+/* Shopware frontends rewrites .btn.btn-primary → .bg-brand-primary etc.
+   Target both original classes AND Shopware-rewritten UnoCSS classes. */
+.mtsport-blog-content a.btn,
+.mtsport-blog-content a.bg-brand-primary,
+.mtsport-blog-content a.bg-brand-secondary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem;
+  font-family: 'Geist Sans', sans-serif !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  text-decoration: none !important;
+  padding: 0.875rem 2rem !important;
+  font-size: 0.8125rem !important;
+  transition: all 0.2s !important;
+  cursor: pointer;
+  border-radius: 0 !important;
+}
+.mtsport-blog-content a.btn-sm,
+.mtsport-blog-content a.bg-brand-primary.btn-sm,
+.mtsport-blog-content a.bg-brand-secondary.btn-sm {
+  padding: 0.625rem 1.5rem !important;
+  font-size: 0.75rem !important;
+}
+/* Primary — brand red, white text */
+.mtsport-blog-content a.btn-primary,
+.mtsport-blog-content a.bg-brand-primary {
+  background: #000000 !important;
+  color: #fff !important;
+  border: 2px solid #000000 !important;
+}
+.mtsport-blog-content a.btn-primary:hover,
+.mtsport-blog-content a.bg-brand-primary:hover {
+  background: #1A1A1A !important;
+  border-color: #1A1A1A !important;
+  color: #fff !important;
+}
+/* Secondary — transparent, black border+text, hover inverted */
+.mtsport-blog-content a.btn-secondary,
+.mtsport-blog-content a.bg-brand-secondary {
+  background: transparent !important;
+  color: #09090b !important;
+  border: 2px solid #09090b !important;
+}
+.mtsport-blog-content a.btn-secondary:hover,
+.mtsport-blog-content a.bg-brand-secondary:hover {
+  background: #09090b !important;
+  color: #fff !important;
+}
+
+/* ── Blockquote ───────────────────────────────────────────── */
+.mtsport-blog-content blockquote {
+  border-left: 3px solid #000000;
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  background: #fafafa;
+  position: relative;
+}
+.mtsport-blog-content blockquote::before {
+  content: '\201C';
+  font-family: 'Geist Sans', serif;
+  font-size: 4rem;
+  color: #000000;
+  opacity: 0.15;
+  position: absolute;
+  top: -0.5rem;
+  left: 1rem;
+  line-height: 1;
+}
+.mtsport-blog-content blockquote p {
+  margin-bottom: 0;
+  color: #374151;
+  font-style: italic;
+  font-size: 1.0625rem;
+}
+
+/* ── Unordered list — skewed red bullet ───────────────────── */
+.mtsport-blog-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+.mtsport-blog-content ul li {
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.75rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #4B5563;
+}
+.mtsport-blog-content ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 7px;
+  height: 7px;
+  background: #000000;
+  transform: skewX(-12deg);
+}
+
+/* ── Ordered list — custom counter, Chakra red numbers ────── */
+.mtsport-blog-content ol {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  counter-reset: mtsport-ol;
+}
+.mtsport-blog-content ol li {
+  padding-left: 2rem;
+  position: relative;
+  margin-bottom: 0.75rem;
+  color: #4B5563;
+  line-height: 1.75;
+  font-size: 1.0625rem;
+  counter-increment: mtsport-ol;
+}
+.mtsport-blog-content ol li::before {
+  content: counter(mtsport-ol) '.';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: 'Geist Sans', sans-serif;
+  font-weight: 700;
+  color: #000000;
+  font-size: 1rem;
+}
+
+/* ── Images ───────────────────────────────────────────────── */
+.mtsport-blog-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 2.5rem 0;
+  border-radius: 0 !important;
+}
+.mtsport-blog-content figure {
+  margin: 2.5rem 0;
+}
+.mtsport-blog-content figcaption {
+  font-size: 0.8125rem;
+  color: #9CA3AF;
+  margin-top: 0.5rem;
+  font-style: italic;
+  text-align: center;
+}
+
+/* ── Horizontal rule ──────────────────────────────────────── */
+.mtsport-blog-content hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 3rem 0;
+  position: relative;
+}
+.mtsport-blog-content hr::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 3rem;
+  height: 1px;
+  background: #000000;
+}
+
+/* ── Code ─────────────────────────────────────────────────── */
+.mtsport-blog-content code {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  background: #f3f4f6;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.875rem;
+  border: 1px solid #e5e7eb;
+}
+.mtsport-blog-content pre {
+  background: #0a0a0a;
+  color: #f9fafb;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 2rem 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.mtsport-blog-content pre code {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+}
+
+/* ── Tables (native HTML + Shopware sw-text-editor-table) ──── */
+.mtsport-blog-content table,
+.mtsport-blog-content .sw-text-editor-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  display: table;
+}
+/* Shopware admin resize handles — hide on frontend */
+.mtsport-blog-content .sw-text-editor-table__col-selector {
+  display: none !important;
+}
+/* Reset inline widths from admin editor */
+.mtsport-blog-content .sw-text-editor-table__col {
+  width: auto !important;
+}
+/* thead — works for both <th> and Shopware's <td> in thead */
+.mtsport-blog-content thead,
+.mtsport-blog-content .sw-text-editor-table__head {
+  background: #09090b;
+  display: table-header-group;
+}
+.mtsport-blog-content thead th,
+.mtsport-blog-content thead td,
+.mtsport-blog-content .sw-text-editor-table__head .sw-text-editor-table__col {
+  padding: 0.875rem 1rem;
+  text-align: left;
+  font-family: 'Geist Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  border-bottom: 2px solid #000000;
+}
+/* tbody */
+.mtsport-blog-content tbody,
+.mtsport-blog-content .sw-text-editor-table__body {
+  display: table-row-group;
+}
+.mtsport-blog-content tbody tr,
+.mtsport-blog-content .sw-text-editor-table__row {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.15s;
+  display: table-row;
+}
+.mtsport-blog-content tbody tr:hover,
+.mtsport-blog-content .sw-text-editor-table__body .sw-text-editor-table__row:hover {
+  background: #fafafa;
+}
+.mtsport-blog-content tbody td,
+.mtsport-blog-content .sw-text-editor-table__body .sw-text-editor-table__col {
+  padding: 0.875rem 1rem;
+  color: #374151;
+  vertical-align: top;
+  display: table-cell;
+}
+.mtsport-blog-content tbody tr:nth-child(even),
+.mtsport-blog-content .sw-text-editor-table__body .sw-text-editor-table__row:nth-child(even) {
+  background: #fafafa;
+}
+.mtsport-blog-content tbody tr:nth-child(even):hover,
+.mtsport-blog-content .sw-text-editor-table__body .sw-text-editor-table__row:nth-child(even):hover {
+  background: #f3f4f6;
+}
+
+/* Table responsive — scroll on mobile */
+.mtsport-blog-content .table-responsive,
+.mtsport-blog-content .cms-element-html,
+.mtsport-blog-content .cms-element-text {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Video / iframe embeds ────────────────────────────────── */
+.mtsport-blog-content iframe,
+.mtsport-blog-content video {
+  max-width: 100%;
+  margin: 2rem 0;
+  aspect-ratio: 16/9;
+  width: 100%;
+  height: auto;
+  border: none;
+}
+
+/* ── CMS element overrides (Shopware CmsPage renderer) ────── */
+.mtsport-blog-content .cms-section {
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+.mtsport-blog-content .cms-block {
+  padding: 0 !important;
+  margin: 0 0 1.5rem !important;
+  max-width: 100% !important;
+}
+.mtsport-blog-content .cms-element-text {
+  max-width: 100% !important;
+}
+.mtsport-blog-content .cms-element-image img {
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+  display: block;
+  border-radius: 0 !important;
+}
+.mtsport-blog-content .cms-element-image figure,
+.mtsport-blog-content .cms-element-image picture {
+  border-radius: 0 !important;
+  margin: 0;
+}
+
+/* ── Image-text block (side-by-side) ──────────────────────── */
+.mtsport-blog-content .cms-block-image-text {
+  margin: 2rem 0 2.5rem !important;
+}
+.mtsport-blog-content .cms-block-image-text .cms-block-container {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 2rem !important;
+  align-items: start !important;
+}
+.mtsport-blog-content .cms-block-image-text .cms-element-image {
+  overflow: hidden;
+}
+.mtsport-blog-content .cms-block-image-text .cms-element-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mtsport-blog-content .cms-block-image-text .cms-element-text {
+  padding: 0.5rem 0;
+}
+@media (max-width: 768px) {
+  .mtsport-blog-content .cms-block-image-text .cms-block-container {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+}
+
+/* CMS column layout — full width */
+.mtsport-blog-content .cms-section-default > .cms-block-container,
+.mtsport-blog-content .cms-block > .cms-block-container {
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ── Highlighted info box (custom class) ──────────────────── */
+.mtsport-blog-content .info-box,
+.mtsport-blog-content .highlight-box {
+  background: #fafafa;
+  border-left: 3px solid #000000;
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+}
+.mtsport-blog-content .info-box p,
+.mtsport-blog-content .highlight-box p {
+  margin-bottom: 0;
+}
+
+/* ── First paragraph emphasis ─────────────────────────────── */
+.mtsport-blog-content > p:first-of-type,
+.mtsport-blog-content .cms-element-text > div > p:first-of-type {
+  font-size: 1.1875rem;
+  line-height: 1.8;
+  color: #374151;
+}
+
+/* ── Selection ────────────────────────────────────────────── */
+.mtsport-blog-content ::selection {
+  background: rgba(182, 0, 5, 0.12);
+  color: #09090b;
+}
+
+/* ── Mobile adjustments ───────────────────────────────────── */
+@media (max-width: 768px) {
+  .mtsport-blog-content h1 { font-size: 1.725rem; }
+  .mtsport-blog-content h2 { font-size: 1.44rem; }
+  .mtsport-blog-content h3 { font-size: 1.3rem; }
+  .mtsport-blog-content p,
+  .mtsport-blog-content ul li,
+  .mtsport-blog-content ol li { font-size: 1rem; }
+
+  .mtsport-blog-content table,
+  .mtsport-blog-content .sw-text-editor-table {
+    font-size: 0.8125rem;
+  }
+  .mtsport-blog-content thead th,
+  .mtsport-blog-content thead td,
+  .mtsport-blog-content tbody td,
+  .mtsport-blog-content .sw-text-editor-table__col {
+    padding: 0.625rem 0.75rem;
+  }
+}

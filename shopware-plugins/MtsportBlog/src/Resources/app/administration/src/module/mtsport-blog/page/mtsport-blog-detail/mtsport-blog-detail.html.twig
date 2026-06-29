@@ -1,0 +1,100 @@
+{% block mtsport_blog_detail %}
+<sw-page class="mtsport-blog-detail">
+
+  {% block mtsport_blog_detail_smart_bar_header %}
+    <template #smart-bar-header>
+      <h2 v-if="isCreating">{{ $tc('mtsport-blog.detail.textHeadlineCreate') }}</h2>
+      <h2 v-else>{{ identifier }}</h2>
+    </template>
+  {% endblock %}
+
+  {% block mtsport_blog_detail_smart_bar_actions %}
+    <template #smart-bar-actions>
+      <sw-button :disabled="isLoading" @click="onCancel">{{ $tc('mtsport-blog.detail.buttonCancel') }}</sw-button>
+      <sw-button v-if="!isCreating" variant="danger" :disabled="isLoading || !acl.can('mtsport_article:delete')" @click="onDelete">{{ $tc('mtsport-blog.detail.buttonDelete') }}</sw-button>
+      <sw-button-process v-tooltip="tooltipSave" variant="primary" :is-loading="isLoading" :process-success="isSaveSuccessful" :disabled="isLoading || !acl.can(isCreating ? 'mtsport_article:create' : 'mtsport_article:update')" @update:process-success="onSaveFinish" @click="onSave">{{ $tc('mtsport-blog.detail.buttonSave') }}</sw-button-process>
+    </template>
+  {% endblock %}
+
+  {% block mtsport_blog_detail_content %}
+    <template #content>
+      <sw-card-view v-if="article">
+
+        <!-- TYP OBSAHU -->
+        <sw-card :title="$tc('mtsport-blog.detail.cardType')" :is-loading="isLoading">
+          <sw-single-select
+            :value="article.type || 'blog'"
+            :label="$tc('mtsport-blog.detail.fieldType')"
+            :help-text="$tc('mtsport-blog.detail.fieldTypeHelp')"
+            :options="typeOptions"
+            value-property="value"
+            label-property="label"
+            @update:value="article.type = $event"
+          />
+        </sw-card>
+
+        <!-- OBSAH -->
+        <sw-card :title="$tc('mtsport-blog.detail.cardContent')" :is-loading="isLoading">
+          <sw-container columns="1fr 1fr" gap="0 30px">
+            <sw-text-field :value="article.title || ''" :label="$tc('mtsport-blog.detail.fieldTitle')" :placeholder="$tc('mtsport-blog.detail.fieldTitlePlaceholder')" required @update:value="article.title = $event" @blur="onSlugSuggest" />
+            <sw-text-field :value="article.slug || ''" :label="$tc('mtsport-blog.detail.fieldSlug')" :placeholder="$tc('mtsport-blog.detail.fieldSlugPlaceholder')" required @update:value="article.slug = $event" />
+          </sw-container>
+          <sw-textarea-field :value="article.teaser || ''" :label="$tc('mtsport-blog.detail.fieldTeaser')" :placeholder="$tc('mtsport-blog.detail.fieldTeaserPlaceholder')" @update:value="article.teaser = $event" />
+          <sw-text-editor :value="article.content || ''" :label="$tc('mtsport-blog.detail.fieldContent')" sanitize-input @update:value="article.content = $event" />
+        </sw-card>
+
+        <!-- CMS ROZLOZENIE -->
+        <sw-card :title="$tc('mtsport-blog.detail.cardLayout')" :is-loading="isLoading || isCreatingCmsPage">
+          <div v-if="!article.cmsPageId" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+            <div style="color:#9ca3af;font-size:13px">{{ $tc('mtsport-blog.detail.layoutNone') }}</div>
+            <sw-button variant="primary" :is-loading="isCreatingCmsPage" @click="onCreateCmsPage">{{ $tc('mtsport-blog.detail.layoutButtonCreate') }}</sw-button>
+          </div>
+          <div v-else style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+            <div style="color:#16a34a;font-size:13px">{{ $tc('mtsport-blog.detail.layoutAssigned') }}</div>
+            <div style="display:flex;gap:8px">
+              <sw-button variant="primary" @click="onEditCmsPage">{{ $tc('mtsport-blog.detail.layoutButtonEdit') }}</sw-button>
+              <sw-button variant="ghost" @click="onRemoveCmsPage">{{ $tc('mtsport-blog.detail.layoutButtonRemove') }}</sw-button>
+            </div>
+          </div>
+        </sw-card>
+
+        <!-- METADÁTA -->
+        <sw-card :title="$tc('mtsport-blog.detail.cardMeta')" :is-loading="isLoading">
+          <sw-container columns="1fr 1fr" gap="0 30px">
+            <sw-text-field :value="article.author || ''" :label="$tc('mtsport-blog.detail.fieldAuthor')" :placeholder="$tc('mtsport-blog.detail.fieldAuthorPlaceholder')" @update:value="article.author = $event" />
+            <sw-text-field :value="article.category || ''" :label="$tc('mtsport-blog.detail.fieldCategory')" :placeholder="$tc('mtsport-blog.detail.fieldCategoryPlaceholder')" :help-text="$tc('mtsport-blog.detail.fieldCategoryHelp')" @update:value="article.category = $event" />
+          </sw-container>
+          <sw-container columns="1fr 1fr" gap="0 30px">
+            <sw-datepicker :value="article.publishedAt || null" :label="$tc('mtsport-blog.detail.fieldPublishedAt')" :help-text="$tc('mtsport-blog.detail.fieldPublishedAtHelp')" date-type="datetime" @update:value="article.publishedAt = $event" />
+            <sw-switch-field :value="article.active" :label="$tc('mtsport-blog.detail.fieldActive')" :help-text="$tc('mtsport-blog.detail.fieldActiveHelp')" @update:value="article.active = $event" />
+          </sw-container>
+        </sw-card>
+
+        <!-- FEATURED -->
+        <sw-card :title="$tc('mtsport-blog.detail.cardFeatured')" :is-loading="isLoading">
+          <sw-container columns="1fr 1fr" gap="0 30px">
+            <sw-switch-field :value="article.featured" :label="$tc('mtsport-blog.detail.fieldFeatured')" :help-text="$tc('mtsport-blog.detail.fieldFeaturedHelp')" @update:value="article.featured = $event" />
+            <sw-text-field :value="article.featuredBadgeText || ''" :label="$tc('mtsport-blog.detail.fieldFeaturedBadgeText')" :placeholder="$tc('mtsport-blog.detail.fieldFeaturedBadgeTextPlaceholder')" :disabled="!article.featured" :help-text="$tc('mtsport-blog.detail.fieldFeaturedBadgeTextHelp')" @update:value="article.featuredBadgeText = $event" />
+          </sw-container>
+        </sw-card>
+
+        <!-- OBRAZKY -->
+        <sw-card :title="$tc('mtsport-blog.detail.cardImages')" :is-loading="isLoading">
+          <sw-container columns="1fr 1fr" gap="0 30px">
+            <sw-media-field :value="article.coverId || ''" :label="$tc('mtsport-blog.detail.fieldCover')" :help-text="$tc('mtsport-blog.detail.fieldCoverHelp')" @update:value="article.coverId = $event" />
+            <sw-media-field :value="article.heroCoverId || ''" :label="$tc('mtsport-blog.detail.fieldHeroCover')" :help-text="$tc('mtsport-blog.detail.fieldHeroCoverHelp')" @update:value="article.heroCoverId = $event" />
+          </sw-container>
+        </sw-card>
+
+        <!-- SEO -->
+        <sw-card :title="$tc('mtsport-blog.detail.cardSeo')" :is-loading="isLoading">
+          <sw-text-field :value="article.metaTitle || ''" :label="$tc('mtsport-blog.detail.fieldMetaTitle')" :placeholder="$tc('mtsport-blog.detail.fieldMetaTitlePlaceholder')" @update:value="article.metaTitle = $event" />
+          <sw-textarea-field :value="article.metaDescription || ''" :label="$tc('mtsport-blog.detail.fieldMetaDescription')" :placeholder="$tc('mtsport-blog.detail.fieldMetaDescriptionPlaceholder')" @update:value="article.metaDescription = $event" />
+        </sw-card>
+
+      </sw-card-view>
+    </template>
+  {% endblock %}
+
+</sw-page>
+{% endblock %}

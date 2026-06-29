@@ -1,0 +1,87 @@
+{% block mtsport_sps_list %}
+<sw-page class="mtsport-sps-list">
+
+  {% block mtsport_sps_list_smart_bar_header %}
+    <template #smart-bar-header>
+      <h2>
+        {{ $tc('mtsport-sps.list.headline') }}
+        <span v-if="!isLoading" class="sw-page__smart-bar-amount">({{ total }})</span>
+      </h2>
+    </template>
+  {% endblock %}
+
+  {% block mtsport_sps_list_smart_bar_actions %}
+    <template #smart-bar-actions>
+      <sw-button
+        variant="ghost"
+        :is-loading="isEndOfDayRunning"
+        @click="onEndOfDay"
+      >
+        {{ $tc('mtsport-sps.list.endOfDay') }}
+      </sw-button>
+      <sw-button
+        variant="ghost"
+        :is-loading="isPrintRunning"
+        @click="onPrintLabels"
+      >
+        {{ $tc('mtsport-sps.list.printLabels') }}
+      </sw-button>
+      <sw-button
+        variant="primary"
+        :is-loading="isBulkRunning"
+        :disabled="selectedIds.length === 0"
+        @click="onGenerateLabels"
+      >
+        {{ $tc('mtsport-sps.list.generateLabels') }} ({{ selectedIds.length }})
+      </sw-button>
+    </template>
+  {% endblock %}
+
+  {% block mtsport_sps_list_content %}
+    <template #content>
+      <div class="mtsport-sps-list__content">
+        <sw-entity-listing
+          v-if="shipments"
+          :repository="repository"
+          :items="shipments"
+          :columns="columns"
+          :is-loading="isLoading"
+          :allow-inline-edit="false"
+          :show-selection="true"
+          :allow-edit="false"
+          :allow-delete="acl.can('mtsport_sps_shipment:update')"
+          @column-sort="onColumnSort"
+          @page-change="onPageChange"
+          @selection-change="onSelectionChange"
+          @items-delete-finish="getList"
+        >
+          <template #column-mode="{ item }">
+            {{ modeLabel(item) }}
+          </template>
+
+          <template #column-webshipStatus="{ item }">
+            <sw-label :variant="statusVariant(item.webshipStatus)">
+              {{ item.webshipStatus }}
+            </sw-label>
+          </template>
+
+          <template #column-trackingNumber="{ item }">
+            <a v-if="trackingUrl(item)" :href="trackingUrl(item)" target="_blank" rel="noopener">
+              {{ item.trackingNumber || $tc('mtsport-sps.list.track') }}
+            </a>
+            <span v-else>{{ item.trackingNumber || '—' }}</span>
+          </template>
+
+          <template #column-labelUrl="{ item }">
+            <a v-if="item.labelUrl" :href="item.labelUrl" target="_blank" rel="noopener">
+              {{ $tc('mtsport-sps.list.openLabel') }}
+            </a>
+            <span v-else>—</span>
+          </template>
+        </sw-entity-listing>
+      </div>
+    </template>
+  {% endblock %}
+
+</sw-page>
+{% endblock %}

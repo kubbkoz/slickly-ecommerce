@@ -1,0 +1,60 @@
+msgid "Please select balíkovo"
+msgstr "Prosím vyberte balíkovo"
+
+msgid "Telephone number has to be in \"004219...\" or \"+4219...\" or \"09...\" format"
+msgstr "Telefónní číslo musí být ve formátu \"004219...\" nebo \"+4219...\" nebo \"09...\""
+
+msgid "Telephone number has to be in \"00420xxxxxxxxx\" or \"+420xxxxxxxxx\" or \"xxxxxxxxx\" format"
+msgstr "Telefónní číslo musí být ve formátu \"00420xxxxxxxxx\" nebo \"+420xxxxxxxxx\" nebo \"xxxxxxxxx\""
+
+msgid "Telephone number has to be in \"0036xxxxxxxxx\" or \"+36xxxxxxxxx\" or \"06xxxxxxxxx\" format"
+msgstr "Telefónní číslo musí být ve formátu \"0036xxxxxxxxx\" nebo \"+36xxxxxxxxx\" nebo \"06xxxxxxxxx\""
+
+msgid "balíkovo Select"
+msgstr "Výběr balíkova"
+
+msgid "Name"
+msgstr "Název"
+
+msgid "Shipping cod fee"
+msgstr "Příplatek za dobírku"
+
+msgid "No zip city match, please use one of these cities for shipping :<br>"
+msgstr "Nenašla se shoda PSČ a obce, prosím vyberte obec ze seznamu :<br>"
+
+msgid "No city for zip, please check zip"
+msgstr "Pro zadané PSČ nebyly nalezeny žádné obce. Prosím zkontrolujte PSČ"
+
+msgid  " contains invalid data. Please select other one."
+msgstr " obsahuje neplatné údaje. Prosím vyberte jiné balíkovo."
+
+msgid "Slovak Parcel Service - Selected balíkovo"
+msgstr "Slovak Parcel Service - Vybrané balíkovo"
+
+msgid "Currency"
+msgstr "Měna"
+
+msgid "Cod type payment is not avalible for "
+msgstr "Platba typu dobírka není možná pro "
+
+msgid ". Sending non EUR currency to country with EUR."
+msgstr ". Posílání ne EUR měny do země s EUR-em."
+
+msgid ". Sending Cod is set to EUR for this non EUR country."
+msgstr ". Posílání dobírky je nastaveno na EUR pro tuto ne EUR zemi."
+
+msgid ". Wrong currency for destination country."
+msgstr ". Nesprávná měna pro cílovou zemi."
+
+msgid ". Sending Cod in EUR to non EUR countries is not enabled."
+msgstr ". Posílání dobírky v EUR-ách není povoleno pro země bez EUR-a."
+
+msgid ". Cod amount is over limit."
+msgstr ". Hodnota dobírky je přes limit."
+
+msgid ". Selected balikovo does not support Cod payment."
+msgstr ". Vybrané balíkovo nepodporuje platbu dobírkou."
+
+
+
+ 

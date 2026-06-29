@@ -1,0 +1,52 @@
+{% block mtsport_loyalty_reward_detail %}
+<sw-page class="mtsport-loyalty-reward-detail">
+    <template #smart-bar-header>
+        <h2>{{ identifier }}</h2>
+    </template>
+
+    <template #smart-bar-actions>
+        <sw-button @click="onCancel">{{ $tc('global.default.cancel') }}</sw-button>
+        <sw-button variant="primary" @click="onSave" :isLoading="isLoading" :disabled="!acl.can('loyalty_reward:update') && !acl.can('loyalty_reward:create')">
+            {{ $tc('mtsport-loyalty.reward.save') }}
+        </sw-button>
+    </template>
+
+    <template #content>
+        <sw-card-view>
+            <sw-card v-if="reward" :isLoading="isLoading" :large="true">
+                <sw-text-field v-model:value="reward.name" :label="$tc('mtsport-loyalty.reward.name')" required />
+                <sw-textarea-field v-model:value="reward.description" :label="$tc('mtsport-loyalty.reward.description')" />
+
+                <sw-container columns="1fr 1fr" gap="0 24px">
+                    <sw-number-field v-model:value="reward.pointsRequired" :label="$tc('mtsport-loyalty.reward.pointsRequired')" numberType="int" />
+                    <sw-single-select
+                        v-model:value="reward.type"
+                        :label="$tc('mtsport-loyalty.reward.type')"
+                        :options="typeOptions"
+                        :showClearableButton="false"
+                    />
+                </sw-container>
+
+                <sw-container columns="1fr 1fr" gap="0 24px">
+                    <sw-number-field
+                        v-model:value="reward.discountValue"
+                        :label="$tc('mtsport-loyalty.reward.discountValue')"
+                        numberType="float"
+                    />
+                    <sw-number-field v-model:value="reward.validDays" :label="$tc('mtsport-loyalty.reward.validDays')" numberType="int" />
+                </sw-container>
+
+                <sw-text-field v-model:value="reward.ruleId" :label="$tc('mtsport-loyalty.reward.ruleId')" />
+                <sw-text-field v-if="reward.type === 'gift'" v-model:value="reward.giftProductId" :label="$tc('mtsport-loyalty.reward.giftProductId')" />
+
+                <sw-container columns="1fr 1fr" gap="0 24px">
+                    <sw-number-field v-model:value="reward.minOrderValue" :label="$tc('mtsport-loyalty.reward.minOrderValue')" numberType="float" />
+                    <sw-number-field v-model:value="reward.maxUsesPerCustomer" :label="$tc('mtsport-loyalty.reward.maxUses')" numberType="int" />
+                </sw-container>
+
+                <sw-switch-field v-model:value="reward.isActive" :label="$tc('mtsport-loyalty.reward.isActive')" />
+            </sw-card>
+        </sw-card-view>
+    </template>
+</sw-page>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% block mtsport_returns_detail %}
+<sw-page class="mtsport-returns-detail">
+
+  <template #smart-bar-header>
+    <h2>
+      <span>{{ identifier }}</span>
+      <span v-if="request?.formType" style="margin-left:8px;font-size:13px;font-weight:500;color:#52667a;">
+        ({{ request.formType === 'reklamacia' ? $tc('mtsport-returns.detail.formTypeReklamacia') : $tc('mtsport-returns.detail.formTypeVratenie') }})
+      </span>
+    </h2>
+  </template>
+
+  <template #smart-bar-actions>
+    <sw-button
+      variant="danger"
+      :disabled="!acl.can('mtsport_return_request:delete') || isLoading"
+      @click="onDelete"
+    >
+      {{ $tc('mtsport-returns.detail.buttonDelete') }}
+    </sw-button>
+    <sw-button @click="onCancel">{{ $tc('mtsport-returns.detail.buttonCancel') }}</sw-button>
+    <sw-button
+      variant="primary"
+      :is-loading="isLoading"
+      :disabled="!acl.can('mtsport_return_request:update')"
+      v-tooltip.bottom="tooltipSave"
+      @click="onSave"
+    >
+      {{ $tc('mtsport-returns.detail.buttonSave') }}
+    </sw-button>
+  </template>
+
+  <template #content>
+    <sw-card-view v-if="request">
+
+      {# Status workflow — quick action buttons #}
+      <sw-card :title="$tc('mtsport-returns.detail.cardStatus')" :is-loading="isLoading">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+          <strong>{{ $tc('mtsport-returns.detail.labelStatus') }}:</strong>
+          <sw-label
+            :variant="request.status === 'approved' ? 'success' : request.status === 'rejected' ? 'danger' : request.status === 'processing' ? 'info' : 'neutral'"
+          >
+            {{ $tc('mtsport-returns.detail.status' + request.status.charAt(0).toUpperCase() + request.status.slice(1)) }}
+          </sw-label>
+
+          <div style="margin-left:auto;display:flex;gap:8px;">
+            <sw-button v-if="request.status !== 'processing'" size="small" variant="ghost"
+                       :disabled="!acl.can('mtsport_return_request:update')"
+                       @click="onQuickStatusChange('processing')">
+              {{ $tc('mtsport-returns.detail.buttonStatusProcessing') }}
+            </sw-button>
+            <sw-button v-if="request.status !== 'approved'" size="small" variant="primary"
+                       :disabled="!acl.can('mtsport_return_request:update')"
+                       @click="onQuickStatusChange('approved')">
+              {{ $tc('mtsport-returns.detail.buttonStatusApproved') }}
+            </sw-button>
+            <sw-button v-if="request.status !== 'rejected'" size="small" variant="danger"
+                       :disabled="!acl.can('mtsport_return_request:update')"
+                       @click="onQuickStatusChange('rejected')">
+              {{ $tc('mtsport-returns.detail.buttonStatusRejected') }}
+            </sw-button>
+          </div>
+        </div>
+      </sw-card>
+
+      {# Request data — read-only summary #}
+      <sw-card :title="$tc('mtsport-returns.detail.cardRequest')" :is-loading="isLoading">
+        <sw-container columns="1fr 1fr" gap="16px">
+          <sw-text-field :value="request.referenceNumber" :label="$tc('mtsport-returns.detail.labelReference')" disabled />
+          <sw-single-select
+            :value="request.formType"
+            :label="$tc('mtsport-returns.detail.labelFormType')"
+            :options="formTypeOptions"
+            :show-clearable-button="false"
+            @update:value="request.formType = $event"
+          />
+        </sw-container>
+
+        <sw-container columns="1fr 1fr 1fr" gap="16px">
+          <sw-text-field :value="request.orderNumber" :label="$tc('mtsport-returns.detail.labelOrderNumber')" disabled />
+          <sw-text-field
+            :value="request.orderDate ? new Date(request.orderDate).toISOString().substring(0, 10) : ''"
+            :label="$tc('mtsport-returns.detail.labelOrderDate')"
+            disabled
+          />
+          <sw-text-field :value="request.invoiceNumber" :label="$tc('mtsport-returns.detail.labelInvoiceNumber')" disabled />
+        </sw-container>
+
+        <sw-textarea-field :value="request.itemsDescription" :label="$tc('mtsport-returns.detail.labelItemsDescription')" :rows="3" disabled />
+      </sw-card>
+
+      {# Customer data #}
+      <sw-card :title="$tc('mtsport-returns.detail.cardCustomer')" :is-loading="isLoading">
+        <sw-container columns="1fr 1fr" gap="16px">
+          <sw-text-field :value="request.firstName" :label="$tc('mtsport-returns.detail.labelFirstName')" disabled />
+          <sw-text-field :value="request.lastName" :label="$tc('mtsport-returns.detail.labelLastName')" disabled />
+        </sw-container>
+        <sw-container columns="1fr 1fr" gap="16px">
+          <sw-text-field :value="request.customerEmail" :label="$tc('mtsport-returns.detail.labelEmail')" disabled />
+          <sw-text-field :value="request.customerPhone" :label="$tc('mtsport-returns.detail.labelPhone')" disabled />
+        </sw-container>
+        <sw-textarea-field :value="request.customerAddress" :label="$tc('mtsport-returns.detail.labelAddress')" :rows="2" disabled />
+        <sw-text-field v-if="request.bankAccount" :value="request.bankAccount" :label="$tc('mtsport-returns.detail.labelBankAccount')" disabled />
+      </sw-card>
+
+      {# Reason #}
+      <sw-card :title="$tc('mtsport-returns.detail.cardReason')" :is-loading="isLoading">
+        <sw-text-field :value="request.reasonCategory" :label="$tc('mtsport-returns.detail.labelReasonCategory')" disabled />
+        <sw-textarea-field :value="request.reasonDetail" :label="$tc('mtsport-returns.detail.labelReasonDetail')" :rows="4" disabled />
+      </sw-card>
+
+      {# Attachments — link to Shopware media UUIDs #}
+      <sw-card v-if="attachmentUuids.length || warrantyUuids.length"
+               :title="$tc('mtsport-returns.detail.cardAttachments')"
+               :is-loading="isLoading">
+        <div v-if="warrantyUuids.length">
+          <strong>{{ $tc('mtsport-returns.detail.labelWarrantyFiles') }}:</strong>
+          <ul style="padding-left:20px;margin:8px 0;">
+            <li v-for="uuid in warrantyUuids" :key="uuid">
+              <a :href="'/admin#/sw/media/index/detail/' + uuid" target="_blank">{{ uuid }}</a>
+            </li>
+          </ul>
+        </div>
+        <div v-if="attachmentUuids.length">
+          <strong>{{ $tc('mtsport-returns.detail.labelAttachmentFiles') }}:</strong>
+          <ul style="padding-left:20px;margin:8px 0;">
+            <li v-for="uuid in attachmentUuids" :key="uuid">
+              <a :href="'/admin#/sw/media/index/detail/' + uuid" target="_blank">{{ uuid }}</a>
+            </li>
+          </ul>
+        </div>
+      </sw-card>
+
+      {# Admin notes #}
+      <sw-card :title="$tc('mtsport-returns.detail.cardAdminNotes')" :is-loading="isLoading">
+        <sw-textarea-field
+          :value="request.adminNotes"
+          :label="$tc('mtsport-returns.detail.labelAdminNotes')"
+          :rows="5"
+          @update:value="request.adminNotes = $event"
+        />
+      </sw-card>
+
+    </sw-card-view>
+  </template>
+
+</sw-page>
+{% endblock %}

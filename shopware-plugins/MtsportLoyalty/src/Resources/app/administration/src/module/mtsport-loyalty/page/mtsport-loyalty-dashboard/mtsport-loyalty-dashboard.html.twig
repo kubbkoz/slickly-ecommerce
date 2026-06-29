@@ -1,0 +1,143 @@
+{% block mtsport_loyalty_dashboard %}
+<sw-page class="mtsport-loyalty-dashboard">
+    {% block mtsport_loyalty_dashboard_header %}
+        <template #smart-bar-header>
+            <h2>{{ $tc('mtsport-loyalty.dashboard.title') }}</h2>
+        </template>
+    {% endblock %}
+
+    {% block mtsport_loyalty_dashboard_actions %}
+        <template #smart-bar-actions>
+            <sw-button variant="primary" @click="onAddReward" :disabled="!acl.can('loyalty_reward:create')">
+                {{ $tc('mtsport-loyalty.dashboard.addReward') }}
+            </sw-button>
+        </template>
+    {% endblock %}
+
+    {% block mtsport_loyalty_dashboard_content %}
+        <template #content>
+            <sw-card-view>
+                <sw-tabs default-item="customers" position="page">
+                    <template #default="{ active }">
+                        <sw-tabs-item :active-tab="active" name="customers" @click="activeTab = 'customers'">
+                            {{ $tc('mtsport-loyalty.dashboard.tabCustomers') }}
+                        </sw-tabs-item>
+                        <sw-tabs-item :active-tab="active" name="levels" @click="activeTab = 'levels'">
+                            {{ $tc('mtsport-loyalty.dashboard.tabLevels') }}
+                        </sw-tabs-item>
+                        <sw-tabs-item :active-tab="active" name="rewards" @click="activeTab = 'rewards'">
+                            {{ $tc('mtsport-loyalty.dashboard.tabRewards') }}
+                        </sw-tabs-item>
+                        <sw-tabs-item :active-tab="active" name="redemptions" @click="activeTab = 'redemptions'">
+                            {{ $tc('mtsport-loyalty.dashboard.tabRedemptions') }}
+                        </sw-tabs-item>
+                        <sw-tabs-item :active-tab="active" name="activity" @click="activeTab = 'activity'">
+                            {{ $tc('mtsport-loyalty.dashboard.tabActivity') }}
+                        </sw-tabs-item>
+                    </template>
+                </sw-tabs>
+
+                <!-- CUSTOMERS -->
+                <sw-card
+                    v-if="activeTab === 'customers'"
+                    positionIdentifier="mtsport-loyalty-customers"
+                    :isLoading="customersLoading"
+                >
+                    <sw-text-field
+                        v-model:value="customerTerm"
+                        :placeholder="$tc('mtsport-loyalty.dashboard.searchCustomers')"
+                        @change="loadCustomers"
+                    />
+                    <template #grid>
+                        <sw-data-grid
+                            :dataSource="customers"
+                            :columns="customerColumns"
+                            :showSelection="false"
+                            :showActions="false"
+                            :allowColumnEdit="false"
+                        >
+                            <template #column-firstName="{ item }">
+                                {{ item.firstName }} {{ item.lastName }}
+                            </template>
+                            <template #column-levelName="{ item }">
+                                <sw-label :style="{ borderColor: item.levelColor, color: item.levelColor }">{{ item.levelName }}</sw-label>
+                            </template>
+                        </sw-data-grid>
+                    </template>
+                </sw-card>
+
+                <!-- LEVELS -->
+                <sw-card v-if="activeTab === 'levels'" positionIdentifier="mtsport-loyalty-levels">
+                    <template #grid>
+                        <sw-entity-listing
+                            v-if="levels"
+                            :items="levels"
+                            :repository="levelRepository"
+                            :columns="levelColumns"
+                            :showSelection="false"
+                            :allowInlineEdit="acl.can('loyalty_level:update')"
+                            @inline-edit-save="onLevelInlineEditSave"
+                        />
+                    </template>
+                </sw-card>
+
+                <!-- REWARDS -->
+                <sw-card v-if="activeTab === 'rewards'" positionIdentifier="mtsport-loyalty-rewards">
+                    <template #grid>
+                        <sw-entity-listing
+                            v-if="rewards"
+                            :items="rewards"
+                            :repository="rewardRepository"
+                            :columns="rewardColumns"
+                            :showSelection="false"
+                            :allowInlineEdit="false"
+                            @column-edit="(item) => $router.push({ name: 'mtsport.loyalty.rewardDetail', params: { id: item.id } })"
+                        >
+                            <template #column-isActive="{ item }">
+                                <sw-icon v-if="item.isActive" name="regular-checkmark" small style="color: #16a34a" />
+                                <sw-icon v-else name="regular-times" small style="color: #999" />
+                            </template>
+                        </sw-entity-listing>
+                    </template>
+                </sw-card>
+
+                <!-- REDEMPTIONS -->
+                <sw-card v-if="activeTab === 'redemptions'" positionIdentifier="mtsport-loyalty-redemptions">
+                    <template #grid>
+                        <sw-entity-listing
+                            v-if="redemptions"
+                            :items="redemptions"
+                            :repository="redemptionRepository"
+                            :columns="redemptionColumns"
+                            :showSelection="false"
+                            :allowInlineEdit="false"
+                            :showActions="false"
+                        />
+                    </template>
+                </sw-card>
+
+                <!-- ACTIVITY -->
+                <sw-card v-if="activeTab === 'activity'" positionIdentifier="mtsport-loyalty-activity">
+                    <template #grid>
+                        <sw-entity-listing
+                            v-if="transactions"
+                            :items="transactions"
+                            :repository="transactionRepository"
+                            :columns="activityColumns"
+                            :showSelection="false"
+                            :allowInlineEdit="false"
+                            :showActions="false"
+                        >
+                            <template #column-points="{ item }">
+                                <span :style="{ color: item.points >= 0 ? '#16a34a' : '#B60005', fontWeight: 'bold' }">
+                                    {{ item.points >= 0 ? '+' : '' }}{{ item.points }}
+                                </span>
+                            </template>
+                        </sw-entity-listing>
+                    </template>
+                </sw-card>
+            </sw-card-view>
+        </template>
+    {% endblock %}
+</sw-page>
+{% endblock %}

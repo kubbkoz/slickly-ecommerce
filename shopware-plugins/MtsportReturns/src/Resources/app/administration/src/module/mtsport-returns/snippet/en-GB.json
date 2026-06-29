@@ -1,0 +1,69 @@
+{
+  "mtsport-returns": {
+    "general": {
+      "mainMenuItemGeneral": "MT-SPORT Returns",
+      "descriptionTextModule": "Returns and complaints",
+      "placeholderSearchBar": "Search by reference / order / email..."
+    },
+    "list": {
+      "textHeadline": "Returns and complaints",
+      "columnReference": "Reference",
+      "columnFormType": "Type",
+      "columnOrderNumber": "Order",
+      "columnCustomer": "Customer",
+      "columnEmail": "Email",
+      "columnStatus": "Status",
+      "columnCreatedAt": "Created",
+      "filterFormType": "Filter type",
+      "filterStatus": "Filter status",
+      "filterAll": "All",
+      "emptyStateTitle": "No requests",
+      "emptyStateText": "Records appear here after the first submission."
+    },
+    "detail": {
+      "textHeadlineNew": "New request",
+      "buttonDelete": "Delete",
+      "buttonCancel": "Back",
+      "buttonSave": "Save",
+      "buttonStatusProcessing": "Process",
+      "buttonStatusApproved": "Approve",
+      "buttonStatusRejected": "Reject",
+      "cardStatus": "Status",
+      "cardRequest": "Request data",
+      "cardCustomer": "Customer",
+      "cardReason": "Reason",
+      "cardAttachments": "Attachments",
+      "cardAdminNotes": "Internal notes",
+      "labelStatus": "Status",
+      "labelReference": "Reference",
+      "labelFormType": "Request type",
+      "labelOrderNumber": "Order number",
+      "labelOrderDate": "Order date",
+      "labelInvoiceNumber": "Invoice number",
+      "labelItemsDescription": "Items description",
+      "labelFirstName": "First name",
+      "labelLastName": "Last name",
+      "labelEmail": "Email",
+      "labelPhone": "Phone",
+      "labelAddress": "Address",
+      "labelBankAccount": "IBAN",
+      "labelReasonCategory": "Reason category",
+      "labelReasonDetail": "Reason detail / defect description",
+      "labelWarrantyFiles": "Warranty certificate",
+      "labelAttachmentFiles": "Photos / videos",
+      "labelAdminNotes": "Internal notes (not visible to customer)",
+      "formTypeVratenie": "Return",
+      "formTypeReklamacia": "Complaint",
+      "statusReceived": "Received",
+      "statusProcessing": "Processing",
+      "statusApproved": "Approved",
+      "statusRejected": "Rejected"
+    },
+    "notification": {
+      "saveSuccess": "Request saved.",
+      "saveError": "Save failed.",
+      "deleteSuccess": "Request deleted.",
+      "deleteConfirm": "Really delete this request?"
+    }
+  }
+}

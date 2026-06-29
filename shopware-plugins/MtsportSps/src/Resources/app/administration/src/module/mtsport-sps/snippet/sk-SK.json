@@ -1,0 +1,37 @@
+{
+  "mtsport-sps": {
+    "general": {
+      "mainMenuItemGeneral": "Kuriér SPS",
+      "descriptionTextModule": "Správa SPS zásielok, štítkov a preberacieho protokolu"
+    },
+    "list": {
+      "headline": "SPS zásielky",
+      "colOrder": "Objednávka",
+      "colMode": "Spôsob",
+      "colPickup": "Výdajné miesto",
+      "colStatus": "Stav",
+      "colTracking": "Č. zásielky",
+      "colLabel": "Štítok",
+      "modeBalikovo": "Balíkovo",
+      "modeCourier": "Kuriér",
+      "track": "Sledovať",
+      "openLabel": "Otvoriť štítok",
+      "generateLabels": "Generovať štítky",
+      "printLabels": "Tlačiť štítky (PDF)",
+      "printOk": "Štítky pripravené na tlač (PDF).",
+      "printErr": "Štítky sa nepodarilo vytlačiť.",
+      "endOfDay": "Preberací protokol (End of Day)",
+      "endOfDayOk": "Preberací protokol vygenerovaný.",
+      "endOfDayErr": "Preberací protokol sa nepodarilo vygenerovať.",
+      "noSelection": "Nevybrali ste žiadnu objednávku.",
+      "bulkResult": "Vytvorené: {created}, duplicitné: {duplicate}, neúspešné: {failed}."
+    },
+    "order": {
+      "colCourier": "Kuriér",
+      "colLabel": "Štítok",
+      "colTracking": "Sledovanie",
+      "track": "Sledovať",
+      "label": "Štítok"
+    }
+  }
+}

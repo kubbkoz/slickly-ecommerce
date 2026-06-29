@@ -1,0 +1,29 @@
+{
+  "name": "mtsport/badge",
+  "description": "MT-SPORT Badge plugin — custom configurable product badges with rule-based assignment (category, tag, product ID, age, discount).",
+  "version": "1.0.0",
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "authors": [
+    { "name": "MT-SPORT", "homepage": "https://mtsport.store" }
+  ],
+  "require": {
+    "shopware/core": "~6.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mtsport\\Badge\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Mtsport\\Badge\\MtsportBadge",
+    "label": {
+      "en-GB": "MT-SPORT Badges",
+      "sk-SK": "MT-SPORT Badges"
+    },
+    "description": {
+      "en-GB": "Configurable product badges (Novinka, PROMO, etc.) with rule-based assignment. Exposes POST /store-api/mtsport-badge.",
+      "sk-SK": "Konfigurovateľné product badges s pravidlami priradenia. Admin UI pod Katalóg → MT-SPORT Badges."
+    }
+  }
+}

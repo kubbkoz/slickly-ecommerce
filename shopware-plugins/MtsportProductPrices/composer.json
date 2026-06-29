@@ -1,0 +1,29 @@
+{
+  "name": "mtsport/product-prices",
+  "description": "Adds MOC (Retail Recommended Price) and PMOC (Original RRP) custom price fields to the product admin Prices card.",
+  "version": "1.1.0",
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "authors": [
+    { "name": "MT-SPORT", "homepage": "https://mtsport.store" }
+  ],
+  "require": {
+    "shopware/core": "~6.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mtsport\\ProductPrices\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Mtsport\\ProductPrices\\MtsportProductPrices",
+    "label": {
+      "en-GB": "MT-SPORT Product Prices (MOC/PMOC)",
+      "sk-SK": "MT-SPORT Ceny produktov (MOC/PMOC)"
+    },
+    "description": {
+      "en-GB": "Adds MOC and PMOC price fields to the Prices card in product editing. Import via customFields.mtsport_moc and customFields.mtsport_pmoc (decimal).",
+      "sk-SK": "Pridá polia MOC a PMOC do karty Ceny pri úprave produktu. Import cez customFields.mtsport_moc a customFields.mtsport_pmoc (desatinné číslo)."
+    }
+  }
+}

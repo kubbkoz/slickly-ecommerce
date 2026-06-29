@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Entity definitions -->
+        <service id="Mtsport\Loyalty\Content\Transaction\LoyaltyTransactionDefinition">
+            <tag name="shopware.entity.definition" entity="loyalty_transaction"/>
+        </service>
+        <service id="Mtsport\Loyalty\Content\Level\LoyaltyLevelDefinition">
+            <tag name="shopware.entity.definition" entity="loyalty_level"/>
+        </service>
+        <service id="Mtsport\Loyalty\Content\Reward\LoyaltyRewardDefinition">
+            <tag name="shopware.entity.definition" entity="loyalty_reward"/>
+        </service>
+        <service id="Mtsport\Loyalty\Content\Redemption\LoyaltyRedemptionDefinition">
+            <tag name="shopware.entity.definition" entity="loyalty_redemption"/>
+        </service>
+
+        <!-- Services -->
+        <service id="Mtsport\Loyalty\Service\LoyaltyPointsService">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <argument type="service" id="loyalty_transaction.repository"/>
+            <argument type="service" id="loyalty_level.repository"/>
+        </service>
+
+        <service id="Mtsport\Loyalty\Service\LoyaltyRedemptionService">
+            <argument type="service" id="loyalty_reward.repository"/>
+            <argument type="service" id="loyalty_redemption.repository"/>
+            <argument type="service" id="promotion.repository"/>
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="Mtsport\Loyalty\Service\LoyaltyPointsService"/>
+        </service>
+
+        <!-- Store API routes -->
+        <service id="Mtsport\Loyalty\Content\Loyalty\SalesChannel\LoyaltySummaryRoute" public="true">
+            <argument type="service" id="Mtsport\Loyalty\Service\LoyaltyPointsService"/>
+        </service>
+        <service id="Mtsport\Loyalty\Content\Loyalty\SalesChannel\LoyaltyTransactionsRoute" public="true">
+            <argument type="service" id="loyalty_transaction.repository"/>
+        </service>
+        <service id="Mtsport\Loyalty\Content\Loyalty\SalesChannel\LoyaltyRewardsRoute" public="true">
+            <argument type="service" id="loyalty_reward.repository"/>
+            <argument type="service" id="Mtsport\Loyalty\Service\LoyaltyPointsService"/>
+        </service>
+        <service id="Mtsport\Loyalty\Content\Loyalty\SalesChannel\LoyaltyRedeemRoute" public="true">
+            <argument type="service" id="Mtsport\Loyalty\Service\LoyaltyRedemptionService"/>
+        </service>
+
+        <!-- Admin controller -->
+        <service id="Mtsport\Loyalty\Controller\LoyaltyAdminController" public="true">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+        <!-- Subscribers -->
+        <service id="Mtsport\Loyalty\Subscriber\OrderPlacedSubscriber">
+            <argument type="service" id="Mtsport\Loyalty\Service\LoyaltyPointsService"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+        <service id="Mtsport\Loyalty\Subscriber\CustomerRegisterSubscriber">
+            <argument type="service" id="Mtsport\Loyalty\Service\LoyaltyPointsService"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+        <service id="Mtsport\Loyalty\Subscriber\ReviewWrittenSubscriber">
+            <argument type="service" id="Mtsport\Loyalty\Service\LoyaltyPointsService"/>
+            <argument type="service" id="product_review.repository"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+    </services>
+</container>

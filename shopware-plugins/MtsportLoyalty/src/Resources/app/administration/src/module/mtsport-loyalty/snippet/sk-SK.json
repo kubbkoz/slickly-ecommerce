@@ -1,0 +1,56 @@
+{
+  "mtsport-loyalty": {
+    "general": {
+      "mainMenuItemGeneral": "Vernostný program",
+      "descriptionTextModule": "Správa vernostných bodov, úrovní a odmien"
+    },
+    "dashboard": {
+      "title": "Vernostný program",
+      "tabCustomers": "Zákazníci",
+      "tabLevels": "Úrovne",
+      "tabRewards": "Odmeny",
+      "tabRedemptions": "Uplatnené kódy",
+      "tabActivity": "Aktivita",
+      "colName": "Meno",
+      "colEmail": "Email",
+      "colPoints": "Body",
+      "colLevel": "Úroveň",
+      "colLastActivity": "Posledná aktivita",
+      "colLevelName": "Názov",
+      "colMinPoints": "Body od",
+      "colColor": "Farba",
+      "colReward": "Odmena",
+      "colType": "Typ",
+      "colValue": "Hodnota",
+      "colActive": "Aktívna",
+      "colCode": "Kód",
+      "colStatus": "Status",
+      "colExpiry": "Platnosť do",
+      "colDescription": "Popis",
+      "colDate": "Dátum",
+      "addReward": "Pridať odmenu",
+      "searchCustomers": "Hľadať zákazníka..."
+    },
+    "reward": {
+      "titleNew": "Nová odmena",
+      "name": "Názov",
+      "description": "Popis",
+      "pointsRequired": "Potrebné body",
+      "type": "Typ odmeny",
+      "typePercentage": "Percentuálna zľava",
+      "typeFixed": "Fixná suma",
+      "typeFreeShipping": "Doprava zadarmo",
+      "typeGift": "Darček za 1 cent",
+      "discountValue": "Hodnota zľavy (% alebo €)",
+      "ruleId": "Shopware Rule ID (obmedzenie kategória/značka)",
+      "giftProductId": "Produkt darčeka (ID)",
+      "minOrderValue": "Min. hodnota objednávky (€)",
+      "maxUses": "Max. použití na zákazníka",
+      "validDays": "Platnosť kódu (dni)",
+      "isActive": "Aktívna",
+      "save": "Uložiť",
+      "saveSuccess": "Odmena uložená",
+      "saveError": "Chyba pri ukladaní"
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{% block mtsport_blog_list %}
+<sw-page class="mtsport-blog-list">
+
+  {# Search bar v top toolbar #}
+  {% block mtsport_blog_list_search_bar %}
+    <template #search-bar>
+      <sw-search-bar
+        initial-search-type="mtsport_article"
+        :initial-search="term"
+        :placeholder="$tc('mtsport-blog.general.placeholderSearchBar')"
+        @search="onSearch"
+      />
+    </template>
+  {% endblock %}
+
+  {# Smart bar header — názov stránky #}
+  {% block mtsport_blog_list_smart_bar_header %}
+    <template #smart-bar-header>
+      <h2>
+        {{ $tc('mtsport-blog.list.textHeadline') }}
+        <span v-if="!isLoading" class="sw-page__smart-bar-amount">
+          ({{ total }})
+        </span>
+      </h2>
+    </template>
+  {% endblock %}
+
+  {# Smart bar actions — "Add" tlačidlo #}
+  {% block mtsport_blog_list_smart_bar_actions %}
+    <template #smart-bar-actions>
+      <sw-button
+        variant="primary"
+        :disabled="!acl.can('mtsport_article:create')"
+        @click="onAdd"
+      >
+        {{ $tc('mtsport-blog.list.buttonAddArticle') }}
+      </sw-button>
+    </template>
+  {% endblock %}
+
+  {# Hlavný content — entity listing #}
+  {% block mtsport_blog_list_content %}
+    <template #content>
+      <div class="mtsport-blog-list__content">
+
+        {# Empty state ak žiadne články #}
+        <sw-empty-state
+          v-if="!isLoading && (!articles || articles.length === 0) && !term"
+          :title="$tc('mtsport-blog.list.emptyStateTitle')"
+          :subline="$tc('mtsport-blog.list.emptyStateText')"
+        >
+          <template #actions>
+            <sw-button
+              variant="ghost"
+              :disabled="!acl.can('mtsport_article:create')"
+              @click="onAdd"
+            >
+              {{ $tc('mtsport-blog.list.buttonAddArticle') }}
+            </sw-button>
+          </template>
+        </sw-empty-state>
+
+        {# Entity listing s pagination + bulk delete #}
+        <sw-entity-listing
+          v-else
+          :repository="repository"
+          :items="articles"
+          :columns="columns"
+          :is-loading="isLoading"
+          :allow-inline-edit="acl.can('mtsport_article:update')"
+          :show-selection="acl.can('mtsport_article:delete')"
+          :allow-edit="acl.can('mtsport_article:update')"
+          :allow-delete="acl.can('mtsport_article:delete')"
+          detail-route="mtsport.blog.detail"
+          @column-sort="onColumnSort"
+          @page-change="onPageChange"
+          @items-delete-finish="getList"
+          @inline-edit-save="getList"
+        >
+          {# Custom render pre publishedAt stĺpec — formátovaný dátum #}
+          <template #column-publishedAt="{ item }">
+            <span v-if="item.publishedAt">
+              {{ formatDate(item.publishedAt) }}
+            </span>
+            <sw-label v-else variant="warning">draft</sw-label>
+          </template>
+
+          {# Custom render pre active stĺpec — toggle ikona #}
+          <template #column-active="{ item }">
+            <sw-icon
+              v-if="item.active"
+              name="regular-checkmark-xs"
+              small
+              color="#37d046"
+            />
+            <sw-icon
+              v-else
+              name="regular-times-s"
+              small
+              color="#d1d9e0"
+            />
+          </template>
+        </sw-entity-listing>
+
+      </div>
+    </template>
+  {% endblock %}
+
+</sw-page>
+{% endblock %}

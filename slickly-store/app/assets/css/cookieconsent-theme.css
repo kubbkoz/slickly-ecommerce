@@ -1,0 +1,135 @@
+/*
+  SLICKLY — vanilla-cookieconsent v3 brand theme
+  Overrides CSS custom properties to match design.md:
+    bg: #0a0a0a / primary text: #fff / accent: #000000
+    fonts: Geist Sans (headings) + Hanken Grotesk (body)
+    border-radius: 0 (sharp edges — brand standard)
+*/
+
+#cc-main {
+  /* ── Typography ──────────────────────────────────────── */
+  --cc-font-family: 'Hanken Grotesk', sans-serif;
+
+  /* ── Shape: sharp edges, no radius ──────────────────── */
+  --cc-modal-border-radius: 0rem;
+  --cc-btn-border-radius: 0rem;
+
+  /* ── Backgrounds ─────────────────────────────────────── */
+  --cc-bg: #0a0a0a;
+  --cc-overlay-bg: rgba(0, 0, 0, 0.85);
+
+  /* ── Text ────────────────────────────────────────────── */
+  --cc-primary-color: #ffffff;
+  --cc-secondary-color: #aaaaaa;
+
+  /* ── Primary button (Prijať všetky) — brand red ──────── */
+  --cc-btn-primary-bg: #000000;
+  --cc-btn-primary-color: #ffffff;
+  --cc-btn-primary-border-color: #000000;
+  --cc-btn-primary-hover-bg: #1A1A1A;
+  --cc-btn-primary-hover-color: #ffffff;
+  --cc-btn-primary-hover-border-color: #1A1A1A;
+
+  /* ── Secondary button (Odmietnuť / Nastavenia) ───────── */
+  --cc-btn-secondary-bg: #1a1a1a;
+  --cc-btn-secondary-color: #cccccc;
+  --cc-btn-secondary-border-color: #333333;
+  --cc-btn-secondary-hover-bg: #111111;
+  --cc-btn-secondary-hover-color: #ffffff;
+  --cc-btn-secondary-hover-border-color: #555555;
+
+  /* ── Toggle (on = brand red, off = dark gray) ────────── */
+  --cc-toggle-on-bg: #000000;
+  --cc-toggle-off-bg: #333333;
+  --cc-toggle-on-knob-bg: #ffffff;
+  --cc-toggle-off-knob-bg: #888888;
+  --cc-toggle-enabled-icon-color: #ffffff;
+  --cc-toggle-disabled-icon-color: #555555;
+  --cc-toggle-readonly-bg: #1a1a1a;
+  --cc-toggle-readonly-knob-bg: #000000;
+  --cc-toggle-readonly-knob-icon-color: #ffffff;
+
+  /* ── Separators & borders ────────────────────────────── */
+  --cc-separator-border-color: #222222;
+  --cc-section-category-border: #222222;
+
+  /* ── Cookie category blocks ──────────────────────────── */
+  --cc-cookie-category-block-bg: #111111;
+  --cc-cookie-category-block-border: #222222;
+  --cc-cookie-category-block-hover-bg: #1a1a1a;
+  --cc-cookie-category-block-hover-border: #333333;
+
+  /* ── Footer strip inside modal ───────────────────────── */
+  --cc-footer-bg: #050505;
+  --cc-footer-color: #666666;
+  --cc-footer-border-color: #1a1a1a;
+
+  /* ── Links ───────────────────────────────────────────── */
+  --cc-link-color: #000000;
+  --cc-link-hover-color: #e0000a;
+
+  /* ── Close button ────────────────────────────────────── */
+  --cc-btn-close-color: #666666;
+  --cc-btn-close-hover-color: #ffffff;
+
+  /* ── Scrollbar ───────────────────────────────────────── */
+  --cc-webkit-scrollbar-bg: #111111;
+  --cc-webkit-scrollbar-bg-hover: #222222;
+}
+
+/* ── Heading font: Geist Sans (brand tech font) ────────── */
+#cc-main .cm__title,
+#cc-main .pm__title {
+  font-family: 'Geist Sans', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
+
+/* ── Buttons: uppercase + bold (brand style) ─────────────── */
+#cc-main .cm__btn,
+#cc-main .pm__btn {
+  font-family: 'Geist Sans', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 20px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* ── Modal border: subtle brand red top accent ───────────── */
+#cc-main .cm {
+  border-top: 2px solid #000000;
+}
+
+/* ── Preferences modal section titles ────────────────────── */
+#cc-main .pm__section-title {
+  font-family: 'Geist Sans', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+/* ── Cookie table header ─────────────────────────────────── */
+#cc-main .pm__table-head th {
+  color: #aaaaaa;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── "Powered by" footer link ────────────────────────────── */
+#cc-main .cm__footer a,
+#cc-main .pm__footer a {
+  color: #555555;
+  text-decoration: none;
+  font-size: 0.7rem;
+}
+#cc-main .cm__footer a:hover,
+#cc-main .pm__footer a:hover {
+  color: #000000;
+}

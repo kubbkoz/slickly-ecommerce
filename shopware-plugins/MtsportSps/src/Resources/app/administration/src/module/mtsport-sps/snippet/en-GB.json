@@ -1,0 +1,37 @@
+{
+  "mtsport-sps": {
+    "general": {
+      "mainMenuItemGeneral": "SPS Balíkovo",
+      "descriptionTextModule": "Manage SPS shipments, labels and end-of-day protocol"
+    },
+    "list": {
+      "headline": "SPS shipments",
+      "colOrder": "Order",
+      "colMode": "Mode",
+      "colPickup": "Pickup point",
+      "colStatus": "Status",
+      "colTracking": "Shipment no.",
+      "colLabel": "Label",
+      "modeBalikovo": "Pickup point",
+      "modeCourier": "Courier",
+      "track": "Track",
+      "openLabel": "Open label",
+      "generateLabels": "Generate labels",
+      "printLabels": "Print labels (PDF)",
+      "printOk": "Labels ready to print (PDF).",
+      "printErr": "Failed to print labels.",
+      "endOfDay": "End of Day protocol",
+      "endOfDayOk": "End of Day protocol generated.",
+      "endOfDayErr": "Failed to generate End of Day protocol.",
+      "noSelection": "No order selected.",
+      "bulkResult": "Created: {created}, duplicate: {duplicate}, failed: {failed}."
+    },
+    "order": {
+      "colCourier": "Courier",
+      "colLabel": "Label",
+      "colTracking": "Tracking",
+      "track": "Track",
+      "label": "Label"
+    }
+  }
+}

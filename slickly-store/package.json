@@ -1,0 +1,61 @@
+{
+  "name": "slickly-store",
+  "version": "0.0.2",
+  "description": "SLICKLY | Prémiový multi-brand marketplace pre starostlivosť o auto",
+  "private": true,
+  "author": "SLICKLY",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shopware/frontends.git"
+  },
+  "main": "./nuxt.config.ts",
+  "scripts": {
+    "dev": "nuxt prepare && nuxt dev",
+    "dev:lan": "nuxt prepare && nuxt dev --host 0.0.0.0",
+    "build": "nuxt prepare && nuxt build",
+    "build:prod": "REDIS_SOCKET=/dev/shm/sock-redis-p62577 nuxt prepare && REDIS_SOCKET=/dev/shm/sock-redis-p62577 nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write . && pnpm run typecheck",
+    "typecheck": "nuxt prepare && vue-tsc -b --noEmit",
+    "generate-types": "shopware-api-gen generate --apiType=store",
+    "postinstall": "nuxi prepare"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.92.0",
+    "@fontsource/geist-sans": "^5.2.5",
+    "@fontsource/hanken-grotesk": "^5.2.5",
+    "@pinia/nuxt": "^0.11.3",
+    "@shopware/api-client": "0.0.0-canary-20260223143659",
+    "@shopware/composables": "0.0.0-canary-20260223143659",
+    "@shopware/helpers": "^1.6.0",
+    "@shopware/nuxt-module": "0.0.0-canary-20260327091648",
+    "@simplewebauthn/browser": "^13.3.0",
+    "@simplewebauthn/server": "^13.3.0",
+    "ioredis": "^5.10.1",
+    "lucide-vue-next": "^0.575.0",
+    "nodemailer": "^9.0.1",
+    "nuxt": "4.2.2",
+    "pinia": "^3.0.4",
+    "vanilla-cookieconsent": "^3.1.0",
+    "vue": "3.5.27",
+    "vue-starter-template": "file:../vue-starter-template"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "@iconify-json/material-symbols": "^1.2.58",
+    "@nuxt/kit": "^4.3.1",
+    "@nuxtjs/fontaine": "^0.5.0",
+    "@shopware/api-gen": "0.0.0-canary-20260223143659",
+    "@shopware/cms-base-layer": "0.0.0-canary-20260223143659",
+    "@types/nodemailer": "^8.0.1",
+    "@unocss/nuxt": "66.6.0",
+    "axe-core": "^4.12.1",
+    "typescript": "5.9.3",
+    "unocss": "66.6.0",
+    "vue-tsc": "3.2.2"
+  }
+}

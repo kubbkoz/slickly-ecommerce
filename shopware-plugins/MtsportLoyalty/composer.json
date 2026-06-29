@@ -1,0 +1,29 @@
+{
+  "name": "mtsport/loyalty",
+  "description": "MT-SPORT Loyalty Points — body za nákupy/registráciu/recenzie, úrovne, uplatnenie za zľavové kódy/darček.",
+  "version": "1.0.0",
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "authors": [
+    { "name": "MT-SPORT", "homepage": "https://mtsport.store" }
+  ],
+  "require": {
+    "shopware/core": "~6.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mtsport\\Loyalty\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Mtsport\\Loyalty\\MtsportLoyalty",
+    "label": {
+      "en-GB": "MT-SPORT Loyalty",
+      "sk-SK": "MT-SPORT Vernostný program"
+    },
+    "description": {
+      "en-GB": "Loyalty points for purchases/registration/reviews, levels, redemption for discount codes/gifts. Admin UI under Customers.",
+      "sk-SK": "Vernostné body za nákupy/registráciu/recenzie, úrovne, uplatnenie za zľavy/darčeky. Admin pod Zákazníci → Vernostný program."
+    }
+  }
+}

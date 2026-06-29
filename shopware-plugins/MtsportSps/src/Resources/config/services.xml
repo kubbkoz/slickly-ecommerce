@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <services>
+    <!-- Entity definition — auto-discovers Admin API endpoint /api/mtsport-sps-shipment -->
+    <service id="Mtsport\Sps\Content\SpsShipment\SpsShipmentDefinition">
+      <tag name="shopware.entity.definition" entity="mtsport_sps_shipment"/>
+    </service>
+
+    <!-- Store API: save selected pickup point -->
+    <service id="Mtsport\Sps\Content\SpsShipment\SalesChannel\SpsShipmentRoute" public="true">
+      <argument type="service" id="mtsport_sps_shipment.repository"/>
+      <argument type="service" id="order.repository"/>
+    </service>
+
+    <!-- Admin API: bulk labels + end of day -->
+    <service id="Mtsport\Sps\Controller\SpsAdminController" public="true">
+      <argument type="service" id="Mtsport\Sps\Service\SpsShipmentProcessor"/>
+      <argument type="service" id="Mtsport\Sps\Service\WebshipClient"/>
+    </service>
+
+    <!-- SPS WebShip SOAP client wrapper -->
+    <service id="Mtsport\Sps\Service\WebshipClient">
+      <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+      <argument type="service" id="logger"/>
+    </service>
+
+    <!-- Zdieľaná logika vytvorenia zásielky (subscriber + admin bulk) -->
+    <service id="Mtsport\Sps\Service\SpsShipmentProcessor">
+      <argument type="service" id="mtsport_sps_shipment.repository"/>
+      <argument type="service" id="order.repository"/>
+      <argument type="service" id="Mtsport\Sps\Service\WebshipClient"/>
+      <argument type="service" id="Mtsport\Sps\Service\SpsTrackingService"/>
+      <argument type="service" id="logger"/>
+    </service>
+
+    <!-- SPS Track & Trace scrape (tracking) -->
+    <service id="Mtsport\Sps\Service\SpsTrackingService">
+      <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+      <argument type="service" id="logger"/>
+    </service>
+
+    <!-- ScheduledTask: periodický tracking -->
+    <service id="Mtsport\Sps\ScheduledTask\SpsTrackingTask">
+      <tag name="shopware.scheduled.task"/>
+    </service>
+
+    <service id="Mtsport\Sps\ScheduledTask\SpsTrackingTaskHandler">
+      <argument type="service" id="scheduled_task.repository"/>
+      <argument type="service" id="logger"/>
+      <argument type="service" id="order.repository"/>
+      <argument type="service" id="Mtsport\Sps\Service\SpsTrackingService"/>
+      <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
+      <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+      <tag name="messenger.message_handler" handles="Mtsport\Sps\ScheduledTask\SpsTrackingTask"/>
+    </service>
+
+    <!-- Subscriber: pri zmene stavu objednávky automaticky vytvorí WebShip zásielku -->
+    <service id="Mtsport\Sps\Subscriber\OrderShipmentSubscriber">
+      <argument type="service" id="Mtsport\Sps\Service\SpsShipmentProcessor"/>
+      <argument type="service" id="order.repository"/>
+      <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+      <argument type="service" id="logger"/>
+      <argument type="service" id="Shopware\Administration\Notification\NotificationService" on-invalid="null"/>
+      <tag name="kernel.event_subscriber"/>
+    </service>
+  </services>
+</container>

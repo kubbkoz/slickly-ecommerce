@@ -1,0 +1,29 @@
+{
+  "name": "mtsport/sps",
+  "description": "MT-SPORT Slovak Parcel Service (SPS) integration — Balikovo pickup-point selection in checkout, order persistence, and automatic WebShip SOAP shipment/label creation on order state transition.",
+  "version": "1.0.0",
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "authors": [
+    { "name": "MT-SPORT", "homepage": "https://mtsport.store" }
+  ],
+  "require": {
+    "shopware/core": "~6.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mtsport\\Sps\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Mtsport\\Sps\\MtsportSps",
+    "label": {
+      "en-GB": "MT-SPORT SPS Balikovo",
+      "sk-SK": "MT-SPORT SPS Balíkovo"
+    },
+    "description": {
+      "en-GB": "Stores selected SPS Balikovo pickup points per order and creates WebShip shipments/labels automatically on order state change. Exposes POST /store-api/mtsport-sps/pickup-point.",
+      "sk-SK": "Ukladá vybrané výdajné miesta SPS Balíkovo k objednávke a automaticky vytvára zásielky/štítky cez WebShip pri zmene stavu objednávky."
+    }
+  }
+}

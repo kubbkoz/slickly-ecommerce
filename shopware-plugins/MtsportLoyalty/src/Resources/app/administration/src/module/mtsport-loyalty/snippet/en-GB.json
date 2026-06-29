@@ -1,0 +1,56 @@
+{
+  "mtsport-loyalty": {
+    "general": {
+      "mainMenuItemGeneral": "Loyalty Program",
+      "descriptionTextModule": "Manage loyalty points, levels and rewards"
+    },
+    "dashboard": {
+      "title": "Loyalty Program",
+      "tabCustomers": "Customers",
+      "tabLevels": "Levels",
+      "tabRewards": "Rewards",
+      "tabRedemptions": "Redemptions",
+      "tabActivity": "Activity",
+      "colName": "Name",
+      "colEmail": "Email",
+      "colPoints": "Points",
+      "colLevel": "Level",
+      "colLastActivity": "Last activity",
+      "colLevelName": "Name",
+      "colMinPoints": "Points from",
+      "colColor": "Color",
+      "colReward": "Reward",
+      "colType": "Type",
+      "colValue": "Value",
+      "colActive": "Active",
+      "colCode": "Code",
+      "colStatus": "Status",
+      "colExpiry": "Valid until",
+      "colDescription": "Description",
+      "colDate": "Date",
+      "addReward": "Add reward",
+      "searchCustomers": "Search customer..."
+    },
+    "reward": {
+      "titleNew": "New reward",
+      "name": "Name",
+      "description": "Description",
+      "pointsRequired": "Points required",
+      "type": "Reward type",
+      "typePercentage": "Percentage discount",
+      "typeFixed": "Fixed amount",
+      "typeFreeShipping": "Free shipping",
+      "typeGift": "Gift for 1 cent",
+      "discountValue": "Discount value (% or €)",
+      "ruleId": "Shopware Rule ID (category/brand restriction)",
+      "giftProductId": "Gift product (ID)",
+      "minOrderValue": "Min. order value (€)",
+      "maxUses": "Max uses per customer",
+      "validDays": "Code validity (days)",
+      "isActive": "Active",
+      "save": "Save",
+      "saveSuccess": "Reward saved",
+      "saveError": "Error saving"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{% block sw_order_list_grid_columns %}
+  {% parent %}
+
+  <template #column-customFields.mtsport_sps_label_url="{ item }">
+    <a
+      v-if="item.customFields && item.customFields.mtsport_sps_label_url"
+      :href="item.customFields.mtsport_sps_label_url"
+      target="_blank"
+      rel="noopener"
+    >
+      {{ $tc('mtsport-sps.order.label') }}
+    </a>
+    <span v-else>—</span>
+  </template>
+
+  <template #column-customFields.mtsport_sps_tracking="{ item }">
+    <a
+      v-if="item.customFields && item.customFields.mtsport_sps_tracking_url"
+      :href="item.customFields.mtsport_sps_tracking_url"
+      target="_blank"
+      rel="noopener"
+    >
+      {{ (item.customFields && item.customFields.mtsport_sps_tracking) || $tc('mtsport-sps.order.track') }}
+    </a>
+    <span v-else>{{ (item.customFields && item.customFields.mtsport_sps_tracking) || '—' }}</span>
+  </template>
+{% endblock %}

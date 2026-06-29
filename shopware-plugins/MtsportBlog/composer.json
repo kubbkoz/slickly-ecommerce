@@ -1,0 +1,29 @@
+{
+  "name": "mtsport/blog",
+  "description": "MT-SPORT Blog plugin — native EntityDefinition + Vue admin module + Store API route pre headless blog články.",
+  "version": "2.3.0",
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "authors": [
+    { "name": "MT-SPORT", "homepage": "https://mtsport.store" }
+  ],
+  "require": {
+    "shopware/core": "~6.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mtsport\\Blog\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Mtsport\\Blog\\MtsportBlog",
+    "label": {
+      "en-GB": "MT-SPORT Blog",
+      "sk-SK": "MT-SPORT Blog"
+    },
+    "description": {
+      "en-GB": "Native EntityDefinition + Admin Vue module pre headless blog. Exposes POST /store-api/mtsport-article.",
+      "sk-SK": "Vlastná entita + admin UI pre blog. Sidebar Content → MT-SPORT Blog. Store API endpoint."
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "mtsport/returns",
+  "description": "MT-SPORT Returns plugin — withdrawal & complaint form (vrátenie tovaru / reklamácia) podľa § 20a zákona č. 108/2024 Z. z. Multi-step form, file uploads, email workflow with 8 templates (vratenie/reklamacia × received/processing/approved/rejected). Admin UI under Customers → MT-SPORT Returns.",
+  "version": "1.0.0",
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "authors": [
+    { "name": "MT-SPORT", "homepage": "https://mtsport.store" }
+  ],
+  "require": {
+    "shopware/core": "~6.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mtsport\\Returns\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Mtsport\\Returns\\MtsportReturns",
+    "label": {
+      "en-GB": "MT-SPORT Returns",
+      "sk-SK": "MT-SPORT Vrátenia/Reklamácie"
+    },
+    "description": {
+      "en-GB": "Withdrawal & complaint form. Exposes POST /store-api/mtsport-return + /store-api/mtsport-return/lookup-order.",
+      "sk-SK": "Formulár pre vrátenie tovaru a reklamácie. Admin UI pod Zákazníci → MT-SPORT Vrátenia."
+    }
+  }
+}

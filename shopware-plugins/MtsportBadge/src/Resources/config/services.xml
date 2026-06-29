@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <services>
+    <!--
+      Registrácia EntityDefinition.
+      Tag `shopware.entity.definition` → DAL auto-discovery:
+        - EntityRepository `mtsport_badge.repository`
+        - Admin API /api/mtsport-badge (automaticky)
+        - Store API treba explicitne cez BadgeRoute
+    -->
+    <service id="Mtsport\Badge\Content\Badge\BadgeDefinition">
+      <tag name="shopware.entity.definition" entity="mtsport_badge"/>
+    </service>
+
+    <!-- ManyToMany pivot table mtsport_badge × product -->
+    <service id="Mtsport\Badge\Content\Badge\Aggregate\BadgeProduct\BadgeProductDefinition">
+      <tag name="shopware.entity.definition" entity="mtsport_badge_product"/>
+    </service>
+
+    <!-- EntityExtension — pridá `mtsportBadges` association na core ProductDefinition -->
+    <service id="Mtsport\Badge\Extension\ProductExtension">
+      <tag name="shopware.entity.extension"/>
+    </service>
+
+    <!--
+      Store API controller — exposes POST /store-api/mtsport-badge.
+      public="true" je povinné pre Symfony Router.
+    -->
+    <service id="Mtsport\Badge\Content\Badge\SalesChannel\BadgeRoute" public="true">
+      <argument type="service" id="mtsport_badge.repository"/>
+    </service>
+
+    <!--
+      EntitySubscriber — auto-invaliduje Nuxt Redis cache po každom
+      vytvorení / úprave / vymazaní badge entity.
+      Volá GET {MTSPORT_NUXT_URL}/api/badges/clear?secret=...
+    -->
+    <service id="Mtsport\Badge\Subscriber\BadgeCacheSubscriber">
+      <argument>%env(default::string:MTSPORT_NUXT_URL)%</argument>
+      <argument>%env(default::string:MTSPORT_WEBHOOK_SECRET)%</argument>
+      <tag name="kernel.event_subscriber"/>
+    </service>
+  </services>
+</container>

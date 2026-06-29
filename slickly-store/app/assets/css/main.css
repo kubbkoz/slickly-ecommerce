@@ -1,0 +1,277 @@
+/*
+ * SLICKLY Global Base Styles
+ * design.md §2, §3, §7, §13
+ * ─────────────────────────────────────────────────
+ * PRAVIDLO: Tento súbor obsahuje IBA:
+ *   1. CSS Custom Properties (tokeny)
+ *   2. HTML element resety (body, h1-h6, img)
+ *   3. Triedy, ktoré UnoCSS nedokáže vygenerovať (scrollbar, scoped CSS hacks)
+ *   4. Layout primitíva (.container, .grid-*)
+ *
+ * Žiadne component-level štýly sem nepatria.
+ * Komponenty sa štylujú cez UnoCSS utility triedy + shortcuts z uno.config.ts
+ */
+
+/* ── §2 CSS Custom Properties ──────────────────────────────────────────────── */
+html {
+  scrollbar-gutter: stable;
+}
+:root {
+  --header-height: 80px;
+  --brand-color: #000000;
+  --brand-dark: #1A1A1A;
+
+  /* Animation tokens — single source of truth */
+  --t-fast:    150ms;   /* hover color, chip toggle */
+  --t-base:    200ms;   /* buttons, icons */
+  --t-slow:    300ms;   /* panels, modals, drawers */
+  --t-panel:   350ms;   /* cart sidebar, offcanvas */
+  --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);  /* spring-like, UI panels */
+  --ease-out:  cubic-bezier(0.22, 1, 0.36, 1); /* smooth deceleration */
+}
+
+/* ── Hidden ─────────────────────────────────────────────────────────────────── */
+[hidden] { display: none; }
+[v-cloak] { display: none; }
+
+/* ── §3 Base Typography Reset ────────────────────────────────────────────────
+   Font-face pre Geist Sans a Hanken Grotesk musí byť načítaný cez Google Fonts
+   v nuxt.config.ts (link rel="preconnect" + stylesheet).
+   UnoCSS presetWebFonts ich namapuje na font-sans / font-tech utility triedy.
+   ─────────────────────────────────────────────────────────────────────────── */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Hanken Grotesk', sans-serif;
+  background-color: #ffffff;
+  color: #111111;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* §3 — Heading reset (font + transform + spacing)
+   Konkrétne veľkosti a farby sú na komponentoch cez UnoCSS. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Geist Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ── §11 Header ──────────────────────────────────────────────────────────────*/
+header {
+  min-height: var(--header-height);
+  width: 100%;
+  display: block;
+  background-color: #ffffff;
+}
+
+/* ── SPA Page Transitions ────────────────────────────────────────────────────
+   180ms opacity fade — rýchlejšie než dlhšie, aby sa nestrácala responzivita.
+   `mode: out-in` v nuxt.config zabezpečí, že leave skončí pred enter.
+   ─────────────────────────────────────────────────────────────────────────── */
+.page-enter-active,
+.page-leave-active,
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity 180ms ease;
+}
+.page-enter-from,
+.page-leave-to,
+.layout-enter-from,
+.layout-leave-to {
+  opacity: 0;
+}
+
+/* Respect user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .page-enter-active,
+  .page-leave-active,
+  .layout-enter-active,
+  .layout-leave-active {
+    transition: none;
+  }
+}
+
+/* ── iOS Zoom Prevention ─────────────────────────────────────────────────────
+   iOS Safari zoomuje pri focus na input/select/textarea ak font-size < 16px.
+   Riešenie: vynútiť min 16px na mobile (< 768px). Desktop si môže používať menšie.
+   ─────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ── Native-like Polish ──────────────────────────────────────────────────────
+   Globálne CSS pre native app feeling na mobile.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Odstránenie modrého highlight pri tape na Androide */
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+/* Inputs a textareas musia mať selection */
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Smooth scroll globálne (respect reduced-motion) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Body — overscroll-contain rieši rubber-band pri scroll na iOS,
+   zabraňuje pull-to-refresh keď je sidebar/drawer otvorený */
+body {
+  overscroll-behavior-y: contain;
+}
+
+/* Fixed drawer/modal — zabraňujú scroll-chaining na pozadie */
+.layout-wrapper[data-loading="true"],
+[role="dialog"],
+.cart-sidebar,
+.mobile-menu {
+  overscroll-behavior: contain;
+}
+
+/* Horizontálne carousely — touch-action pan-y aby user mohol stále scrollovať vertikálne */
+.no-scrollbar,
+[data-carousel],
+.scroll-snap-x {
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Vertikálne scrollovateľné panely (mobile menu, drawer) — smooth momentum scroll */
+.overflow-y-auto,
+.overflow-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Disable double-tap zoom na buttons + interactive (300ms tap delay fix) */
+button,
+[role="button"],
+a {
+  touch-action: manipulation;
+}
+
+button {
+  background: transparent;
+}
+
+/* ── §7 Container ────────────────────────────────────────────────────────────
+   Breakpointy: sm:640 | md:768 | lg:1024 | xl:1280 | 2xl:1536
+   Použitie v šablónach: class="container mx-auto px-4 lg:px-8"
+   ─────────────────────────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+@media (min-width: 640px)  { .container { max-width: 640px; } }
+@media (min-width: 768px)  { .container { max-width: 768px; } }
+@media (min-width: 1024px) { .container { max-width: 1024px; } }
+@media (min-width: 1280px) { .container { max-width: 1280px; } }
+@media (min-width: 1536px) { .container { max-width: 1536px; } }
+
+/* ── Image Reset ─────────────────────────────────────────────────────────────*/
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── §8 Glass Panel ──────────────────────────────────────────────────────────
+   Táto trieda je aj ako UnoCSS shortcut (glass-panel).
+   CSS fallback pre prehliadače bez backdrop-filter podpory. */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ── §13 Custom Scrollbar ────────────────────────────────────────────────────
+   Globálny scrollbar — tmavý track s brand-red hover.
+   ─────────────────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #1a1a1a; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #000000; }
+
+/* ── Skeleton Placeholders (SSR loading states) ──────────────────────────────*/
+.product-card-placeholder {
+  min-height: 400px;
+  background-color: #f9fafb;
+}
+.breadcrumb-placeholder {
+  height: 24px;
+  margin-bottom: 1rem;
+  background-color: #f3f4f6;
+  width: 200px;
+}
+
+/* ── Number Input: hide browser arrows ───────────────────────────────────────
+   Globálna verzia — používa sa aj scoped v komponentoch (ProductInfo.vue).
+   ─────────────────────────────────────────────────────────────────────────── */
+input[type=number].hide-arrows::-webkit-outer-spin-button,
+input[type=number].hide-arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+input[type=number].hide-arrows {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* ── Animation System — GPU-optimized for 120Hz ProMotion / high-refresh ────── */
+
+/* Compositor layer promotion for continuous animations.
+   opacity + transform run entirely on GPU — zero layout/paint cost. */
+.animate-spin,
+.animate-ping,
+.animate-bounce,
+.animate-pulse,
+.animate-shimmer,
+.animate-heartbeat,
+.animate-breathe,
+.animate-pulse-slow {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Sticky and fixed elements — pre-promoted layer prevents jank during scroll */
+[class~="sticky"],
+[class~="fixed"] {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Global accessibility — disable all motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
