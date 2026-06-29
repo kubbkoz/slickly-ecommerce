@@ -18,6 +18,7 @@
     "build:prod": "REDIS_SOCKET=/dev/shm/sock-redis-p62577 nuxt prepare && REDIS_SOCKET=/dev/shm/sock-redis-p62577 nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "start": "node .output/server/index.mjs",
     "lint": "biome check .",
     "lint:fix": "biome check --write . && pnpm run typecheck",
     "typecheck": "nuxt prepare && vue-tsc -b --noEmit",

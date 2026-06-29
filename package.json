@@ -1,0 +1,19 @@
+{
+  "name": "slickly-monorepo",
+  "version": "0.0.2",
+  "description": "SLICKLY — headless Shopware storefront (monorepo: slickly-store + vue-starter-template layer)",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "workspaces": [
+    "vue-starter-template",
+    "slickly-store"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace slickly-store",
+    "start": "npm run start --workspace slickly-store",
+    "dev": "npm run dev --workspace slickly-store",
+    "generate": "npm run generate --workspace slickly-store",
+    "preview": "npm run preview --workspace slickly-store"
+  }
+}
