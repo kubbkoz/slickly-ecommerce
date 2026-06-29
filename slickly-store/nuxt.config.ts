@@ -31,6 +31,9 @@ const redisDriver = (base: string, fallback: Record<string, unknown>) => {
 export default defineNuxtConfig({
 extends: ["../vue-starter-template", "./features/blog"],
   compatibilityDate: "2025-12-05",
+  // Vypnuté sourcemapy → výrazne nižší peak-memory pri builde (kvôli OOM na
+  // pamäťovo limitovanom shared-hosting build kontajneri) + menší .output.
+  sourcemap: false,
   modules: ["@unocss/nuxt", "@pinia/nuxt", "@nuxtjs/fontaine"],
   // Fontaine: generuje size-adjust fallback @font-face metriky pre brand fonty
   // → eliminuje CLS pri swape z fallback fontu na Geist Sans / Hanken Grotesk.

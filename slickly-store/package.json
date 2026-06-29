@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "nuxt prepare && nuxt dev",
     "dev:lan": "nuxt prepare && nuxt dev --host 0.0.0.0",
-    "build": "nuxt prepare && nuxt build",
+    "build": "NODE_OPTIONS=--max-old-space-size=2048 nuxt prepare && NODE_OPTIONS=--max-old-space-size=2048 nuxt build",
     "build:prod": "REDIS_SOCKET=/dev/shm/sock-redis-p62577 nuxt prepare && REDIS_SOCKET=/dev/shm/sock-redis-p62577 nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
