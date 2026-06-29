@@ -38,6 +38,13 @@ jobs:
         run: npm run build
         env:
           NODE_OPTIONS: --max-old-space-size=4096
+          # Public Shopware config sa zapečie do .output v build-time
+          # (nuxt.config číta process.env.NUXT_PUBLIC_* pri builde), aby artefakt
+          # fungoval bez závislosti na runtime env hostingu. Sú to public hodnoty
+          # (Store-API kľúč je exponovaný aj v prehliadači).
+          NUXT_PUBLIC_SITE_URL: https://slickly.sk
+          NUXT_PUBLIC_SHOPWARE_ENDPOINT: https://mtsport.store/store-api/
+          NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN: SWSCZGT3TEJ3EHB1MVLXSHFWMG
 
       - name: Zostav deploy payload
         run: |
