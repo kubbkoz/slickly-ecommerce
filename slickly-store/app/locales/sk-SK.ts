@@ -38,7 +38,7 @@ export default {
   },
   home_seo: {
     title: "SLICKLY - Bicykle, elektrobicykle, doplnky a komponenty",
-    description: "Nakúpte bicykle, elektrobicykle, cyklistické oblečenie a komponenty online alebo navštívte našu kamennú predajňu v Dunajskej Strede.",
+    description: "Nakúpte bicykle, elektrobicykle, cyklistické oblečenie a komponenty online s doručením po celom Slovensku.",
     keywords: "bicykle, elektrobicykle, cyklistika, MTB, gravel, horské bicykle, pánske bicykle, dámske bicykle, doplnky, komponenty"
   },
   chat: {
@@ -70,7 +70,7 @@ export default {
       claim: "Dobrý deň. O aký problém s tovarom ide? Prosím popíšte závadu a priložte číslo objednávky pre rýchlejšie dohľadanie.",
       return: "Dobrý deň. Pre vrátenie tovaru budete potrebovať číslo objednávky. Uistite sa, že tovar vraciate nenosený a v originálnom balení. Ako vám môžem pomôcť s procesom?",
       service: "Dobrý deň. Chcete si dohodnúť servis vášho bicykla? Napíšte nám typ bicykla a preferovaný termín, alebo aké problémy potrebujete vyriešiť.",
-      call: "Naši kolegovia sú vám k dispozícii na týchto číslach: Infolinka eshop: +421 948 993 236, Reklamácie: +421 940 506 003, Predajňa SLICKLY Lokca: +421 910 199 178",
+      call: "Naši kolegovia sú vám k dispozícii na týchto číslach: Infolinka eshop: +421 948 993 236, Reklamácie: +421 940 506 003",
       fallback: "Dobrý deň! Som Váš AI asistent SLICKLY.\nPomôžem Vám nájsť vhodný bicykel, e-bike alebo komponenty. Stačí napísať, čo hľadáte."
     },
     system_instruction: "Ste odborný asistent predaja bicyklov pre SLICKLY. Komunikujete výhradne v slovenskom jazyku. Váš tón je profesionálny, nadšený a nápomocný. Máte prístup k zoznamu produktov. Odpovedajte na otázky používateľov len na základe poskytnutého inventára. Ak odporučíte produkty, vypíšte ich ID v formáte [[IDS: id1, id2]]. Ak nie je zhoda, navrhnite najbližšie alternatívy."

@@ -273,13 +273,6 @@ const toggleCurrency = () => {
                 </template>
                 </ClientOnly>
             </button>
-            <button 
-                @click="handleLinkClick(localePath('/kamenna-predajna', currentLocale as any))"
-                class="bg-gray-50 p-4 shrink-0 flex flex-col items-center justify-center rounded-none active:scale-95 transition-transform group gpu-boost border border-gray-100"
-            >
-                <MapPin class="w-6 h-6 mb-2 text-brand group-hover:translate-y-[-2px] transition-transform" />
-                <span class="text-xs font-bold text-black uppercase tracking-wider">{{ t('predajna') }}</span>
-            </button>
         </div>
 
         <!-- Categories Section -->
@@ -403,12 +396,6 @@ const toggleCurrency = () => {
                 <a :href="contact.email.infoHref" class="flex items-center hover:text-brand py-1 text-zinc-600 font-bold transition-colors">
                     <Mail class="w-5 h-5 mr-4 text-brand" /> {{ contact.email.info }}
                 </a>
-                <div class="flex items-center py-1 text-zinc-500 font-medium">
-                    <Clock class="w-5 h-5 mr-4 text-brand" />
-                    <span v-if="storeHours?.dovolenka">Dnes zatvorené</span>
-                    <span v-else-if="storeHours">{{ storeHours.denOd }}–{{ storeHours.denDo }}: {{ storeHours.od }}–{{ storeHours.do }}</span>
-                    <span v-else>Po-So: 7:00–17:00</span>
-                </div>
             </div>
         </div>
 

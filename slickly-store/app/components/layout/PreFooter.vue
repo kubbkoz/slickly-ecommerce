@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Cog, Truck, Wallet, Store } from 'lucide-vue-next';
+import { Cog, Truck, Wallet, Headset } from 'lucide-vue-next';
 import Newsletter from '~/components/home/Newsletter.vue';
 
 const BADGES = [
@@ -19,9 +19,9 @@ const BADGES = [
     desc: 'Našu ponuku neustále rozširujeme o nové produkty a značky. Výhodné ceny sú u nás samozrejmosťou.',
   },
   {
-    icon: Store,
-    title: 'Kamenná predajňa',
-    desc: 'Tovar si môžete zadarmo vyzdvihnúť alebo vyskúšať v našej predajni SLICKLY.',
+    icon: Headset,
+    title: 'Online podpora',
+    desc: 'Sme tu pre vás online — poradíme s výberom a vybavíme objednávku rýchlo a bez starostí.',
   },
 ];
 

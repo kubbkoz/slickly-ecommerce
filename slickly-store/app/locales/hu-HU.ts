@@ -38,7 +38,7 @@ export default {
   },
   home_seo: {
     title: "SLICKLY - Kerékpárok, elektromos kerékpárok, kiegészítők és komponensek",
-    description: "Vásároljon kerékpárokat, elektromos kerékpárokat, kerékpáros felszereléseket és komponenseket online oder üzletünkben.",
+    description: "Vásároljon kerékpárokat, elektromos kerékpárokat, kerékpáros felszereléseket és komponenseket online, kiszállítással egész Szlovákiában.",
     keywords: "kerékpárok, elektromos kerékpárok, kerékpározás, MTB, gravel, hegyi kerékpárok, kiegészítők, komponensek"
   },
   chat: {
@@ -69,7 +69,7 @@ export default {
       claim: "Üdvözöljük. Mi a probléma a termékkel? Kérjük, írja le a hibát, és adja meg a rendelésszámot a gyorsabb feldolgozás érdekében.",
       return: "Üdvözöljük. Az áru visszaküldéséhez szüksége lesz a rendelésszámra. Győződjön meg róla, hogy a terméket nem használt állapotban, eredeti csomagolásban küldi vissza. Hogyan segíthetek a folyamatban?",
       service: "Üdvözöljük. Szeretne szerviz időpontot kérni a kerékpárjához? Írja meg nekünk a kerékpár típusát és a preferált időpontot, vagy azt, hogy milyen problémát kell megoldanunk.",
-      call: "Kollégáink az alábbi számokon érhetők el: E-shop Infoline: +421 948 993 236, Reklamációk: +421 940 506 003, SLICKLY Lokca Üzlet: +421 910 199 178",
+      call: "Kollégáink az alábbi számokon érhetők el: E-shop Infoline: +421 948 993 236, Reklamációk: +421 940 506 003",
       fallback: "Szia! Én vagyok az SLICKLY AI asszisztense. Kerékpárt keresel egy adott magassághoz, e-bike-ot egy bizonyos árig, vagy tanácsra van szükséged a felszereléssel kapcsolatban?"
     },
     system_instruction: "Ön az SLICKLY szakértő kerékpár-értékesítési asszisztense. Kizárólag magyar nyelven kommunikál. Hangneme professzionális, lelkes és segítőkész. Hozzáférése van a terméklistához. A felhasználói kérdésekre CSAK a megadott készlet alapján válaszoljon. Ha termékeket ajánl, sorolja fel az azonosítóikat [[IDS: id1, id2]] formátumban. Ha nincs találat, javasolja a legközelebbi alternatívákat."

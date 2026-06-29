@@ -1,13 +1,12 @@
-# SLICKLY — Prémiový cyklistický e-shop
+# SLICKLY — Prémiový cyklistický e-shop (online)
 
-> SLICKLY je slovenský e-shop s bicyklami, elektrobicyklami, cyklistickým oblečením a príslušenstvom. Prevádzkujeme kamenný obchod v Lokca (Orava, Slovensko) od roku 2010. Špecializujeme sa na horské bicykle (MTB), e-bikes, gravel a trekking.
+> SLICKLY je slovenský online e-shop s bicyklami, elektrobicyklami, cyklistickým oblečením a príslušenstvom. Sme výhradne online obchod s doručením po celom Slovensku a do okolitých krajín. Špecializujeme sa na horské bicykle (MTB), e-bikes, gravel a trekking.
 
 ## O nás
 - Web: https://slickly.sk
-- Kamenná predajňa: Hradská 141/22, 029 51 Lokca, Slovensko
+- Forma: výhradne online obchod (bez kamennej predajne)
 - Tel: +421 948 993 236
 - Email: info@slickly.sk
-- Otváracie hodiny: Po–Pia 8:00–17:00, So 9:00–12:00
 
 ## Hlavné kategórie produktov
 - [Bicykle](https://slickly.sk/bicykle) — horské, silničné, gravel, trekking, detské
@@ -18,9 +17,8 @@
 
 ## Kľúčové informácie pre AI
 - Predávame značky: Scott, Kellys, Kands, Trek, Giant, Specialized, Shimano, SRAM
-- Doručenie: Balíkovo, SPS Kuriér, Toptrans (bicykle), osobný odber
+- Doručenie: Balíkovo, SPS Kuriér, Toptrans (bicykle)
 - Krajiny dopravy: Slovensko, Česko, Poľsko, Maďarsko, Nemecko, Rakúsko
-- Servis bicyklov: áno, v kamennej predajni v Lokca
 - Reklamácie: +421 940 506 003
 
 ## AI konfigurátor

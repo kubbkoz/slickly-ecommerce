@@ -172,10 +172,6 @@ const startChat = (topicId: string) => {
                     <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">🛠 Reklamácie</span>
                     <a href="tel:${contact.phone.complaints}" class="text-brand font-bold underline hover:text-black transition-colors">${contact.phone.complaintsDisplay}</a>
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">🚲 Predajňa SLICKLY Lokca</span>
-                    <a href="tel:${contact.phone.store}" class="text-brand font-bold underline hover:text-black transition-colors">${contact.phone.storeDisplay}</a>
-                </div>
             </div>
         `;
     }

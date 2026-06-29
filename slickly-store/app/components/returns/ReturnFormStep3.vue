@@ -50,14 +50,14 @@ const summary = computed(() => [
       <p class="font-bold font-tech text-lg mb-1">SLICKLY</p>
       <p class="text-sm text-gray-700 flex items-start mb-2">
         <MapPin class="w-4 h-4 mr-2 text-brand mt-0.5 flex-shrink-0" />
-        Hradská 141/22, 029 51 Lokca
+        [adresa pre vrátenie — doplniť]
       </p>
       <div class="flex flex-wrap gap-4 text-xs">
         <a href="tel:+421948993236" class="flex items-center text-gray-700 hover:text-brand">
           <Phone class="w-3.5 h-3.5 mr-1" /> 0948 993 236
         </a>
-        <a href="mailto:info@mt-sport.sk" class="flex items-center text-gray-700 hover:text-brand">
-          <Mail class="w-3.5 h-3.5 mr-1" /> info@mt-sport.sk
+        <a href="mailto:info@slickly.sk" class="flex items-center text-gray-700 hover:text-brand">
+          <Mail class="w-3.5 h-3.5 mr-1" /> info@slickly.sk
         </a>
       </div>
     </div>

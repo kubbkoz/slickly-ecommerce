@@ -29,7 +29,7 @@ const props = defineProps<{
 
     <div class="text-sm text-gray-600 max-w-md mx-auto space-y-2">
       <p>📧 Potvrdenie o prijatí sme poslali na <strong>{{ email }}</strong></p>
-      <p>📦 Tovar zasielajte na adresu <strong>SLICKLY, Hradská 141/22, 029 51 Lokca</strong></p>
+      <p>📦 Tovar zasielajte na adresu <strong>SLICKLY, [adresa pre vrátenie — doplniť]</strong></p>
       <p>⏱ Naše oddelenie vás bude kontaktovať do <strong>3 pracovných dní</strong></p>
     </div>
   </div>

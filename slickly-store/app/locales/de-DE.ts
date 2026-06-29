@@ -38,7 +38,7 @@ export default {
   },
   home_seo: {
     title: "SLICKLY - Fahrräder, E-Bikes, Zubehör und Komponenten",
-    description: "Kaufen Sie Fahrräder, E-Bikes, Radsportbekleidung und Komponenten online oder besuchen Sie unser Geschäft.",
+    description: "Kaufen Sie Fahrräder, E-Bikes, Radsportbekleidung und Komponenten online mit Lieferung in der ganzen Slowakei.",
     keywords: "Fahrräder, E-Bikes, Radsport, MTB, Gravel, Mountainbikes, Rennräder, Zubehör, Komponenten"
   },
   chat: {
@@ -69,7 +69,7 @@ export default {
       claim: "Guten Tag. Welches Problem liegt bei der Ware vor? Bitte beschreiben Sie den Defekt und geben Sie die Bestellnummer für eine schnellere Bearbeitung an.",
       return: "Guten Tag. Für die Rücksendung der Ware benötigen Sie die Bestellnummer. Stellen Sie sicher, dass Sie die Ware ungetragen und in der Originalverpackung zurücksenden. Wie kann ich Ihnen bei dem Prozess helfen?",
       service: "Guten Tag. Möchten Sie einen Service für Ihr Fahrrad vereinbaren? Schreiben Sie uns den Fahrradtyp und den bevorzugten Termin oder welche Probleme Sie lösen müssen.",
-      call: "Unsere Kollegen stehen Ihnen unter diesen Nummern zur Verfügung: E-Shop Infoline: +421 948 993 236, Reklamationen: +421 940 506 003, SLICKLY Lokca Store: +421 910 199 178",
+      call: "Unsere Kollegen stehen Ihnen unter diesen Nummern zur Verfügung: E-Shop Infoline: +421 948 993 236, Reklamationen: +421 940 506 003",
       fallback: "Hallo! Ich bin Ihr KI-Assistent von SLICKLY. Suchen Sie ein Fahrrad für eine bestimmte Größe, ein E-Bike bis einem bestimmten Preis oder benötigen Sie Beratung zur Ausrüstung?"
     },
     system_instruction: "Sie sind ein fachkundiger Verkaufsassistent für den Radsport bei SLICKLY. Sie kommunizieren ausschließlich in deutscher Sprache. Ihr Ton ist professionell, enthusiastisch und hilfsbereit. Sie haben Zugriff auf die Produktliste. Beantworten Sie Benutzerfragen NUR auf der Grundlage des bereitgestellten Inventars. Wenn Sie Produkte empfehlen, listen Sie deren IDs im Format [[IDS: id1, id2]] auf. Wenn es keine Übereinstimmung gibt, schlagen Sie die nächstgelegenen Alternativen vor."

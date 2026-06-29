@@ -134,14 +134,6 @@ const footerCategories = computed(() => {
                   <a :href="contact.email.infoHref" class="text-base text-gray-300 group-hover:text-white transition-colors">{{ contact.email.info }}</a>
                 </div>
               </li>
-              <li class="flex items-start">
-                <Clock class="w-5 h-5 text-brand mr-4 mt-1" />
-                <div>
-                  <span class="block text-[10px] text-white/60 uppercase font-normal tracking-wider mb-1">Otváracie hodiny</span>
-                  <span class="text-sm text-gray-300 block">Po - Pia: 8:00 - 17:00</span>
-                  <span class="text-sm text-gray-300 block">Sobota: 9:00 - 12:00</span>
-                </div>
-              </li>
               <li class="flex items-start group">
                 <RotateCcw class="w-5 h-5 text-brand mr-4 mt-1" />
                 <div>
@@ -155,42 +147,23 @@ const footerCategories = computed(() => {
             </ul>
           </div>
 
-          <!-- 4. Map & Location (3 cols) -->
+          <!-- 4. Online support (3 cols) -->
           <div class="lg:col-span-3">
              <h2 class="font-black font-tech text-lg mb-8 uppercase tracking-widest text-white flex items-center">
               <span class="w-1 h-4 bg-brand mr-3"></span>
-              Kde nás nájdete
+              Zákaznícka podpora
             </h2>
 
-            <div class="mb-4 flex items-start text-sm text-gray-300">
-               <MapPin class="w-5 h-5 text-brand mr-3 flex-shrink-0" />
-               <p>Hradská 141/22,<br/> 029 51 Lokca, Slovensko</p>
-            </div>
+            <p class="text-sm text-gray-300 mb-4">
+              SLICKLY je výhradne online obchod. Sme tu pre vás každý pracovný deň —
+              poradíme s výberom a vybavíme objednávku.
+            </p>
 
-            <!-- Map Container -->
-            <div class="w-full h-40 bg-zinc-900 border border-zinc-800 relative group overflow-hidden">
-              <!-- Tech Corners -->
-              <div class="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-brand z-10"></div>
-              <div class="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-brand z-10"></div>
-
-              <iframe
-                src="https://maps.google.com/maps?q=Hradsk%C3%A1%20141%2F22%2C%20029%2051%20Lokca&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                width="100%"
-                height="100%"
-                style="border:0"
-                allowfullscreen
-                loading="lazy"
-                class="grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
-                title="SLICKLY Lokca Map"
-              ></iframe>
-            </div>
             <a
-              href="https://maps.google.com/maps?q=Hradsk%C3%A1%20141%2F22%2C%20029%2051%20Lokca"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="mt-3 inline-flex items-center text-xs font-bold text-brand uppercase tracking-widest hover:text-white transition-colors"
+              :href="contact.email.infoHref"
+              class="inline-flex items-center text-sm font-bold text-brand uppercase tracking-widest hover:text-white transition-colors"
             >
-              Navigovať <ChevronRight class="w-3 h-3 ml-1" />
+              <Mail class="w-4 h-4 mr-2" /> {{ contact.email.info }}
             </a>
           </div>
 

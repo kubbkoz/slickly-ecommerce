@@ -38,7 +38,7 @@ export default {
   },
   home_seo: {
     title: "SLICKLY - Bikes, e-bikes, accessories and components",
-    description: "Shop bikes, e-bikes, cycling clothing and components online or visit our physical store.",
+    description: "Shop bikes, e-bikes, cycling clothing and components online with delivery across Slovakia.",
     keywords: "bikes, e-bikes, cycling, MTB, gravel, mountain bikes, road bikes, accessories, components"
   },
   chat: {
@@ -69,7 +69,7 @@ export default {
       claim: "Hello. What is the problem with the goods? Please describe the defect and include the order number for faster tracking.",
       return: "Hello. To return goods you will need the order number. Make sure you return the goods unworn and in original packaging. How can I help you with the process?",
       service: "Hello. Do you want to arrange a service for your bike? Write us the type of bike and preferred date, or what problems you need to solve.",
-      call: "Our colleagues are available at these numbers: E-shop Infoline: +421 948 993 236, Complaints: +421 940 506 003, SLICKLY Lokca Store: +421 910 199 178",
+      call: "Our colleagues are available at these numbers: E-shop Infoline: +421 948 993 236, Complaints: +421 940 506 003",
       fallback: "Hi! I am your SLICKLY AI assistant. Are you looking for a bike for a specific height, an e-bike up to a certain price, or do you need advice on equipment?"
     },
     system_instruction: "You are an expert cycling sales assistant for SLICKLY. You communicate exclusively in the English language. Your tone is professional, enthusiastic, and helpful. You have access to the product list. Answer user questions based ONLY on the provided inventory. If you recommend products, list their IDs in the format [[IDS: id1, id2]]. If there is no match, suggest the closest alternatives."

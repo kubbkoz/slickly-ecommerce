@@ -57,7 +57,6 @@ onUnmounted(() => {
     <FeaturedCollection />
     <!-- Below-fold: lazy hydration (INP/TBT optimalizácia, audit P0 #2) -->
     <LazyReviewsWall hydrate-on-visible />
-    <LazyStoreLocation hydrate-on-visible />
     <LazyNewProducts hydrate-on-visible />
     <LazyHomeBlogSection hydrate-on-visible />
     <LazyBlogGrid hydrate-on-visible />

@@ -221,12 +221,6 @@ defineProps<{
         <a :href="contact.email.infoHref" class="flex items-center hover:text-white transition-colors cursor-pointer">
           <Mail class="w-3 h-3 mr-2 text-brand" /> {{ contact.email.info }}
         </a>
-        <button
-          class="flex items-center hover:text-white transition-colors cursor-pointer bg-transparent border-none text-white/80 font-normal uppercase tracking-wider text-[10px]"
-          @click="openHoursModal"
-        >
-          <Clock class="w-3 h-3 mr-2 text-brand" /> {{ t('otvaracie_hodiny') }}
-        </button>
       </div>
       <div class="flex items-center space-x-6">
         <!-- Language & Currency Switcher -->
@@ -308,7 +302,7 @@ defineProps<{
   </div>
 
   <!-- Mobilný kontaktný pruh (skrytý na xl+, kde je plný TopBar) -->
-  <div class="flex xl:hidden items-center justify-between bg-black text-white/70 text-[10px] uppercase tracking-wider px-4 py-2">
+  <div class="flex xl:hidden items-center justify-center bg-black text-white/70 text-[10px] uppercase tracking-wider px-4 py-2">
     <a
       :href="contact.phone.mainHref"
       class="flex items-center gap-1.5 hover:text-white transition-colors"
@@ -316,92 +310,5 @@ defineProps<{
       <Phone class="w-3 h-3 text-brand" aria-hidden="true" />
       {{ contact.phone.mainDisplay }}
     </a>
-    <button
-      class="flex items-center gap-1.5 hover:text-white transition-colors bg-transparent border-none text-white/70 uppercase tracking-wider text-[10px] cursor-pointer"
-      @click="openHoursModal"
-    >
-      <Clock class="w-3 h-3 text-brand" aria-hidden="true" />
-      {{ t('otvaracie_hodiny') }}
-    </button>
   </div>
-
-  <!-- Otváracie hodiny modal — štandardný AppModal (design.md §23) -->
-  <AppModal :is-open="showHoursModal" title="KEDY MÁME OTVORENÉ?" @close="showHoursModal = false">
-    <!-- Prefix: ikona + červený label nad titulkom -->
-    <template #prefix>
-      <div class="flex items-center gap-2 mb-3">
-        <Clock class="w-4 h-4 text-brand" />
-        <span class="text-brand text-xs font-bold uppercase tracking-widest font-sans">Otváracie hodiny</span>
-      </div>
-    </template>
-
-    <div class="flex flex-col gap-5">
-
-      <!-- Dovolenka / mimoriadne zatvorenie -->
-      <div v-if="isDovolenka" class="bg-gray-900 text-white px-4 py-3 text-sm font-sans leading-snug">
-        <p class="font-bold text-brand uppercase tracking-wide text-xs font-tech mb-1">Dnes zatvorené</p>
-        <p>Kamenná predajňa je dnes zatvorená. Online podpora e-shopu je obmedzená.</p>
-      </div>
-
-      <!-- Hours -->
-      <div class=">">
-        <div class="flex justify-between items-center py-3 border-b border-gray-100">
-          <span class="text-xs font-bold uppercase tracking-widest text-gray-500 font-sans">
-            {{ hours?.denOd }} — {{ hours?.denDo }}
-          </span>
-          <span class="font-tech font-black text-lg text-black">
-            {{ hours?.od }} – {{ hours?.do }}
-          </span>
-        </div>
-        <div v-if="hours?.zatvorene && String(hours.zatvorene).trim() && hours.zatvorene !== 'false'" class="flex justify-between items-center py-3 border-b border-gray-100">
-          <span class="text-xs font-bold uppercase tracking-widest text-gray-500 font-sans">{{ hours.zatvorene }}</span>
-          <span class="font-tech font-black text-sm text-gray-400">Zatvorené</span>
-        </div>
-      </div>
-
-      <!-- Oznam — šedé pozadie, o niečo väčší text -->
-      <div
-        v-if="hours?.oznam && String(hours.oznam).trim()"
-        class="text-sm text-gray-700 font-sans leading-relaxed bg-gray-50 px-4 py-3 border-l-2 border-brand"
-        v-html="sanitizeHtml(String(hours.oznam))"
-      ></div>
-
-      <!-- Sme k dispozícii -->
-      <div v-if="isOpen" class="bg-green-50 border border-green-100 p-4">
-        <div class="flex items-center gap-2 mb-4">
-          <span class="relative flex h-2.5 w-2.5">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
-          </span>
-          <span class="text-xs font-bold uppercase tracking-widest text-green-700 font-sans">Sme k dispozícii</span>
-        </div>
-        <div class="flex flex-col gap-3">
-          <a href="tel:+421910199178" class="flex items-center gap-3 text-sm font-sans text-gray-700 hover:text-brand transition-colors">
-            <PhoneCall class="w-4 h-4 text-brand flex-shrink-0" />
-            <span>Predajňa: <strong>0910 199 178</strong></span>
-          </a>
-          <a href="tel:+421948993236" class="flex items-center gap-3 text-sm font-sans text-gray-700 hover:text-brand transition-colors">
-            <PhoneCall class="w-4 h-4 text-brand flex-shrink-0" />
-            <span>E-shop: <strong>0948 993 236</strong></span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Adresa → Google Maps -->
-      <a
-        href="https://www.google.com/maps/search/?api=1&query=Hradsk%C3%A1+141%2F22%2C+029+51+Lokca"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="flex items-start gap-4 bg-gray-50 p-4 hover:bg-gray-100 transition-colors group"
-      >
-        <MapPin class="w-5 h-5 text-brand mt-0.5 flex-shrink-0" />
-        <div>
-          <p class="text-xs font-bold uppercase tracking-widest text-gray-500 font-sans mb-1">Adresa predajne</p>
-          <p class="font-tech font-black uppercase text-sm text-black leading-tight mb-0.5">SLICKLY</p>
-          <p class="font-sans text-sm text-gray-600 group-hover:text-brand transition-colors">Hradská 141/22, 029 51 Lokca</p>
-        </div>
-      </a>
-
-    </div>
-  </AppModal>
 </template>

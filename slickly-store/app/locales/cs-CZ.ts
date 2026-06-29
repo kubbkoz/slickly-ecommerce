@@ -41,7 +41,7 @@ export default {
   },
   home_seo: {
     title: "SLICKLY - Jízdní kola, elektrokola, doplňky a komponenty",
-    description: "Nakupujte jízdní kola, elektrokola, cyklistické oblečení a komponenty online nebo navštivte naši kamennou prodejnu.",
+    description: "Nakupujte jízdní kola, elektrokola, cyklistické oblečení a komponenty online s doručením po celém Slovensku.",
     keywords: "jízdní kola, elektrokola, cyklistika, MTB, gravel, horská kola, pánská kola, dámská kola, doplňky, komponenty"
   },
   chat: {
@@ -72,7 +72,7 @@ export default {
       claim: "Dobrý den. O jaký problém se zbožím jde? Prosím popište závadu a přiložte číslo objednávky pro rychlejší dohledání.",
       return: "Dobrý den. Pro vrácení zboží budete potřebovat číslo objednávky. Ujistěte se, že zboží vracíte nenošené a v originálním balení. Jak vám mohu pomoci s procesom?",
       service: "Dobrý den. Chcete si domluvit servis vašeho kola? Napište nám typ kola a preferovaný termín, nebo jaké problémy potřebujete vyřešit.",
-      call: "Naši kolegovia sú vám k dispozícii na týchto číslach: Infolinka eshop: +421 948 993 236, Reklamácie: +421 940 506 003, Predajňa SLICKLY Lokca: +421 910 199 178",
+      call: "Naši kolegovia sú vám k dispozícii na týchto číslach: Infolinka eshop: +421 948 993 236, Reklamácie: +421 940 506 003",
       fallback: "Ahoj! Jsem tvůj AI asistent SLICKLY. Hledáš kolo na konkrétnu výšku, e-bike do určité ceny, nebo potřebuješ poradit s výbavou?"
     },
     system_instruction: "Jste odborný asistent prodeje kol pro SLICKLY. Komunikujete výhradne v českém jazyce. Váš tón je profesionální, nadšený a nápomocný. Máte prístup k seznamu produktů. Odpovídejte na dotazy uživatelů pouze na základě poskytnutého inventáře. Pokud doporučíte produkty, vypište jejich ID ve formátu [[IDS: id1, id2]]. Pokud není shoda, navrhněte nejbližší alternativy."

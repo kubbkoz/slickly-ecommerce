@@ -11,8 +11,6 @@ export default defineAppConfig({
       mainHref: 'tel:+421948993236',
       complaints: '+421940506003',
       complaintsDisplay: '+421 940 506 003',
-      store: '+421910199178',
-      storeDisplay: '+421 910 199 178',
     },
     email: {
       info: 'info@slickly.sk',

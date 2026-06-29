@@ -162,16 +162,6 @@ watch(() => route.path, closeMegaMenu);
             @click="closeMegaMenu"
           />
 
-          <div class="py-4">
-            <NuxtLink 
-              :to="localePath('/kamenna-predajna', currentLocale as any)"
-              class="flex items-center text-sm font-bold uppercase tracking-widest text-white hover:text-brand transition-colors font-tech"
-            >
-              <MapPin class="w-4 h-4 mr-2 text-brand" />
-              {{ t('kamenna_predajna') }}
-            </NuxtLink>
-          </div>
-
         </div>
       </div>
     </div>
