@@ -76,6 +76,34 @@ aktualizovaná" klikni v „Viac o aplikácii" na **Spustiť aplikáciu** (rešt
 | build padá `Bus error` / SIGBUS pri `nuxt prepare` | natívny `@oxc-transform` napi binárny nekompatibilný s CPU/libc hostingu | nainštaluj `@oxc-transform/binding-wasm32-wasi` a odstav `node_modules/@oxc-transform/binding-linux-x64-*` (loader spadne na WASI). Na štandardnom x64 hoste netreba. |
 | starý obsah po deployi | proces nereštartovaný | „Spustiť aplikáciu" |
 
+## ODPORÚČANÉ pri OOM: build cez GitHub Actions, HostCreators len spúšťa
+
+Táto app je ťažká a na pamäťovo limitovanom HostCreators build kontajneri padá build na
+**OOM** („JavaScript heap out of memory" počas „transforming"). Riešenie: **nebuilduj na
+hostingu** — build prebehne v GitHub Actions (dosť RAM) a hotový self-contained Nitro
+`.output` sa pushne na vetvu **`deploy`**, ktorú HostCreators už len spustí.
+
+**Workflow:** `.github/workflows/deploy.yml`
+- Beží na `node:24-alpine` (musl — rovnaký runtime ako HostCreators, kvôli natívnym
+  závislostiam ako `sharp`).
+- `npm ci` → `npm run build` → skopíruje `slickly-store/.output` + minimal `package.json`
+  (len `start` skript) → **force push na vetvu `deploy`** (jeden commit, bez bloatu).
+- Trigger: push na pracovnú vetvu + manuálne (`workflow_dispatch`).
+
+**Reconfig HostCreators „GIT aplikácia" (jednorazovo):**
+1. **Sledovaná vetva:** prepni na **`deploy`** (nie na zdrojovú vetvu).
+2. **Build krok:** nechaj **prázdny** / `echo prebuilt` — žiadny build (`.output` je už hotový).
+   Ak panel vždy spustí `npm install`, je to no-op (deploy `package.json` nemá dependencies).
+3. **Start krok:** `npm run start` (→ `node .output/server/index.mjs`).
+4. **Env:** `PORT=3000`, `HOST=0.0.0.0` + runtime premenné (rovnaké ako vyššie).
+5. Po deployi klikni **„Spustiť aplikáciu"**.
+
+Odvtedy: push na pracovnú vetvu → Actions zbuilduje → push na `deploy` → HostCreators
+webhook nasadí hotový build → „Spustiť aplikáciu".
+
+> Pozn.: Nitro `node-server` `.output` je self-contained (runtime deps má v
+> `.output/server/node_modules`), takže na hostingu netreba `npm install` ani build.
+
 ## Lokálny build/preview (rovnaké ako hosting)
 
 ```bash

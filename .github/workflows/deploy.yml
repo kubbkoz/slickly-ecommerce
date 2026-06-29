@@ -1,0 +1,69 @@
+name: Build & ship .output → deploy branch
+
+# Prečo: SLICKLY je ťažká Nuxt app a build padá na OOM na pamäťovo limitovanom
+# HostCreators build kontajneri. Riešenie: build prebehne tu (dosť RAM) na
+# node:24-alpine (musl — rovnaký runtime ako HostCreators, kvôli natívnym
+# závislostiam ako sharp), a hotový self-contained Nitro `.output` sa pushne na
+# vetvu `deploy`, ktorú HostCreators už len SPUSTÍ (žiadny build na hostingu).
+
+on:
+  push:
+    branches:
+      - claude/slickly-eshop-nuxt-0x2ri6
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: node:24-alpine
+    steps:
+      - name: Install OS deps (git + build tools pre natívne moduly)
+        run: apk add --no-cache git build-base python3 libc6-compat vips vips-dev
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install (npm workspaces)
+        run: npm install --no-audit --no-fund
+
+      - name: Build (.output cez root workspace skript)
+        run: npm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Zostav deploy payload
+        run: |
+          rm -rf deploy-out
+          mkdir -p deploy-out
+          cp -r slickly-store/.output deploy-out/.output
+          cp slickly-store/.env.example deploy-out/.env.example 2>/dev/null || true
+          printf '%s\n' '{' \
+            '  "name": "slickly-deploy",' \
+            '  "private": true,' \
+            '  "type": "module",' \
+            '  "scripts": { "start": "node .output/server/index.mjs" }' \
+            '}' > deploy-out/package.json
+          # POZOR: NEignoruj node_modules — .output/server/node_modules je
+          # self-contained runtime a MUSÍ byť commitnutý. Ignoruj len tajomstvá.
+          printf '%s\n' '.env' '.env.*' '!.env.example' > deploy-out/.gitignore
+
+      - name: Push na vetvu deploy (force, jeden commit)
+        run: |
+          cd deploy-out
+          git init -q
+          git config user.email "ci@slickly.sk"
+          git config user.name "slickly-ci"
+          git checkout -q -b deploy
+          git add -A
+          git commit -q -m "Prebuilt .output from ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" deploy:deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
