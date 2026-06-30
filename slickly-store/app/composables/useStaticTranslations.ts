@@ -102,9 +102,10 @@ const getLocaleFromRoute = (): string => {
         if (prefix && LOCALE_PREFIXES[prefix]) return LOCALE_PREFIXES[prefix];
         return 'sk'; // default locale (no prefix)
     } catch {
-        // Fallback to useI18n if useRoute is unavailable (edge case)
-        const { locale } = useI18n();
-        return locale.value || 'sk';
+        // useRoute nedostupné (napr. fallback render keď zlyhal Shopware context) —
+        // NEVOLAJ useI18n (hádže "must be called at top of setup" / i18n code 26 →
+        // unhandled 500). Bezpečne vráť default locale.
+        return 'sk';
     }
 };
 

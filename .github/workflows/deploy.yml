@@ -46,6 +46,18 @@ jobs:
           NUXT_PUBLIC_SHOPWARE_ENDPOINT: https://mtsport.store/store-api/
           NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN: SWSCZGT3TEJ3EHB1MVLXSHFWMG
 
+      - name: Fix Nitro output — doplň chýbajúci vue/server-renderer
+        # Pri npm workspaces je `vue` hoistnuté do root node_modules a Nitro tracer
+        # (nft) vynechá subpath `vue/server-renderer` → runtime ERR_MODULE_NOT_FOUND
+        # → 500 na KAŽDOM requeste. Skopírujeme ho ručne (spoľahlivé).
+        run: |
+          SRC="$(node -p "require('node:path').dirname(require.resolve('vue/server-renderer'))" 2>/dev/null || echo node_modules/vue/server-renderer)"
+          DST=slickly-store/.output/server/node_modules/vue/server-renderer
+          rm -rf "$DST"
+          mkdir -p "$(dirname "$DST")"
+          cp -r "$SRC" "$DST"
+          test -f "$DST/index.mjs" && echo "OK: vue/server-renderer doplnený z $SRC" || (echo "ZLYHALO" && exit 1)
+
       - name: Zostav deploy payload
         run: |
           rm -rf deploy-out

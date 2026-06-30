@@ -401,6 +401,13 @@ extends: ["../vue-starter-template", "./features/blog"],
   },
   // @ts-expect-error - nitro type not recognized in this project's tsconfig but works at runtime
   nitro: {
+    // FIX: pri npm workspaces je `vue` hoistnuté do root node_modules a Nitro tracer
+    // (nft) nezahrnul subpath `vue/server-renderer` → runtime ERR_MODULE_NOT_FOUND →
+    // 500 na KAŽDOM requeste pred akýmkoľvek render/Shopware callom. Vynútime jeho
+    // zahrnutie do .output/server/node_modules.
+    externals: {
+      traceInclude: ['vue/server-renderer'],
+    },
     // Pre-kompresia statiky (JS/CSS/fonty) — brotli + gzip varianty na disku.
     // nginx/CDN servuje .br/.gz priamo → −60-80 % prenos. (audit P0 #1)
     compressPublicAssets: { gzip: true, brotli: true },
