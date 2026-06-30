@@ -359,35 +359,10 @@ extends: ["../vue-starter-template", "./features/blog"],
       exclude: ['@shopware/api-client', '@iconify/utils'],
     },
     build: {
-      rollupOptions: {
-        output: {
-          manualChunks(id) {
-            if (id.includes('node_modules')) {
-              // 1. Core Framework & Base Deps (Zlučujeme spať pre stabilitu boot-init procesu)
-              if (
-                id.includes('vue') || id.includes('@vue') || id.includes('nuxt') || id.includes('@nuxt') ||
-                id.includes('ofetch') || id.includes('unctx') || id.includes('defu') || id.includes('h3') ||
-                id.includes('ufo') || id.includes('hookable')
-              ) {
-                return 'entry';
-              }
-              
-              // 2. Shopware Ecosystem (Väčšinou bezpečné oddeliť)
-              if (id.includes('@shopware')) return 'vendor-shopware';
-              
-              // 3. UI & Icons (Často sa menia, dobré pre cache)
-              if (id.includes('lucide-vue-next')) return 'vendor-ui';
-              
-              // 4. Heavy / Specific Integrations (Bezpečné splitting)
-              if (id.includes('@anthropic-ai/sdk')) return 'vendor-ai';
-              if (id.includes('vanilla-cookieconsent')) return 'vendor-cc';
-
-              // 5. Všetko ostatné do všeobecného vendor bloku
-              return 'vendor';
-            }
-          },
-        },
-      },
+      // FIX: Vlastné manualChunks (entry/vendor/vendor-shopware…) lámali init poradie
+      // chunkov → klient padal na "Cannot access 'cX' before initialization" (TDZ /
+      // cyklická závislosť medzi chunkami) → appka sa nehydratovala a zasekla sa na
+      // loaderi. Necháme automatické chunkovanie Rollupu (rešpektuje init poradie).
       commonjsOptions: {
         include: [/node_modules/],
         // FIX-1.1: Force CJS modules to produce proper named ESM exports.
