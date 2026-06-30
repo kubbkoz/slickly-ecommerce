@@ -62,7 +62,9 @@ jobs:
         run: |
           rm -rf deploy-out
           mkdir -p deploy-out
-          cp -r slickly-store/.output deploy-out/.output
+          # -L = dereferencuj symlinky → .output je plne self-contained (žiadne
+          # symlinky ako vue→.nitro/vue@x, ktoré by na HostCreators mohli dangle-núť).
+          cp -rL slickly-store/.output deploy-out/.output
           cp slickly-store/.env.example deploy-out/.env.example 2>/dev/null || true
           printf '%s\n' '{' \
             '  "name": "slickly-deploy",' \
