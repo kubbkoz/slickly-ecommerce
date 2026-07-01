@@ -109,13 +109,15 @@ const { data: categories } = await useAsyncData(
         </div>
       </div>
 
-      <!-- Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-4">
+      <!-- Grid — asymetrický: 4 stĺpce, vybrané karty cez 2 stĺpce
+           (6 kategórií → riadok1 [wide][1][1], riadok2 [1][wide][1]) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 md:gap-4">
         <NuxtLink
-          v-for="cat in categories"
+          v-for="(cat, i) in categories"
           :key="cat.id"
           :to="localePath(cat.url)"
           class="cat-card group relative h-[200px] md:h-[260px] overflow-hidden block bg-gray-900"
+          :class="{ 'lg:col-span-2': i % 6 === 0 || i % 6 === 4 }"
         >
           <!-- Background image or placeholder -->
           <div class="absolute inset-0">
