@@ -61,8 +61,8 @@ jobs:
           # badges (Admin `search/mtsport-badge`), returns, account, watchdog, store-hours…
           # Runtime env sa na HostCreators nedostane → musí sa zapiecť pri builde.
           SHOPWARE_ADMIN_ENDPOINT: https://mtsport.store/api/
-          SHOPWARE_ADMIN_CLIENT_ID: SWIASTJSVKQWT0R4REJORJJKEQ
-          SHOPWARE_ADMIN_CLIENT_SECRET: aTdLbkczMFRycFpLc1dHZG95RWM5b1VrdlVRZjRORXBZQjA1RmE
+          SHOPWARE_ADMIN_CLIENT_ID: SWIAWFE5QWK3MEHZUTBYVE1IVW
+          SHOPWARE_ADMIN_CLIENT_SECRET: djFkd1Y4Z2N0aFFNTWZUUWhvTDBDNkFaa0R3bUI3bjhVWGxpTVg
 
       - name: Fix Nitro output — doplň chýbajúci vue/server-renderer
         # Pri npm workspaces je `vue` hoistnuté do root node_modules a Nitro tracer
