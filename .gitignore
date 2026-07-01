@@ -26,3 +26,6 @@ logs
 # Python cache (skills)
 __pycache__
 *.pyc
+
+# graphify knowledge-graph scratch (machine-specific paths)
+graphify-out/
