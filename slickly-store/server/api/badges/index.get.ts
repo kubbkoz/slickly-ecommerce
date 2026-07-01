@@ -6,6 +6,16 @@ const CACHE_KEY = 'badge:all';
 const CACHE_TTL = 300; // 5 minút (success)
 const NEGATIVE_CACHE_TTL = 60; // 1 minúta (failure — zabraňuje retry storm pri 429/500)
 
+// Manuálna expirácia — `useStorage('redis')` bez namapovaného `redis:` mountu spadne na
+// default MEMORY driver, ktorý TTL v `setItem(..., { ttl })` IGNORUJE. Bez tohto wrappera
+// by sa negatívna cache (`[]`) uložila natrvalo a route by po prvom zlyhaní už NIKDY
+// neskúsila Admin API znova (badges by „zamrzli" na `[]` aj po fixe creds). Preto expiráciu
+// kontrolujeme ručne cez `expiresAt`.
+interface CacheEnvelope {
+  payload: BadgeRaw[];
+  expiresAt: number;
+}
+
 interface BadgeRaw {
   id: string;
   name: string;
@@ -97,8 +107,10 @@ async function resolveStreamsToProductIds(
 export default defineEventHandler(async () => {
   const storage = useStorage('redis');
 
-  const cached = await storage.getItem<BadgeRaw[]>(CACHE_KEY);
-  if (cached) return cached;
+  const cached = await storage.getItem<CacheEnvelope>(CACHE_KEY);
+  if (cached && typeof cached.expiresAt === 'number' && cached.expiresAt > Date.now()) {
+    return cached.payload;
+  }
 
   const config = useRuntimeConfig();
   const adminEndpoint = config.shopwareAdminEndpoint as string;
@@ -174,7 +186,11 @@ export default defineEventHandler(async () => {
       }),
     );
 
-    await storage.setItem(CACHE_KEY, elements, { ttl: CACHE_TTL });
+    await storage.setItem(
+      CACHE_KEY,
+      { payload: elements, expiresAt: Date.now() + CACHE_TTL * 1000 } satisfies CacheEnvelope,
+      { ttl: CACHE_TTL },
+    );
     return elements;
   } catch (e: any) {
     const status = e?.response?.status ?? e?.statusCode ?? e?.status;
@@ -183,7 +199,13 @@ export default defineEventHandler(async () => {
     //  - retry stormu pri 429 / 500 / OAuth backoff
     //  - kaskádovému zlyhaniu (každý PDP/listing request hammeroval Admin API)
     // Po uplynutí TTL sa skúsi znova.
-    await storage.setItem(CACHE_KEY, [], { ttl: NEGATIVE_CACHE_TTL }).catch(() => null);
+    await storage
+      .setItem(
+        CACHE_KEY,
+        { payload: [], expiresAt: Date.now() + NEGATIVE_CACHE_TTL * 1000 } satisfies CacheEnvelope,
+        { ttl: NEGATIVE_CACHE_TTL },
+      )
+      .catch(() => null);
     return [];
   }
 });
