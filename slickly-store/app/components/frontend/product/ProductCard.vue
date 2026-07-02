@@ -57,6 +57,15 @@ const displayOldPrice = computed(() => {
     return p != null ? adjustPrice(p) : null;
 });
 
+const stripHtml = (html: string) => {
+    if (!html) return '';
+    return html.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
+};
+const shortDescription = computed(() => {
+    if (!props.product.description) return '';
+    return stripHtml(props.product.description);
+});
+
 // Reactive state
 const isHovered = ref(false);
 const quantity  = ref(1);
@@ -202,7 +211,7 @@ const handleHoverPrefetch = () => {
         >
             <!-- Image Section: Multi-image Slider (Synchronized Translate) -->
             <div 
-                class="relative w-full aspect-square overflow-hidden group/img"
+                class="relative w-full aspect-[3/4] overflow-hidden group/img"
                 @touchstart="handleTouchStart"
                 @touchend="handleTouchEnd"
             >
@@ -268,14 +277,26 @@ const handleHoverPrefetch = () => {
                     </div>
                 </template>
 
-                <!-- Custom badges — bottom-left of image, side-by-side -->
-                <div v-if="productBadges.length" class="absolute bottom-2 left-2 flex flex-row flex-wrap gap-1 z-10 pointer-events-none max-w-[calc(100%-1rem)]">
+                <!-- Custom badges — top-left of image, side-by-side -->
+                <div v-if="productBadges.length" class="absolute top-2 left-2 flex flex-row flex-wrap gap-1 z-10 pointer-events-none max-w-[calc(100%-1rem)]">
                     <span
                         v-for="badge in productBadges"
                         :key="badge.id"
                         :class="['font-bold uppercase tracking-wider leading-none font-tech', badgeSizeClass(badge.size)]"
                         :style="{ backgroundColor: badge.bgColor, color: badge.textColor }"
                     >{{ badge.text }}</span>
+                </div>
+
+                <!-- Rating — bottom-left of image -->
+                <div
+                    v-if="(product.ratingAverage || product.rating) > 0"
+                    class="absolute bottom-2 left-2 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-1.5 py-0.5 rounded-sm z-10 pointer-events-none text-xs font-tech text-gray-900"
+                >
+                    <Star class="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <span class="font-bold">{{ formatRating(product.ratingAverage || product.rating) }}</span>
+                    <span class="text-[10px] text-gray-600 font-medium" :aria-label="`${product.productReviewsCount || 0} recenzií`">
+                        ({{ product.productReviewsCount || product.reviewCount || product.customFields?.mtsport_review_count || 0 }})
+                    </span>
                 </div>
 
                 <!-- Wishlist -->
@@ -306,26 +327,8 @@ const handleHoverPrefetch = () => {
 
             <!-- Info Section -->
             <div class="p-2 md:p-4 flex flex-col flex-1">
-                <!-- Rating (Fixed height to maintain card alignment) -->
-                <div class="h-[20px] flex items-center gap-1 mb-1.5 text-xs font-tech text-gray-900">
-                    <template v-if="(product.ratingAverage || product.rating) > 0">
-                        <Star class="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                        <span class="font-bold">{{ formatRating(product.ratingAverage || product.rating) }}</span>
-                        <span class="text-[11px] text-gray-600 font-medium ml-0.5" :aria-label="`${product.productReviewsCount || 0} recenzií`">
-                            ({{ product.productReviewsCount || product.reviewCount || product.customFields?.mtsport_review_count || 0 }})
-                        </span>
-                    </template>
-                </div>
-
-                <h3
-                    class="font-sans text-[13px] md:text-sm font-medium mb-4 line-clamp-2 leading-tight transition-colors duration-200 h-[2.5em]"
-                    :class="isHovered ? 'text-brand' : 'text-gray-900'"
-                >
-                    {{ getFormattedName(product) }}
-                </h3>
-
-                <!-- Varianty (variabilný) / sklad (jednoduchý) — hneď pod názvom, vždy viditeľné -->
-                <div v-if="hasVariants" class="flex flex-wrap gap-1.5 mb-5">
+                <!-- Varianty (variabilný) — nad názvom produktu -->
+                <div v-if="hasVariants" class="flex flex-wrap gap-1.5 mb-2">
                     <div
                         v-for="child in sortVariants(product.children, product)"
                         :key="child.id"
@@ -358,7 +361,21 @@ const handleHoverPrefetch = () => {
                         </div>
                     </div>
                 </div>
-                <div v-else class="flex flex-wrap gap-1.5 mb-5">
+
+                <h3
+                    class="font-sans text-[13px] md:text-sm font-medium mb-1.5 line-clamp-2 leading-tight transition-colors duration-200 h-[2.5em]"
+                    :class="isHovered ? 'text-brand' : 'text-gray-900'"
+                >
+                    {{ getFormattedName(product) }}
+                </h3>
+
+                <!-- Úryvok popisu — 2 riadky -->
+                <p v-if="shortDescription" class="text-[11px] text-gray-500 font-sans leading-snug line-clamp-2 mb-3">
+                    {{ shortDescription }}
+                </p>
+
+                <!-- Sklad (jednoduchý produkt) — varianty sú teraz nad názvom -->
+                <div v-if="!hasVariants" class="flex flex-wrap gap-1.5 mb-5">
                     <div
                         class="relative min-w-[38px] h-7 border flex items-center justify-center text-center px-2 font-tech rounded-sm"
                         :class="[
@@ -420,7 +437,7 @@ const handleHoverPrefetch = () => {
                         class="!h-10 shrink-0 !w-10 !px-0 !py-0 md:!w-auto md:!px-3 !text-[11px] font-tech whitespace-nowrap [&>span]:hidden [&>span]:md:inline"
                         :show-text="true"
                         :icon-right="true"
-                        label="Kúpiť"
+                        label="Pridať do košíka"
                     />
                 </div>
             </div>

@@ -658,7 +658,7 @@ const getPropertyName = (id: string) => {
           </div>
           <button
             :disabled="isLoadingMore"
-            class="relative bg-black text-white hover:bg-gray-800 px-6 py-3 md:px-10 md:py-4 uppercase tracking-widest text-xs md:text-sm font-bold min-w-[200px] md:min-w-[240px] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+            class="relative bg-black text-white hover:bg-gray-800 px-6 py-3 md:px-10 md:py-4 uppercase tracking-widest text-xs md:text-sm font-bold min-w-[200px] md:min-w-[240px] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed rounded-default"
             aria-label="Načítať viac produktov"
             @click="loadMore"
           >
