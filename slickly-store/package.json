@@ -27,8 +27,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.92.0",
-    "@fontsource/geist-sans": "^5.2.5",
-    "@fontsource/hanken-grotesk": "^5.2.5",
+    "@fontsource/space-grotesk": "^5.2.5",
     "@pinia/nuxt": "^0.11.3",
     "@shopware/api-client": "0.0.0-canary-20260223143659",
     "@shopware/composables": "0.0.0-canary-20260223143659",

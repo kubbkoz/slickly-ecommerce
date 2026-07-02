@@ -265,7 +265,7 @@ const togglePrice = (max: number, e: Event) => handleChipClick(() => {
 <style scoped>
 .chip-btn {
     @apply flex-shrink-0 px-3 py-1.5 flex items-center gap-2 text-[10px] md:text-[11px] font-bold transition-all duration-300 rounded-none border border-transparent uppercase tracking-wider gpu-boost;
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 .chip-inactive {

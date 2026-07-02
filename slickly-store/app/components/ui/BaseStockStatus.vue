@@ -67,7 +67,7 @@ const status = computed(() => {
 
 <style scoped>
 .font-tech {
-  font-family: 'Geist Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 @keyframes breathe {

@@ -59,7 +59,7 @@ const props = withDefaults(defineProps<{
 }
 
 .mt-loader-logo {
-  font-family: 'Geist Sans', 'Arial', sans-serif;
+  font-family: 'Space Grotesk', 'Arial', sans-serif;
   font-size: 2.5rem;
   font-weight: 900;
   letter-spacing: 0.02em;
@@ -103,7 +103,7 @@ const props = withDefaults(defineProps<{
 }
 
 .mt-loader-text {
-    font-family: 'Geist Sans', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     color: #d1d5db; /* gray-300: much better contrast on black */
     font-size: 0.75rem;
     font-weight: 500;

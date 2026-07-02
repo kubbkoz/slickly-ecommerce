@@ -190,6 +190,6 @@ const rightColumnKeys: (keyof typeof groups.value)[] = ['brakes','wheels', 'comp
 
 <style scoped>
 .font-chakra {
-  font-family: 'Geist Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
 }
 </style>

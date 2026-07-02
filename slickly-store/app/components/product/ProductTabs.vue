@@ -113,7 +113,7 @@ defineExpose({
 
 <style scoped>
 .font-chakra {
-  font-family: 'Geist Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 @keyframes star-bounce {

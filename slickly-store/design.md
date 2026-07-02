@@ -54,10 +54,11 @@
 
 | Font | Trieda UnoCSS | Použitie |
 |:---|:---|:---|
-| **Geist Sans** | `font-tech` | Nadpisy (H1–H4), logá, ceny, tech-prvky |
-| **Hanken Grotesk** | `font-sans` | Body text, popisky, formuláre, UI labely |
+| **Space Grotesk** | `font-tech`, `font-sans` | Jediný font na celom webe — nadpisy (H1–H4), logá, ceny, tech-prvky aj body text, popisky, formuláre, UI labely |
 
-> Oba fonty sú načítané cez `presetWebFonts` v `uno.config.ts` s `provider: 'none'`.
+> Font je načítaný cez `presetWebFonts` v `uno.config.ts` s `provider: 'none'` (self-hosted
+> cez `@fontsource/space-grotesk`, NIE Google Fonts CDN). Oba shortcuty (`font-tech`,
+> `font-sans`) mapujú na rovnaký font — ponechané samostatne kvôli existujúcim šablónam.
 
 ### Hierarchia Nadpisov
 
@@ -420,7 +421,7 @@ Pre jednoduché produkty a zvolené varianty sa na hoveri zobrazuje stav skladu 
   - **Zelená (Success - `#52a63f`)**: Shadow success, `animate-breathe`.
   - **Oranžová (`bg-amber-400`)**: Shadow amber, `animate-breathe`.
   - **Červená (`bg-brand`)**: Shadow red, `animate-breathe`.
-- **Typografia**: Hanken Grotesk **Semibold**, 10-11px, **text-black**.
+- **Typografia**: Space Grotesk **Semibold**, 10-11px, **text-black**.
 
 #### §17.1 Záväzná logika dostupnosti (GLOBAL — platí všade)
 
@@ -454,7 +455,7 @@ Všetky vysúvacie panely (Filtre, Košík, Modálne okná z boku) musia dodrži
 - **Backdrop**:
   - `bg-black/30 backdrop-blur-sm`.
 - **Header**:
-  - **Typography**: Hanken Grotesk **Bold**, Tracking **0.2em**, Uppercase.
+  - **Typography**: Space Grotesk **Bold**, Tracking **0.2em**, Uppercase.
   - **Spacing**: `px-8 py-6`.
   - **Close Button**: `1:1` pomer strán (`w-10 h-10`), `bg-gray-900/5` (jemne sivý box).
 - **Footer**:

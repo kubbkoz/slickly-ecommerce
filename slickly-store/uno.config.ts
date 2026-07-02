@@ -15,7 +15,7 @@ import {
  * použi tokeny a skratky definované tu.
  *
  * Identita: čierna (#000000) primárna + Slickly Amber (#FFBF00) akcent,
- * fonty Hanken Grotesk (text) + Geist (technické dáta/nadpisy),
+ * font Space Grotesk (jediný font na celom webe — text aj nadpisy),
  * rounded-default (6px), žiadne agresívne skew/italic.
  */
 export default defineConfig({
@@ -25,9 +25,11 @@ export default defineConfig({
     presetWebFonts({
       provider: 'none',
       fonts: {
-        // design.md §3 — Typografia
-        sans: 'Hanken Grotesk', // Body text, labels, forms
-        tech: 'Geist Sans',     // Headings, prices, tech elements
+        // design.md §3 — Typografia. Oba shortcuty mapujú na rovnaký font
+        // (jednotný Space Grotesk), ponechané samostatne aby sa nemuseli
+        // meniť stovky existujúcich font-sans/font-tech použití v šablónach.
+        sans: 'Space Grotesk',
+        tech: 'Space Grotesk',
       },
     }),
   ],

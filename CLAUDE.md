@@ -34,8 +34,9 @@ Drž sa `slickly-store/design.md` a tokenov v `slickly-store/uno.config.ts`. SLI
 - **Farby:** `brand` = čierna `#000000` (primárne CTA/header/logo), `amber` = `#FFBF00`
   (akcenty/badge/highlight), `success #1B7D3A`, `error #BA1A1A`. Surface tóny svetlé.
   Používaj tokeny/shortcuts (`bg-brand`, `text-amber`, `btn-checkout`…), NIE hardcoded hex.
-- **Typografia:** `font-tech` = **Geist Sans** (nadpisy, ceny, technické dáta),
-  `font-sans` = **Hanken Grotesk** (body, labely, formuláre). Načítané cez `@fontsource`.
+- **Typografia:** **Space Grotesk** — jediný font na celom webe (`font-tech` aj `font-sans`
+  mapujú naň: nadpisy, ceny, technické dáta, body, labely, formuláre). Self-hosted cez
+  `@fontsource/space-grotesk`, NIE Google Fonts CDN.
 - **Shape:** `rounded-default` (6px) na CTA/inputy/karty. NIKDY `rounded-full` na tlačidlá,
   žiadne agresívne `skew`/`italic`.
 - **Shortcuts:** `section-h2`, `section-decorator`, `brand-badge`, `btn-nav-arrow`,

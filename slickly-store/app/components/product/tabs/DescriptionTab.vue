@@ -222,7 +222,7 @@ const grids = computed(() => {
     color: inherit;
 }
 :deep(.prose h2), :deep(.prose h3), :deep(.prose h4) {
-    font-family: 'Geist Sans', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     text-transform: uppercase;
     font-weight: 800;
 }
@@ -231,7 +231,7 @@ const grids = computed(() => {
     line-height: 2.25rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    font-family: 'Geist Sans', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 800;
 }
 :deep(.prose ul) {

@@ -17,6 +17,6 @@ const localePath = useLocalePath();
 <style scoped>
 /* Ensure font is available since Navbar might load before some CMS fonts */
 .font-tech {
-  font-family: 'Geist Sans', 'Arial Black', sans-serif;
+  font-family: 'Space Grotesk', 'Arial Black', sans-serif;
 }
 </style>

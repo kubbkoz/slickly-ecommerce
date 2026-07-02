@@ -133,13 +133,13 @@ onMounted(async () => {
 }
 
 body {
-  font-family: 'Hanken Grotesk', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   background-color: white;
   color: #111827; /* text-gray-900 */
 }
 
 h1, h2, h2, h3, h5, h6 {
-  font-family: 'Geist Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.025em; /* tracking-wide */
   font-weight: 700; /* font-bold */

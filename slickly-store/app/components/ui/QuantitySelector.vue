@@ -104,6 +104,6 @@ const handleQuantityBlur = (e: Event) => {
 }
 
 .font-tech {
-  font-family: 'Geist Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
 }
 </style>

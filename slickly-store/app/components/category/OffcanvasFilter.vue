@@ -171,7 +171,7 @@ watch(() => props.isOpen, (isOpen) => {
                        bg-white border border-gray-100
                        shadow-[0_40px_100px_rgba(0,0,0,0.15)] rounded-none overflow-hidden"
             >
-                <!-- Header: Clean Bold Hanken Grotesk -->
+                <!-- Header: Clean Bold Space Grotesk -->
                 <div class="flex items-center justify-between px-8 py-6 flex-shrink-0">
                     <div class="flex items-center gap-3">
                         <SlidersHorizontal class="w-4 h-4 text-gray-900" :stroke-width="1.8" />

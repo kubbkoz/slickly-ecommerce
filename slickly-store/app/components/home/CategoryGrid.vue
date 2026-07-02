@@ -14,9 +14,9 @@ const config = useRuntimeConfig();
 // ─── Fetch Categories Directly from Tree via SWR ─────────────────────────────
 // We fetch the main navigation tree (same as DesktopNav) and extract:
 // 1. Top 5 main categories
-// 2. The specific 'Elektromotory a príslušenstvo' subcategory
+// 2. One hardcoded extra category (6th tile)
 
-const SPECIFIC_SUBCATEGORY_ID = config.public.shopware.ids.categories.homeGridSub;
+const HARDCODED_EXTRA_CATEGORY_ID = '019ed47a4c19746f8ab0a7bb6747dc2d';
 const ROOT_CATEGORY_ID = config.public.shopware.ids.rootCategory;
 
 const { data: categories } = await useAsyncData(
@@ -58,24 +58,21 @@ const { data: categories } = await useAsyncData(
             // 1. Take up to 5 top-level categories
             const displayList = navItems.slice(0, 5).map(formatCategory);
 
-            // 2. Search for the specific subcategory deeply
+            // 2. Fetch one hardcoded extra category directly by ID (6th tile).
+            // Isolated try/catch — top-5 tiles still render if this fails.
             let extraCategory = null;
-            const findCategory = (elements: any[]) => {
-                for (const el of elements) {
-                    if (el.id === SPECIFIC_SUBCATEGORY_ID) {
-                        extraCategory = el;
-                        return true;
-                    }
-                    if (el.children?.length && findCategory(el.children)) {
-                        return true;
-                    }
-                }
-                return false;
-            };
+            try {
+                const extraRes = await apiClient.invoke('readCategory post /category/{categoryId}' as any, {
+                    headers: { "sw-language-id": currentLanguageId.value },
+                    pathParams: { categoryId: HARDCODED_EXTRA_CATEGORY_ID },
+                    body: { associations: { media: {} } },
+                });
+                extraCategory = extraRes.data;
+            } catch (e) {
+                console.error('[CategoryGrid] Failed to fetch hardcoded extra category', e);
+            }
 
-            findCategory(navItems);
-
-            // 3. Append the specific category if found
+            // 3. Append the extra category if fetched
             if (extraCategory) {
                 displayList.push(formatCategory(extraCategory));
             }

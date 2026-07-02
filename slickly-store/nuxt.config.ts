@@ -35,11 +35,11 @@ extends: ["../vue-starter-template", "./features/blog"],
   // pamäťovo limitovanom shared-hosting build kontajneri) + menší .output.
   sourcemap: false,
   modules: ["@unocss/nuxt", "@pinia/nuxt", "@nuxtjs/fontaine"],
-  // Fontaine: generuje size-adjust fallback @font-face metriky pre brand fonty
-  // → eliminuje CLS pri swape z fallback fontu na Geist Sans / Hanken Grotesk.
+  // Fontaine: generuje size-adjust fallback @font-face metriky pre brand font
+  // → eliminuje CLS pri swape z fallback fontu na Space Grotesk.
   // Nezasahuje do @fontsource loadovania ani manuálnych preloadov. (audit P1 #7)
   fontMetrics: {
-    fonts: ['Geist Sans', 'Hanken Grotesk'],
+    fonts: ['Space Grotesk'],
   },
   i18n: {
     baseUrl: process.env.NUXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL,
@@ -107,16 +107,12 @@ extends: ["../vue-starter-template", "./features/blog"],
   css: [
     // Local fonts via @fontsource (no Google Fonts CDN needed)
     // latin = basic A-Z | latin-ext = Slovak/Czech diacritics subset
-    // Geist Sans (tech: nadpisy, ceny, technické dáta)
-    "@fontsource/geist-sans/400.css",
-    "@fontsource/geist-sans/600.css",
-    "@fontsource/geist-sans/700.css",
-    // Hanken Grotesk (sans: body text, labely, formuláre)
-    "@fontsource/hanken-grotesk/400.css",
-    "@fontsource/hanken-grotesk/500.css",
-    "@fontsource/hanken-grotesk/600.css",
-    "@fontsource/hanken-grotesk/700.css",
-    "@fontsource/hanken-grotesk/900.css",
+    // Space Grotesk (jediný font na celom webe — nadpisy aj body text)
+    "@fontsource/space-grotesk/300.css",
+    "@fontsource/space-grotesk/400.css",
+    "@fontsource/space-grotesk/500.css",
+    "@fontsource/space-grotesk/600.css",
+    "@fontsource/space-grotesk/700.css",
     // App base styles
     "~/assets/css/main.css",
     // Blog & static page content typography
@@ -444,7 +440,7 @@ extends: ["../vue-starter-template", "./features/blog"],
           innerHTML: `
             /* =====================================================
                CRITICAL LOADER CSS — Inlined to block FOUC.
-               Geist Sans / Hanken Grotesk sa načítavajú cez @fontsource (css[]).
+               Space Grotesk sa načítava cez @fontsource (css[]).
                ===================================================== */
 
             #mt-page-loader {
@@ -460,7 +456,7 @@ extends: ["../vue-starter-template", "./features/blog"],
               transition: opacity 0.4s ease-in-out;
             }
             .mt-loader-logo {
-              font-family: 'Geist Sans', 'Arial Black', Arial, sans-serif;
+              font-family: 'Space Grotesk', 'Arial Black', Arial, sans-serif;
               font-size: 2.5rem;
               font-weight: 700;
               text-transform: uppercase;

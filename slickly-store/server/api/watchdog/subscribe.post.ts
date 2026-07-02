@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
       to: email.trim(),
       subject: `Stráženie produktu – ${productName}`,
       html: `
-        <h2 style="font-family:'Geist Sans',sans-serif;text-transform:uppercase;color:#000">Stráženie aktivované</h2>
+        <h2 style="font-family:'Space Grotesk',sans-serif;text-transform:uppercase;color:#000">Stráženie aktivované</h2>
         <p>Dobrý deň <strong>${name}</strong>,</p>
         <p>Budeme Vás informovať o zmene dostupnosti alebo ceny produktu:</p>
         <table style="border-collapse:collapse;font-size:14px;margin:16px 0">
@@ -54,7 +54,7 @@ export default defineEventHandler(async (event) => {
     await sendAdminNotification(
       `Nové stráženie: ${productName}`,
       `
-        <h3 style="font-family:'Geist Sans',sans-serif;text-transform:uppercase">Nový požiadavok na stráženie produktu</h3>
+        <h3 style="font-family:'Space Grotesk',sans-serif;text-transform:uppercase">Nový požiadavok na stráženie produktu</h3>
         <table style="border-collapse:collapse;font-size:14px">
           <tr><td style="padding:6px 16px 6px 0;font-weight:bold">Meno:</td><td>${name}</td></tr>
           <tr><td style="padding:6px 16px 6px 0;font-weight:bold">Email:</td><td>${email}</td></tr>

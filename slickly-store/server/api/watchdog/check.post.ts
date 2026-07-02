@@ -97,7 +97,7 @@ export default defineEventHandler(async (event) => {
           to: sub.email,
           subject: `Zmena na stráženom produkte – ${productName}`,
           html: `
-            <h2 style="font-family:'Geist Sans',sans-serif;text-transform:uppercase;color:#000">Strážený produkt sa zmenil</h2>
+            <h2 style="font-family:'Space Grotesk',sans-serif;text-transform:uppercase;color:#000">Strážený produkt sa zmenil</h2>
             <p>Dobrý deň <strong>${sub.name || 'zákazník'}</strong>,</p>
             <p>Na produkte, ktorý strážite, nastala zmena:</p>
             <table style="border-collapse:collapse;font-size:14px;margin:16px 0">

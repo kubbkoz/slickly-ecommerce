@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
       to: email.trim(),
       subject: `Dopyt na cenovú ponuku – ${productName}`,
       html: `
-        <h2 style="font-family:'Geist Sans',sans-serif;text-transform:uppercase">Dopyt prijatý</h2>
+        <h2 style="font-family:'Space Grotesk',sans-serif;text-transform:uppercase">Dopyt prijatý</h2>
         <p>Dobrý deň <strong>${name}</strong>,</p>
         <p>Váš dopyt na cenovú ponuku pre produkt <strong>${productName}</strong>${variantLabel ? ` (${variantLabel})` : ''} bol prijatý.</p>
         <p>Ozveme sa Vám čo najskôr.</p>

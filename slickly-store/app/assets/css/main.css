@@ -35,14 +35,14 @@ html {
 [v-cloak] { display: none; }
 
 /* ── §3 Base Typography Reset ────────────────────────────────────────────────
-   Font-face pre Geist Sans a Hanken Grotesk musí byť načítaný cez Google Fonts
-   v nuxt.config.ts (link rel="preconnect" + stylesheet).
-   UnoCSS presetWebFonts ich namapuje na font-sans / font-tech utility triedy.
+   Font-face pre Space Grotesk je self-hosted cez @fontsource (nuxt.config.ts
+   css[] import), NIE cez Google Fonts CDN.
+   UnoCSS presetWebFonts ho namapuje na font-sans / font-tech utility triedy.
    ─────────────────────────────────────────────────────────────────────────── */
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Hanken Grotesk', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   background-color: #ffffff;
   color: #111111;
   -webkit-font-smoothing: antialiased;
@@ -52,7 +52,7 @@ body {
 /* §3 — Heading reset (font + transform + spacing)
    Konkrétne veľkosti a farby sú na komponentoch cez UnoCSS. */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Geist Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 700;
