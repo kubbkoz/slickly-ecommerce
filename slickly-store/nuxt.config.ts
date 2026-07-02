@@ -454,6 +454,25 @@ extends: ["../vue-starter-template", "./features/blog"],
               justify-content: center;
               opacity: 1;
               transition: opacity 0.4s ease-in-out;
+              overflow: hidden;
+            }
+            .mt-loader-bg-video {
+              position: absolute;
+              inset: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              z-index: 0;
+            }
+            .mt-loader-bg-overlay {
+              position: absolute;
+              inset: 0;
+              background: rgba(0, 0, 0, 0.55);
+              z-index: 1;
+            }
+            .mt-loader-inner {
+              position: relative;
+              z-index: 2;
             }
             .mt-loader-logo {
               font-family: 'Space Grotesk', 'Arial Black', Arial, sans-serif;

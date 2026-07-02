@@ -4,6 +4,41 @@ const props = withDefaults(defineProps<{
 }>(), {
   isVisible: false
 });
+
+// Simulated 0→100% progress — classic "trickle" bar (NProgress-style): auto-advances
+// towards 90% while loading (asymptotic, never actually reaching 100 on its own), then
+// snaps to 100% the instant isVisible flips false, giving a genuine "started at 0,
+// finished at 100" feel without needing real byte-level load progress (not available
+// for SPA navigations).
+const progress = ref(0);
+let progressTimer: ReturnType<typeof setInterval> | null = null;
+
+function startProgress() {
+  progress.value = 0;
+  if (import.meta.server) return; // no real timers during SSR render
+  if (progressTimer) clearInterval(progressTimer);
+  progressTimer = setInterval(() => {
+    if (progress.value >= 90) return;
+    progress.value += (90 - progress.value) * 0.1;
+  }, 200);
+}
+
+function completeProgress() {
+  if (progressTimer) {
+    clearInterval(progressTimer);
+    progressTimer = null;
+  }
+  progress.value = 100;
+}
+
+watch(() => props.isVisible, (visible) => {
+  if (visible) startProgress();
+  else completeProgress();
+}, { immediate: true });
+
+onBeforeUnmount(() => {
+  if (progressTimer) clearInterval(progressTimer);
+});
 </script>
 
 <template>
@@ -25,13 +60,25 @@ const props = withDefaults(defineProps<{
       aria-hidden="true"
       aria-label="Načítavam..."
     >
+      <video
+        class="mt-loader-bg-video"
+        src="/videos/loader-bg.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+      ></video>
+      <div class="mt-loader-bg-overlay"></div>
       <div class="mt-loader-inner">
         <div class="mt-loader-logo">
           <span>SL</span><span class="mt-logo-i"><span class="mt-logo-i-dot"></span>I</span><span>CKLY</span>
         </div>
         <div class="mt-loader-content">
-            <div class="mt-loader-spinner"></div>
-            <div class="mt-loader-text">loading experience ...</div>
+            <div class="mt-loader-bar-track">
+              <div class="mt-loader-bar-fill" :style="{ width: progress + '%' }"></div>
+            </div>
+            <div class="mt-loader-text">Slickly is loading ...</div>
         </div>
       </div>
     </div>
@@ -47,9 +94,29 @@ const props = withDefaults(defineProps<{
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+.mt-loader-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Darkens the video so the white logo/text stay legible over any footage */
+.mt-loader-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
 }
 
 .mt-loader-inner {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,13 +158,19 @@ const props = withDefaults(defineProps<{
     gap: 12px;
 }
 
-.mt-loader-spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid rgba(255, 191, 0, 0.2);
-  border-top-color: #FFBF00;
+.mt-loader-bar-track {
+  width: 220px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 9999px;
-  animation: mt-spinner-spin 0.8s linear infinite;
+  overflow: hidden;
+}
+
+.mt-loader-bar-fill {
+  height: 100%;
+  background: #FFBF00;
+  border-radius: 9999px;
+  transition: width 0.2s ease-out;
 }
 
 .mt-loader-text {
@@ -108,10 +181,6 @@ const props = withDefaults(defineProps<{
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-style: italic;
-}
-
-@keyframes mt-spinner-spin {
-  to { transform: rotate(360deg); }
 }
 
 /* Leave-only transition: smooth fade-out after long loads */
