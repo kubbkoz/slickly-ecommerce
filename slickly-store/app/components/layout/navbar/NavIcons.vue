@@ -171,7 +171,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
   <div class="flex items-center space-x-3 text-white z-50">
     <!-- Mobile Search -->
     <button
-      class="lg:hidden text-white hover:text-brand transition-all duration-300 focus:outline-none rounded-none bg-black p-2"
+      class="lg:hidden text-white hover:text-amber transition-all duration-300 focus:outline-none rounded-none bg-black p-2"
       :class="{ 'opacity-0 pointer-events-none translate-y-[-10px]': isMobileMenuOpen }"
       @click="toggleMobileSearch(true)"
       aria-label="Hľadať"
@@ -182,7 +182,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
     <!-- Wishlist -->
     <!-- Porovnanie -->
     <button
-      class="hidden md:flex text-white hover:text-brand transition-all duration-300 rounded-none items-center bg-black p-2 relative"
+      class="hidden md:flex text-white hover:text-amber transition-all duration-300 rounded-none items-center bg-black p-2 relative"
       @click="isComparisonNavOpen = true"
       aria-label="Porovnanie produktov"
     >
@@ -204,7 +204,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
 
     <!-- Obľúbené -->
     <button
-      class="flex text-white hover:text-brand transition-all duration-300 rounded-none items-center bg-black p-2 relative"
+      class="flex text-white hover:text-amber transition-all duration-300 rounded-none items-center bg-black p-2 relative"
       :class="{ 'opacity-0 pointer-events-none': isMobileMenuOpen }"
       @click="handleWishlistClick"
       aria-label="Obľúbené"
@@ -214,7 +214,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
             <Heart class="w-6 h-6" />
             <span
               v-if="wishlistItems.length > 0"
-              class="absolute top-0 right-0 bg-brand text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-black"
+              class="absolute top-0 right-0 bg-amber text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-black"
             >
               {{ wishlistItems.length }}
             </span>
@@ -230,7 +230,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
     <!-- User / Account -->
     <div class="relative hidden md:block">
       <button
-        class="flex text-white hover:text-brand transition-colors rounded-none items-center bg-black p-2"
+        class="flex text-white hover:text-amber transition-colors rounded-none items-center bg-black p-2"
         @click="handleUserClick"
         aria-label="Môj účet"
       >
@@ -258,7 +258,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
 
     <!-- Cart -->
     <button
-      class="hidden lg:flex text-white hover:text-brand transition-all duration-300 group rounded-none bg-black p-2 items-center gap-2"
+      class="hidden lg:flex text-white hover:text-amber transition-all duration-300 group rounded-none bg-black p-2 items-center gap-2"
       :class="{ 'opacity-0 pointer-events-none lg:opacity-100 lg:pointer-events-auto': isMobileMenuOpen }"
       @click="toggleCartSidebar(true)"
       aria-label="Košík"
@@ -269,7 +269,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
             <ShoppingCart class="w-6 h-6" />
             <span
               v-if="cartCount > 0"
-              class="absolute -top-2 -right-2 bg-brand text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-black"
+              class="absolute -top-2 -right-2 bg-amber text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-black"
             >
               {{ cartCount }}
             </span>
@@ -283,7 +283,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
 
     <!-- Mobile Menu Toggle -->
     <button
-      class="lg:hidden text-white hover:text-brand transition-colors rounded-none bg-black p-2"
+      class="lg:hidden text-white hover:text-amber transition-colors rounded-none bg-black p-2"
       @click="toggleMobileMenu()"
       aria-label="Menu"
     >
@@ -322,7 +322,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
                <img :src="item?.cover?.media?.url || 'https://placehold.co/100'" class="w-full h-full object-contain p-1" />
              </NuxtLink>
              <div class="flex-1 min-w-0">
-                <NuxtLink :to="`/detail/${item.id}`" @click="isWishlistModalOpen = false" class="text-sm font-bold text-white uppercase tracking-wide group-hover:text-brand transition-colors truncate block">
+                <NuxtLink :to="`/detail/${item.id}`" @click="isWishlistModalOpen = false" class="text-sm font-bold text-white uppercase tracking-wide group-hover:text-amber transition-colors truncate block">
                    {{ item?.translated?.name || (item as any)?.name }}
                 </NuxtLink>
                 <div class="text-xs text-gray-400 font-montserrat mt-1" v-if="item.calculatedPrice">
@@ -331,7 +331,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
              </div>
               <button 
                 @click="handleRemoveFromWishlist(item.id, item.translated?.name || (item as any)?.name || '')" 
-                class="p-3 text-gray-500 hover:text-brand transition-colors bg-black rounded-sm border border-zinc-800 hover:border-brand/30"
+                class="p-3 text-gray-500 hover:text-amber transition-colors bg-black rounded-sm border border-zinc-800 hover:border-brand/30"
                 aria-label="Odstrániť z obľúbených"
               >
                 <Trash2 class="w-5 h-5"/>

@@ -30,9 +30,7 @@ const props = withDefaults(defineProps<{
           <span>SL</span><span class="mt-logo-i"><span class="mt-logo-i-dot"></span>I</span><span>CKLY</span>
         </div>
         <div class="mt-loader-content">
-            <div class="mt-loader-bar-track">
-              <div class="mt-loader-bar-fill"></div>
-            </div>
+            <div class="mt-loader-spinner"></div>
             <div class="mt-loader-text">loading experience ...</div>
         </div>
       </div>
@@ -93,22 +91,13 @@ const props = withDefaults(defineProps<{
     gap: 12px;
 }
 
-.mt-loader-bar-track {
-  width: 140px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  border-radius: 999px;
-  position: relative;
-}
-
-.mt-loader-bar-fill {
-  height: 100%;
-  width: 30%;
-  background: var(--brand-color);
-  border-radius: 999px;
-  position: absolute;
-  animation: mt-bar-slide 1.5s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+.mt-loader-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 191, 0, 0.2);
+  border-top-color: #FFBF00;
+  border-radius: 9999px;
+  animation: mt-spinner-spin 0.8s linear infinite;
 }
 
 .mt-loader-text {
@@ -121,10 +110,8 @@ const props = withDefaults(defineProps<{
     font-style: italic;
 }
 
-@keyframes mt-bar-slide {
-  0% { transform: translateX(-100%); }
-  50% { transform: translateX(150%); }
-  100% { transform: translateX(400%); }
+@keyframes mt-spinner-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* Leave-only transition: smooth fade-out after long loads */

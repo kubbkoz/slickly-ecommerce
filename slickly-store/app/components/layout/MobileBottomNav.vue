@@ -105,7 +105,7 @@ onUnmounted(() => {
         >
           <div class="relative">
             <ShoppingCart class="w-5 h-5 mb-1" />
-            <span v-if="cartCount > 0" class="absolute -top-1.5 -right-2.5 bg-brand text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+            <span v-if="cartCount > 0" class="absolute -top-1.5 -right-2.5 bg-amber text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
                 {{ cartCount }}
              </span>
           </div>
