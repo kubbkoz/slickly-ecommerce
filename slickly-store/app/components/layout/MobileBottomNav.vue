@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue';
-import { Home, Heart, ShoppingCart, ChevronUp } from 'lucide-vue-next';
+import { Home, User, ShoppingCart } from 'lucide-vue-next';
 // @ts-ignore
 import { useCart, useUser } from '@shopware/composables';
 // @ts-ignore
 import { useUiState } from '~/composables/useUiState';
-import { useCustomerWishlist } from '~/composables/useCustomerWishlist';
-import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 const { cartItems } = useCart();
 const { toggleCartSidebar } = useUiState();
-const { wishlistItems } = useCustomerWishlist();
 const { isLoggedIn } = useUser();
-const router = useRouter();
+const route = useRoute();
+const localePath = useLocalePath();
 const config = useRuntimeConfig();
+
+const isHomeActive = computed(() => route.path === localePath('/'));
+const isAccountActive = computed(() => route.path.startsWith(localePath('/account')));
 
 const _virtualIds = computed(() => [
     config.public.shopware.ids.products?.expressShipping,
@@ -28,7 +30,6 @@ const cartCount = computed(() =>
 );
 
 // Global modal state
-const isWishlistModalOpen = useState('wishlistModalOpen', () => false);
 const isLoginModalOpen = useState('loginModalOpen', () => false);
 const isBottomNavVisible = useState('mobileBottomNavVisible', () => false);
 const forceOverrideNavVisibility = useState<boolean | null>('forceOverrideNavVisibility', () => null);
@@ -57,20 +58,13 @@ watch(forceOverrideNavVisibility, (newVal) => {
    }
 });
 
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-};
-
-const handleWishlistClick = () => {
-  if (!isLoggedIn.value) {
-    isLoginModalOpen.value = true;
+function handleUserClick() {
+  if (isLoggedIn.value) {
+    navigateTo(localePath('/account'));
   } else {
-    isWishlistModalOpen.value = true;
+    isLoginModalOpen.value = true;
   }
-};
+}
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true });
@@ -98,8 +92,18 @@ onUnmounted(() => {
       aria-label="Spodná mobilná navigácia"
     >
       <div class="h-[60px] flex items-center justify-between px-2 gap-3 w-full">
+        <!-- Domov -->
+        <NuxtLink
+          :to="localePath('/')"
+          class="flex flex-col items-center justify-center w-[64px] h-full flex-shrink-0 transition-colors focus:outline-none"
+          :class="isHomeActive ? 'text-amber' : 'text-gray-500 hover:text-brand'"
+        >
+          <Home class="w-5 h-5 mb-1" />
+          <span class="text-[9px] font-bold uppercase tracking-wider font-sans">Domov</span>
+        </NuxtLink>
+
         <!-- Košík -->
-        <button 
+        <button
           @click="toggleCartSidebar(true)"
           class="flex flex-col items-center justify-center w-[64px] h-full flex-shrink-0 text-gray-500 bg-transparent hover:text-brand transition-colors focus:outline-none relative group"
         >
@@ -115,13 +119,14 @@ onUnmounted(() => {
         <!-- Dynamic CTA Slot -->
         <div id="mobile-nav-cta" class="flex-1 flex justify-center empty:hidden"></div>
 
-        <!-- Scroll to Top -->
-        <button 
-          @click="scrollToTop"
-          class="flex flex-col items-center justify-center w-[64px] h-full flex-shrink-0 text-black bg-transparent hover:text-brand transition-colors focus:outline-none"
+        <!-- Účet -->
+        <button
+          @click="handleUserClick"
+          class="flex flex-col items-center justify-center w-[64px] h-full flex-shrink-0 transition-colors focus:outline-none"
+          :class="isAccountActive ? 'text-amber' : 'text-gray-500 hover:text-brand'"
         >
-          <ChevronUp class="w-5 h-5 mb-1" />
-          <span class="text-[9px] font-bold uppercase tracking-wider font-sans">Hore</span>
+          <User class="w-5 h-5 mb-1" />
+          <span class="text-[9px] font-bold uppercase tracking-wider font-sans">Účet</span>
         </button>
       </div>
     </div>

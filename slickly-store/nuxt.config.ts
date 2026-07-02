@@ -528,12 +528,22 @@ extends: ["../vue-starter-template", "./features/blog"],
           `
         }
       ],
+      meta: [
+        // PWA installability — biely status bar pri nainštalovanej appke
+        { name: "theme-color", content: "#ffffff" },
+        { name: "mobile-web-app-capable", content: "yes" },
+        { name: "apple-mobile-web-app-capable", content: "yes" },
+        { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+        { name: "apple-mobile-web-app-title", content: "SLICKLY" },
+      ],
       link: [
         {
           rel: "icon",
           type: "image/svg+xml",
           href: "/favicon.svg",
         },
+        { rel: "manifest", href: "/manifest.webmanifest" },
+        { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
         // Preconnect — Shopware media CDN (product images, thumbnails)
         { rel: 'preconnect', href: 'https://mtsport.store' },
         { rel: 'dns-prefetch', href: 'https://mtsport.store' },
