@@ -116,7 +116,7 @@ useHead(computed(() => ({
             <div class="flex flex-col sm:flex-row gap-3">
               <NuxtLink
                 :to="slide?.ctaLink || '#'"
-                class="inline-flex items-center justify-center gap-3 bg-brand hover:bg-brand-dark text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto"
+                class="inline-flex items-center justify-center gap-3 bg-amber hover:bg-amber-dark text-black font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto"
               >
                 {{ slide?.cta }} <ArrowRight class="w-5 h-5" />
               </NuxtLink>

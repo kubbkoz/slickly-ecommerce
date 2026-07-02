@@ -12,13 +12,13 @@ const props = defineProps<{
 
 const variantClasses = computed(() => {
   switch (props.variant) {
-    case 'primary': return 'bg-brand text-white hover:bg-brand-dark border border-brand';
+    case 'primary': return 'bg-amber text-black hover:bg-amber-dark border border-amber';
     case 'secondary': return 'btn-secondary border border-transparent shadow-sm px-6 py-3';
     case 'outline': return 'bg-transparent text-white border border-white hover:bg-white hover:text-black';
     case 'brand-outline': return 'bg-transparent text-brand border border-brand hover:bg-brand hover:text-white';
     case 'ghost': return 'bg-transparent text-black hover:bg-gray-100 border border-transparent';
     case 'white': return 'bg-white text-black hover:bg-gray-100 border border-white';
-    default: return 'bg-brand text-white hover:bg-brand-dark border border-brand';
+    default: return 'bg-amber text-black hover:bg-amber-dark border border-amber';
   }
 });
 

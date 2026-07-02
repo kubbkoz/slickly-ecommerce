@@ -194,7 +194,7 @@ onUnmounted(() => { document.body.style.overflow = ''; });
                           <button @click="removeFromComparison(item.id)" class="absolute -top-1 -right-1 w-6 h-6 flex items-center justify-center text-gray-300 hover:text-brand transition-colors z-10"><X class="w-3.5 h-3.5" /></button>
                           <div class="relative">
                             <img :src="item.image" :alt="item.name" class="w-24 h-24 object-contain mx-auto mb-3" />
-                            <span v-if="discountPercent(item) > 0" class="absolute top-0 left-0 px-1.5 py-0.5 text-[10px] font-bold text-white bg-brand leading-none">-{{ discountPercent(item) }}%</span>
+                            <span v-if="discountPercent(item) > 0" class="absolute top-0 left-0 px-1.5 py-0.5 text-[10px] font-bold text-black bg-amber leading-none">-{{ discountPercent(item) }}%</span>
                           </div>
                           <p class="text-[11px] font-bold uppercase leading-tight line-clamp-2 mb-2 min-h-[2.5em]">{{ item.name }}</p>
                           <p class="font-tech font-black text-lg">{{ item.price }} €</p>

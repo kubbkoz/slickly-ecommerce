@@ -392,7 +392,7 @@ const handleHoverPrefetch = () => {
                 <div class="mt-auto flex items-end justify-between gap-2">
                     <div class="flex flex-col min-w-0">
                         <span v-if="calculateDiscount(product) > 0"
-                            class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white uppercase tracking-wider bg-brand leading-none w-fit mb-1">
+                            class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-black uppercase tracking-wider bg-amber leading-none w-fit mb-1">
                             -{{ calculateDiscount(product) }}%
                         </span>
                         <span class="text-lg md:text-xl font-bold font-tech text-black leading-none">

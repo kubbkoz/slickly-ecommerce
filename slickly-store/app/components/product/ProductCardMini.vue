@@ -37,7 +37,7 @@ const handleCardClick = () => {
           :alt="product.name" 
           class="w-full h-full object-contain transition-transform duration-500 rounded-none"
        />
-       <div v-if="discount > 0" class="absolute top-0 left-0 bg-brand text-white text-[9px] font-bold px-1.5 py-0.5 z-10">
+       <div v-if="discount > 0" class="absolute top-0 left-0 bg-amber text-black text-[9px] font-bold px-1.5 py-0.5 z-10">
          -{{ discount }}%
        </div>
     </div>

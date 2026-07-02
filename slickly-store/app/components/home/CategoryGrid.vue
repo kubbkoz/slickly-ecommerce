@@ -144,9 +144,9 @@ const { data: categories } = await useAsyncData(
               <!-- Button wrapper (no overflow hidden, allowing skew to render fully) -->
               <div class="cat-btn relative mt-3 inline-flex items-center justify-center px-4 py-1.5 pointer-events-auto transform -translate-x-[150%] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
                 <!-- Skewed background layer -->
-                <div class="absolute inset-0 bg-brand -skew-x-[15deg] origin-bottom-left shadow-lg"></div>
+                <div class="absolute inset-0 bg-amber -skew-x-[15deg] origin-bottom-left shadow-lg"></div>
                 <!-- Text layer -->
-                <span class="relative z-10 flex items-center gap-1.5 text-white font-tech text-[11px] md:text-xs font-bold uppercase tracking-widest leading-none">
+                <span class="relative z-10 flex items-center gap-1.5 text-black font-tech text-[11px] md:text-xs font-bold uppercase tracking-widest leading-none">
                   {{ t('prezriet').toUpperCase() }} <ArrowUpRight class="w-3.5 h-3.5 ml-0.5" />
                 </span>
               </div>

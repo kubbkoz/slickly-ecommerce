@@ -50,7 +50,7 @@ const resolvedImage = computed(() => {
       <div v-else class="w-full h-full bg-gray-100 flex items-center justify-center">
         <span class="text-[10px] text-gray-400 font-tech">MT</span>
       </div>
-      <div v-if="discount > 0" class="absolute top-0 left-0 bg-brand text-white text-[9px] font-bold px-1.5 py-0.5">
+      <div v-if="discount > 0" class="absolute top-0 left-0 bg-amber text-black text-[9px] font-bold px-1.5 py-0.5">
         -{{ discount }}%
       </div>
     </div>

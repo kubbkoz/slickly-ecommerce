@@ -49,7 +49,7 @@ onMounted(() => {
 
            <!-- Left: Image -->
            <div class="w-full md:w-1/2 bg-gray-50 p-8 flex items-center justify-center relative">
-              <span v-if="product.oldPrice" class="absolute top-6 left-6 z-10 px-3 py-1.5 text-lg font-black text-white uppercase tracking-wider font-tech bg-brand shadow-lg transform -rotate-2">
+              <span v-if="product.oldPrice" class="absolute top-6 left-6 z-10 px-3 py-1.5 text-lg font-black text-black uppercase tracking-wider font-tech bg-amber shadow-lg transform -rotate-2">
                  -{{ calculateDiscount() }}%
               </span>
               <img 

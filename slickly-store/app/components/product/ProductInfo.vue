@@ -471,7 +471,7 @@ const pmocPrice = computed(() => {
                        <span class="text-2xl font-black text-black font-tech leading-none">
                          {{ currentPrice }} €
                        </span>
-                       <div v-if="discountPercent > 0" class="px-2 py-0.5 text-[13px] font-black text-white uppercase tracking-wider font-tech bg-brand shadow-sm flex items-center">
+                       <div v-if="discountPercent > 0" class="px-2 py-0.5 text-[13px] font-black text-black uppercase tracking-wider font-tech bg-amber shadow-sm flex items-center">
                           -{{ discountPercent }}%
                        </div>
                    </div>

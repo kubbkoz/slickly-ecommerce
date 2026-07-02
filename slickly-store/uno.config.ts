@@ -131,7 +131,7 @@ export default defineConfig({
     'tech-corner-br': 'absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-amber z-10',
 
     // ── design.md §4 — Checkout / Full-width CTA ────────────────────────────
-    'btn-checkout': 'w-full py-4 bg-black text-white font-bold uppercase tracking-widest shadow-xl hover:bg-brand-dark transition-all duration-300 flex items-center justify-center rounded-default gpu-boost',
+    'btn-checkout': 'w-full py-4 bg-amber text-black font-bold uppercase tracking-widest shadow-xl hover:bg-amber-dark transition-all duration-300 flex items-center justify-center rounded-default gpu-boost',
 
     // ── design.md §4 — Secondary Button (Light variant) ─────────────────────
     'btn-secondary': 'bg-[#f7f9fa] text-[#5F6D7E] hover:bg-gray-100 hover:text-black transition-all duration-300 font-bold uppercase tracking-widest rounded-default gpu-boost',

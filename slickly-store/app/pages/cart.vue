@@ -306,7 +306,7 @@ const expressShipping = computed({
             <!-- Discount badge -->
             <span
               v-if="discountPercent(item) > 0"
-              class="absolute top-3 left-3 z-10 px-2 py-0.5 text-[9px] font-bold text-white uppercase bg-brand"
+              class="absolute top-3 left-3 z-10 px-2 py-0.5 text-[9px] font-bold text-black uppercase bg-amber"
             >
               -{{ discountPercent(item) }}%
             </span>
