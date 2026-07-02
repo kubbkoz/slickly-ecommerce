@@ -458,15 +458,25 @@ extends: ["../vue-starter-template", "./features/blog"],
             .mt-loader-logo {
               font-family: 'Space Grotesk', 'Arial Black', Arial, sans-serif;
               font-size: 2.5rem;
-              font-weight: 700;
+              font-weight: 900;
               text-transform: uppercase;
               display: flex;
               gap: 0px;
               line-height: 1;
               letter-spacing: 0.02em;
+              color: #ffffff;
             }
-            .mt-logo-mt { color: #ffffff; }
-            .mt-logo-sport { color: #FFBF00; }
+            .mt-logo-i { position: relative; display: inline-block; }
+            .mt-logo-i-dot {
+              position: absolute;
+              top: -0.32em;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 0.16em;
+              height: 0.16em;
+              border-radius: 9999px;
+              background: #FFBF00;
+            }
             .mt-loader-text {
                color: #555555;
                font-family: sans-serif;

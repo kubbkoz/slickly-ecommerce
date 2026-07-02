@@ -216,10 +216,10 @@ defineProps<{
     <div class="container mx-auto px-4 lg:px-8 flex justify-between items-center h-full overflow-visible">
       <div class="flex items-center space-x-6">
         <a :href="contact.phone.mainHref" class="flex items-center hover:text-white transition-colors cursor-pointer">
-          <Phone class="w-3 h-3 mr-2 text-brand" /> {{ contact.phone.mainDisplay }}
+          <Phone class="w-3 h-3 mr-2 text-amber" /> {{ contact.phone.mainDisplay }}
         </a>
         <a :href="contact.email.infoHref" class="flex items-center hover:text-white transition-colors cursor-pointer">
-          <Mail class="w-3 h-3 mr-2 text-brand" /> {{ contact.email.info }}
+          <Mail class="w-3 h-3 mr-2 text-amber" /> {{ contact.email.info }}
         </a>
       </div>
       <div class="flex items-center space-x-6">
@@ -277,9 +277,9 @@ defineProps<{
 
         <NuxtLink 
           :to="localePath('/blog', currentLocale as any)"
-          class="flex items-center text-white hover:text-brand transition-colors font-medium tracking-[0.1em]"
+          class="flex items-center text-white hover:text-amber transition-colors font-medium tracking-[0.1em]"
         >
-          <BookOpen class="w-3.5 h-3.5 mr-1.5 text-brand" />
+          <BookOpen class="w-3.5 h-3.5 mr-1.5 text-amber" />
           {{ t('magazin') }}
         </NuxtLink>
         <div class="h-3 w-px bg-white/10"></div>
@@ -307,7 +307,7 @@ defineProps<{
       :href="contact.phone.mainHref"
       class="flex items-center gap-1.5 hover:text-white transition-colors"
     >
-      <Phone class="w-3 h-3 text-brand" aria-hidden="true" />
+      <Phone class="w-3 h-3 text-amber" aria-hidden="true" />
       {{ contact.phone.mainDisplay }}
     </a>
   </div>

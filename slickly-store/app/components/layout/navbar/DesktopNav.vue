@@ -141,8 +141,8 @@ watch(() => route.path, closeMegaMenu);
             >
               <NuxtLink 
                 :to="localePath(getCategoryUrl(link as any), currentLocale as any)"
-                class="flex items-center text-sm font-bold uppercase tracking-widest transition-all duration-300 font-tech text-white hover:text-brand"
-                :class="{ 'text-brand': activeCategory?.id === link.id && isMegaMenuVisible }"
+                class="flex items-center text-sm font-bold uppercase tracking-widest transition-all duration-300 font-tech text-white hover:text-amber"
+                :class="{ 'text-amber': activeCategory?.id === link.id && isMegaMenuVisible }"
               >
                 {{ link.name }}
                 <ChevronDown 

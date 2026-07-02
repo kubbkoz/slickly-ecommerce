@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<{
     >
       <div class="mt-loader-inner">
         <div class="mt-loader-logo">
-          <span class="mt-logo-mt">SLICK</span><span class="mt-logo-sport">LY</span>
+          <span>SL</span><span class="mt-logo-i"><span class="mt-logo-i-dot"></span>I</span><span>CKLY</span>
         </div>
         <div class="mt-loader-content">
             <div class="mt-loader-bar-track">
@@ -67,14 +67,23 @@ const props = withDefaults(defineProps<{
   line-height: 1;
   display: flex;
   gap: 0;
-}
-
-.mt-logo-mt {
   color: #ffffff;
 }
 
-.mt-logo-sport {
-  color: #FFBF00;
+/* Decorative amber dot above the "I" (uppercase has no natural tittle) */
+.mt-logo-i {
+  position: relative;
+  display: inline-block;
+}
+.mt-logo-i-dot {
+  position: absolute;
+  top: -0.32em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.16em;
+  height: 0.16em;
+  border-radius: 9999px;
+  background: #FFBF00;
 }
 
 .mt-loader-content {

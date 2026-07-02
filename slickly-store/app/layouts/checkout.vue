@@ -19,20 +19,18 @@ function handleUserClick() {
   <div class="min-h-screen bg-gray-50 font-sans flex flex-col">
 
     <header class="bg-black flex-shrink-0 shadow-xl fixed top-0 left-0 right-0 z-50">
-      <div class="h-[3px] bg-brand w-full"></div>
+      <div class="h-[3px] bg-amber w-full"></div>
 
       <div class="container mx-auto px-4 lg:px-8 h-[72px] relative flex items-center">
 
         <!-- LEFT: v toku, bez fixnej šírky — netlačí center -->
         <div class="flex items-center gap-2 lg:gap-5 flex-shrink-0 relative z-10">
           <NuxtLink :to="localePath('/')" aria-label="SLICKLY Domov"
-            class="font-tech font-black italic uppercase leading-none tracking-tighter flex items-baseline">
-            <span class="text-brand text-[2rem] lg:text-[2.5rem]">MT</span>
-            <span class="text-white text-[2rem] lg:text-[2.5rem]">SPORT</span>
-            <span class="text-brand text-[2rem] lg:text-[2.5rem]">.</span>
+            class="font-tech font-black uppercase leading-none tracking-tighter flex items-baseline text-white text-[2rem] lg:text-[2.5rem]">
+            <span>SL</span><span class="logo-i-wrap"><span class="logo-i-dot bg-amber"></span>I</span><span>CKLY</span>
           </NuxtLink>
           <div class="hidden lg:flex items-center gap-2 border-l border-gray-700 pl-5 text-gray-200">
-            <ShieldCheck class="w-4 h-4 text-brand flex-shrink-0" />
+            <ShieldCheck class="w-4 h-4 text-amber flex-shrink-0" />
             <span class="text-xs font-bold uppercase tracking-widest whitespace-nowrap">Bezpečný nákup</span>
           </div>
         </div>
@@ -48,7 +46,7 @@ function handleUserClick() {
         <div class="ml-auto flex justify-end flex-shrink-0 relative z-10">
           <button
             @click="handleUserClick"
-            class="flex items-center gap-2 text-white hover:text-brand transition-colors bg-gray-900 border border-gray-700 hover:border-gray-500 px-3 lg:px-4 py-2.5 focus:outline-none"
+            class="flex items-center gap-2 text-white hover:text-amber transition-colors bg-gray-900 border border-gray-700 hover:border-gray-500 px-3 lg:px-4 py-2.5 focus:outline-none"
             aria-label="Prihlásiť sa / Môj účet"
           >
             <User class="w-4 h-4 flex-shrink-0" />
@@ -82,3 +80,20 @@ function handleUserClick() {
 
   </div>
 </template>
+
+<style scoped>
+/* Decorative amber dot above the "I" (uppercase has no natural tittle) */
+.logo-i-wrap {
+  position: relative;
+  display: inline-block;
+}
+.logo-i-dot {
+  position: absolute;
+  top: -0.32em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.16em;
+  height: 0.16em;
+  border-radius: 9999px;
+}
+</style>

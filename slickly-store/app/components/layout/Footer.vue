@@ -63,7 +63,7 @@ const footerCategories = computed(() => {
 <template>
   <footer class="bg-black text-white border-t border-zinc-900 font-sans relative overflow-hidden">
     <!-- Top Tech Border -->
-    <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand to-transparent opacity-70"></div>
+    <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-amber to-transparent opacity-70"></div>
     <div class="pt-20 pb-10">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
@@ -71,9 +71,8 @@ const footerCategories = computed(() => {
           <!-- 1. Brand & Socials (4 cols) -->
           <div class="lg:col-span-4 flex flex-col items-start">
              <NuxtLink :to="localePath('/', currentLocale)" class="block mb-8" aria-label="SLICKLY Domov">
-              <div class="flex items-baseline font-tech font-black italic uppercase leading-none tracking-tighter">
-                <span class="text-brand text-[2.5rem]">MT</span>
-                <span class="text-white text-[2.5rem] ml-px">SPORT</span>
+              <div class="flex items-baseline font-tech font-black uppercase leading-none tracking-tighter text-white text-[2.5rem]">
+                <span>SL</span><span class="logo-i-wrap"><span class="logo-i-dot bg-amber"></span>I</span><span>CKLY</span>
               </div>
             </NuxtLink>
             <p class="text-gray-300 mb-8 leading-relaxed text-sm max-w-sm">
@@ -97,16 +96,16 @@ const footerCategories = computed(() => {
           <!-- 2. Quick Links — live categories from Shopware (2 cols) -->
           <div class="lg:col-span-2">
             <h2 class="font-black font-tech text-lg mb-8 uppercase tracking-widest text-white flex items-center">
-              <span class="w-1 h-4 bg-brand mr-3"></span>
+              <span class="w-1 h-4 bg-amber mr-3"></span>
               {{ t('footer.menu.categories') }}
             </h2>
             <ul class="space-y-4 text-sm text-gray-300 font-medium">
               <li v-for="cat in footerCategories" :key="cat.id">
                 <NuxtLink
                   :to="localePath(getCategoryUrl(cat))"
-                  class="hover:text-brand hover:pl-2 transition-all flex items-center group"
+                  class="hover:text-amber hover:pl-2 transition-all flex items-center group"
                 >
-                  <ChevronRight class="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-brand" />
+                  <ChevronRight class="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity text-amber" />
                   {{ cat.translated?.name || cat.name }}
                 </NuxtLink>
               </li>
@@ -116,30 +115,30 @@ const footerCategories = computed(() => {
           <!-- 3. Contact Info (3 cols) -->
           <div class="lg:col-span-3">
             <h2 class="font-black font-tech text-lg mb-8 uppercase tracking-widest text-white flex items-center">
-              <span class="w-1 h-4 bg-brand mr-3"></span>
+              <span class="w-1 h-4 bg-amber mr-3"></span>
               Kontakt
             </h2>
             <ul class="space-y-6">
               <li class="flex items-start group">
-                <Phone class="w-5 h-5 text-brand mr-4 mt-1" />
+                <Phone class="w-5 h-5 text-amber mr-4 mt-1" />
                 <div>
                   <span class="block text-[10px] text-white/60 uppercase font-normal tracking-wider mb-1">Infolinka</span>
-                  <a :href="contact.phone.mainHref" class="text-xl font-bold text-white group-hover:text-brand transition-colors font-tech">{{ contact.phone.mainDisplay }}</a>
+                  <a :href="contact.phone.mainHref" class="text-xl font-bold text-white group-hover:text-amber transition-colors font-tech">{{ contact.phone.mainDisplay }}</a>
                 </div>
               </li>
               <li class="flex items-start group">
-                <Mail class="w-5 h-5 text-brand mr-4 mt-1" />
+                <Mail class="w-5 h-5 text-amber mr-4 mt-1" />
                 <div>
                   <span class="block text-[10px] text-white/60 uppercase font-normal tracking-wider mb-1">Email</span>
                   <a :href="contact.email.infoHref" class="text-base text-gray-300 group-hover:text-white transition-colors">{{ contact.email.info }}</a>
                 </div>
               </li>
               <li class="flex items-start group">
-                <RotateCcw class="w-5 h-5 text-brand mr-4 mt-1" />
+                <RotateCcw class="w-5 h-5 text-amber mr-4 mt-1" />
                 <div>
                   <span class="block text-[10px] text-white/60 uppercase font-normal tracking-wider mb-1">Reklamácia / Vrátenie</span>
                   <NuxtLink to="/odstupenie-od-zmluvy"
-                            class="text-base text-gray-300 group-hover:text-brand transition-colors">
+                            class="text-base text-gray-300 group-hover:text-amber transition-colors">
                     Vyplniť formulár
                   </NuxtLink>
                 </div>
@@ -150,7 +149,7 @@ const footerCategories = computed(() => {
           <!-- 4. Online support (3 cols) -->
           <div class="lg:col-span-3">
              <h2 class="font-black font-tech text-lg mb-8 uppercase tracking-widest text-white flex items-center">
-              <span class="w-1 h-4 bg-brand mr-3"></span>
+              <span class="w-1 h-4 bg-amber mr-3"></span>
               Zákaznícka podpora
             </h2>
 
@@ -161,7 +160,7 @@ const footerCategories = computed(() => {
 
             <a
               :href="contact.email.infoHref"
-              class="inline-flex items-center text-sm font-bold text-brand uppercase tracking-widest hover:text-white transition-colors"
+              class="inline-flex items-center text-sm font-bold text-amber uppercase tracking-widest hover:text-white transition-colors"
             >
               <Mail class="w-4 h-4 mr-2" /> {{ contact.email.info }}
             </a>
@@ -178,3 +177,20 @@ const footerCategories = computed(() => {
     </div>
   </footer>
 </template>
+
+<style scoped>
+/* Decorative amber dot above the "I" (uppercase has no natural tittle) */
+.logo-i-wrap {
+  position: relative;
+  display: inline-block;
+}
+.logo-i-dot {
+  position: absolute;
+  top: -0.32em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.16em;
+  height: 0.16em;
+  border-radius: 9999px;
+}
+</style>
