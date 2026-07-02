@@ -137,7 +137,7 @@ onMounted(() => { isMounted.value = true; });
             <!-- Desktop: scroll to variant selector if unselected, otherwise add to cart -->
             <button
               v-if="isUnselectedVariant"
-              class="h-12 px-8 whitespace-nowrap bg-brand text-white font-bold font-tech text-sm tracking-widest uppercase flex items-center gap-3 transition-opacity hover:opacity-90"
+              class="h-12 px-8 whitespace-nowrap bg-brand text-white font-bold font-tech text-sm tracking-widest uppercase flex items-center gap-3 transition-opacity hover:opacity-90 rounded-default"
               @click="scrollToVariantSelector"
             >
               <ShoppingCart class="w-6 h-6" />
@@ -165,7 +165,7 @@ onMounted(() => { isMounted.value = true; });
         <div class="flex gap-2 px-4 pt-3 pb-2 h-[64px]">
           <button
             v-if="isUnselectedVariant"
-            class="flex-1 h-full bg-brand text-white font-bold font-tech text-[11px] tracking-widest uppercase flex items-center justify-center gap-1.5 transition-all active:scale-95 focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none"
+            class="flex-1 h-full bg-brand text-white font-bold font-tech text-[11px] tracking-widest uppercase flex items-center justify-center gap-1.5 transition-all active:scale-95 focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none rounded-default"
             @click="openMobileVariantPanel"
             aria-label="Otvoriť výber veľkosti"
           >
