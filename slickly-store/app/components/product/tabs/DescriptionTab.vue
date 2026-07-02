@@ -89,7 +89,7 @@ const grids = computed(() => {
     </section>
 
     <!-- 2. Sekcia Features (Hlavný highlight) -->
-    <section v-if="product.customFields?.mts_feat_title || product.customFields?.mts_feat_img" class="bg-black text-white p-8 md:p-20 rounded-none overflow-hidden relative">
+    <section v-if="product.customFields?.mts_feat_title || product.customFields?.mts_feat_img" class="bg-black text-white p-8 md:p-20 rounded-default overflow-hidden relative">
         <!-- Dynamic Feature Icon (10% white opacity) -->
         <div v-if="featureIcon" class="absolute -top-10 -right-10 opacity-[0.10] text-white pointer-events-none z-0">
             <component :is="featureIcon" class="w-96 h-96" />
@@ -148,7 +148,7 @@ const grids = computed(() => {
                     <span class="w-1.5 h-6 bg-brand"></span>
                     {{ grid.title }}
                 </h3>
-                <div v-if="grid.img" class="mb-6 overflow-hidden rounded-none w-full aspect-video md:aspect-[16/9] bg-zinc-50 border border-gray-100">
+                <div v-if="grid.img" class="mb-6 overflow-hidden rounded-default w-full aspect-video md:aspect-[16/9] bg-zinc-50 border border-gray-100">
                     <img
                         :src="grid.img"
                         :alt="grid.title || ''"
@@ -172,9 +172,9 @@ const grids = computed(() => {
             {{ product.customFields.mts_video_title || 'Video Showcase' }}
         </h2>
 
-        <div class="relative overflow-hidden rounded-none border-0">
+        <div class="relative overflow-hidden rounded-default border-0">
             <!-- Video Player logic -->
-            <div class="aspect-video w-full rounded-none overflow-hidden shadow-2xl relative z-10 bg-zinc-900 border border-gray-100">
+            <div class="aspect-video w-full rounded-default overflow-hidden shadow-2xl relative z-10 bg-zinc-900 border border-gray-100">
                 <!-- HTML5 Video (Priority) -->
                 <video 
                     v-if="product.customFields.mts_video_file" 
@@ -204,7 +204,7 @@ const grids = computed(() => {
             {{ product.customFields.mts_komp_title }}
         </h2>
         
-        <div class="relative overflow-hidden rounded-none border-0">
+        <div class="relative overflow-hidden rounded-default border-0">
             <div 
                 v-if="product.customFields?.mts_komp_editor" 
                 class="prose prose-md max-w-none text-gray-700 font-sans columns-1 md:columns-2 gap-16 relative z-10"

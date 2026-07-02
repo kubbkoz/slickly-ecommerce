@@ -15,7 +15,7 @@ const emit = defineEmits<{ (e: 'close'): void }>();
         </div>
         <button
             @click="emit('close')"
-            class="w-10 h-10 flex items-center justify-center bg-gray-900/5 hover:bg-gray-900/10 text-gray-900 transition-all rounded-none"
+            class="w-10 h-10 flex items-center justify-center bg-gray-900/5 hover:bg-gray-900/10 text-gray-900 transition-all rounded-sm"
             aria-label="Zavrieť košík"
         >
             <X class="w-4 h-4" />

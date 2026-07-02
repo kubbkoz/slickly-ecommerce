@@ -516,7 +516,7 @@ const resolveImageUrl = (item: any) => {
             v-model="couponInput"
             type="text"
             placeholder="NAPR. MT2026"
-            class="flex-1 uppercase text-xs py-3 px-3 rounded-none focus:outline-none font-sans"
+            class="flex-1 uppercase text-xs py-3 px-3 rounded-default focus:outline-none font-sans"
             @keydown.enter="handleApplyCoupon"
           />
           <button

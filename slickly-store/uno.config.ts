@@ -38,10 +38,12 @@ export default defineConfig({
   ],
 
   theme: {
-    // design.md §5 — Shape: 6px na CTA, inputy, karty (NIKDY rounded-full)
+    // design.md §5 — Shape: 6px na CTA, inputy, karty; 3px na malé prvky (badge,
+    // malé buttony) — rounded-sm. NIKDY rounded-full na tlačidlá.
     borderRadius: {
       DEFAULT: '6px',
       default: '6px',
+      sm: '3px',
     },
     colors: {
       // design.md §2 — Farby (Minimalist Precision)

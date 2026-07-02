@@ -475,7 +475,7 @@ const handleCoupon = async (code: string) => {
             </button>
 
             <!-- Drawer Body: Has background and shadow to overlap the cross-sell panel -->
-            <div class="relative z-10 flex flex-col h-full bg-white border border-gray-100 shadow-[0_40px_100px_rgba(0,0,0,0.15)] overflow-hidden rounded-none">
+            <div class="relative z-10 flex flex-col h-full bg-white border border-gray-100 shadow-[0_40px_100px_rgba(0,0,0,0.15)] overflow-hidden rounded-default">
 
                 <CartHeader :count="productItemCount" @close="toggleCartSidebar(false)" />
 

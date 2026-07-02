@@ -50,7 +50,7 @@ watch(
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <button
           type="button"
-          class="border-2 p-4 text-left transition-all font-tech rounded-none"
+          class="border-2 p-4 text-left transition-all font-tech rounded-default"
           :class="formData.formType === 'vratenie'
             ? 'border-brand bg-brand/5 text-brand'
             : 'border-gray-200 hover:border-gray-400'"
@@ -65,7 +65,7 @@ watch(
 
         <button
           type="button"
-          class="border-2 p-4 text-left transition-all font-tech rounded-none"
+          class="border-2 p-4 text-left transition-all font-tech rounded-default"
           :class="formData.formType === 'reklamacia'
             ? 'border-brand bg-brand/5 text-brand'
             : 'border-gray-200 hover:border-gray-400'"

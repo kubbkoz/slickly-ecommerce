@@ -71,7 +71,7 @@ const currentGeo = computed(() => geometryData[activeSize.value] || geometryData
 <template>
   <div v-if="isOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4 font-sans">
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" @click="emit('close')" />
-      <div class="relative w-full max-w-5xl bg-white shadow-2xl animate-slide-up rounded-none overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="relative w-full max-w-5xl bg-white shadow-2xl animate-slide-up rounded-default overflow-hidden flex flex-col max-h-[90vh]">
         
         <!-- Header -->
         <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
@@ -80,7 +80,7 @@ const currentGeo = computed(() => geometryData[activeSize.value] || geometryData
               <Ruler class="w-6 h-6 mr-2 text-brand" /> TABUĽKA VEĽKOSTÍ A GEOMETRIA RÁMU
             </h2>
           </div>
-          <button @click="emit('close')" class="p-2 hover:bg-gray-200 transition-colors rounded-none">
+          <button @click="emit('close')" class="p-2 hover:bg-gray-200 transition-colors rounded-sm">
             <X class="w-6 h-6" />
           </button>
         </div>
@@ -176,7 +176,7 @@ const currentGeo = computed(() => geometryData[activeSize.value] || geometryData
                 </div>
               </div>
 
-              <div class="mt-12 p-4 bg-blue-50 border border-blue-100 text-sm text-blue-800 rounded-none">
+              <div class="mt-12 p-4 bg-blue-50 border border-blue-100 text-sm text-blue-800 rounded-default">
                 <p><strong>Tip experta:</strong> Ak sa nachádzate na rozmedzí dvoch veľkostí, pre športovejšiu jazdu zvoľte menší rám, pre komfortnejšiu jazdu zvoľte väčší rám.</p>
               </div>
             </div>

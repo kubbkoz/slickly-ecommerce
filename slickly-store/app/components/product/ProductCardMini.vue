@@ -28,14 +28,14 @@ const handleCardClick = () => {
 <template>
   <div 
     @click="handleCardClick"
-    class="flex gap-4 p-3 bg-white hover:bg-gray-50 transition-all duration-300 cursor-pointer group rounded-none border border-gray-100/50 hover:border-brand/20"
+    class="flex gap-4 p-3 bg-white hover:bg-gray-50 transition-all duration-300 cursor-pointer group rounded-default border border-gray-100/50 hover:border-brand/20"
   >
     <!-- Image -->
-    <div class="w-20 h-20 bg-white shrink-0 relative overflow-hidden flex items-center justify-center p-2 rounded-none border border-gray-100/50">
+    <div class="w-20 h-20 bg-white shrink-0 relative overflow-hidden flex items-center justify-center p-2 rounded-default border border-gray-100/50">
        <img 
           :src="imageUrl" 
           :alt="product.name" 
-          class="w-full h-full object-contain transition-transform duration-500 rounded-none"
+          class="w-full h-full object-contain transition-transform duration-500 rounded-default"
        />
        <div v-if="discount > 0" class="absolute top-0 left-0 bg-amber text-black text-[9px] font-bold px-1.5 py-0.5 z-10">
          -{{ discount }}%

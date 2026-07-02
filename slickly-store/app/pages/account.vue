@@ -222,7 +222,7 @@ const handleFileUpload = (event: Event) => {
                         </div>
                         
                         <!-- Modal pre avatary -->
-                        <div v-if="showAvatarModal" class="absolute top-24 left-6 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 p-6 z-50 animate-fade-in flex flex-col gap-6 w-[340px] rounded-none">
+                        <div v-if="showAvatarModal" class="absolute top-24 left-6 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 p-6 z-50 animate-fade-in flex flex-col gap-6 w-[340px] rounded-default">
                             
                             <div>
                                 <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3">Vyberte si avatara z knižnice</p>

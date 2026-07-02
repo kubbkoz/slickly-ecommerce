@@ -188,7 +188,7 @@ const trackRight = computed(() => {
            <!-- Dual Slider Wrapper -->
            <div class="relative h-10 flex flex-col justify-center">
              <!-- Track Background -->
-             <div class="absolute w-full h-[1px] bg-gray-100 rounded-none overflow-hidden">
+             <div class="absolute w-full h-[1px] bg-gray-100 rounded-default overflow-hidden">
                <!-- Highlighted Range Track -->
                <div 
                  class="absolute h-full bg-brand transition-all duration-150"
@@ -225,7 +225,7 @@ const trackRight = computed(() => {
                   type="text" 
                   :value="formatPriceDisplay(currentMin)"
                   @change="(e) => onPriceChange([Number((e.target as HTMLInputElement).value.replace(',', '.')) || minPrice, priceRange[1]])"
-                  class="w-full p-3 bg-gray-50 border-none text-xs font-bold text-gray-900 rounded-none focus:ring-1 focus:ring-gray-200 text-center"
+                  class="w-full p-3 bg-gray-50 border-none text-xs font-bold text-gray-900 rounded-default focus:ring-1 focus:ring-gray-200 text-center"
                 />
              </div>
              <div class="relative flex-1">
@@ -233,7 +233,7 @@ const trackRight = computed(() => {
                   type="text" 
                   :value="formatPriceDisplay(currentMax)"
                   @change="(e) => onPriceChange([priceRange[0], Number((e.target as HTMLInputElement).value.replace(',', '.')) || maxPrice])"
-                  class="w-full p-3 bg-gray-50 border-none text-xs font-bold text-gray-900 rounded-none focus:ring-1 focus:ring-gray-200 text-center"
+                  class="w-full p-3 bg-gray-50 border-none text-xs font-bold text-gray-900 rounded-default focus:ring-1 focus:ring-gray-200 text-center"
                 />
              </div>
            </div>
@@ -245,14 +245,14 @@ const trackRight = computed(() => {
       <div class="flex flex-col gap-2">
         <button 
           @click="onStockToggle"
-          class="flex items-center justify-between w-full p-4 rounded-none transition-all border"
+          class="flex items-center justify-between w-full p-4 rounded-default transition-all border"
           :class="inStockOnly ? 'bg-brand border-brand text-white shadow-md' : 'bg-gray-50 border-transparent hover:bg-gray-100 text-gray-700'"
         >
           <div class="flex flex-col items-start gap-0.5">
             <span class="text-[11px] font-bold uppercase tracking-widest leading-none">Skladom</span>
             <span :class="`text-[9px] uppercase tracking-wider font-montserrat ${inStockOnly ? 'text-gray-300' : 'text-gray-400'}`">Odosielame ihneď</span>
           </div>
-          <div :class="`w-4 h-4 rounded-none border flex items-center justify-center ${
+          <div :class="`w-4 h-4 rounded-sm border flex items-center justify-center ${
             inStockOnly ? 'bg-white border-white text-brand' : 'bg-white border-gray-300'
           }`">
             <Check v-if="inStockOnly" class="w-3 h-3" stroke-width="3" />
@@ -261,7 +261,7 @@ const trackRight = computed(() => {
 
         <button 
           @click="onDemandToggle"
-          class="flex items-center justify-between w-full p-4 rounded-none transition-all border"
+          class="flex items-center justify-between w-full p-4 rounded-default transition-all border"
           :class="onDemandOnly ? 'bg-brand border-brand text-white shadow-md' : 'bg-gray-50 border-transparent hover:bg-gray-100 text-gray-700'"
         >
           <div class="flex flex-col items-start gap-0.5">
@@ -269,7 +269,7 @@ const trackRight = computed(() => {
             <span :class="`text-[9px] uppercase tracking-wider font-montserrat ${onDemandOnly ? 'text-gray-300' : 'text-gray-400'}`">Odosielame za 3-5 dní</span>
           </div>
           <div
-            class="w-4 h-4 rounded-none border flex items-center justify-center"
+            class="w-4 h-4 rounded-sm border flex items-center justify-center"
             :class="onDemandOnly ? 'bg-white border-white text-brand' : 'bg-white border-gray-300'"
           >
             <Check v-if="onDemandOnly" class="w-3 h-3" stroke-width="3" />
@@ -279,7 +279,7 @@ const trackRight = computed(() => {
         <!-- Odporúčané produkty (markAsTopseller) -->
         <button 
           @click="onFeaturedToggle"
-          class="flex items-center justify-between w-full p-4 rounded-none transition-all border"
+          class="flex items-center justify-between w-full p-4 rounded-default transition-all border"
           :class="isFeatured ? 'bg-brand border-brand text-white shadow-md' : 'bg-gray-50 border-transparent hover:bg-gray-100 text-gray-700'"
         >
           <div class="flex flex-col items-start gap-0.5">
@@ -287,7 +287,7 @@ const trackRight = computed(() => {
             <span :class="`text-[9px] uppercase tracking-wider font-montserrat ${isFeatured ? 'text-gray-300' : 'text-gray-400'}`">Vybrali sme pre vás</span>
           </div>
           <div
-            class="w-4 h-4 rounded-none border flex items-center justify-center"
+            class="w-4 h-4 rounded-sm border flex items-center justify-center"
             :class="isFeatured ? 'bg-white border-white text-brand' : 'bg-white border-gray-300'"
           >
             <Check v-if="isFeatured" class="w-3 h-3" stroke-width="3" />
@@ -315,7 +315,7 @@ const trackRight = computed(() => {
                 placeholder="Napr. 180" 
                 :value="riderHeight || ''"
                 @input="(e) => emit('update:riderHeight', (e.target as HTMLInputElement).value ? parseInt((e.target as HTMLInputElement).value) : null)"
-                class="w-full p-4 bg-gray-50 border-none text-sm font-bold text-gray-900 rounded-none focus:ring-1 focus:ring-gray-200 text-center"
+                class="w-full p-4 bg-gray-50 border-none text-sm font-bold text-gray-900 rounded-default focus:ring-1 focus:ring-gray-200 text-center"
               />
            </div>
            <p class="text-[9px] text-gray-400 mt-2 px-1 text-center font-montserrat uppercase tracking-wider">Autom. zúženie bicyklov na vašu postavu.</p>
@@ -335,7 +335,7 @@ const trackRight = computed(() => {
         </button>
         <div v-if="openSections.motor" id="filter-section-motor" class="flex flex-col gap-1 pb-6 px-1">
              <label v-for="item in motorNorm" :key="item.id" class="flex items-center gap-3 p-2 hover:bg-gray-50 cursor-pointer transition-colors group">
-                <input type="checkbox" :checked="selectedMotorNorm?.includes(item.id)" @change="emit('toggleMotorNorm', item.id)" class="text-brand border-gray-300 rounded-none focus:ring-brand/20 w-4 h-4 transition-all" />
+                <input type="checkbox" :checked="selectedMotorNorm?.includes(item.id)" @change="emit('toggleMotorNorm', item.id)" class="text-brand border-gray-300 rounded-sm focus:ring-brand/20 w-4 h-4 transition-all" />
                 <span class="text-[11px] font-bold text-gray-700 uppercase group-hover:text-gray-900 transition-colors">{{ item.name }}</span>
              </label>
         </div>
@@ -354,7 +354,7 @@ const trackRight = computed(() => {
         </button>
         <div v-if="openSections.battery" id="filter-section-battery" class="flex flex-col gap-1 pb-6 px-1">
              <label v-for="item in batteryNorm" :key="item.id" class="flex items-center gap-3 p-2 hover:bg-gray-50 cursor-pointer transition-colors group">
-                <input type="checkbox" :checked="selectedBatteryNorm?.includes(item.id)" @change="emit('toggleBatteryNorm', item.id)" class="text-brand border-gray-300 rounded-none focus:ring-brand/20 w-4 h-4 transition-all" />
+                <input type="checkbox" :checked="selectedBatteryNorm?.includes(item.id)" @change="emit('toggleBatteryNorm', item.id)" class="text-brand border-gray-300 rounded-sm focus:ring-brand/20 w-4 h-4 transition-all" />
                 <span class="text-[11px] font-bold text-gray-700 uppercase group-hover:text-gray-900 transition-colors">{{ item.name }}</span>
              </label>
         </div>
@@ -378,7 +378,7 @@ const trackRight = computed(() => {
                 type="text" 
                 placeholder="Hľadať značku..." 
                 v-model="brandSearch"
-                class="w-full pl-10 pr-4 py-3 bg-gray-50 border-none text-xs font-montserrat rounded-none focus:ring-1 focus:ring-gray-200"
+                class="w-full pl-10 pr-4 py-3 bg-gray-50 border-none text-xs font-montserrat rounded-default focus:ring-1 focus:ring-gray-200"
               />
               <Search class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
            </div>
@@ -389,7 +389,7 @@ const trackRight = computed(() => {
                 :key="brand.id"
                 @click="onBrandToggle(brand.id)"
                 :class="selectedBrands.includes(brand.id) ? 'bg-brand border-brand text-white' : 'bg-white border-gray-100 hover:border-gray-300 text-gray-600'"
-                class="p-3 flex items-center gap-3 transition-all rounded-none border"
+                class="p-3 flex items-center gap-3 transition-all rounded-sm border"
               >
                 <div v-if="manufacturerLogos[brand.id]" class="w-6 h-6 flex-shrink-0 flex items-center justify-center">
                     <img :src="manufacturerLogos[brand.id]" :alt="brand.name" class="max-w-full max-h-full object-contain" :class="selectedBrands.includes(brand.id) ? 'brightness-0 invert' : 'grayscale'" />
@@ -402,7 +402,7 @@ const trackRight = computed(() => {
            <button 
               v-if="hasMoreBrands" 
               @click="showAllBrands = true"
-              class="w-full mt-2 py-3 px-4 flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-brand transition-all rounded-none outline-none border border-transparent hover:border-brand/20 hover:bg-brand/5 group"
+              class="w-full mt-2 py-3 px-4 flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-brand transition-all rounded-default outline-none border border-transparent hover:border-brand/20 hover:bg-brand/5 group"
            >
               <div class="flex items-center gap-1.5 overflow-hidden flex-1">
                  <template v-for="(brand, idx) in filteredBrands.slice(6, 10)" :key="brand.id">
@@ -428,7 +428,7 @@ const trackRight = computed(() => {
         </button>
         <div v-if="openSections.wheelsNorm" id="filter-section-wheels" class="flex flex-col gap-1 pb-6 px-1">
              <label v-for="item in wheelsNorm" :key="item.id" class="flex items-center gap-3 p-2 hover:bg-gray-50 cursor-pointer transition-colors group">
-                <input type="checkbox" :checked="selectedWheelsNorm?.includes(item.id)" @change="emit('toggleWheelsNorm', item.id)" class="text-brand border-gray-300 rounded-none focus:ring-brand/20 w-4 h-4 transition-all" />
+                <input type="checkbox" :checked="selectedWheelsNorm?.includes(item.id)" @change="emit('toggleWheelsNorm', item.id)" class="text-brand border-gray-300 rounded-sm focus:ring-brand/20 w-4 h-4 transition-all" />
                 <span class="text-[11px] font-bold text-gray-700 uppercase group-hover:text-gray-900 transition-colors">{{ item.name }}</span>
              </label>
         </div>
@@ -447,7 +447,7 @@ const trackRight = computed(() => {
         </button>
         <div v-if="openSections.fork" id="filter-section-fork" class="flex flex-col gap-1 pb-6 px-1">
              <label v-for="item in forkNorm" :key="item.id" class="flex items-center gap-3 p-2 hover:bg-gray-50 cursor-pointer transition-colors group">
-                <input type="checkbox" :checked="selectedForkNorm?.includes(item.id)" @change="emit('toggleForkNorm', item.id)" class="text-brand border-gray-300 rounded-none focus:ring-brand/20 w-4 h-4 transition-all" />
+                <input type="checkbox" :checked="selectedForkNorm?.includes(item.id)" @change="emit('toggleForkNorm', item.id)" class="text-brand border-gray-300 rounded-sm focus:ring-brand/20 w-4 h-4 transition-all" />
                 <span class="text-[11px] font-bold text-gray-700 uppercase group-hover:text-gray-900 transition-colors">{{ item.name }}</span>
              </label>
         </div>
@@ -466,7 +466,7 @@ const trackRight = computed(() => {
         </button>
         <div v-if="openSections.brakes" id="filter-section-brakes" class="flex flex-col gap-1 pb-6 px-1">
              <label v-for="item in brakesNorm" :key="item.id" class="flex items-center gap-3 p-2 hover:bg-gray-50 cursor-pointer transition-colors group">
-                <input type="checkbox" :checked="selectedBrakesNorm?.includes(item.id)" @change="emit('toggleBrakesNorm', item.id)" class="text-brand border-gray-300 rounded-none focus:ring-brand/20 w-4 h-4 transition-all" />
+                <input type="checkbox" :checked="selectedBrakesNorm?.includes(item.id)" @change="emit('toggleBrakesNorm', item.id)" class="text-brand border-gray-300 rounded-sm focus:ring-brand/20 w-4 h-4 transition-all" />
                 <span class="text-[11px] font-bold text-gray-700 uppercase group-hover:text-gray-900 transition-colors">{{ item.name }}</span>
              </label>
         </div>
@@ -485,7 +485,7 @@ const trackRight = computed(() => {
         </button>
         <div v-if="openSections.gears" id="filter-section-gears" class="flex flex-col gap-1 pb-6 px-1">
              <label v-for="item in gearsNorm" :key="item.id" class="flex items-center gap-3 p-2 hover:bg-gray-50 cursor-pointer transition-colors group">
-                <input type="checkbox" :checked="selectedGearsNorm?.includes(item.id)" @change="emit('toggleGearsNorm', item.id)" class="text-brand border-gray-300 rounded-none focus:ring-brand/20 w-4 h-4 transition-all" />
+                <input type="checkbox" :checked="selectedGearsNorm?.includes(item.id)" @change="emit('toggleGearsNorm', item.id)" class="text-brand border-gray-300 rounded-sm focus:ring-brand/20 w-4 h-4 transition-all" />
                 <span class="text-[11px] font-bold text-gray-700 uppercase group-hover:text-gray-900 transition-colors">{{ item.name }}</span>
              </label>
         </div>

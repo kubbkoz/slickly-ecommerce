@@ -112,7 +112,7 @@ const rightColumnKeys: (keyof typeof groups.value)[] = ['brakes','wheels', 'comp
         <!-- Left Column -->
         <div class="flex flex-col gap-8">
           <template v-for="key in leftColumnKeys" :key="key">
-            <div v-if="groups[key].items.length > 0" class="bg-white border border-gray-100 transition-all duration-300 rounded-none overflow-hidden h-fit">
+            <div v-if="groups[key].items.length > 0" class="bg-white border border-gray-100 transition-all duration-300 rounded-default overflow-hidden h-fit">
                 <div class="px-6 py-4 border-b bg-gray-50 border-gray-100 text-gray-900 flex items-center justify-between">
                 <h4 class="text-lg font-black font-tech uppercase tracking-wide flex items-center">
                     <span class="mr-3"><component :is="groups[key].icon" class="w-5 h-5" :class="groups[key].iconClass" /></span>
@@ -148,14 +148,14 @@ const rightColumnKeys: (keyof typeof groups.value)[] = ['brakes','wheels', 'comp
         <!-- Right Column -->
         <div class="flex flex-col gap-8">
             <template v-for="key in rightColumnKeys" :key="key">
-                <div v-if="groups[key].items.length > 0" class="bg-white border border-gray-100 transition-all duration-300 rounded-none overflow-hidden h-fit">
+                <div v-if="groups[key].items.length > 0" class="bg-white border border-gray-100 transition-all duration-300 rounded-default overflow-hidden h-fit">
                     <div class="px-6 py-4 border-b bg-gray-50 border-gray-100 text-gray-900 flex items-center justify-between">
                     <h4 class="text-lg font-black font-tech uppercase tracking-wide flex items-center">
                         <span class="mr-3"><component :is="groups[key].icon" class="w-5 h-5" :class="groups[key].iconClass" /></span>
                         {{ groups[key].title }}
                     </h4>
                     </div>
-                    
+
                     <div class="divide-y divide-gray-50">
                     <div v-for="(spec, idx) in groups[key].items" :key="idx" class="flex flex-col sm:flex-row sm:justify-between sm:items-center px-6 py-3 hover:bg-gray-100/60 transition-colors gap-1 sm:gap-4" :class="idx % 2 !== 0 ? 'bg-gray-50' : ''">
                         <span class="text-xs font-bold text-gray-400 uppercase tracking-[0.1em] font-chakra flex-shrink-0">
@@ -173,7 +173,7 @@ const rightColumnKeys: (keyof typeof groups.value)[] = ['brakes','wheels', 'comp
       </div>
 
       <!-- Warning Box Moved to Bottom -->
-      <div class="mt-12 p-6 bg-orange-50 text-[13px] text-orange-900 rounded-none shadow-sm leading-relaxed overflow-hidden relative flex gap-4 items-start border-none">
+      <div class="mt-12 p-6 bg-orange-50 text-[13px] text-orange-900 rounded-default shadow-sm leading-relaxed overflow-hidden relative flex gap-4 items-start border-none">
           <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-400"></div>
           <AlertTriangle class="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
           <div>

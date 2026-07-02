@@ -219,7 +219,7 @@ onBeforeUnmount(() => {
           v-for="(img, idx) in allMedia"
           :key="idx"
           @click="scrollToSlide(idx)"
-          class="flex-shrink-0 snap-center w-16 h-16 bg-[#f7f9fa] border transition-all duration-200 flex items-center justify-center p-2 focus:outline-none rounded-none"
+          class="flex-shrink-0 snap-center w-16 h-16 bg-[#f7f9fa] border transition-all duration-200 flex items-center justify-center p-2 focus:outline-none rounded-default"
           :class="currentSlide === idx ? 'border-brand shadow-sm' : 'border-gray-200 opacity-60 hover:opacity-100'"
           :aria-label="`Zobraziť obrázok ${idx + 1}`"
         >

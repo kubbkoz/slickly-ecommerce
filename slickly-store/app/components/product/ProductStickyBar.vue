@@ -178,7 +178,7 @@ onMounted(() => { isMounted.value = true; });
             :quantity="localQty"
             :selectedSize="selectedSize || ''"
             :showText="true"
-            class="flex-1 h-full text-[11px] rounded-none font-bold uppercase tracking-widest focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none"
+            class="flex-1 h-full text-[11px] rounded-default font-bold uppercase tracking-widest focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none"
           />
         </div>
       </div>

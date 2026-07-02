@@ -451,7 +451,7 @@ const pmocPrice = computed(() => {
        >
           <div 
             v-if="isMobileVariantPanelOpen" 
-            class="fixed bottom-0 inset-x-0 bg-white z-[110] rounded-none shadow-2xl lg:hidden flex flex-col pb-safe max-h-[85vh] overflow-hidden"
+            class="fixed bottom-0 inset-x-0 bg-white z-[110] rounded-default shadow-2xl lg:hidden flex flex-col pb-safe max-h-[85vh] overflow-hidden"
           >
              <!-- Handle bar -->
              <div class="w-full flex justify-center py-3" @click="isMobileVariantPanelOpen = false">
@@ -477,7 +477,7 @@ const pmocPrice = computed(() => {
                    </div>
                 </div>
                 
-                <button @click="isMobileVariantPanelOpen = false" class="absolute top-0 right-5 p-2 bg-gray-50 rounded-none border border-gray-100 text-black shadow-sm active:bg-gray-100 transition-colors">
+                <button @click="isMobileVariantPanelOpen = false" class="absolute top-0 right-5 p-2 bg-gray-50 rounded-sm border border-gray-100 text-black shadow-sm active:bg-gray-100 transition-colors">
                    <X class="w-5 h-5" />
                 </button>
              </div>
@@ -507,7 +507,7 @@ const pmocPrice = computed(() => {
                        :quantity="quantity" 
                        :selectedSize="selectedSize" 
                        :isCloseout="isActiveVariantCloseout" 
-                       class="h-full w-full text-[12px] font-bold shadow-sm rounded-none tracking-widest" 
+                       class="h-full w-full text-[12px] font-bold shadow-sm rounded-default tracking-widest"
                        :showText="true" 
                        @success="isMobileVariantPanelOpen = false"
                     />

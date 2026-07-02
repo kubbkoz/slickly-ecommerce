@@ -500,7 +500,7 @@ const getPropertyName = (id: string) => {
             <button
               v-for="brandId in selectedBrands"
               :key="`brand-${brandId}`"
-              class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+              class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
               @click="toggleBrand(brandId)"
             >
               <span>{{ getBrandName(brandId) }}</span>
@@ -509,7 +509,7 @@ const getPropertyName = (id: string) => {
             <button
               v-for="propId in selectedProperties"
               :key="`prop-${propId}`"
-              class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+              class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
               @click="toggleProperty(propId)"
             >
               <span>{{ getPropertyName(propId) }}</span>
@@ -517,21 +517,21 @@ const getPropertyName = (id: string) => {
             </button>
             <button
               v-if="inStockActiveRoute"
-              class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+              class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
               @click="toggleInStock"
             >
               <span>Skladom</span><X class="w-2.5 h-2.5" />
             </button>
             <button
               v-if="isPromoActive"
-              class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+              class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
               @click="togglePromo"
             >
               <span>V akcii</span><X class="w-2.5 h-2.5" />
             </button>
             <button
               v-if="minPrice !== undefined || maxPrice !== undefined"
-              class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+              class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
               @click="setPriceRange(availablePriceRange.min, availablePriceRange.max)"
             >
               <span>Cena: {{ (minPrice ?? availablePriceRange.min).toFixed(2) }}€ – {{ (maxPrice ?? availablePriceRange.max).toFixed(2) }}€</span>

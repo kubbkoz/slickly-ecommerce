@@ -474,97 +474,97 @@ watch(availableBrands, (brands) => {
             <ClientOnly>
               <div v-if="listingStatus === 'pending'" class="mb-6 flex flex-wrap items-center gap-2 px-4 md:px-0">
                 <div class="h-6 w-24 bg-gray-200 animate-pulse rounded"></div>
-                <div class="h-8 w-32 bg-gray-100 animate-pulse rounded-none"></div>
-                <div class="h-8 w-28 bg-gray-100 animate-pulse rounded-none"></div>
+                <div class="h-8 w-32 bg-gray-100 animate-pulse rounded-default"></div>
+                <div class="h-8 w-28 bg-gray-100 animate-pulse rounded-default"></div>
             </div>
             <div v-else-if="activeFilterCount > 0" class="mb-6 flex md:flex-wrap items-center gap-2 px-4 md:px-0 overflow-x-auto md:overflow-x-visible hide-scrollbar [&>*]:flex-shrink-0 md:[&>*]:flex-shrink">
                 <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest font-sans">Aktívne filtre:</span>
                 <button v-for="brandId in selectedBrands" :key="`brand-${brandId}`" @click="handleBrandToggle(brandId)"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     :aria-label="`Zrušiť filter značky ${getBrandName(brandId)}`"
                 >
                     <span>{{ getBrandName(brandId) }}</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-for="size in selectedSizes" :key="`size-${size}`" @click="handleSizeToggle(size)"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     :aria-label="`Zrušiť filter veľkosti ${size}`"
                 >
                     <span>Veľkosť: {{ size }}</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-if="riderHeight" @click="riderHeight = null"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-brand text-white text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-transparent"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-brand text-white text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-transparent"
                     :aria-label="`Zrušiť filter výšky ${riderHeight}cm`"
                 >
                     <span>Výška: {{ riderHeight }}cm</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-for="w in selectedWheelsNorm" :key="`w-${w}`" @click="toggleWheelsNorm(w)"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     :aria-label="`Zrušiť filter kolies ${getNormName(w, availableWheelsNorm)}`"
                 >
                     <span>Kolesá: {{ getNormName(w, availableWheelsNorm) }}</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-for="f in selectedForkNorm" :key="`f-${f}`" @click="toggleForkNorm(f)"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     :aria-label="`Zrušiť filter vidlice ${getNormName(f, availableForkNorm)}`"
                 >
                     <span>Vidlica: {{ getNormName(f, availableForkNorm) }}</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-for="b in selectedBrakesNorm" :key="`b-${b}`" @click="toggleBrakesNorm(b)"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     :aria-label="`Zrušiť filter bŕzd ${getNormName(b, availableBrakesNorm)}`"
                 >
                     <span>Brzdy: {{ getNormName(b, availableBrakesNorm) }}</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-for="g in selectedGearsNorm" :key="`g-${g}`" @click="toggleGearsNorm(g)"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     :aria-label="`Zrušiť filter radenia ${getNormName(g, availableGearsNorm)}`"
                 >
                     <span>Prehadzovačka: {{ getNormName(g, availableGearsNorm) }}</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-for="m in selectedMotorNorm" :key="`m-${m}`" @click="toggleMotorNorm(m)"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-[#EEF2F6] text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-blue-600 hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-[#EEF2F6] text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-blue-600 hover:text-white transition-colors rounded-sm border border-gray-200"
                     :aria-label="`Zrušiť filter motora ${getNormName(m, availableMotorNorm)}`"
                 >
                     <span>Motor: {{ getNormName(m, availableMotorNorm) }}</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-for="b in selectedBatteryNorm" :key="`bat-${b}`" @click="toggleBatteryNorm(b)"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-[#EEF2F6] text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-blue-600 hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-[#EEF2F6] text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-blue-600 hover:text-white transition-colors rounded-sm border border-gray-200"
                     :aria-label="`Zrušiť filter batérie ${getNormName(b, availableBatteryNorm)}`"
                 >
                     <span>Batéria: {{ getNormName(b, availableBatteryNorm) }}</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-for="c in selectedColors" :key="`color-${c}`" @click="toggleColorNorm(c)"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     :aria-label="`Zrušiť filter farby ${getNormName(c, availableColorsNorm)}`"
                 >
                     <span>Farba: {{ getNormName(c, availableColorsNorm) }}</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-if="inStockOnly" @click="inStockOnly = false"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     aria-label="Zobraziť všetky produkty (zrušiť filter skladom)"
                 >
                     <span>Skladom</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-if="onDemandOnly" @click="onDemandOnly = false"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     aria-label="Zobraziť všetky produkty (zrušiť filter na objednávku)"
                 >
                     <span>Na objednávku</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-if="isPromotion" @click="isPromotion = false"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     aria-label="Zobraziť všetky produkty (zrušiť filter v akcii)"
                 >
                     <span>V akcii</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-if="isFeatured" @click="isFeatured = false"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-brand text-white text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-transparent"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-brand text-white text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-transparent"
                     aria-label="Zobraziť všetky produkty (zrušiť filter odporúčaných)"
                 >
                     <span>Odporúčané</span><X class="w-2.5 h-2.5" />
                 </button>
                 <button v-if="priceRange[0] > categoryMinPrice || priceRange[1] < categoryMaxPrice" @click="priceRange = [0, 10000]"
-                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-none border border-gray-200"
+                    class="inline-flex items-center gap-2 px-2 py-1 bg-gray-100 text-gray-900 text-[10px] font-medium uppercase tracking-wider hover:bg-black hover:text-white transition-colors rounded-sm border border-gray-200"
                     aria-label="Zrušiť filter ceny"
                 >
                     <span>Cena: {{ (priceRange[0] > categoryMinPrice ? priceRange[0] : categoryMinPrice).toFixed(2) }}€ - {{ (priceRange[1] < categoryMaxPrice ? priceRange[1] : categoryMaxPrice).toFixed(2) }}€</span><X class="w-2.5 h-2.5" />

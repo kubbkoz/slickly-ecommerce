@@ -100,7 +100,7 @@ const progress = computed(() => {
         <div class="absolute inset-0" @click="onClose"></div>
 
         <!-- Modal container -->
-        <div class="relative bg-white w-full sm:max-w-[720px] sm:max-h-[92vh] h-full sm:h-auto flex flex-col rounded-none shadow-2xl overflow-hidden">
+        <div class="relative bg-white w-full sm:max-w-[720px] sm:max-h-[92vh] h-full sm:h-auto flex flex-col rounded-default shadow-2xl overflow-hidden">
 
           <!-- Header -->
           <div class="border-b border-gray-100 px-6 py-4 flex items-center justify-between flex-shrink-0">

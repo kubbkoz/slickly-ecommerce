@@ -39,7 +39,7 @@ onUnmounted(() => {
         <div class="absolute inset-0" @click="emit('close')"></div>
         
         <!-- Modal Content -->
-        <div class="relative w-full max-w-lg bg-white p-8 shadow-2xl rounded-none">
+        <div class="relative w-full max-w-lg bg-white p-8 shadow-2xl rounded-default">
           <button 
             @click="emit('close')"
             class="absolute top-4 right-4 text-gray-400 hover:text-black transition-colors"

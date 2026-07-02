@@ -199,7 +199,7 @@ const activeVariantInfo = computed(() => {
           @click="selectVariant(option)"
           class="relative w-full h-20 md:h-22 flex flex-col items-center justify-center
                  transition-all duration-150 border-2 overflow-hidden
-                 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-inset rounded-none p-2"
+                 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-inset rounded-default p-2"
           :class="[
             option.stockStatus === 'unavailable'
               ? 'bg-gray-50 text-gray-300 border-gray-100 pointer-events-none'

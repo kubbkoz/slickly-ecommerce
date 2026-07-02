@@ -39,28 +39,28 @@ const isSavingProfile = ref(false);
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Meno</label>
-                        <input v-model="profileFirstName" type="text" class="w-full px-5 py-3 bg-gray-50 border border-gray-200 text-sm font-medium text-black focus:outline-none focus:border-brand transition-colors rounded-none" />
+                        <input v-model="profileFirstName" type="text" class="w-full px-5 py-3 bg-gray-50 border border-gray-200 text-sm font-medium text-black focus:outline-none focus:border-brand transition-colors rounded-default" />
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Priezvisko</label>
-                        <input v-model="profileLastName" type="text" class="w-full px-5 py-3 bg-gray-50 border border-gray-200 text-sm font-medium text-black focus:outline-none focus:border-brand transition-colors rounded-none" />
+                        <input v-model="profileLastName" type="text" class="w-full px-5 py-3 bg-gray-50 border border-gray-200 text-sm font-medium text-black focus:outline-none focus:border-brand transition-colors rounded-default" />
                     </div>
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Dátum narodenia</label>
-                    <input v-model="profileBirthday" type="date" class="w-full px-5 py-3 bg-gray-50 border border-gray-200 text-sm font-medium text-black focus:outline-none focus:border-brand transition-colors rounded-none" />
+                    <input v-model="profileBirthday" type="date" class="w-full px-5 py-3 bg-gray-50 border border-gray-200 text-sm font-medium text-black focus:outline-none focus:border-brand transition-colors rounded-default" />
                     <p class="text-[10px] text-brand mt-2 font-bold italic tracking-wide">Ak budete mať sviatok, možno vám príde nejaký darček :)</p>
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Email</label>
-                    <input :value="user?.email" type="email" disabled class="w-full px-5 py-3 bg-gray-50 border border-gray-100 text-sm font-medium text-gray-400 rounded-none cursor-not-allowed" />
+                    <input :value="user?.email" type="email" disabled class="w-full px-5 py-3 bg-gray-50 border border-gray-100 text-sm font-medium text-gray-400 rounded-default cursor-not-allowed" />
                     <p class="text-[10px] text-gray-400 mt-2 font-sans">Email nie je možné zmeniť.</p>
                 </div>
                 <div class="pt-8 mt-4 border-t border-gray-100">
                     <h3 class="text-[12px] font-bold uppercase tracking-widest text-black mb-5">Zmena hesla</h3>
                     <div class="space-y-4">
-                        <input type="password" placeholder="Aktuálne heslo" class="w-full px-5 py-3 bg-gray-50 border border-gray-200 text-sm font-medium text-black placeholder-gray-400 focus:outline-none focus:border-black transition-colors rounded-none" />
-                        <input type="password" placeholder="Nové heslo" class="w-full px-5 py-3 bg-gray-50 border border-gray-200 text-sm font-medium text-black placeholder-gray-400 focus:outline-none focus:border-black transition-colors rounded-none" />
+                        <input type="password" placeholder="Aktuálne heslo" class="w-full px-5 py-3 bg-gray-50 border border-gray-200 text-sm font-medium text-black placeholder-gray-400 focus:outline-none focus:border-black transition-colors rounded-default" />
+                        <input type="password" placeholder="Nové heslo" class="w-full px-5 py-3 bg-gray-50 border border-gray-200 text-sm font-medium text-black placeholder-gray-400 focus:outline-none focus:border-black transition-colors rounded-default" />
                     </div>
                 </div>
                 <div class="pt-8 flex items-center justify-between">

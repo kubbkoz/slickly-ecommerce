@@ -108,10 +108,10 @@ const handleViewDetails = (product: any) => {
                   <div v-for="i in 8" :key="`skeleton-${i}`" class="bg-white border border-gray-100 overflow-hidden">
                       <div class="aspect-square bg-gray-100 animate-pulse"></div>
                       <div class="p-3 md:p-4 space-y-2">
-                          <div class="h-3 bg-gray-200 animate-pulse w-1/3 rounded-none"></div>
-                          <div class="h-3 bg-gray-200 animate-pulse w-3/4 rounded-none"></div>
-                          <div class="h-3 bg-gray-200 animate-pulse w-1/2 rounded-none"></div>
-                          <div class="h-5 bg-gray-200 animate-pulse w-2/5 mt-3 rounded-none"></div>
+                          <div class="h-3 bg-gray-200 animate-pulse w-1/3 rounded-default"></div>
+                          <div class="h-3 bg-gray-200 animate-pulse w-3/4 rounded-default"></div>
+                          <div class="h-3 bg-gray-200 animate-pulse w-1/2 rounded-default"></div>
+                          <div class="h-5 bg-gray-200 animate-pulse w-2/5 mt-3 rounded-default"></div>
                       </div>
                   </div>
               </template>

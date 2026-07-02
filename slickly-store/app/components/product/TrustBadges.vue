@@ -344,7 +344,7 @@ const items = computed(() => {
             </span>
             <span 
               v-if="item.badge" 
-              class="bg-gray-500 text-white text-[10px] font-normal px-2 py-1 rounded-none uppercase tracking-wider leading-tight whitespace-nowrap ml-auto mr-4"
+              class="bg-gray-500 text-white text-[10px] font-normal px-2 py-1 rounded-sm uppercase tracking-wider leading-tight whitespace-nowrap ml-auto mr-4"
             >
               {{ item.badge }}
             </span>

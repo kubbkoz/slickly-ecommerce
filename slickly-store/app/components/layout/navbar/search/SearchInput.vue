@@ -37,7 +37,7 @@ defineExpose({ inputEl });
       :placeholder="placeholder"
       autocomplete="off"
       spellcheck="false"
-      class="w-full bg-white text-black pl-5 pr-16 py-3.5 focus:outline-none rounded-none text-sm tracking-wide placeholder-gray-400 font-sans transition-shadow duration-200"
+      class="w-full bg-white text-black pl-5 pr-16 py-3.5 focus:outline-none rounded-default text-sm tracking-wide placeholder-gray-400 font-sans transition-shadow duration-200"
       :class="isOpen
         ? 'shadow-[0_0_0_2px_rgba(182,0,5,1)]'
         : 'shadow-[inset_0_1px_3px_rgba(0,0,0,0.08)] hover:shadow-[0_0_0_1px_rgba(182,0,5,0.4)]'"

@@ -262,7 +262,7 @@ const toggleCurrency = () => {
         <div class="grid grid-cols-2 gap-4 mb-8">
             <button 
                 @click="handleLoginClick"
-                class="bg-gray-50 p-4 shrink-0 flex flex-col items-center justify-center rounded-none active:scale-95 transition-transform group gpu-boost border border-gray-100"
+                class="bg-gray-50 p-4 shrink-0 flex flex-col items-center justify-center rounded-default active:scale-95 transition-transform group gpu-boost border border-gray-100"
             >
                 <ClientOnly>
                 <User class="w-6 h-6 mb-2 group-hover:text-brand transition-colors" :class="isLoggedIn ? 'text-brand' : 'text-zinc-400'" />
@@ -308,12 +308,12 @@ const toggleCurrency = () => {
                         class="overflow-hidden transition-all duration-300 ease-in-out gpu-boost"
                         :class="mobileExpandedCategory === link.id && link.children && link.children.length > 0 ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'"
                     >
-                        <div class="bg-gray-50 p-4 space-y-1 mb-4 rounded-none border-l-2 border-brand/50">
+                        <div class="bg-gray-50 p-4 space-y-1 mb-4 rounded-default border-l-2 border-brand/50">
                         <!-- View All Link -->
                         <NuxtLink
                             :to="localePath(getCategoryUrl(link), currentLocale as any)"
                             @click="onClose"
-                            class="block w-full text-left py-2 px-2 text-sm font-bold text-black uppercase tracking-wider hover:bg-white rounded-none border border-transparent hover:border-zinc-100"
+                            class="block w-full text-left py-2 px-2 text-sm font-bold text-black uppercase tracking-wider hover:bg-white rounded-default border border-transparent hover:border-zinc-100"
                         >
                             Všetky {{ link.name }}
                         </NuxtLink>
@@ -369,7 +369,7 @@ const toggleCurrency = () => {
         <!-- SLICKLY Magazín -->
         <button 
             @click="handleLinkClick(localePath('/blog', currentLocale as any))"
-            class="w-full mb-8 p-4 bg-gray-50 border border-zinc-100 flex items-center justify-between group active:scale-[0.98] transition-all rounded-none gpu-boost"
+            class="w-full mb-8 p-4 bg-gray-50 border border-zinc-100 flex items-center justify-between group active:scale-[0.98] transition-all rounded-default gpu-boost"
         >
             <div class="flex items-center">
                 <div class="w-10 h-10 bg-brand flex items-center justify-center mr-4">
@@ -419,7 +419,7 @@ const toggleCurrency = () => {
                 <!-- Dropdown -->
                 <div 
                     v-if="isCurrencyOpen"
-                    class="absolute bottom-full right-0 mb-2 w-32 bg-white border border-zinc-200 shadow-2xl overflow-hidden z-30 rounded-none"
+                    class="absolute bottom-full right-0 mb-2 w-32 bg-white border border-zinc-200 shadow-2xl overflow-hidden z-30 rounded-default"
                 >
                     <button 
                         v-for="curr in safeCurrencies" 

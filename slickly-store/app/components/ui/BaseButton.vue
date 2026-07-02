@@ -31,7 +31,7 @@ const sizeClasses = computed(() => {
 });
 
 const baseClasses = computed(() => [
-  'inline-flex items-center justify-center font-bold uppercase tracking-widest transition-all duration-300 rounded-none disabled:opacity-50 disabled:cursor-not-allowed gpu-boost',
+  'inline-flex items-center justify-center font-bold uppercase tracking-widest transition-all duration-300 rounded-default disabled:opacity-50 disabled:cursor-not-allowed gpu-boost',
   variantClasses.value,
   sizeClasses.value,
   props.block ? 'w-full' : ''

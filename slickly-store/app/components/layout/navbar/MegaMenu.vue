@@ -153,9 +153,9 @@ const getCategoryImage = (cat: Schemas['Category']) => {
                 <NuxtLink 
                   v-if="sub"
                   :to="localePath(getCategoryUrl(sub))"
-                  class="flex items-center gap-3 xl:gap-6 py-2 xl:py-4 px-3 border-b border-gray-50 hover:bg-gray-50 transition-all duration-200 w-full rounded-none gpu-boost"
+                  class="flex items-center gap-3 xl:gap-6 py-2 xl:py-4 px-3 border-b border-gray-50 hover:bg-gray-50 transition-all duration-200 w-full rounded-default gpu-boost"
                 >
-                  <div class="w-10 h-10 xl:w-16 xl:h-16 flex-shrink-0 relative overflow-hidden bg-white rounded-none border border-gray-100/50">
+                  <div class="w-10 h-10 xl:w-16 xl:h-16 flex-shrink-0 relative overflow-hidden bg-white rounded-default border border-gray-100/50">
                       <img 
                         :src="getCategoryImage(sub)" 
                         alt="" 
@@ -226,7 +226,7 @@ const getCategoryImage = (cat: Schemas['Category']) => {
           </div>
 
           <!-- CLUB BANNER -->
-          <div class="col-span-1 bg-black text-white p-5 xl:p-8 2xl:p-10 flex flex-col justify-center items-center text-center relative overflow-hidden group/banner rounded-none h-full min-h-[300px] xl:min-h-[400px]">
+          <div class="col-span-1 bg-black text-white p-5 xl:p-8 2xl:p-10 flex flex-col justify-center items-center text-center relative overflow-hidden group/banner rounded-default h-full min-h-[300px] xl:min-h-[400px]">
             <div class="absolute inset-0 opacity-20 bg-[url('/assets/images/carbon-fibre.png')]"></div>
             <div class="absolute inset-0 bg-brand/10 transform scale-0 rounded-full group-hover/banner:scale-150 transition-transform duration-700 ease-out gpu-boost"></div>
             

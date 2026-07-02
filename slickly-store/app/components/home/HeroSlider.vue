@@ -191,14 +191,14 @@ useHead(computed(() => ({
       <div class="absolute bottom-10 right-10 flex gap-2 z-30">
         <button 
           @click.stop="prevSlide"
-          class="w-14 h-14 border border-white/30 hover:bg-brand hover:border-brand flex items-center justify-center transition-all text-white bg-black/50 backdrop-blur-sm rounded-none cursor-pointer"
+          class="w-14 h-14 border border-white/30 hover:bg-brand hover:border-brand flex items-center justify-center transition-all text-white bg-black/50 backdrop-blur-sm rounded-default cursor-pointer"
           aria-label="Predchádzajúca snímka"
         >
           <ChevronLeft class="w-8 h-8 pointer-events-none" aria-hidden="true" />
         </button>
         <button 
           @click.stop="nextSlide"
-          class="w-14 h-14 border border-white/30 hover:bg-brand hover:border-brand flex items-center justify-center transition-all text-white bg-black/50 backdrop-blur-sm rounded-none cursor-pointer"
+          class="w-14 h-14 border border-white/30 hover:bg-brand hover:border-brand flex items-center justify-center transition-all text-white bg-black/50 backdrop-blur-sm rounded-default cursor-pointer"
           aria-label="Nasledujúca snímka"
         >
           <ChevronRight class="w-8 h-8 pointer-events-none" aria-hidden="true" />
@@ -211,7 +211,7 @@ useHead(computed(() => ({
             v-for="(_, idx) in translatedSlides"
             :key="idx"
             @click.stop="goToSlide(idx)"
-            class="h-1.5 transition-all duration-300 rounded-none cursor-pointer"
+            class="h-1.5 transition-all duration-300 rounded-sm cursor-pointer"
             :class="currentSlide === idx ? 'w-16 bg-brand' : 'w-8 bg-white/40 hover:bg-white'"
             :aria-label="`Prejsť na snímku ${idx + 1}`"
             :aria-current="currentSlide === idx ? 'true' : 'false'"

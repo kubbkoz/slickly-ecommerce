@@ -203,7 +203,7 @@ const togglePrice = (max: number, e: Event) => handleChipClick(() => {
                         leave-from-class="transform opacity-100 translate-y-0 scale-100"
                         leave-to-class="transform opacity-0 -translate-y-2 scale-95"
                     >
-                        <div v-if="isSortOpen" class="absolute right-0 mt-3 w-60 bg-white shadow-[0_40px_80px_rgba(0,0,0,0.15)] z-50 overflow-hidden rounded-none border border-gray-100">
+                        <div v-if="isSortOpen" class="absolute right-0 mt-3 w-60 bg-white shadow-[0_40px_80px_rgba(0,0,0,0.15)] z-50 overflow-hidden rounded-default border border-gray-100">
                             <button 
                                 v-for="option in sortOptions" 
                                 :key="option.value"
@@ -237,7 +237,7 @@ const togglePrice = (max: number, e: Event) => handleChipClick(() => {
                     <!-- Modal Panel -->
                     <div 
                         ref="heightModalRef"
-                        class="relative w-full max-w-sm bg-white shadow-[0_40px_100px_rgba(0,0,0,0.2)] border border-gray-100 p-8 rounded-none overflow-hidden transform transition-all gpu-boost"
+                        class="relative w-full max-w-sm bg-white shadow-[0_40px_100px_rgba(0,0,0,0.2)] border border-gray-100 p-8 rounded-default overflow-hidden transform transition-all gpu-boost"
                     >
                         <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-900 font-montserrat mb-6 text-center">Vaša výška (cm)</h4>
                         <div class="relative mb-6">
@@ -246,7 +246,7 @@ const togglePrice = (max: number, e: Event) => handleChipClick(() => {
                                 min="100" max="220"
                                 placeholder="Napr. 180" 
                                 v-model="riderHeight"
-                                class="w-full p-5 bg-gray-50 border-none text-base font-bold text-gray-900 rounded-none focus:ring-1 focus:ring-brand/20 text-center transition-all font-montserrat"
+                                class="w-full p-5 bg-gray-50 border-none text-base font-bold text-gray-900 rounded-default focus:ring-1 focus:ring-brand/20 text-center transition-all font-montserrat"
                             />
                         </div>
                         <div class="flex gap-2">
@@ -264,7 +264,7 @@ const togglePrice = (max: number, e: Event) => handleChipClick(() => {
 
 <style scoped>
 .chip-btn {
-    @apply flex-shrink-0 px-3 py-1.5 flex items-center gap-2 text-[10px] md:text-[11px] font-bold transition-all duration-300 rounded-none border border-transparent uppercase tracking-wider gpu-boost;
+    @apply flex-shrink-0 px-3 py-1.5 flex items-center gap-2 text-[10px] md:text-[11px] font-bold transition-all duration-300 rounded-sm border border-transparent uppercase tracking-wider gpu-boost;
     font-family: 'Space Grotesk', sans-serif;
 }
 

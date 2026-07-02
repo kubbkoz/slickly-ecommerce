@@ -169,7 +169,7 @@ watch(() => props.isOpen, (isOpen) => {
                        md:top-4 md:bottom-4 md:left-4 md:right-auto md:w-[440px]
                        bottom-0 left-0 right-0 max-h-[88vh] md:max-h-none
                        bg-white border border-gray-100
-                       shadow-[0_40px_100px_rgba(0,0,0,0.15)] rounded-none overflow-hidden"
+                       shadow-[0_40px_100px_rgba(0,0,0,0.15)] rounded-default overflow-hidden"
             >
                 <!-- Header: Clean Bold Space Grotesk -->
                 <div class="flex items-center justify-between px-8 py-6 flex-shrink-0">
@@ -179,7 +179,7 @@ watch(() => props.isOpen, (isOpen) => {
                     </div>
                     <button
                         @click="emit('close')"
-                        class="w-10 h-10 flex items-center justify-center bg-gray-900/5 hover:bg-gray-900/10 text-gray-900 transition-all rounded-none"
+                        class="w-10 h-10 flex items-center justify-center bg-gray-900/5 hover:bg-gray-900/10 text-gray-900 transition-all rounded-sm"
                         aria-label="Zavrieť filter"
                     >
                         <X class="w-5 h-5" />
@@ -194,7 +194,7 @@ watch(() => props.isOpen, (isOpen) => {
                             @input="handleSearchInput"
                             type="text"
                             placeholder="Hľadať v kategórii..."
-                            class="w-full pl-12 pr-4 py-4 bg-gray-50 border-none focus:ring-0 font-montserrat text-sm rounded-none transition-all"
+                            class="w-full pl-12 pr-4 py-4 bg-gray-50 border-none focus:ring-0 font-montserrat text-sm rounded-default transition-all"
                         />
                         <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-brand transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -257,13 +257,13 @@ watch(() => props.isOpen, (isOpen) => {
                 </div>
 
                 <!-- Action Footer: Aero Style -->
-                <div class="absolute bottom-0 left-0 right-0 p-6 bg-white border-t border-gray-100 flex flex-col gap-3 rounded-none shadow-[0_-10px_30px_rgba(0,0,0,0.03)] focus-within:z-50">
+                <div class="absolute bottom-0 left-0 right-0 p-6 bg-white border-t border-gray-100 flex flex-col gap-3 rounded-default shadow-[0_-10px_30px_rgba(0,0,0,0.03)] focus-within:z-50">
                     <div class="flex gap-4">
                         <!-- Reset Button: Small Square with Wheel Icon -->
                         <button
                             v-if="activeFilterCount > 0"
                             @click="clearAllFilters"
-                            class="w-14 h-14 bg-white border border-gray-200 text-gray-900 transition-all duration-300 rounded-none group flex items-center justify-center active:scale-95 shadow-sm hover:border-gray-900 gpu-boost"
+                            class="w-14 h-14 bg-white border border-gray-200 text-gray-900 transition-all duration-300 rounded-default group flex items-center justify-center active:scale-95 shadow-sm hover:border-gray-900 gpu-boost"
                             title="Resetovať filtre"
                             aria-label="Resetovať všetky filtre"
                         >
@@ -273,7 +273,7 @@ watch(() => props.isOpen, (isOpen) => {
                         <!-- Main CTA -->
                         <button
                             @click="total > 0 ? emit('close') : clearAllFilters()"
-                            class="flex-1 h-14 transition-all duration-300 font-sans uppercase text-[10px] md:text-sm font-bold tracking-[0.2em] rounded-none flex items-center justify-center gap-3 relative overflow-hidden active:scale-[0.98] gpu-boost"
+                            class="flex-1 h-14 transition-all duration-300 font-sans uppercase text-[10px] md:text-sm font-bold tracking-[0.2em] rounded-default flex items-center justify-center gap-3 relative overflow-hidden active:scale-[0.98] gpu-boost"
                             :class="isCTAActive ? 'bg-brand hover:bg-brand-dark text-white shadow-xl' : 'bg-gray-100 text-gray-400'"
                         >
                             <Loader2 v-if="listingStatus === 'pending'" class="w-4 h-4 animate-spin text-white" aria-hidden="true" />

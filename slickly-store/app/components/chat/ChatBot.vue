@@ -281,7 +281,7 @@ const submitHeight = (msgIndex: number) => {
     <button
       @click="isOpen = !isOpen"
       :aria-label="isOpen ? t('chat.toggle_close') : t('chat.toggle_open')"
-      class="fixed left-4 lg:left-8 z-[60] flex items-center transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_10px_30px_rgba(0,0,0,0.15)] overflow-hidden group rounded-none"
+      class="fixed left-4 lg:left-8 z-[60] flex items-center transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_10px_30px_rgba(0,0,0,0.15)] overflow-hidden group rounded-default"
       :class="[
         isOpen ? 'w-12 h-12 bg-zinc-900' : 'w-12 h-12 xl:w-36 xl:h-12 bg-brand animate-bounce hover:scale-105',
         isBottomNavVisible ? 'bottom-[80px] lg:bottom-8' : 'bottom-8'
@@ -355,7 +355,7 @@ const submitHeight = (msgIndex: number) => {
                               @click="startChat(topic.id)"
                               class="bg-white py-2.5 px-3 flex items-center gap-4 text-left transition-all duration-200 border border-transparent shadow-[0_5px_15px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] hover:border-brand/20 group focus:outline-none"
                           >
-                              <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-gray-50 text-gray-900 transition-colors group-hover:bg-brand group-hover:text-white rounded-none">
+                              <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-gray-50 text-gray-900 transition-colors group-hover:bg-brand group-hover:text-white rounded-default">
                                   <component :is="topic.icon" class="w-5 h-5 stroke-[2]" />
                               </div>
                               <div class="flex-1 min-w-0 pr-2">
@@ -378,7 +378,7 @@ const submitHeight = (msgIndex: number) => {
                   <!-- Chat hlavička -->
                   <div class="bg-black text-white p-3 md:p-4 flex items-center justify-between flex-shrink-0 border-b-2 border-brand z-20">
                       <div class="flex items-center gap-3">
-                         <button @click="resetChat" class="w-8 h-8 flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors text-white rounded-none" :title="t('chat.back_to_selection')">
+                         <button @click="resetChat" class="w-8 h-8 flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors text-white rounded-sm" :title="t('chat.back_to_selection')">
                              <ArrowLeft class="w-4 h-4" />
                          </button>
                          <div>
@@ -403,8 +403,8 @@ const submitHeight = (msgIndex: number) => {
                       <div 
                         :class="`max-w-[85%] px-4 py-3 text-[13px] md:text-sm leading-relaxed shadow-sm whitespace-pre-line ${
                           msg.role === 'user' 
-                            ? 'bg-[#111827] text-white rounded-none border border-gray-900 font-medium' 
-                            : 'bg-white text-gray-800 rounded-none border border-gray-100 font-sans'
+                            ? 'bg-[#111827] text-white rounded-default border border-gray-900 font-medium'
+                            : 'bg-white text-gray-800 rounded-default border border-gray-100 font-sans'
                         }`"
                         v-html="sanitizeHtml(msg.text)"
                       >
@@ -428,7 +428,7 @@ const submitHeight = (msgIndex: number) => {
                           v-for="chip in msg.chips"
                           :key="chip"
                           @click="sendQuickReply(idx, chip)"
-                          class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide border border-brand/40 text-brand bg-white hover:bg-brand hover:text-white transition-all duration-150 rounded-none font-tech"
+                          class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide border border-brand/40 text-brand bg-white hover:bg-brand hover:text-white transition-all duration-150 rounded-sm font-tech"
                         >
                           {{ chip }}
                         </button>
@@ -446,12 +446,12 @@ const submitHeight = (msgIndex: number) => {
                           max="220"
                           placeholder="napr. 185"
                           @keydown.enter="submitHeight(idx)"
-                          class="w-24 px-3 py-1.5 text-[13px] border border-gray-300 focus:border-brand focus:outline-none rounded-none font-medium"
+                          class="w-24 px-3 py-1.5 text-[13px] border border-gray-300 focus:border-brand focus:outline-none rounded-default font-medium"
                         />
                         <span class="self-center text-[12px] text-gray-500">cm</span>
                         <button
                           @click="submitHeight(idx)"
-                          class="px-3 py-1.5 text-[11px] font-bold uppercase bg-brand text-white hover:bg-brand/90 transition-colors rounded-none font-tech"
+                          class="px-3 py-1.5 text-[11px] font-bold uppercase bg-brand text-white hover:bg-brand/90 transition-colors rounded-sm font-tech"
                         >
                           OK
                         </button>
@@ -460,7 +460,7 @@ const submitHeight = (msgIndex: number) => {
                     
                     <!-- Loading indikátor -->
                     <div v-if="isLoading" class="flex items-start">
-                      <div class="bg-white px-4 py-3 rounded-none border border-gray-100 shadow-sm flex items-center gap-2">
+                      <div class="bg-white px-4 py-3 rounded-default border border-gray-100 shadow-sm flex items-center gap-2">
                          <span class="flex gap-1.5 px-2">
                            <span class="w-1.5 h-1.5 bg-brand rounded-full animate-bounce [animation-delay:-0.3s]"></span>
                            <span class="w-1.5 h-1.5 bg-brand rounded-full animate-bounce [animation-delay:-0.15s]"></span>
@@ -480,7 +480,7 @@ const submitHeight = (msgIndex: number) => {
                          v-model="inputValue"
                          @keydown="handleKeyPress"
                          :placeholder="t('chat.input_placeholder')"
-                         class="w-full bg-[#f4f5f6] text-[13px] p-3.5 pr-12 focus:outline-none focus:ring-1 focus:ring-brand font-medium text-black placeholder-gray-400 border border-transparent focus:border-brand/30 transition-all rounded-none"
+                         class="w-full bg-[#f4f5f6] text-[13px] p-3.5 pr-12 focus:outline-none focus:ring-1 focus:ring-brand font-medium text-black placeholder-gray-400 border border-transparent focus:border-brand/30 transition-all rounded-default"
                        />
                         <button 
                           @click="handleSend"
@@ -502,7 +502,7 @@ const submitHeight = (msgIndex: number) => {
                   <!-- Hlavička -->
                   <div class="bg-black text-white p-3 md:p-4 flex items-center justify-between flex-shrink-0 border-b-2 border-brand z-20">
                       <div class="flex items-center gap-3">
-                         <button @click="resetChat" class="w-8 h-8 flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors text-white rounded-none" :title="t('chat.back_to_selection')">
+                         <button @click="resetChat" class="w-8 h-8 flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors text-white rounded-sm" :title="t('chat.back_to_selection')">
                              <ArrowLeft class="w-4 h-4" />
                          </button>
                          <div>
@@ -529,7 +529,7 @@ const submitHeight = (msgIndex: number) => {
                                       type="text"
                                       placeholder="Napr. 10001234"
                                       @keydown.enter="handleOrderLookup"
-                                      class="w-full px-3 py-2.5 bg-white border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-brand rounded-none font-medium"
+                                      class="w-full px-3 py-2.5 bg-white border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-brand rounded-default font-medium"
                                   />
                               </div>
                               <button
@@ -551,7 +551,7 @@ const submitHeight = (msgIndex: number) => {
                                       v-model="orderLookupForm.email"
                                       type="email"
                                       placeholder="vas@email.com"
-                                      class="w-full px-3 py-2.5 bg-white border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-brand rounded-none font-medium"
+                                      class="w-full px-3 py-2.5 bg-white border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-brand rounded-default font-medium"
                                   />
                               </div>
                               <div class="grid grid-cols-2 gap-2">
@@ -561,7 +561,7 @@ const submitHeight = (msgIndex: number) => {
                                           v-model="orderLookupForm.firstName"
                                           type="text"
                                           placeholder="Ján"
-                                          class="w-full px-3 py-2.5 bg-white border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-brand rounded-none font-medium"
+                                          class="w-full px-3 py-2.5 bg-white border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-brand rounded-default font-medium"
                                       />
                                   </div>
                                   <div>
@@ -571,7 +571,7 @@ const submitHeight = (msgIndex: number) => {
                                           type="text"
                                           placeholder="Novák"
                                           @keydown.enter="handleOrderLookup"
-                                          class="w-full px-3 py-2.5 bg-white border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-brand rounded-none font-medium"
+                                          class="w-full px-3 py-2.5 bg-white border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-brand rounded-default font-medium"
                                       />
                                   </div>
                               </div>
@@ -580,7 +580,7 @@ const submitHeight = (msgIndex: number) => {
                           <button
                               @click="handleOrderLookup"
                               :disabled="orderLookupLoading"
-                              class="w-full bg-brand hover:bg-brand/90 disabled:bg-gray-300 text-white font-bold uppercase text-[11px] tracking-widest px-4 py-3 transition-all rounded-none flex items-center justify-center gap-2 mt-2"
+                              class="w-full bg-brand hover:bg-brand/90 disabled:bg-gray-300 text-white font-bold uppercase text-[11px] tracking-widest px-4 py-3 transition-all rounded-default flex items-center justify-center gap-2 mt-2"
                           >
                               <Search v-if="!orderLookupLoading" class="w-4 h-4" />
                               <Loader2 v-else class="w-4 h-4 animate-spin" />
@@ -589,7 +589,7 @@ const submitHeight = (msgIndex: number) => {
                       </div>
 
                       <!-- Chyba -->
-                      <div v-if="orderLookupError" class="bg-red-50 border border-red-200 rounded-none p-3">
+                      <div v-if="orderLookupError" class="bg-red-50 border border-red-200 rounded-default p-3">
                           <p class="text-[13px] text-red-700 font-sans">{{ orderLookupError }}</p>
                           <p v-if="orderLookupResult?.support" class="text-[12px] text-red-600 font-bold mt-2">
                               📞 Kontaktujte podporu: <a :href="`tel:${orderLookupResult.support}`" class="underline">{{ orderLookupResult.support }}</a>
@@ -619,7 +619,7 @@ const submitHeight = (msgIndex: number) => {
 
                           <!-- Jedna objednávka -->
                           <template v-else>
-                              <div class="bg-green-50 border border-green-200 rounded-none p-4 space-y-3">
+                              <div class="bg-green-50 border border-green-200 rounded-default p-4 space-y-3">
                                   <div class="flex items-center gap-3">
                                       <div class="w-9 h-9 flex-shrink-0 flex items-center justify-center bg-green-100">
                                           <Package class="w-4 h-4 text-green-700" />
