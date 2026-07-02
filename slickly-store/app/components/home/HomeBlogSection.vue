@@ -32,7 +32,7 @@ const formatDate = (d: string) =>
       <!-- Skeleton -->
       <div v-if="pending" class="space-y-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div class="aspect-[4/3] bg-gray-200 animate-pulse" />
+          <div class="aspect-[4/3] bg-gray-200 animate-pulse rounded-default" />
           <div class="space-y-4 py-4">
             <div class="h-3 bg-gray-200 animate-pulse w-24" />
             <div class="h-8 bg-gray-200 animate-pulse w-3/4" />
@@ -42,7 +42,7 @@ const formatDate = (d: string) =>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div v-for="i in 4" :key="i" class="flex gap-4">
-            <div class="w-24 h-20 bg-gray-200 animate-pulse flex-shrink-0" />
+            <div class="w-24 h-20 bg-gray-200 animate-pulse flex-shrink-0 rounded-default" />
             <div class="flex-1 space-y-2 py-1">
               <div class="h-2 bg-gray-100 animate-pulse w-16" />
               <div class="h-3 bg-gray-200 animate-pulse w-full" />
@@ -58,7 +58,7 @@ const formatDate = (d: string) =>
         <NuxtLink
           v-if="featuredPost"
           :to="`/blog/${featuredPost.slug}`"
-          class="group grid grid-cols-1 lg:grid-cols-2 gap-0 bg-white border border-gray-100 hover:border-gray-300 transition-colors duration-200 overflow-hidden"
+          class="group grid grid-cols-1 lg:grid-cols-2 gap-0 bg-white border border-gray-100 hover:border-gray-300 transition-colors duration-200 overflow-hidden rounded-default"
         >
           <div class="aspect-[4/3] lg:aspect-auto relative bg-gray-100 max-h-[340px] overflow-hidden">
             <NuxtImg
@@ -76,13 +76,13 @@ const formatDate = (d: string) =>
           </div>
           <div class="flex flex-col justify-center p-8 lg:p-12">
             <div class="flex items-center gap-2 mb-4">
-              <div v-if="featuredPost.featured" class="bg-brand px-3 py-1 transform -skew-x-12">
-                <span class="block transform skew-x-12 text-white text-[10px] font-bold uppercase tracking-widest font-tech">
+              <div v-if="featuredPost.featured" class="bg-brand rounded-sm px-3 py-1">
+                <span class="block text-white text-[10px] font-bold uppercase tracking-widest font-tech">
                   {{ featuredPost.featuredBadgeText || 'Featured' }}
                 </span>
               </div>
-              <div v-if="featuredPost.category" class="bg-black px-3 py-1 transform -skew-x-12">
-                <span class="block transform skew-x-12 text-white text-[10px] font-bold uppercase tracking-widest font-tech">
+              <div v-if="featuredPost.category" class="bg-black rounded-sm px-3 py-1">
+                <span class="block text-white text-[10px] font-bold uppercase tracking-widest font-tech">
                   {{ featuredPost.category }}
                 </span>
               </div>
@@ -105,9 +105,9 @@ const formatDate = (d: string) =>
             v-for="post in gridPosts"
             :key="post.id"
             :to="`/blog/${post.slug}`"
-            class="group flex gap-4 bg-white border border-gray-100 hover:border-gray-300 transition-colors duration-200 p-3"
+            class="group flex gap-4 bg-white border border-gray-100 hover:border-gray-300 transition-colors duration-200 p-3 rounded-default"
           >
-            <div class="w-24 h-20 flex-shrink-0 bg-gray-100 overflow-hidden">
+            <div class="w-24 h-20 flex-shrink-0 bg-gray-100 overflow-hidden rounded-default">
               <NuxtImg
                 v-if="post.coverUrl"
                 :src="proxyMediaUrl(post.coverUrl)"
@@ -141,7 +141,7 @@ const formatDate = (d: string) =>
         <div class="flex justify-end mt-8">
           <NuxtLink
             to="/blog"
-            class="inline-flex items-center gap-3 bg-black hover:bg-black/80 text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors"
+            class="inline-flex items-center gap-3 bg-black hover:bg-black/80 text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors rounded-default"
           >
             Pozrieť všetky články <ArrowRight class="w-5 h-5" />
           </NuxtLink>

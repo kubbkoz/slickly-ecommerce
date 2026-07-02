@@ -34,12 +34,12 @@ export interface Badge {
 export const badgeSizeClass = (size: Badge['size'] = 'md'): string => {
   switch (size) {
     case 'sm':
-      return 'px-1.5 py-0.5 text-[10px]';
+      return 'px-1.5 py-0.5 text-[10px] rounded-sm';
     case 'lg':
-      return 'px-3 py-1.5 text-[13px]';
+      return 'px-3 py-1.5 text-[13px] rounded-sm';
     case 'md':
     default:
-      return 'px-2 py-1 text-[11px]';
+      return 'px-2 py-1 text-[11px] rounded-sm';
   }
 };
 

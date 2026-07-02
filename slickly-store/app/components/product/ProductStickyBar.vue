@@ -116,7 +116,7 @@ onMounted(() => { isMounted.value = true; });
           <!-- Quantity + CTA -->
           <div class="flex items-center gap-3 flex-shrink-0">
             <!-- Quantity stepper -->
-            <div class="flex items-center border border-gray-200 h-12">
+            <div class="flex items-center border border-gray-200 h-12 rounded-default overflow-hidden">
               <button
                 class="w-10 h-full flex items-center justify-center text-gray-400 hover:text-black transition-colors"
                 @click="decQty"

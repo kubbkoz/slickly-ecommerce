@@ -113,7 +113,7 @@ const { data: categories } = await useAsyncData(
           v-for="(cat, i) in categories"
           :key="cat.id"
           :to="localePath(cat.url)"
-          class="cat-card group relative h-[200px] md:h-[260px] overflow-hidden block bg-gray-900"
+          class="cat-card group relative h-[200px] md:h-[260px] overflow-hidden block bg-gray-900 rounded-default"
           :class="{ 'lg:col-span-2': i % 6 === 0 || i % 6 === 4 }"
         >
           <!-- Background image or placeholder -->
@@ -143,8 +143,8 @@ const { data: categories } = await useAsyncData(
 
               <!-- Button wrapper (no overflow hidden, allowing skew to render fully) -->
               <div class="cat-btn relative mt-3 inline-flex items-center justify-center px-4 py-1.5 pointer-events-auto transform -translate-x-[150%] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
-                <!-- Skewed background layer -->
-                <div class="absolute inset-0 bg-amber -skew-x-[15deg] origin-bottom-left shadow-lg"></div>
+                <!-- Background layer -->
+                <div class="absolute inset-0 bg-amber rounded-default shadow-lg"></div>
                 <!-- Text layer -->
                 <span class="relative z-10 flex items-center gap-1.5 text-black font-tech text-[11px] md:text-xs font-bold uppercase tracking-widest leading-none">
                   {{ t('prezriet').toUpperCase() }} <ArrowUpRight class="w-3.5 h-3.5 ml-0.5" />

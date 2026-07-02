@@ -96,7 +96,7 @@ watchEffect(() => {
         <div
           v-for="i in 5"
           :key="`rev-skeleton-${i}`"
-          class="bg-white border border-gray-100 p-6 flex flex-col gap-4"
+          class="bg-white border border-gray-100 p-6 flex flex-col gap-4 rounded-default"
         >
           <div class="flex gap-1">
             <div v-for="s in 5" :key="s" class="w-4 h-4 bg-gray-200 animate-pulse rounded-full" />
@@ -122,7 +122,7 @@ watchEffect(() => {
           <article
             v-for="(review, idx) in reviews"
             :key="idx"
-            class="review-card bg-white border border-gray-100 p-6 flex flex-col gap-4 relative transition-colors duration-200"
+            class="review-card bg-white border border-gray-100 p-6 flex flex-col gap-4 relative transition-colors duration-200 rounded-default"
           >
             <RatingStars :rating="review.rating" size-class="w-4 h-4" />
             <p class="font-sans text-sm text-gray-600 leading-relaxed line-clamp-5 flex-1">
@@ -167,7 +167,7 @@ watchEffect(() => {
             :href="MAPS_URL"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-3 bg-black hover:bg-black/80 text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors"
+            class="inline-flex items-center gap-3 bg-black hover:bg-black/80 text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors rounded-default"
           >
             Pozrieť recenzie na Google <ArrowRight class="w-5 h-5" />
           </a>
@@ -180,7 +180,7 @@ watchEffect(() => {
           :href="MAPS_URL"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-3 bg-black hover:bg-black/80 text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors"
+          class="inline-flex items-center gap-3 bg-black hover:bg-black/80 text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors rounded-default"
         >
           Pozrieť recenzie na Google <ArrowRight class="w-5 h-5" />
         </a>

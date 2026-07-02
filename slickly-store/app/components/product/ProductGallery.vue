@@ -175,7 +175,7 @@ onBeforeUnmount(() => {
 
       <div
         ref="mobileCarouselRef"
-        class="relative w-full aspect-[4/5] sm:aspect-square bg-[#f7f9fa] flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar [touch-action:pan-x_pan-y]"
+        class="relative w-full aspect-[4/5] sm:aspect-square bg-[#f7f9fa] flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar [touch-action:pan-x_pan-y] rounded-default"
         @scroll="handleScroll"
       >
         <div
@@ -247,7 +247,7 @@ onBeforeUnmount(() => {
 
       <!-- Hero image -->
       <div
-        class="relative w-full bg-[#f7f9fa] overflow-hidden group aspect-square
+        class="relative w-full bg-[#f7f9fa] overflow-hidden group aspect-square rounded-default
                [@media(min-width:1200px)_and_(max-width:1536px)]:aspect-[4/3]"
       >
         <div v-if="!imageLoaded[0] && firstImage" class="absolute inset-0 bg-gray-200 animate-pulse" aria-hidden="true" />
@@ -295,7 +295,7 @@ onBeforeUnmount(() => {
           <div
             v-for="(img, idx) in displayedGridImages"
             :key="idx"
-            class="relative aspect-square overflow-hidden group cursor-custom-zoom"
+            class="relative aspect-square overflow-hidden group cursor-custom-zoom rounded-default"
             @click="openFullscreen(idx + 1)"
             @mousemove="handleZoomMove"
           >
@@ -322,7 +322,7 @@ onBeforeUnmount(() => {
         >
           <button
             @click="toggleExpand"
-            class="bg-white text-black px-10 py-5 font-bold text-sm tracking-widest uppercase flex items-center justify-center transition-all hover:bg-black hover:text-white font-sans group border border-black"
+            class="bg-white text-black px-10 py-5 font-bold text-sm tracking-widest uppercase flex items-center justify-center transition-all hover:bg-black hover:text-white font-sans group border border-black rounded-default"
           >
             {{ isExpanded ? 'Zobraziť menej' : 'Zobraziť viac' }}
             <ChevronDown class="w-4 h-4 ml-3 transition-transform duration-300" :class="isExpanded ? 'rotate-180' : 'group-hover:translate-y-0.5'" />

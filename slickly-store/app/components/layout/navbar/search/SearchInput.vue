@@ -61,9 +61,9 @@ defineExpose({ inputEl });
       <X class="w-4 h-4" />
     </button>
 
-    <!-- Red submit button -->
+    <!-- Amber submit button -->
     <button
-      class="absolute right-0 top-0 h-full w-12 bg-brand text-white flex items-center justify-center hover:bg-red-700 transition-colors group/btn"
+      class="absolute right-0 top-0 h-full w-12 bg-amber text-black flex items-center justify-center hover:bg-amber-dark transition-colors group/btn rounded-tr rounded-br"
       aria-label="Hľadať"
       type="button"
       @click="emit('search')"

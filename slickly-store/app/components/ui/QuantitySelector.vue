@@ -47,7 +47,7 @@ const handleQuantityBlur = (e: Event) => {
 
 <template>
   <div 
-    class="flex items-center bg-gray-100/50 relative group border border-transparent hover:border-gray-200 transition-colors" 
+    class="flex items-center bg-gray-100/50 relative group border border-transparent hover:border-gray-200 transition-colors rounded-default"
     :class="[
       size === 'sm' ? 'h-11 min-w-[4.5rem] px-3' : 'h-14 min-w-[5rem] px-4'
     ]"

@@ -104,8 +104,8 @@ useHead(computed(() => ({
       <div class="relative container mx-auto px-4 lg:px-8 h-full flex flex-col justify-center z-20">
         <Transition name="hero-fade" mode="out-in">
           <div :key="slide?.id || currentSlide" class="max-w-3xl pl-4 md:pl-0 border-l-4 border-brand md:border-0 relative">
-            <div v-if="slide?.badge" class="inline-block bg-brand px-3 py-1 md:px-4 md:py-1.5 mb-3 md:mb-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white font-tech transform -skew-x-12">
-              <span class="block transform skew-x-12">{{ slide.badge }}</span>
+            <div v-if="slide?.badge" class="inline-block bg-amber rounded-sm px-3 py-1 md:px-4 md:py-1.5 mb-3 md:mb-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-black font-tech">
+              {{ slide.badge }}
             </div>
             <h1 class="text-3xl sm:text-4xl md:text-6xl font-black mb-2 md:mb-4 leading-[0.9] uppercase italic font-tech tracking-wide break-words">
               {{ slide?.title }}
@@ -116,14 +116,14 @@ useHead(computed(() => ({
             <div class="flex flex-col sm:flex-row gap-3">
               <NuxtLink
                 :to="slide?.ctaLink || '#'"
-                class="inline-flex items-center justify-center gap-3 bg-amber hover:bg-amber-dark text-black font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto"
+                class="inline-flex items-center justify-center gap-3 bg-amber hover:bg-amber-dark text-black font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto rounded-default"
               >
                 {{ slide?.cta }} <ArrowRight class="w-5 h-5" />
               </NuxtLink>
               <NuxtLink
                 v-if="slide?.secondaryCta"
                 :to="slide?.secondaryCtaLink || '#'"
-                class="inline-flex items-center justify-center gap-3 bg-transparent border-2 border-white hover:bg-white hover:text-black text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto"
+                class="inline-flex items-center justify-center gap-3 bg-transparent border-2 border-white hover:bg-white hover:text-black text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto rounded-default"
               >
                 {{ slide?.secondaryCta }}
               </NuxtLink>

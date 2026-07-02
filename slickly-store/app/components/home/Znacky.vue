@@ -64,7 +64,7 @@ const featured = computed(() => {
         <!-- "Všetky značky" tile — šípka nad textom -->
         <NuxtLink
           :to="localePath('/znacky')"
-          class="group bg-black hover:bg-brand flex flex-col items-center justify-center gap-1.5 p-4 h-20 md:h-28 transition-colors"
+          class="group bg-black hover:bg-brand flex flex-col items-center justify-center gap-1.5 p-4 h-20 md:h-28 transition-colors rounded-default"
         >
           <ArrowUpRight class="w-5 h-5 md:w-6 md:h-6 text-white transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           <span class="font-tech font-bold uppercase text-[10px] md:text-xs tracking-widest text-white text-center leading-tight">

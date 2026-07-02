@@ -195,7 +195,7 @@ const handleHoverPrefetch = () => {
     >
         <!-- Card body: border handling to merge with expansion -->
         <div
-            class="bg-white border transition-colors duration-200 ease-in-out flex flex-col flex-1"
+            class="bg-white border transition-colors duration-200 ease-in-out flex flex-col flex-1 rounded-default overflow-hidden"
             :class="[
                 isHovered ? 'border-black' : 'border-gray-100'
             ]"
@@ -281,7 +281,7 @@ const handleHoverPrefetch = () => {
                 <!-- Wishlist -->
                 <button
                     @click.stop="handleWishlistClick"
-                    class="absolute top-2 right-2 w-9 h-9 flex items-center justify-center bg-white border border-gray-100 transition-colors duration-200 z-10 pointer-events-auto group/wish mt-0"
+                    class="absolute top-2 right-2 w-9 h-9 flex items-center justify-center bg-white border border-gray-100 transition-colors duration-200 z-10 pointer-events-auto group/wish mt-0 rounded-default"
                     :title="isInWishlist(product.id) ? 'Odstrániť z obľúbených' : 'Pridať do obľúbených'"
                     aria-label="Prepnúť obľúbené"
                 >
@@ -293,7 +293,7 @@ const handleHoverPrefetch = () => {
                 <!-- Porovnať -->
                 <button
                     @click.stop="handleCompareClick"
-                    class="absolute top-13 right-2 w-9 h-9 flex items-center justify-center bg-white border border-gray-100 transition-colors duration-200 z-10 pointer-events-auto group/comp"
+                    class="absolute top-13 right-2 w-9 h-9 flex items-center justify-center bg-white border border-gray-100 transition-colors duration-200 z-10 pointer-events-auto group/comp rounded-default"
                     :title="isInComparison(product.id) ? 'Odobrať z porovnania' : 'Pridať do porovnania'"
                     aria-label="Prepnúť porovnanie"
                 >
@@ -329,7 +329,7 @@ const handleHoverPrefetch = () => {
                     <div
                         v-for="child in sortVariants(product.children, product)"
                         :key="child.id"
-                        class="relative min-w-[38px] h-7 border flex items-center justify-center text-center px-1.5 transition-colors duration-150 font-tech"
+                        class="relative min-w-[38px] h-7 border flex items-center justify-center text-center px-1.5 transition-colors duration-150 font-tech rounded-sm"
                         :title="(() => {
                             const label = getVariantLabel(child, product);
                             return label?.includes('(') ? label.split('(')[1]?.replace(')', '') : '';
@@ -360,7 +360,7 @@ const handleHoverPrefetch = () => {
                 </div>
                 <div v-else class="flex flex-wrap gap-1.5 mb-5">
                     <div
-                        class="relative min-w-[38px] h-7 border flex items-center justify-center text-center px-2 font-tech"
+                        class="relative min-w-[38px] h-7 border flex items-center justify-center text-center px-2 font-tech rounded-sm"
                         :class="[
                             (product.availableStock || product.stock || 0) > 0
                                 ? 'border-green-400 bg-white stock-pulse-green'
@@ -392,7 +392,7 @@ const handleHoverPrefetch = () => {
                 <div class="mt-auto flex items-end justify-between gap-2">
                     <div class="flex flex-col min-w-0">
                         <span v-if="calculateDiscount(product) > 0"
-                            class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-black uppercase tracking-wider bg-amber leading-none w-fit mb-1">
+                            class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-black uppercase tracking-wider bg-amber leading-none w-fit mb-1 rounded-sm">
                             -{{ calculateDiscount(product) }}%
                         </span>
                         <span class="text-lg md:text-xl font-bold font-tech text-black leading-none">
@@ -406,7 +406,7 @@ const handleHoverPrefetch = () => {
                     <button
                         v-if="hasVariants"
                         type="button"
-                        class="inline-flex items-center justify-center shrink-0 bg-gray-100 hover:bg-gray-200 text-black transition-colors w-10 h-10 md:w-auto md:h-10 md:gap-1.5 md:px-3 md:font-tech md:font-bold md:uppercase md:tracking-widest md:text-[11px] md:whitespace-nowrap"
+                        class="inline-flex items-center justify-center shrink-0 bg-gray-100 hover:bg-gray-200 text-black transition-colors w-10 h-10 md:w-auto md:h-10 md:gap-1.5 md:px-3 md:font-tech md:font-bold md:uppercase md:tracking-widest md:text-[11px] md:whitespace-nowrap rounded-default"
                         @click.stop="navigateToProduct(product)"
                     >
                         <span class="hidden md:inline">Zobraziť produkt</span>
