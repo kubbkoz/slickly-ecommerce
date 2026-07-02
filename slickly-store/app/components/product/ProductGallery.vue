@@ -175,7 +175,7 @@ onBeforeUnmount(() => {
 
       <div
         ref="mobileCarouselRef"
-        class="relative w-full aspect-[4/5] sm:aspect-square bg-[#f7f9fa] flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar [touch-action:pan-x]"
+        class="relative w-full aspect-[4/5] sm:aspect-square bg-[#f7f9fa] flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar [touch-action:pan-x_pan-y]"
         @scroll="handleScroll"
       >
         <div
