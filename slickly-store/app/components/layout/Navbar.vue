@@ -26,19 +26,24 @@ const navbarRef = ref<HTMLElement | null>(null);
 const navbarInnerRef = ref<HTMLElement | null>(null);
 let lastScrollY = 0;
 
+let scrollRAF: number | null = null;
 const handleScroll = () => {
-    isScrolled.value = window.scrollY > 10;
-    
-    if (window.scrollY > lastScrollY) {
-        isScrollingDown.value = true;
-    } else if (window.scrollY < lastScrollY) {
-        isScrollingDown.value = false;
-    }
-    lastScrollY = window.scrollY;
+    if (scrollRAF !== null) return;
+    scrollRAF = requestAnimationFrame(() => {
+        scrollRAF = null;
+        isScrolled.value = window.scrollY > 10;
 
-    if (import.meta.client) {
-        document.documentElement.classList.toggle('is-navbar-scrolled', isScrolled.value);
-    }
+        if (window.scrollY > lastScrollY) {
+            isScrollingDown.value = true;
+        } else if (window.scrollY < lastScrollY) {
+            isScrollingDown.value = false;
+        }
+        lastScrollY = window.scrollY;
+
+        if (import.meta.client) {
+            document.documentElement.classList.toggle('is-navbar-scrolled', isScrolled.value);
+        }
+    });
 };
 
 onMounted(async () => {
@@ -73,6 +78,9 @@ onMounted(async () => {
 
 onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll);
+    if (scrollRAF !== null) {
+        cancelAnimationFrame(scrollRAF);
+    }
 });
 
 // Prevent body scroll when mobile search or menu is open
@@ -90,14 +98,14 @@ watch([isMobileSearchOpen, isMobileMenuOpen], ([searchOpen, menuOpen]) => {
     <nav class="fixed top-0 start-0 w-full z-50 flex flex-col transition-transform duration-200 ease-in-out shadow-none gpu-boost"
          :class="isScrolled ? 'translate-y-0 shadow-lg' : 'translate-y-0 shadow-none'"
          ref="navbarRef">
-      <div ref="navbarInnerRef" class="gpu-boost">
+      <div ref="navbarInnerRef">
         <!-- 1. TOP BAR — hides everywhere on scroll (§20.1) -->
         <TopBar :is-hidden="shouldHideTopBar" :is-scrolled="isScrolled" />
 
         <!-- 2. MAIN HEADER (Logo, Search, Icons) — persistent -->
-        <div 
+        <div
           id="navbar-main-row"
-          class="bg-black py-4 transition-all duration-150 ease-linear z-40 relative shadow-xl gpu-boost"
+          class="bg-black py-4 transition-all duration-150 ease-linear z-40 relative shadow-xl"
           style="background-color: #000000 !important;"
         >
           <div class="container mx-auto px-4 lg:px-8">

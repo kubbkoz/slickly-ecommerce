@@ -119,12 +119,12 @@ watch(() => route.path, closeMegaMenu);
   <!-- Wrapper: collapsed on category pages via max-height so no gap is left.
        overflow-hidden only when collapsing, otherwise overflow-visible for MegaMenu dropdowns. -->
   <div 
-    class="hidden lg:block relative z-30 w-full desktop-nav-container transition-[max-height,opacity] duration-150 ease-linear gpu-boost"
+    class="hidden lg:block relative z-30 w-full desktop-nav-container transition-[max-height,opacity] duration-150 ease-linear"
     :class="isHidden ? 'overflow-hidden' : 'overflow-visible'"
     :style="isHidden ? 'max-height: 0' : 'max-height: 80px'"
   >
     <div 
-      class="bg-black border-t border-black transition-all duration-150 ease-linear w-full overflow-visible gpu-boost"
+      class="bg-black border-t border-black transition-all duration-150 ease-linear w-full overflow-visible"
       :class="{ 'opacity-0 pointer-events-none': isHidden, 'opacity-100 pointer-events-auto': !isHidden }"
     >
       <div class="container mx-auto px-4 lg:px-8">

@@ -77,7 +77,7 @@ useHead(computed(() => ({
 <template>
   <div 
     class="relative w-full overflow-hidden bg-black text-white"
-    style="height: calc(100dvh - var(--navbar-height-unscrolled, 169px))"
+    style="height: calc(100svh - var(--navbar-height-unscrolled, 169px))"
   >
       <!-- Background Images -->
       <div class="absolute inset-0">

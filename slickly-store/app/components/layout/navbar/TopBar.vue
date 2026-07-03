@@ -209,7 +209,7 @@ defineProps<{
 
 <template>
   <div 
-    class="bg-black text-white/80 text-[10px] font-normal uppercase tracking-wider hidden xl:block transition-all duration-150 ease-linear z-50 relative gpu-boost"
+    class="bg-black text-white/80 text-[10px] font-normal uppercase tracking-wider hidden xl:block transition-all duration-150 ease-linear z-50 relative"
     :class="isHidden ? 'max-h-0 py-0 opacity-0 overflow-hidden pointer-events-none' : 'max-h-[44px] py-2 opacity-100 overflow-visible pointer-events-auto'"
     style="background-color: #000000 !important;"
   >
