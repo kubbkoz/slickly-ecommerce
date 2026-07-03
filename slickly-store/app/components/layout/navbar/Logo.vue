@@ -34,22 +34,11 @@ const localePath = useLocalePath();
   border-radius: 9999px;
 }
 
-/* Shrink 10% when the sticky header is scrolled — mobile only. Animates font-size
-   instead of transform: a toggling transform inside the layer-promoted fixed navbar
-   triggered a whole-page compositor glitch on Android Chrome. The dot above the "I"
-   is em-based, so it scales along for free. */
+/* Navbar is fully static/docked — no scroll-reactive size change. A previous
+   version shrank this 10% on scroll (first via transform, then font-size);
+   both animated a layer-promoted, layer-fixed navbar and were implicated in a
+   compositor ghosting glitch on Android Chrome. Kept at one constant size. */
 .logo-wordmark {
   font-size: 2.5rem;
-  transition: font-size 250ms ease-out;
-}
-@media (max-width: 1023.98px) {
-  :global(html.is-navbar-scrolled) .logo-wordmark {
-    font-size: 2.25rem;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .logo-wordmark {
-    transition: none;
-  }
 }
 </style>
