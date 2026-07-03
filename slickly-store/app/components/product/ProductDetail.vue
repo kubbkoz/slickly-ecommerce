@@ -67,8 +67,6 @@ const handleAddToCompare = (_e: MouseEvent, p: any) => {
   }
   isComparisonOpen.value = true;
 };
-const forceOverrideNavVisibility = useState<boolean | null>('forceOverrideNavVisibility', () => null);
-
 const { productReviews, loadProductReviews } = useProductReviews(toRef(props, 'product') as any);
 
 onMounted(async () => {
@@ -111,7 +109,6 @@ onMounted(() => {
                   const entry = entries[0];
                   if (entry) {
                       isStickyBarVisible.value = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-                      forceOverrideNavVisibility.value = isStickyBarVisible.value;
                   }
               },
               { threshold: 0 }
@@ -122,7 +119,6 @@ onMounted(() => {
 
     onUnmounted(() => {
         if (observer) observer.disconnect();
-        forceOverrideNavVisibility.value = null;
     });
 });
 

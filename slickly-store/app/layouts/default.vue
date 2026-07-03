@@ -84,7 +84,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-white font-sans antialiased relative text-gray-900 layout-wrapper" :data-loading="isLoading">
+  <!-- pb: statická mobilná bottom navigácia (60px + safe inset) nesmie prekrývať footer -->
+  <div class="min-h-screen bg-white font-sans antialiased relative text-gray-900 layout-wrapper pb-[calc(60px+env(safe-area-inset-bottom,0px))] lg:pb-0" :data-loading="isLoading">
     <!-- Global Loader — visible immediately (SSR injected) + controlled by Vue for CSR navigations -->
     <GlobalLoader :is-visible="isLoading" />
 

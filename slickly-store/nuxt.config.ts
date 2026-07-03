@@ -529,6 +529,9 @@ extends: ["../vue-starter-template", "./features/blog"],
         }
       ],
       meta: [
+        // viewport-fit=cover → env(safe-area-inset-*) vracia reálne hodnoty (notch/home
+        // indicator) v standalone PWA; bez neho sú safe-area utility vždy 0.
+        { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
         // PWA installability — biely status bar pri nainštalovanej appke
         { name: "theme-color", content: "#ffffff" },
         { name: "mobile-web-app-capable", content: "yes" },

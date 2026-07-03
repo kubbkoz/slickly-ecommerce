@@ -148,6 +148,11 @@ export default defineConfig({
     ['scrollbar-default', {
       'scrollbar-width': 'auto',
     }],
+    // Safe-area insets (notch/home indicator) — presetUno tieto utility negeneruje,
+    // bez definície boli pb-safe/pt-safe v šablónach tichý no-op. Vyžaduje
+    // viewport-fit=cover vo viewport meta (nuxt.config), inak env() vracia 0.
+    ['pb-safe', { 'padding-bottom': 'env(safe-area-inset-bottom)' }],
+    ['pt-safe', { 'padding-top': 'env(safe-area-inset-top)' }],
   ],
 
   content: {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { computed } from 'vue';
 import { Home, User, ShoppingCart } from 'lucide-vue-next';
 // @ts-ignore
 import { useCart, useUser } from '@shopware/composables';
@@ -31,32 +31,10 @@ const cartCount = computed(() =>
 
 // Global modal state
 const isLoginModalOpen = useState('loginModalOpen', () => false);
-const isBottomNavVisible = useState('mobileBottomNavVisible', () => false);
-const forceOverrideNavVisibility = useState<boolean | null>('forceOverrideNavVisibility', () => null);
-
-let lastScrollY = 0;
-
-const handleScroll = () => {
-  if (forceOverrideNavVisibility.value !== null) {
-     isBottomNavVisible.value = forceOverrideNavVisibility.value;
-     return;
-  }
-  const currentScrollY = window.scrollY;
-  // Objaví sa on scroll dole - ukážeme ak scrolloval viac ako 200px
-  if (currentScrollY > 200) {
-     isBottomNavVisible.value = true;
-  } else {
-     isBottomNavVisible.value = false;
-  }
-};
-
-watch(forceOverrideNavVisibility, (newVal) => {
-   if (newVal !== null) {
-      isBottomNavVisible.value = newVal;
-   } else {
-      handleScroll();
-   }
-});
+// Lišta je STATICKÁ (app-like) — vždy viditeľná na mobile. State ostáva `true` a nemení sa;
+// ChatBot ho stále číta pre svoje bottom offsety, preto sa kľúč nemaže.
+const isBottomNavVisible = useState('mobileBottomNavVisible', () => true);
+isBottomNavVisible.value = true;
 
 function handleUserClick() {
   if (isLoggedIn.value) {
@@ -65,28 +43,10 @@ function handleUserClick() {
     isLoginModalOpen.value = true;
   }
 }
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  handleScroll();
-});
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
 </script>
 
 <template>
-  <Transition
-    enter-active-class="transition-transform duration-300 ease-out"
-    enter-from-class="translate-y-full"
-    enter-to-class="translate-y-0"
-    leave-active-class="transition-transform duration-200 ease-in"
-    leave-from-class="translate-y-0"
-    leave-to-class="translate-y-full"
-  >
-    <div 
-      v-show="isBottomNavVisible" 
+    <div
       class="lg:hidden fixed bottom-0 left-0 right-0 z-[60] bg-white border-t border-gray-100 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] pb-safe"
       role="navigation"
       aria-label="Spodná mobilná navigácia"
@@ -130,5 +90,4 @@ onUnmounted(() => {
         </button>
       </div>
     </div>
-  </Transition>
 </template>

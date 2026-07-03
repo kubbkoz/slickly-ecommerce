@@ -158,9 +158,10 @@ onMounted(() => { isMounted.value = true; });
 
     <!-- Mobile Persistent Bottom CTA (always visible, fixed at bottom) -->
     <ClientOnly>
+      <!-- Sedí NAD statickou bottom navigáciou (h-[60px] + safe inset), ktorá vlastní bottom-0 -->
       <div
         v-if="isMounted"
-        class="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-gray-100 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] pb-safe"
+        class="lg:hidden fixed bottom-[calc(60px+env(safe-area-inset-bottom,0px))] inset-x-0 z-50 bg-white border-t border-gray-100 shadow-[0_-4px_12px_rgba(0,0,0,0.08)]"
       >
         <div class="flex gap-2 px-4 pt-3 pb-2 h-[64px]">
           <button

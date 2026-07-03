@@ -14,5 +14,8 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Range requests (video seeking/streaming) must stay on the browser's native path —
+  // re-issuing them via fetch() strips Range semantics and breaks playback on Chrome.
+  if (event.request.headers.has('range')) return;
   event.respondWith(fetch(event.request));
 });

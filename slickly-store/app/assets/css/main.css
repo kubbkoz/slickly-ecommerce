@@ -16,6 +16,14 @@
 html {
   scrollbar-gutter: stable;
 }
+
+/* Globálny horizontálny overflow guard — `clip` (nie `hidden`): nevytvára scroll
+   container, takže neláme position:sticky potomkov. Chráni pred mobile jankom
+   z akéhokoľvek pretečeného elementu (100vw, absolútne badge, carousely…). */
+html,
+body {
+  overflow-x: clip;
+}
 :root {
   --header-height: 80px;
   --brand-color: #000000;

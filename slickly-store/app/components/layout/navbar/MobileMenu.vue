@@ -237,14 +237,14 @@ const toggleCurrency = () => {
 <template>
   <Teleport to="body">
     <div 
-      class="fixed inset-0 min-w-full w-screen h-[100dvh] z-[120] transition-transform duration-300 transform lg:hidden flex flex-col gpu-boost bg-white overflow-hidden shadow-2xl"
+      class="fixed inset-0 w-full h-[100dvh] z-[120] transition-transform duration-300 transform lg:hidden flex flex-col gpu-boost bg-white overflow-hidden shadow-2xl"
       :class="isOpen ? 'translate-x-0' : 'translate-x-full'"
       style="left: 0 !important; right: 0 !important; top: 0 !important; bottom: 0 !important;"
     >
         <!-- Mobile Header — Enforced Dark Theme (§20.1) -->
         <div 
             class="w-full min-w-full h-[var(--navbar-height-unscrolled,72px)] flex items-center justify-between p-6 bg-black sticky top-0 z-10 shrink-0"
-            style="background-color: #000000 !important; width: 100vw !important;"
+            style="background-color: #000000 !important; width: 100% !important;"
         >
             <Logo />
 
