@@ -428,10 +428,9 @@ extends: ["../vue-starter-template", "./features/blog"],
     },
   },
   app: {
-    // Page/layout transitions disabled — existing components (FrontendDetailPage, [...all].vue, ...)
-    // nemajú single root node, takže <Transition> hodí warning + zlomí rendering.
-    // Re-enable až po wrapnutí všetkých page komponentov do single root <div>.
-    pageTransition: false,
+    // Page fade (180ms, CSS v main.css §page-transition) — pages boli upravené na single
+    // root node, aby <Transition> fungoval. layoutTransition ostáva vypnutý.
+    pageTransition: { name: 'page', mode: 'out-in' },
     layoutTransition: false,
     head: {
       titleTemplate: '%s | SLICKLY',

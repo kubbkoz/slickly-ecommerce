@@ -448,6 +448,9 @@ const resolvedComponent = computed(() => {
 </script>
 
 <template>
+  <!-- Single root wrapper: resolvedComponent (napr. FrontendDetailPage) môže byť multi-root,
+       page komponent musí mať jeden root node kvôli pageTransition (<Transition>). -->
+  <div>
   <!-- Static page (type=page articles bez /blog prefixu, napr. /kamenna-predajna) -->
   <template v-if="staticPage">
     <article class="min-h-screen bg-white">
@@ -487,4 +490,5 @@ const resolvedComponent = computed(() => {
 
   <!-- Shopware CMS / Product pages -->
   <component :is="resolvedComponent" v-else-if="resolvedComponent" />
+  </div>
 </template>
