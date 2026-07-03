@@ -51,7 +51,7 @@ const { data: fetchedProducts, pending } = await useAsyncData(
                     // FIX-API: Restrict payload to avoid large JSON response
                     includes: {
                         product: [
-                            'id', 'name', 'translated', 'cover', 'manufacturer', 'options',
+                            'id', 'name', 'description', 'translated', 'cover', 'manufacturer', 'options',
                             'seoUrls', 'calculatedPrice', 'childCount', 'children', 'media',
                             'ratingAverage', 'productReviewsCount', 'availableStock', 'isCloseout',
                             'createdAt', 'tagIds', 'categoryTree', 'manufacturerId'

@@ -71,7 +71,7 @@ const buildBody = (p: number) => ({
   },
   includes: {
     product: [
-      'id', 'name', 'translated', 'cover', 'manufacturer', 'options',
+      'id', 'name', 'description', 'translated', 'cover', 'manufacturer', 'options',
       'seoUrls', 'calculatedPrice', 'childCount', 'children', 'media',
       'ratingAverage', 'productReviewsCount', 'reviewCount', 'customFields',
       'availableStock', 'isCloseout', 'categoryTree', 'categoryIds',

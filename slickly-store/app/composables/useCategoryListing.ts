@@ -199,7 +199,7 @@ export const useCategoryListing = (navigationId: string, filters: ListingFilters
             // Without this, Shopware returns 50+ fields/product × 24 items = megabytes of wasted JSON.
             includes: {
                 product: [
-                    'id', 'name', 'translated', 'cover', 'manufacturer', 'options',
+                    'id', 'name', 'description', 'translated', 'cover', 'manufacturer', 'options',
                     'seoUrls', 'calculatedPrice', 'childCount', 'available', 'availableStock',
                     'isCloseout', 'children', 'media', 'ratingAverage', 'productReviewsCount', 'customFields',
                     'createdAt', 'tagIds', 'categoryTree', 'manufacturerId'

@@ -280,7 +280,7 @@ const showGeometryTab = computed(() => {
 });
 
 const CARD_INCLUDES = {
-  product: ['id', 'name', 'translated', 'cover', 'manufacturer', 'options', 'seoUrls',
+  product: ['id', 'name', 'description', 'translated', 'cover', 'manufacturer', 'options', 'seoUrls',
             'calculatedPrice', 'childCount', 'available', 'availableStock', 'isCloseout',
             'children', 'media', 'ratingAverage', 'productReviewsCount'],
   product_media: ['media', 'position'],

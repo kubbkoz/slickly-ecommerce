@@ -162,7 +162,7 @@ export const useAdvancedSearch = () => {
             },
             includes: {
                 product: [
-                    'id', 'name', 'translated', 'cover', 'manufacturer',
+                    'id', 'name', 'description', 'translated', 'cover', 'manufacturer',
                     'seoUrls', 'calculatedPrice', 'childCount', 'available',
                     'availableStock', 'isCloseout', 'ratingAverage', 'productReviewsCount',
                     'children', 'options', 'optionIds', 'restockTime',

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useProductHelpers } from '~/composables/useProductHelpers';
 import RatingStars from '~/components/ui/RatingStars.vue';
-import { formatRating } from '~/utils/format';
+import { formatRating, plainTextExcerpt } from '~/utils/format';
 import { Heart, Star, ChevronLeft, ChevronRight, ArrowRight, Scale } from 'lucide-vue-next';
 import AddToCartButton from '~/components/ui/AddToCartButton.vue';
 import BaseStockStatus from '~/components/ui/BaseStockStatus.vue';
@@ -57,14 +57,7 @@ const displayOldPrice = computed(() => {
     return p != null ? adjustPrice(p) : null;
 });
 
-const stripHtml = (html: string) => {
-    if (!html) return '';
-    return html.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
-};
-const shortDescription = computed(() => {
-    if (!props.product.description) return '';
-    return stripHtml(props.product.description);
-});
+const shortDescription = computed(() => plainTextExcerpt(props.product.description));
 
 // Reactive state
 const isHovered = ref(false);

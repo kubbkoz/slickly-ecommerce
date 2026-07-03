@@ -10,7 +10,7 @@ import VariantSelector from '~/components/product/VariantSelector.vue';
 import QuantitySelector from '~/components/ui/QuantitySelector.vue';
 import TrustBadges from '~/components/product/TrustBadges.vue';
 import { sanitizeHtml } from '~/utils/sanitize';
-import { formatRating } from '~/utils/format';
+import { formatRating, plainTextExcerpt } from '~/utils/format';
 import { useProductHelpers } from '~/composables/useProductHelpers';
 import { useCustomerWishlist } from '~/composables/useCustomerWishlist';
 import { useProductBadges, badgeSizeClass } from '~/composables/useProductBadges';
@@ -130,15 +130,8 @@ const isActiveVariantCloseout = computed(() => {
   return false;
 });
 
-const stripHtml = (html: string) => {
-    if (!html) return '';
-    return html.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
-};
-
-const shortDescription = computed(() => {
-    if (!props.product.description) return '';
-    return stripHtml(props.product.description);
-});
+// maxChars=0 → bez tvrdého orezania; vizuálne cappuje line-clamp-3 + „Čítať viac".
+const shortDescription = computed(() => plainTextExcerpt(props.product.description, 0));
 
 const { adjustPrice } = useCountrySelector();
 
