@@ -37,8 +37,15 @@ const localePath = useLocalePath();
 /* Navbar is fully static/docked — no scroll-reactive size change. A previous
    version shrank this 10% on scroll (first via transform, then font-size);
    both animated a layer-promoted, layer-fixed navbar and were implicated in a
-   compositor ghosting glitch on Android Chrome. Kept at one constant size. */
+   compositor ghosting glitch on Android Chrome. Mobile now gets a permanent
+   10% smaller size instead — a plain static breakpoint, not toggled while
+   scrolling, so there's nothing for the browser to re-rasterize mid-scroll. */
 .logo-wordmark {
   font-size: 2.5rem;
+}
+@media (max-width: 1023.98px) {
+  .logo-wordmark {
+    font-size: 2.25rem;
+  }
 }
 </style>
