@@ -169,17 +169,16 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
 
 <template>
   <div class="flex items-center space-x-3 text-white z-50">
-    <!-- Mobile Search -->
+    <!-- Search — mobile/tablet (<lg) now has its own tab in MobileBottomNav, so
+         this desktop-only icon avoids a duplicate entry point below lg. -->
     <button
-      class="lg:hidden text-white hover:text-amber transition-all duration-300 focus:outline-none rounded-sm bg-black p-2"
-      :class="{ 'opacity-0 pointer-events-none translate-y-[-10px]': isMobileMenuOpen }"
+      class="hidden lg:flex text-white hover:text-amber transition-all duration-300 focus:outline-none rounded-sm bg-black p-2"
       @click="toggleMobileSearch(true)"
       aria-label="Hľadať"
     >
       <Search class="w-6 h-6" />
     </button>
 
-    <!-- Wishlist -->
     <!-- Porovnanie -->
     <button
       class="hidden md:flex text-white hover:text-amber transition-all duration-300 rounded-sm items-center bg-black p-2 relative"
@@ -202,10 +201,9 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
       </ClientOnly>
     </button>
 
-    <!-- Obľúbené -->
+    <!-- Obľúbené — desktop only, MobileBottomNav has its own tab below lg -->
     <button
-      class="flex text-white hover:text-amber transition-all duration-300 rounded-sm items-center bg-black p-2 relative"
-      :class="{ 'opacity-0 pointer-events-none': isMobileMenuOpen }"
+      class="hidden lg:flex text-white hover:text-amber transition-all duration-300 rounded-sm items-center bg-black p-2 relative"
       @click="handleWishlistClick"
       aria-label="Obľúbené"
     >

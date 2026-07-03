@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { Home, User, ShoppingCart } from 'lucide-vue-next';
+import { computed, onMounted } from 'vue';
+import { Home, User, ShoppingCart, Search, Heart } from 'lucide-vue-next';
 // @ts-ignore
 import { useCart, useUser } from '@shopware/composables';
 // @ts-ignore
 import { useUiState } from '~/composables/useUiState';
+import { useCustomerWishlist } from '~/composables/useCustomerWishlist';
 import { useRoute } from 'vue-router';
 
 const { cartItems } = useCart();
-const { toggleCartSidebar } = useUiState();
+const { toggleCartSidebar, toggleMobileSearch } = useUiState();
 const { isLoggedIn } = useUser();
+const { wishlistItems, loadWishlist } = useCustomerWishlist();
 const route = useRoute();
 const localePath = useLocalePath();
 const config = useRuntimeConfig();
@@ -29,18 +31,32 @@ const cartCount = computed(() =>
     ).length
 );
 
-// Global modal state
+// Global modal state — shared with NavIcons.vue (same useState keys), so
+// opening from the bottom nav reuses the exact same modal instances.
 const isLoginModalOpen = useState('loginModalOpen', () => false);
+const isWishlistModalOpen = useState('wishlistModalOpen', () => false);
 // Lišta je STATICKÁ (app-like) — vždy viditeľná na mobile. State ostáva `true` a nemení sa;
 // ChatBot ho stále číta pre svoje bottom offsety, preto sa kľúč nemaže.
 const isBottomNavVisible = useState('mobileBottomNavVisible', () => true);
 isBottomNavVisible.value = true;
+
+onMounted(() => {
+  loadWishlist();
+});
 
 function handleUserClick() {
   if (isLoggedIn.value) {
     navigateTo(localePath('/account'));
   } else {
     isLoginModalOpen.value = true;
+  }
+}
+
+function handleWishlistClick() {
+  if (!isLoggedIn.value) {
+    isLoginModalOpen.value = true;
+  } else {
+    isWishlistModalOpen.value = true;
   }
 }
 </script>
@@ -51,21 +67,33 @@ function handleUserClick() {
       role="navigation"
       aria-label="Spodná mobilná navigácia"
     >
-      <div class="h-[60px] flex items-center justify-between px-2 gap-3 w-full">
+      <div class="h-[60px] flex items-center justify-between w-full">
         <!-- Domov -->
         <NuxtLink
           :to="localePath('/')"
-          class="flex flex-col items-center justify-center w-[64px] h-full flex-shrink-0 transition-colors focus:outline-none"
+          class="flex-1 flex flex-col items-center justify-center h-full min-w-0 transition-colors focus:outline-none"
           :class="isHomeActive ? 'text-amber' : 'text-gray-500 hover:text-brand'"
+          aria-label="Domov"
         >
           <Home class="w-5 h-5 mb-1" />
           <span class="text-[9px] font-bold uppercase tracking-wider font-sans">Domov</span>
         </NuxtLink>
 
+        <!-- Hľadať -->
+        <button
+          @click="toggleMobileSearch(true)"
+          class="flex-1 flex flex-col items-center justify-center h-full min-w-0 text-gray-500 bg-transparent hover:text-brand transition-colors focus:outline-none"
+          aria-label="Hľadať"
+        >
+          <Search class="w-5 h-5 mb-1" />
+          <span class="text-[9px] font-bold uppercase tracking-wider font-sans">Hľadať</span>
+        </button>
+
         <!-- Košík -->
         <button
           @click="toggleCartSidebar(true)"
-          class="flex flex-col items-center justify-center w-[64px] h-full flex-shrink-0 text-gray-500 bg-transparent hover:text-brand transition-colors focus:outline-none relative group"
+          class="flex-1 flex flex-col items-center justify-center h-full min-w-0 text-gray-500 bg-transparent hover:text-brand transition-colors focus:outline-none relative group"
+          aria-label="Košík"
         >
           <div class="relative">
             <ShoppingCart class="w-5 h-5 mb-1" />
@@ -76,14 +104,32 @@ function handleUserClick() {
           <span class="text-[9px] font-bold uppercase tracking-wider font-sans">Košík</span>
         </button>
 
-        <!-- Dynamic CTA Slot -->
-        <div id="mobile-nav-cta" class="flex-1 flex justify-center empty:hidden"></div>
+        <!-- Obľúbené -->
+        <button
+          @click="handleWishlistClick"
+          class="flex-1 flex flex-col items-center justify-center h-full min-w-0 text-gray-500 bg-transparent hover:text-brand transition-colors focus:outline-none relative group"
+          aria-label="Obľúbené"
+        >
+          <div class="relative">
+            <ClientOnly>
+              <Heart class="w-5 h-5 mb-1" />
+              <span v-if="wishlistItems.length > 0" class="absolute -top-1.5 -right-2.5 bg-amber text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+                  {{ wishlistItems.length }}
+               </span>
+              <template #fallback>
+                <Heart class="w-5 h-5 mb-1" />
+              </template>
+            </ClientOnly>
+          </div>
+          <span class="text-[9px] font-bold uppercase tracking-wider font-sans">Obľúbené</span>
+        </button>
 
         <!-- Účet -->
         <button
           @click="handleUserClick"
-          class="flex flex-col items-center justify-center w-[64px] h-full flex-shrink-0 transition-colors focus:outline-none"
+          class="flex-1 flex flex-col items-center justify-center h-full min-w-0 transition-colors focus:outline-none"
           :class="isAccountActive ? 'text-amber' : 'text-gray-500 hover:text-brand'"
+          aria-label="Môj účet"
         >
           <User class="w-5 h-5 mb-1" />
           <span class="text-[9px] font-bold uppercase tracking-wider font-sans">Účet</span>
