@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { getPrefix } from "#imports";
 import type { Schemas } from "#shopware";
+import ProductDetailSkeleton from "~/components/product/ProductDetailSkeleton.vue";
+import { getLocaleFromPath } from "~/utils/language";
+
 
 useHead({
   title: "SLICKLY",
@@ -66,6 +69,32 @@ const { locale, availableLocales, defaultLocale, localeProperties, messages } =
   useI18n();
 const router = useRouter();
 const route = useRoute();
+
+// The catch-all page resolver ([...all].vue) blocks its own render on an
+// awaited SEO-URL lookup before FrontendDetailPage (which has its own
+// pending/skeleton handling) ever mounts — so without a Suspense fallback
+// here, navigating to a product shows a blank white screen for however long
+// that lookup takes. Product URLs always follow /[slug]/[product-number]
+// (see utils/url.ts getProductUrl), so a simple path-shape check lets us
+// show the real PDP skeleton instead of nothing during that gap.
+//
+// Deliberately uses router.currentRoute (not the `route` ref above/useRoute())
+// — Nuxt defers syncing its own route ref until the incoming page's Suspense
+// resolves (see nuxtApp._route.sync() in page.js's onResolve), so useRoute()
+// would still report the PREVIOUS route while this fallback is visible.
+// router.currentRoute updates as soon as Vue Router confirms the navigation,
+// before the destination page's async setup even starts, so it already
+// reflects the destination during pending.
+const isLikelyProductRoute = computed(() => {
+  const targetPath = router.currentRoute.value.path;
+  const locale = getLocaleFromPath(targetPath);
+  let path = targetPath;
+  if (path === `/${locale}` || path.startsWith(`/${locale}/`)) {
+    path = path.slice(locale.length + 1);
+  }
+  const segments = path.split('/').filter(Boolean);
+  return segments.length === 2 && segments[1].length >= 3;
+});
 
 const { languageIdChain, refreshSessionContext } = useSessionContext();
 
@@ -141,8 +170,20 @@ onMounted(() => {
         {{ backendError.message }} — detail: <a href="/api/debug/shopware" class="underline">/api/debug/shopware</a>
       </template>
     </div>
+    <NuxtLoadingIndicator color="#FFBF00" :height="3" />
     <NuxtLayout>
-      <NuxtPage />
+      <!-- NuxtPage's own internal <Suspense suspensible> delegates its pending
+           state up to this wrapping <Suspense> — its #fallback is what actually
+           shows while a new route's page-level async data is resolving
+           (see node_modules/nuxt/dist/pages/runtime/page.js). Without this,
+           the catch-all resolver ([...all].vue) blocks its own render on an
+           awaited SEO-URL lookup and Vue shows nothing at all during that gap. -->
+      <Suspense>
+        <template #fallback>
+          <ProductDetailSkeleton v-if="isLikelyProductRoute" />
+        </template>
+        <NuxtPage />
+      </Suspense>
     </NuxtLayout>
   </div>
 </template>
