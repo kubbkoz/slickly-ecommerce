@@ -161,12 +161,15 @@ useHead(computed(() => ({
               >
                 <!-- Product Image -->
                 <div v-if="spot.image" class="w-24 h-24 flex-shrink-0 bg-white p-1 rounded-sm">
-                    <img 
-                      :src="spot.image" 
-                      :alt="spot.label" 
+                    <img
+                      :src="spot.image"
+                      :alt="spot.label"
+                      width="96"
+                      height="96"
+                      loading="lazy"
                       class="w-full h-full object-contain"
                       referrerpolicy="no-referrer"
-                      @error="(e) => console.error('Hotspot image failed:', spot.image, e)" 
+                      @error="(e) => console.error('Hotspot image failed:', spot.image, e)"
                     />
                 </div>
 

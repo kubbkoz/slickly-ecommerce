@@ -1,7 +1,11 @@
 import { defineEventHandler, getRouterParam, getQuery } from 'h3';
-import { useStorage, useRuntimeConfig } from '#imports';
+import { useStorage, useRuntimeConfig, defineCachedFunction } from '#imports';
 import { getAdminToken } from '~~/server/utils/shopwareAdmin';
 
+// `useStorage('redis')` without a mapped `redis:` mount falls back to the default
+// MEMORY/FS driver, which ignores TTL in raw `setItem(..., { ttl })` — the cache
+// would never expire. defineCachedFunction checks expiry itself (entry.mtime),
+// independent of the storage driver.
 const CACHE_TTL = 60 * 60 * 24; // 24h
 
 export interface DownloadFile {
@@ -13,24 +17,8 @@ export interface DownloadFile {
   fileSize: number;
 }
 
-export default defineEventHandler(async (event) => {
-  const manufacturer = getRouterParam(event, 'manufacturer') as string;
-  if (!manufacturer) return [];
-
-  const folderName = decodeURIComponent(manufacturer).toLowerCase();
-  const cacheKey = `downloads:${folderName}`;
-  const storage = useStorage('redis');
-
-  const query = getQuery(event);
-  if (query.clear === '1') {
-    await storage.removeItem(cacheKey).catch(() => null);
-    return { cleared: cacheKey };
-  }
-
-  const cached = await storage.getItem<DownloadFile[]>(cacheKey).catch(() => null);
-  if (cached) return cached;
-
-  try {
+const fetchDownloads = defineCachedFunction(
+  async (folderName: string): Promise<DownloadFile[]> => {
     const config = useRuntimeConfig();
     const endpoint = config.shopwareAdminEndpoint as string;
     const token = await getAdminToken();
@@ -46,10 +34,7 @@ export default defineEventHandler(async (event) => {
       },
     });
     const parentFolder = (parentRes?.data || [])[0];
-    if (!parentFolder) {
-      await storage.setItem(cacheKey, [], { ttl: CACHE_TTL }).catch(() => null);
-      return [];
-    }
+    if (!parentFolder) return [];
 
     // 2. Nájdi subfolder výrobcu v Manualy/
     const subRes: any = await $fetch(`${endpoint}search/media-folder`, {
@@ -67,13 +52,10 @@ export default defineEventHandler(async (event) => {
     const subFolders = (subRes?.data || []) as any[];
     const folder = subFolders.find((f: any) => (f.attributes?.name || f.name || '').toLowerCase() === folderName)
       || subFolders[0];
-    if (!folder) {
-      await storage.setItem(cacheKey, [], { ttl: CACHE_TTL }).catch(() => null);
-      return [];
-    }
+    if (!folder) return [];
     const folderId = folder.id;
 
-    // 2. Načítaj médiá z foldera
+    // 3. Načítaj médiá z foldera
     const mediaRes: any = await $fetch(`${endpoint}search/media`, {
       method: 'POST', headers,
       body: {
@@ -85,7 +67,7 @@ export default defineEventHandler(async (event) => {
     });
 
     const items = (mediaRes?.data || []) as any[];
-    const files: DownloadFile[] = items.map((m: any) => {
+    return items.map((m: any) => {
       const a = m.attributes || m;
       return {
         id: m.id || a.id,
@@ -96,9 +78,32 @@ export default defineEventHandler(async (event) => {
         fileSize: a.fileSize || 0,
       };
     }).filter((f: DownloadFile) => f.url);
+  },
+  {
+    name: 'downloads-by-manufacturer',
+    getKey: (folderName: string) => folderName,
+    maxAge: CACHE_TTL,
+  },
+);
 
-    await storage.setItem(cacheKey, files, { ttl: CACHE_TTL }).catch(() => null);
-    return files;
+export default defineEventHandler(async (event): Promise<DownloadFile[] | { cleared: string }> => {
+  const manufacturer = getRouterParam(event, 'manufacturer') as string;
+  if (!manufacturer) return [];
+
+  const folderName = decodeURIComponent(manufacturer).toLowerCase();
+
+  const query = getQuery(event);
+  if (query.clear === '1') {
+    // Key format matches Nitro's internal defineCachedFunction convention:
+    // [base, group, name, key + '.json'].join(':'). No public API exposes
+    // "invalidate this defineCachedFunction entry" directly.
+    const storage = useStorage();
+    await storage.removeItem(`/cache:nitro/functions:downloads-by-manufacturer:${folderName}.json`).catch(() => null);
+    return { cleared: folderName };
+  }
+
+  try {
+    return await fetchDownloads(folderName);
   } catch (e: any) {
     if (process.dev) console.error('[downloads]', e?.message || e);
     return [];

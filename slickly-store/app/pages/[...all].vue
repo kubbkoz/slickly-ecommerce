@@ -459,6 +459,8 @@ const resolvedComponent = computed(() => {
           <NuxtImg
             :src="proxyMediaUrl(((staticPage as any).heroCoverUrl || (staticPage as any).coverUrl)!)"
             :alt="(staticPage as any).title"
+            width="1600"
+            height="400"
             class="w-full h-full object-cover opacity-30"
             format="webp"
             loading="eager"

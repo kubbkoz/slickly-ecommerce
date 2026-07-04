@@ -195,9 +195,12 @@ const pmocPrice = computed(() => {
       <!-- Manufacturer Logo Section -->
       <div class="mb-2">
         <div v-if="product.manufacturer?.media?.url" class="opacity-90 hover:opacity-100 transition-opacity mb-2">
-            <NuxtImg 
-              :src="product.manufacturer.media.url" 
+            <NuxtImg
+              :src="product.manufacturer.media.url"
               :alt="`${product.brand} logo`"
+              width="100"
+              height="24"
+              sizes="100px"
               class="h-6 w-auto object-contain mix-blend-multiply"
               format="webp"
               loading="lazy"

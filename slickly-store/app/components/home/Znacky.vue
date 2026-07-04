@@ -49,6 +49,9 @@ const featured = computed(() => {
             v-if="brand.logoUrl"
             :src="brand.logoUrl"
             :alt="brand.name"
+            width="140"
+            height="36"
+            sizes="140px"
             class="h-7 md:h-9 w-auto max-w-full object-contain mix-blend-multiply grayscale opacity-60 group-hover:opacity-100 transition-opacity duration-300"
             loading="lazy"
           />
