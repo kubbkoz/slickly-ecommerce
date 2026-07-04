@@ -9,7 +9,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
   }
 
-  const storage = useStorage('redis');
-  await storage.removeItem('checkout:countries:v1');
+  // Key format matches Nitro's internal defineCachedFunction convention:
+  // [base, group, name, key + '.json'].join(':') — see server/api/checkout/countries.get.ts
+  // (name: 'checkout-countries', getKey: () => 'v1'). No public API exposes this directly.
+  const storage = useStorage();
+  await storage.removeItem('/cache:nitro/functions:checkout-countries:v1.json');
   return { cleared: true };
 });

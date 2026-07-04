@@ -1,24 +1,12 @@
-import { defineEventHandler, getQuery } from 'h3';
-import { useStorage, useRuntimeConfig } from '#imports';
+import { defineEventHandler, getQuery, type H3Event } from 'h3';
+import { useRuntimeConfig, defineCachedFunction } from '#imports';
 
 const PLACE_ID  = 'ChIJ1f4ccNbJFUcRUbCbvaArmfw';
-const CACHE_KEY = 'google:places:reviews';
 const CACHE_TTL = 60 * 60 * 24; // 24h
 
 const STAR_NEW: Record<string, number> = { ONE: 1, TWO: 2, THREE: 3, FOUR: 4, FIVE: 5 };
 
 const EMPTY_RESPONSE = { rating: 0, totalReviews: 0, reviews: [] as any[] };
-
-// In-memory fallback keď Redis nedostupný
-let memoryCache: { data: any; expiresAt: number } | null = null;
-
-function getFromMemory(): any | null {
-  if (memoryCache && Date.now() < memoryCache.expiresAt) return memoryCache.data;
-  return null;
-}
-function setToMemory(data: any) {
-  memoryCache = { data, expiresAt: Date.now() + CACHE_TTL * 1000 };
-}
 
 interface NormalizedPayload {
   rating: number;
@@ -96,37 +84,34 @@ async function tryNewApi(apiKey: string): Promise<NormalizedPayload | null> {
   }
 }
 
+// `useStorage('redis')` without a mapped `redis:` mount falls back to the default
+// MEMORY/FS driver, which ignores TTL in raw `setItem(..., { ttl })` — the previous
+// hand-rolled cache (storage + a separate in-process memoryCache safety net) could
+// get stuck serving the same result forever. defineCachedFunction checks expiry
+// itself (entry.mtime), independent of the storage driver, so one cache layer is
+// now enough — the manual memoryCache fallback is no longer needed.
+const fetchGoogleReviews = defineCachedFunction(
+  async (_event: H3Event): Promise<NormalizedPayload | typeof EMPTY_RESPONSE> => {
+    const config = useRuntimeConfig();
+    if (!config.googlePlacesApiKey) return EMPTY_RESPONSE;
+
+    let payload = await tryLegacyApi(config.googlePlacesApiKey);
+    if (!payload || payload.reviews.length === 0) {
+      const newPayload = await tryNewApi(config.googlePlacesApiKey);
+      if (newPayload && newPayload.reviews.length > 0) payload = newPayload;
+    }
+    return payload || EMPTY_RESPONSE;
+  },
+  {
+    name: 'google-reviews',
+    getKey: () => 'default',
+    maxAge: CACHE_TTL,
+    // ?debug=1 bypasses the cache read (still writes a fresh entry) so the debug
+    // endpoint always shows a live fetch instead of a cached result.
+    shouldBypassCache: (event: H3Event) => getQuery(event).debug === '1',
+  },
+);
+
 export default defineEventHandler(async (event) => {
-  const config  = useRuntimeConfig();
-  const storage = useStorage('redis');
-  const query   = getQuery(event);
-  const isDebug = query.debug === '1';
-
-  // 1. Cache hit (Redis → memory fallback)
-  if (!isDebug) {
-    const cached = await storage.getItem<any>(CACHE_KEY).catch(() => null);
-    if (cached) return cached;
-    const mem = getFromMemory();
-    if (mem) return mem;
-  }
-
-  // 2. Bez API kľúča → cache prázdny result, nevolaj API
-  if (!config.googlePlacesApiKey) {
-    setToMemory(EMPTY_RESPONSE);
-    await storage.setItem(CACHE_KEY, EMPTY_RESPONSE, { ttl: CACHE_TTL }).catch(() => null);
-    return EMPTY_RESPONSE;
-  }
-
-  // 3. Skús legacy → fallback new
-  let payload = await tryLegacyApi(config.googlePlacesApiKey);
-  if (!payload || payload.reviews.length === 0) {
-    const newPayload = await tryNewApi(config.googlePlacesApiKey);
-    if (newPayload && newPayload.reviews.length > 0) payload = newPayload;
-  }
-
-  // 4. Výsledok (aj prázdny) cachuj na 24h — zabraní opakovaným volaniam
-  const result = payload || EMPTY_RESPONSE;
-  setToMemory(result);
-  await storage.setItem(CACHE_KEY, result, { ttl: CACHE_TTL }).catch(() => null);
-  return result;
+  return fetchGoogleReviews(event);
 });

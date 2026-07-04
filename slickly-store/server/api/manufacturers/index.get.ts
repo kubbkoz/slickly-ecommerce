@@ -1,10 +1,14 @@
 import { defineEventHandler } from 'h3';
-import { useRuntimeConfig, useStorage } from '#imports';
+import { useRuntimeConfig, defineCachedFunction } from '#imports';
 import { getAdminToken } from '../../utils/shopwareAdmin';
 
-const CACHE_KEY = 'manufacturers:all';
-const CACHE_TTL = 3600; // 1 hodina — značky sa menia zriedka
-const NEGATIVE_CACHE_TTL = 60; // 1 minúta pri zlyhaní (zabraňuje retry storm)
+// 10 min — `useStorage('redis')` bez namapovaného `redis:` mountu spadne na default
+// MEMORY/FS driver, ktorý TTL v raw `setItem(..., { ttl })` ignoruje (cache by sa
+// tak uložila navždy). `defineCachedFunction` kontroluje expiráciu sám cez
+// `entry.mtime`, nezávisle od storage drivera — preto tento uniformný TTL platí
+// pre úspech aj zlyhanie (jednoduchšie než dvojúrovňová cache, stále efektívne
+// bráni retry stormu pri výpadku Admin API).
+const CACHE_TTL = 600;
 
 export interface ManufacturerItem {
   id: string;
@@ -58,62 +62,63 @@ async function fetchProductCounts(
   }
 }
 
-export default defineEventHandler(async (): Promise<ManufacturerItem[]> => {
-  const storage = useStorage('redis');
+const fetchManufacturers = defineCachedFunction(
+  async (): Promise<ManufacturerItem[]> => {
+    const config = useRuntimeConfig();
+    const adminEndpoint = config.shopwareAdminEndpoint as string;
 
-  const cached = await storage.getItem<ManufacturerItem[]>(CACHE_KEY);
-  if (cached) return cached;
+    try {
+      const token = await getAdminToken();
 
-  const config = useRuntimeConfig();
-  const adminEndpoint = config.shopwareAdminEndpoint as string;
-
-  try {
-    const token = await getAdminToken();
-
-    const res: any = await $fetch(`${adminEndpoint}search/product-manufacturer`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
-      body: {
-        limit: 500,
-        sort: [{ field: 'name', order: 'ASC' }],
-        associations: { media: {} },
-        includes: {
-          product_manufacturer: ['id', 'name', 'translated', 'link', 'media'],
-          media: ['url'],
+      const res: any = await $fetch(`${adminEndpoint}search/product-manufacturer`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
+        body: {
+          limit: 500,
+          sort: [{ field: 'name', order: 'ASC' }],
+          associations: { media: {} },
+          includes: {
+            product_manufacturer: ['id', 'name', 'translated', 'link', 'media'],
+            media: ['url'],
+          },
         },
-      },
-    });
+      });
 
-    const counts = await fetchProductCounts(adminEndpoint, token);
+      const counts = await fetchProductCounts(adminEndpoint, token);
 
-    const seenSlugs = new Set<string>();
-    const items: ManufacturerItem[] = (res?.data ?? []).map((m: any) => {
-      const name = m.translated?.name || m.name || '';
-      let slug = slugify(name) || m.id;
-      // Kolízia slugu → append -2, -3 … (unikátnosť pre /znacka/{slug})
-      if (seenSlugs.has(slug)) {
-        let i = 2;
-        while (seenSlugs.has(`${slug}-${i}`)) i++;
-        slug = `${slug}-${i}`;
-      }
-      seenSlugs.add(slug);
+      const seenSlugs = new Set<string>();
+      const items: ManufacturerItem[] = (res?.data ?? []).map((m: any) => {
+        const name = m.translated?.name || m.name || '';
+        let slug = slugify(name) || m.id;
+        // Kolízia slugu → append -2, -3 … (unikátnosť pre /znacka/{slug})
+        if (seenSlugs.has(slug)) {
+          let i = 2;
+          while (seenSlugs.has(`${slug}-${i}`)) i++;
+          slug = `${slug}-${i}`;
+        }
+        seenSlugs.add(slug);
 
-      return {
-        id: m.id,
-        name,
-        slug,
-        logoUrl: m.media?.url ?? null,
-        link: m.link ?? null,
-        productCount: counts[m.id] ?? 0,
-      };
-    });
+        return {
+          id: m.id,
+          name,
+          slug,
+          logoUrl: m.media?.url ?? null,
+          link: m.link ?? null,
+          productCount: counts[m.id] ?? 0,
+        };
+      });
 
-    await storage.setItem(CACHE_KEY, items, { ttl: CACHE_TTL });
-    return items;
-  } catch (e: any) {
-    const status = e?.response?.status ?? e?.statusCode ?? e?.status;
-    console.error(`[manufacturers] Admin API failed${status ? ` (${status})` : ''}:`, e?.message ?? e);
-    await storage.setItem(CACHE_KEY, [], { ttl: NEGATIVE_CACHE_TTL }).catch(() => null);
-    return [];
-  }
+      return items;
+    } catch (e: any) {
+      const status = e?.response?.status ?? e?.statusCode ?? e?.status;
+      console.error(`[manufacturers] Admin API failed${status ? ` (${status})` : ''}:`, e?.message ?? e);
+      // Cached too (same TTL) — prevents hammering Admin API on repeat requests during an outage.
+      return [];
+    }
+  },
+  { name: 'manufacturers-list', getKey: () => 'all', maxAge: CACHE_TTL },
+);
+
+export default defineEventHandler(async (): Promise<ManufacturerItem[]> => {
+  return fetchManufacturers();
 });
