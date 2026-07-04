@@ -60,7 +60,7 @@ const resolvedImage = computed(() => {
       <p v-if="product.brand" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest font-tech mb-0.5">
         {{ product.brand }}
       </p>
-      <h4 class="font-sans text-[12px] font-semibold text-gray-900 group-hover:text-brand transition-colors line-clamp-2 leading-tight mb-1.5">
+      <h4 class="font-sans text-[12px] font-bold text-gray-900 group-hover:text-brand transition-colors line-clamp-2 leading-tight mb-1.5">
         {{ product.name }}
       </h4>
       <div class="flex items-baseline gap-2">

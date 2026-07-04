@@ -47,7 +47,7 @@ const isOpen = computed(() => {
           </h2>
           <div class="section-decorator mb-8"></div>
 
-          <p class="font-sans text-base text-gray-400 font-light leading-relaxed mb-8 max-w-xl">
+          <p class="font-sans text-base text-gray-400 font-normal leading-relaxed mb-8 max-w-xl">
             V prípade akýchkoľvek otázok ohľadom výberu bicykla, jeho špecifikácie,
             alebo ak chcete iba doladiť správne doplnky k bicyklu, neváhajte nás kontaktovať.
           </p>
@@ -65,14 +65,14 @@ const isOpen = computed(() => {
                   class="flex items-center gap-2 font-sans text-sm text-gray-400 hover:text-brand transition-colors mb-2"
                 >
                   <PhoneCall class="w-4 h-4 text-brand flex-shrink-0" />
-                  <span>E-shop: <strong class="text-white font-semibold">+421 948 993 236</strong></span>
+                  <span>E-shop: <strong class="text-white font-bold">+421 948 993 236</strong></span>
                 </a>
                 <a
                   href="mailto:info@mtsport.sk"
                   class="flex items-center gap-2 font-sans text-sm text-gray-400 hover:text-brand transition-colors"
                 >
                   <Mail class="w-4 h-4 text-brand flex-shrink-0" />
-                  <span><strong class="text-white font-semibold">info@mtsport.sk</strong></span>
+                  <span><strong class="text-white font-bold">info@mtsport.sk</strong></span>
                 </a>
               </div>
             </div>
@@ -83,7 +83,7 @@ const isOpen = computed(() => {
               <div class="relative z-10">
                 <h3 class="font-tech font-black uppercase tracking-wide text-white text-lg mb-4">Online podpora</h3>
                 <div class="font-sans text-sm text-gray-400 leading-relaxed space-y-1">
-                  <p>{{ hours?.denOd }} – {{ hours?.denDo }}: <strong class="text-white font-semibold">{{ hours?.od }} – {{ hours?.do }}</strong></p>
+                  <p>{{ hours?.denOd }} – {{ hours?.denDo }}: <strong class="text-white font-bold">{{ hours?.od }} – {{ hours?.do }}</strong></p>
                   <p v-if="hours?.zatvorene && String(hours.zatvorene).trim() && hours.zatvorene !== 'false'">
                     {{ hours.zatvorene }}: <span class="text-gray-500">Nedostupné</span>
                   </p>

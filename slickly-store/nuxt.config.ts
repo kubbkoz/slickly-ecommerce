@@ -107,11 +107,14 @@ extends: ["../vue-starter-template", "./features/blog"],
   css: [
     // Local fonts via @fontsource (no Google Fonts CDN needed)
     // latin = basic A-Z | latin-ext = Slovak/Czech diacritics subset
-    // Space Grotesk (jediný font na celom webe — nadpisy aj body text)
-    "@fontsource/space-grotesk/300.css",
+    // Space Grotesk (jediný font na celom webe — nadpisy aj body text).
+    // Only the weights actually used by font-* utility classes across the app
+    // (checked via grep) — 300/600 were barely used (5 / 14 occurrences) and
+    // got remapped to font-normal/font-bold. Every unused weight loaded here
+    // is 3 extra font-file requests (latin+latin-ext+vietnamese) on the
+    // render-blocking critical path for zero visual benefit.
     "@fontsource/space-grotesk/400.css",
     "@fontsource/space-grotesk/500.css",
-    "@fontsource/space-grotesk/600.css",
     "@fontsource/space-grotesk/700.css",
     // App base styles
     "~/assets/css/main.css",
@@ -133,6 +136,20 @@ extends: ["../vue-starter-template", "./features/blog"],
 
     // Sitemap — cachovať 1 hodinu, nikdy neprerendrovávať
     "/sitemap.xml": { swr: 3600, prerender: false },
+
+    // Static public/ assets — no content hash in the filename (unlike hashed
+    // _nuxt/* build output, which Nitro/Vite already cache-busts safely
+    // forever), so a shorter-than-"forever" TTL is used to still get a real
+    // update within a week if one of these files is ever replaced by a
+    // redeploy. PageSpeed flagged these as having no cache lifetime at all
+    // (re-downloaded on every single visit).
+    "/videos/**": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
+    "/newsletter-bg.jpg": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
+    "/payment-icons/**": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
+    "/apple-touch-icon.png": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
+    "/icon-192.png": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
+    "/icon-512.png": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
+    "/favicon.svg": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
 
     // Blog — SWR 30 minút (obsah sa mení zriedka) + CDN/nginx cache-control (audit P0 #4)
     "/blog": { swr: 1800, headers: { 'cache-control': 's-maxage=1800, stale-while-revalidate=86400' } },

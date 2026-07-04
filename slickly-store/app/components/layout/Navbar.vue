@@ -4,9 +4,14 @@ import Logo from './navbar/Logo.vue';
 import NavIcons from './navbar/NavIcons.vue';
 import SearchBar from './navbar/SearchBar.vue';
 import DesktopNav from './navbar/DesktopNav.vue';
-import MobileMenu from './navbar/MobileMenu.vue';
-import MobileSearchOverlay from './navbar/MobileSearchOverlay.vue';
 import { useUiState } from '../../composables/useUiState';
+
+// Async-loaded — both are ClientOnly overlays only shown after a tap (hamburger
+// menu / mobile search icon), never on initial render, but a static import
+// bundled them into the navbar's own render-blocking critical-path chunk on
+// every page load.
+const MobileMenu = defineAsyncComponent(() => import('./navbar/MobileMenu.vue'));
+const MobileSearchOverlay = defineAsyncComponent(() => import('./navbar/MobileSearchOverlay.vue'));
 
 const { isMobileMenuOpen, isMobileSearchOpen, toggleMobileMenu, toggleMobileSearch } = useUiState();
 

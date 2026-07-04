@@ -225,7 +225,7 @@ onUnmounted(() => { document.body.style.overflow = ''; });
                         v-for="item in comparisonItems"
                         :key="item.id"
                         class="p-3 text-center text-xs"
-                        :class="isDifferent(group) ? 'bg-amber-50/80 font-semibold text-black' : ''"
+                        :class="isDifferent(group) ? 'bg-amber-50/80 font-bold text-black' : ''"
                       >
                         {{ getPropertyValue(item, group) }}
                       </td>

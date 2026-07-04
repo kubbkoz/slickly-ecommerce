@@ -100,7 +100,7 @@ const { data: categories } = await useAsyncData(
             {{ t('vyber_si') }} <span class="text-brand">{{ t('kategoriu') }}</span>
           </h2>
           <div class="section-decorator mb-6" />
-          <p class="text-gray-500 text-sm md:text-base lg:text-lg max-w-3xl font-light leading-relaxed font-sans">
+          <p class="text-gray-500 text-sm md:text-base lg:text-lg max-w-3xl font-normal leading-relaxed font-sans">
             {{ t('category_grid_subtext') }}
           </p>
         </div>

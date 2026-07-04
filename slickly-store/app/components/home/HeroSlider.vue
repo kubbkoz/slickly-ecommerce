@@ -110,7 +110,7 @@ useHead(computed(() => ({
             <h1 class="text-3xl sm:text-4xl md:text-6xl font-black mb-2 md:mb-4 leading-[0.9] uppercase italic font-tech tracking-wide break-words">
               {{ slide?.title }}
             </h1>
-            <p class="text-sm sm:text-base md:text-lg text-gray-200 mb-6 md:mb-8 max-w-lg font-light leading-relaxed font-sans line-clamp-3 md:line-clamp-none">
+            <p class="text-sm sm:text-base md:text-lg text-gray-200 mb-6 md:mb-8 max-w-lg font-normal leading-relaxed font-sans line-clamp-3 md:line-clamp-none">
               {{ slide?.subtitle }}
             </p>
             <div class="flex flex-col sm:flex-row gap-3">

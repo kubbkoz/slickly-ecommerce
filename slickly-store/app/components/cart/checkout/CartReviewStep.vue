@@ -83,7 +83,7 @@ const getImage = (item: any): string => {
           <div class="flex-1 min-w-0 flex flex-col justify-between">
             <div class="flex justify-between items-start gap-2">
               <div class="min-w-0 flex-1">
-                <h4 class="font-sans font-semibold text-sm text-black leading-snug uppercase">
+                <h4 class="font-sans font-bold text-sm text-black leading-snug uppercase">
                   {{ item.label.replace(/\(VARIANT\)/gi, '').trim() }}
                 </h4>
                 <div v-if="item.payload?.options?.[0]" class="text-[11px] text-gray-400 font-sans mt-0.5">

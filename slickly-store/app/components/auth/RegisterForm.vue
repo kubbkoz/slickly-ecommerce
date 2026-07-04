@@ -326,9 +326,9 @@ async function handleRegister() {
 
         <p class="text-center text-xs text-gray-400">
           Kliknutím súhlasíte s
-          <a href="/obchodne-podmienky" class="text-brand hover:underline font-semibold">obchodnými podmienkami</a>
+          <a href="/obchodne-podmienky" class="text-brand hover:underline font-bold">obchodnými podmienkami</a>
           a
-          <a href="/ochrana-sukromia" class="text-brand hover:underline font-semibold">ochranou súkromia</a>.
+          <a href="/ochrana-sukromia" class="text-brand hover:underline font-bold">ochranou súkromia</a>.
         </p>
 
         <!-- Social registration -->

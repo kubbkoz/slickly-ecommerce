@@ -54,7 +54,7 @@ const emit = defineEmits<{
                                 class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
                             />
                         </div>
-                        <h4 class="text-[10px] font-semibold text-black line-clamp-2 leading-tight font-sans mb-1">
+                        <h4 class="text-[10px] font-bold text-black line-clamp-2 leading-tight font-sans mb-1">
                             {{ fp.translated?.name || fp.name }}
                         </h4>
                         <div class="text-[12px] font-black font-tech text-black">{{ formatPrice(getPrice(fp)) }}</div>

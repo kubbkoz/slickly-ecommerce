@@ -7,8 +7,14 @@ import { useUser, useCart, usePrice, useSessionContext } from '@shopware/composa
 import { useUiState } from '~/composables/useUiState';
 import { onClickOutside } from '@vueuse/core';
 import AppModal from '~/components/ui/AppModal.vue';
-import LoginForm from '~/components/auth/LoginForm.vue';
 import { useCustomerWishlist } from '~/composables/useCustomerWishlist';
+
+// Async-loaded — see comment above: NavIcons is part of the persistent navbar
+// (renders on every page), but these modals are rarely opened. Nuxt's
+// component auto-import would otherwise bundle them (and everything they
+// import) into the navbar's own render-blocking critical-path chunk.
+const LoginForm = defineAsyncComponent(() => import('~/components/auth/LoginForm.vue'));
+const ComparisonModal = defineAsyncComponent(() => import('~/components/product/ComparisonModal.vue'));
 import { useProductComparison } from '~/composables/useProductComparison';
 
 // ---------------------------------------------------------------------------

@@ -58,7 +58,7 @@ const status = computed(() => {
     
     <!-- Text (Always Black & Semibold as requested) -->
     <span 
-      class="text-[10px] md:text-[11px] font-semibold uppercase tracking-tight font-sans whitespace-nowrap text-black"
+      class="text-[10px] md:text-[11px] font-bold uppercase tracking-tight font-sans whitespace-nowrap text-black"
     >
       {{ status.text }}
     </span>

@@ -97,7 +97,7 @@ onMounted(() => { isMounted.value = true; });
 
           <!-- Name + Price -->
           <div class="flex-1 min-w-0">
-            <p class="font-sans font-semibold text-sm leading-tight text-black truncate mb-1">
+            <p class="font-sans font-bold text-sm leading-tight text-black truncate mb-1">
               {{ sanitizedProductName }}
             </p>
             <div class="flex items-center gap-3">

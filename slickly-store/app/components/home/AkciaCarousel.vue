@@ -145,7 +145,7 @@ const scroll = (direction: 'left' | 'right') => {
                    </h2>
 
                    <div class="section-decorator mb-6"></div>
-                   <div v-if="sectionSubtitle" class="text-gray-600 text-sm md:text-base lg:text-lg max-w-3xl font-light leading-relaxed font-sans" v-html="sanitizeHtml(sectionSubtitle)"></div>
+                   <div v-if="sectionSubtitle" class="text-gray-600 text-sm md:text-base lg:text-lg max-w-3xl font-normal leading-relaxed font-sans" v-html="sanitizeHtml(sectionSubtitle)"></div>
               </div>
 
               <!-- Navigation arrows (desktop) -->

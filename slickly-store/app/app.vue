@@ -61,8 +61,16 @@ const { data: languagesData } = await useAsyncData("languages", async () => {
 const languages = unref(languagesData);
 
 // Session context inicializuj len ak context prešiel.
-if (sessionContextData.value) {
-  useSessionContext(sessionContextData.value);
+// Guarded — a cold/fresh session's context payload can have a different shape
+// than a reused one (e.g. missing customer/paymentMethod), and this composable
+// wasn't previously wrapped: an unexpected shape here would throw uncaught
+// and crash SSR to the 500 error page instead of degrading gracefully.
+try {
+  if (sessionContextData.value) {
+    useSessionContext(sessionContextData.value);
+  }
+} catch (e) {
+  console.error('[SLICKLY] useSessionContext init failed:', e);
 }
 
 const { locale, availableLocales, defaultLocale, localeProperties, messages } =
@@ -101,43 +109,53 @@ const { languageIdChain, refreshSessionContext } = useSessionContext();
 let languageToChangeId: string | null = null;
 
 // Jazyková logika len ak máme context aj languages.
-if (sessionContextData.value && languages && router.currentRoute.value.name) {
-  storeLanguages.value = languages.elements;
-  const prefix = getPrefix(
-    availableLocales,
-    router.currentRoute.value.name as string,
-    defaultLocale,
-  );
+// Guarded end-to-end — a cold session's context/languageIdChain shape can
+// differ from a reused one, and none of getPrefix/getLanguageCodeFromId/
+// getLanguageIdFromCode were previously protected: any unexpected input here
+// would throw uncaught and crash SSR to the 500 error page. On failure we
+// still fall back to the default locale instead of leaving `locale` unset.
+try {
+  if (sessionContextData.value && languages && router.currentRoute.value.name) {
+    storeLanguages.value = languages.elements;
+    const prefix = getPrefix(
+      availableLocales,
+      router.currentRoute.value.name as string,
+      defaultLocale,
+    );
 
-  provide(
-    "cmsTranslations",
-    messages.value[(prefix as keyof typeof messages.value) || defaultLocale] ??
-      {},
-  );
+    provide(
+      "cmsTranslations",
+      messages.value[(prefix as keyof typeof messages.value) || defaultLocale] ??
+        {},
+    );
 
-  if (localeProperties.value.localeId) {
-    if (languageIdChain.value !== localeProperties.value.localeId) {
-      languageToChangeId = localeProperties.value.localeId as string;
+    if (localeProperties.value.localeId) {
+      if (languageIdChain.value !== localeProperties.value.localeId) {
+        languageToChangeId = localeProperties.value.localeId as string;
+      }
+    } else {
+      const sessionLanguage = getLanguageCodeFromId(languageIdChain.value);
+      if (sessionLanguage !== prefix) {
+        languageToChangeId = getLanguageIdFromCode(prefix ? prefix : defaultLocale);
+      }
     }
-  } else {
-    const sessionLanguage = getLanguageCodeFromId(languageIdChain.value);
-    if (sessionLanguage !== prefix) {
-      languageToChangeId = getLanguageIdFromCode(prefix ? prefix : defaultLocale);
+
+    if (languageToChangeId) {
+      try {
+        apiClient.defaultHeaders.apply({ "sw-language-id": languageToChangeId });
+        await changeLanguage(languageToChangeId);
+        await refreshSessionContext();
+      } catch (e) {
+        console.error("[SLICKLY] changeLanguage failed:", e);
+      }
     }
+
+    locale.value = (prefix ? prefix : defaultLocale) as keyof typeof messages.value;
+    provide("urlPrefix", prefix);
   }
-
-  if (languageToChangeId) {
-    try {
-      apiClient.defaultHeaders.apply({ "sw-language-id": languageToChangeId });
-      await changeLanguage(languageToChangeId);
-      await refreshSessionContext();
-    } catch (e) {
-      console.error("[SLICKLY] changeLanguage failed:", e);
-    }
-  }
-
-  locale.value = (prefix ? prefix : defaultLocale) as keyof typeof messages.value;
-  provide("urlPrefix", prefix);
+} catch (e) {
+  console.error('[SLICKLY] Language resolution failed:', e);
+  locale.value = defaultLocale as keyof typeof messages.value;
 }
 
 const showDebug = computed(() => route.query.debug !== undefined);

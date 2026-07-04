@@ -83,7 +83,7 @@ const stockDotClass = computed(() => {
                         class="flex-1 pr-4 cursor-pointer group/title"
                         @click="emit('click-product', item)"
                     >
-                        <h4 class="font-sans font-semibold text-sm text-black leading-snug uppercase group-hover/title:text-brand transition-colors">
+                        <h4 class="font-sans font-bold text-sm text-black leading-snug uppercase group-hover/title:text-brand transition-colors">
                             {{ item.label.replace(/\(VARIANT\)/gi, '').trim() }}
                         </h4>
                         <div v-if="item.payload?.options?.[0]" class="text-[11px] text-gray-400 font-sans mt-0.5">

@@ -632,7 +632,7 @@ const submitHeight = (msgIndex: number) => {
                                   </div>
 
                                   <div class="border-t border-green-200 pt-2">
-                                      <p class="text-[13px] font-semibold text-green-900 leading-relaxed">{{ orderLookupResult.message }}</p>
+                                      <p class="text-[13px] font-bold text-green-900 leading-relaxed">{{ orderLookupResult.message }}</p>
                                   </div>
 
                                   <details v-if="orderLookupResult?.states?.order" class="cursor-pointer border-t border-green-200 pt-2">

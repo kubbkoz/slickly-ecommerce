@@ -3,8 +3,13 @@ import GlobalLoader from '~/components/ui/GlobalLoader.vue';
 import Navbar from '~/components/layout/Navbar.vue';
 import Footer from '~/components/layout/Footer.vue';
 import PreFooter from '~/components/layout/PreFooter.vue';
-import CartSidebar from '~/components/cart/CartSidebar.vue';
 import MobileBottomNav from '~/components/layout/MobileBottomNav.vue';
+
+// Async-loaded: the cart sidebar (already ClientOnly, only ever opened by user
+// action) pulled its whole subtree — CartHeader/CartItem/CartCrossSellPanel/
+// CartFooter/CartShippingBar/CartEmptyState — into this layout's own critical
+// CSS, render-blocking on every single page load. Deferred to its own chunk.
+const CartSidebar = defineAsyncComponent(() => import('~/components/cart/CartSidebar.vue'));
 
 // Hreflang + canonical + og:locale tags pre všetky lokality (sk/cz/de/hu/en/pl).
 // i18n v10 API: { dir, lang, seo } — `seo: true` generuje hreflang alternates

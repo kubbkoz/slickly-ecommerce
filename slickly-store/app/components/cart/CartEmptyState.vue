@@ -33,7 +33,7 @@ const emit = defineEmits<{ (e: 'close'): void }>();
                     v-for="cat in categories"
                     :key="cat.id"
                     :to="cat.url"
-                    class="px-4 py-2 bg-gray-50 border border-gray-100 hover:bg-gray-100 text-black text-[10px] font-semibold tracking-wide transition-colors font-sans"
+                    class="px-4 py-2 bg-gray-50 border border-gray-100 hover:bg-gray-100 text-black text-[10px] font-bold tracking-wide transition-colors font-sans"
                     @click="emit('close')"
                 >
                     {{ cat.name }}
