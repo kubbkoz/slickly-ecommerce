@@ -503,11 +503,16 @@ extends: ["../vue-starter-template", "./features/blog"],
                letter-spacing: 0.2em;
                margin-top: 15px;
             }
-            /* Hide layout content while loader is present in SSR */
+            /* Hide layout content while loader is present in SSR, fade it in
+               smoothly once ready instead of popping in all at once. */
+            .layout-wrapper > *:not(#mt-page-loader) {
+              transition: opacity 0.25s ease-out;
+            }
             .layout-wrapper[data-loading="true"] > *:not(#mt-page-loader),
             .layout-wrapper[data-loading="true"] #main-content {
               opacity: 0 !important;
               visibility: hidden !important;
+              transition: none !important;
             }
           `
         }

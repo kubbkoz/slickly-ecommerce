@@ -32,7 +32,6 @@ const featured = computed(() => {
 
 <template>
   <section
-    v-if="featured.length"
     class="pt-3 pb-3 md:pt-3 md:pb-3 bg-gray-50 border-b border-gray-100"
   >
     <div class="container mx-auto px-4 lg:px-8">

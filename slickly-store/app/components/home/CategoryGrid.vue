@@ -108,7 +108,7 @@ const { data: categories } = await useAsyncData(
 
       <!-- Grid — asymetrický: 4 stĺpce, vybrané karty cez 2 stĺpce
            (6 kategórií → riadok1 [wide][1][1], riadok2 [1][wide][1]) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 md:gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 md:gap-4 min-h-[200px] md:min-h-[260px]">
         <NuxtLink
           v-for="(cat, i) in categories"
           :key="cat.id"
