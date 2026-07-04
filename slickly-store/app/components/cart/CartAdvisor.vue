@@ -209,7 +209,7 @@ onMounted(() => {
         <button
           v-if="!products.every(p => addedProductIds.has(p.id))"
           :disabled="isAddingAll"
-          class="flex items-center gap-2 px-5 py-2.5 bg-black text-white text-[10px] font-medium uppercase tracking-widest hover:bg-brand transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed shadow-md gpu-boost"
+          class="flex items-center gap-2 px-5 py-2.5 bg-black text-white text-[10px] font-medium uppercase tracking-widest hover:bg-brand transition-colors duration-300 disabled:opacity-40 disabled:cursor-not-allowed shadow-md"
           @click="handleAddAll"
         >
           <Loader2 v-if="isAddingAll" class="w-3 h-3 animate-spin" />
@@ -315,7 +315,7 @@ onMounted(() => {
             <NuxtLink
               v-if="product.hasVariants && !getAddId(product)"
               :to="product.seoPath ? localePath(product.seoPath) : localePath('/')"
-              class="w-full border border-black bg-black text-white flex items-center justify-center gap-2 py-2.5 text-[10px] font-medium uppercase tracking-widest transition-all duration-300 hover:bg-brand hover:border-brand shadow-sm gpu-boost"
+              class="w-full border border-black bg-black text-white flex items-center justify-center gap-2 py-2.5 text-[10px] font-medium uppercase tracking-widest transition-colors duration-300 hover:bg-brand hover:border-brand shadow-sm"
             >
               <Plus class="w-3 h-3" /> Vybrať veľkosť
             </NuxtLink>
@@ -326,7 +326,7 @@ onMounted(() => {
               :class="addedProductIds.has(product.id) || (getAddId(product) && addedProductIds.has(getAddId(product)!))
                 ? 'bg-emerald-600 text-white border-emerald-600'
                 : 'bg-white text-black border-gray-200 hover:bg-black hover:text-white hover:border-black shadow-sm'"
-              class="w-full border flex items-center justify-center gap-2 py-2.5 text-[10px] font-medium uppercase tracking-widest transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed gpu-boost"
+              class="w-full border flex items-center justify-center gap-2 py-2.5 text-[10px] font-medium uppercase tracking-widest transition-colors duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
               @click.prevent="handleAddOne(product)"
             >
               <Loader2 v-if="addingIds.has(getAddId(product) ?? '')" class="w-3 h-3 animate-spin" />

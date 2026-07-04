@@ -175,7 +175,7 @@ watch(() => props.shippingMethod, () => {
         <div v-else class="space-y-3">
           <template v-for="method in filteredShippingMethods" :key="method.id">
           <label
-            class="flex items-center p-4 border-2 cursor-pointer transition-all duration-200 gpu-boost select-none"
+            class="flex items-center p-4 border-2 cursor-pointer transition-colors duration-200 select-none"
             :class="shippingMethod === method.id
               ? 'border-brand bg-brand/[0.03]'
               : 'border-gray-100 hover:border-gray-300'"
@@ -256,7 +256,7 @@ watch(() => props.shippingMethod, () => {
           <label
             v-for="method in paymentMethods"
             :key="method.id"
-            class="flex items-center p-4 border-2 transition-all duration-200 gpu-boost select-none"
+            class="flex items-center p-4 border-2 transition-colors duration-200 select-none"
             :class="isPaymentDisabled(method)
               ? 'border-gray-100 bg-gray-50 opacity-40 cursor-not-allowed'
               : paymentMethod === method.id

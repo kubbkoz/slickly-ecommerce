@@ -104,17 +104,17 @@ const togglePrice = (max: number, e: Event) => handleChipClick(() => {
 </script>
 
 <template>
-    <div class="sticky top-[var(--navbar-height-scrolled,72px)] z-40 w-full bg-white/95 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.03)] border-b border-gray-100/30 mt-0 select-none gpu-boost">
+    <div class="sticky top-[var(--navbar-height-scrolled,72px)] z-40 w-full bg-white/95 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.03)] border-b border-gray-100/30 mt-0 select-none">
         <div class="container mx-auto px-4 relative">
             <div class="flex items-center justify-between h-14">
                 
                 <!-- LEFT: Filter (Ghost style) -->
                 <button
                     @click="emit('toggleFilter')"
-                    class="flex items-center gap-2.5 md:gap-3 hover:text-brand transition-colors flex-shrink-0 group bg-transparent border-none p-0 outline-none shadow-none gpu-boost"
+                    class="flex items-center gap-2.5 md:gap-3 hover:text-brand transition-colors flex-shrink-0 group bg-transparent border-none p-0 outline-none shadow-none"
                     aria-label="Otvoriť filtre"
                 >
-                    <div class="relative w-8 h-8 flex items-center justify-center text-gray-900 group-hover:text-brand transition-all duration-300 gpu-boost">
+                    <div class="relative w-8 h-8 flex items-center justify-center text-gray-900 group-hover:text-brand transition-colors duration-300">
                         <SlidersHorizontal class="w-5 h-5 flex-shrink-0" :stroke-width="1.5" aria-hidden="true" />
                         <!-- Numbered Badge -->
                         <span
@@ -182,7 +182,7 @@ const togglePrice = (max: number, e: Event) => handleChipClick(() => {
                 <div class="relative flex-shrink-0 ml-1 md:ml-2" ref="sortDropdownRef">
                     <button 
                         @click="isSortOpen = !isSortOpen"
-                        class="flex items-center gap-2 md:gap-3 px-1 py-2 text-[10px] md:text-[11px] text-gray-900 bg-transparent hover:text-brand transition-all flex-shrink-0 group gpu-boost"
+                        class="flex items-center gap-2 md:gap-3 px-1 py-2 text-[10px] md:text-[11px] text-gray-900 bg-transparent hover:text-brand transition-colors flex-shrink-0 group"
                         aria-label="Zoradiť produkty"
                     >
                         <div class="flex flex-col gap-[3px] items-start group-hover:text-brand transition-colors" aria-hidden="true">
@@ -237,7 +237,7 @@ const togglePrice = (max: number, e: Event) => handleChipClick(() => {
                     <!-- Modal Panel -->
                     <div 
                         ref="heightModalRef"
-                        class="relative w-full max-w-sm bg-white shadow-[0_40px_100px_rgba(0,0,0,0.2)] border border-gray-100 p-8 rounded-default overflow-hidden transform transition-all gpu-boost"
+                        class="relative w-full max-w-sm bg-white shadow-[0_40px_100px_rgba(0,0,0,0.2)] border border-gray-100 p-8 rounded-default overflow-hidden"
                     >
                         <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-900 font-montserrat mb-6 text-center">Vaša výška (cm)</h4>
                         <div class="relative mb-6">
@@ -264,7 +264,7 @@ const togglePrice = (max: number, e: Event) => handleChipClick(() => {
 
 <style scoped>
 .chip-btn {
-    @apply flex-shrink-0 px-3 py-1.5 flex items-center gap-2 text-[10px] md:text-[11px] font-bold transition-all duration-300 rounded-sm border border-transparent uppercase tracking-wider gpu-boost;
+    @apply flex-shrink-0 px-3 py-1.5 flex items-center gap-2 text-[10px] md:text-[11px] font-bold transition-colors duration-300 rounded-sm border border-transparent uppercase tracking-wider;
     font-family: 'Space Grotesk', sans-serif;
 }
 

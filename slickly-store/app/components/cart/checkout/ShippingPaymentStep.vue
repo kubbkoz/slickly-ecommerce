@@ -56,7 +56,7 @@ const getShippingIcon = (method: any) => {
           <label
             v-for="method in shippingMethods"
             :key="method.id"
-            class="flex items-center p-4 border-2 cursor-pointer transition-all duration-200 gpu-boost select-none"
+            class="flex items-center p-4 border-2 cursor-pointer transition-colors duration-200 select-none"
             :class="shippingMethod === method.id
               ? 'border-brand bg-brand/[0.03]'
               : 'border-gray-100 hover:border-gray-300'"
@@ -120,7 +120,7 @@ const getShippingIcon = (method: any) => {
           <label
             v-for="method in paymentMethods"
             :key="method.id"
-            class="flex items-center p-4 border-2 cursor-pointer transition-all duration-200 gpu-boost select-none"
+            class="flex items-center p-4 border-2 cursor-pointer transition-colors duration-200 select-none"
             :class="paymentMethod === method.id
               ? 'border-brand bg-brand/[0.03]'
               : 'border-gray-100 hover:border-gray-300'"

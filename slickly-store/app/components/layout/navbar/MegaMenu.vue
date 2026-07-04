@@ -153,7 +153,7 @@ const getCategoryImage = (cat: Schemas['Category']) => {
                 <NuxtLink 
                   v-if="sub"
                   :to="localePath(getCategoryUrl(sub))"
-                  class="flex items-center gap-3 xl:gap-6 py-2 xl:py-4 px-3 border-b border-gray-50 hover:bg-gray-50 transition-all duration-200 w-full rounded-default gpu-boost"
+                  class="flex items-center gap-3 xl:gap-6 py-2 xl:py-4 px-3 border-b border-gray-50 hover:bg-gray-50 transition-colors duration-200 w-full rounded-default"
                 >
                   <div class="w-10 h-10 xl:w-16 xl:h-16 flex-shrink-0 relative overflow-hidden bg-white rounded-default border border-gray-100/50">
                       <img 

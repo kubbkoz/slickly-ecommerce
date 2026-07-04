@@ -186,7 +186,7 @@ const handleHoverPrefetch = () => {
 <template>
     <a
         :href="productUrl"
-        class="group bg-white cursor-pointer relative transition-[box-shadow] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] transform-gpu gpu-boost flex flex-col touch-manipulation"
+        class="group bg-white cursor-pointer relative transition-[box-shadow] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col touch-manipulation"
         :class="[
             isHovered ? 'z-20 shadow-[0_20px_50px_rgba(0,0,0,0.08)]' : 'z-10'
         ]"

@@ -165,7 +165,7 @@ function nextSlide() { carouselIndex.value = Math.min(maxIndex.value, carouselIn
                         :key="item.id"
                         :style="{ width: 'calc(25% - 12px)', flexShrink: '0' }"
                     >
-                        <div class="group bg-white cursor-pointer relative transition-[box-shadow] duration-200 transform-gpu gpu-boost z-10 hover:z-20 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] h-full" @click="navigateToProduct(item)">
+                        <div class="group bg-white cursor-pointer relative transition-[box-shadow] duration-200 z-10 hover:z-20 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] h-full" @click="navigateToProduct(item)">
                             <div class="bg-white border transition-colors duration-200 ease-in-out border-gray-100 group-hover:border-black h-full flex flex-col">
                                 <!-- Image -->
                                 <div class="aspect-square bg-gray-50 overflow-hidden relative flex items-center justify-center">

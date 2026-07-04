@@ -5,7 +5,6 @@ import Footer from '~/components/layout/Footer.vue';
 import PreFooter from '~/components/layout/PreFooter.vue';
 import CartSidebar from '~/components/cart/CartSidebar.vue';
 import MobileBottomNav from '~/components/layout/MobileBottomNav.vue';
-import { useCart } from '@shopware/composables';
 
 // Hreflang + canonical + og:locale tags pre všetky lokality (sk/cz/de/hu/en/pl).
 // i18n v10 API: { dir, lang, seo } — `seo: true` generuje hreflang alternates
@@ -20,9 +19,6 @@ useHead(computed(() => ({
 // Global loader state — shared with useLanguageSwitcher (which calls showLoader() directly)
 const { isLoading, hideLoader, showLoader, suppressOverlay } = usePageLoader();
 const nuxtApp = useNuxtApp();
-
-// Fix pre miznúci košík — globálne zosynchronizovanie košíka po načítaní aplikácie
-const { refreshCart } = useCart();
 
 // Timer for delayed overlay — fast navigations show skeleton only, slow show overlay
 let overlayTimer: ReturnType<typeof setTimeout> | null = null;
@@ -62,16 +58,11 @@ nuxtApp.hook('page:finish', () => {
   }
 });
 
-onMounted(async () => {
-  // Synchronizácia košíka so serverom pri každom novom loade aplikácie
-  // Rieši problém kedy bol košík prázdny pokým sa do neho niečo nepridalo (cache/session merge)
-  try {
-    if (typeof refreshCart === 'function') {
-      await refreshCart();
-    }
-  } catch (e) {
-    console.error('Failed to sync cart on mount:', e);
-  }
+onMounted(() => {
+  // Cart sync on mount is already handled by app.vue's onMounted (which fires
+  // alongside this one on every load, regardless of which layout is active) —
+  // calling refreshCart() here too duplicated that network request on every
+  // single page load for no benefit.
 
   // If loader is visible from SSR, hide it after hydration unless navigating
   if (isLoading.value) {

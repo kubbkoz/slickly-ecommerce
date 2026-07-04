@@ -305,7 +305,7 @@ const toggleCurrency = () => {
                     
                     <!-- Subcategories Accordion (L2 + L3) -->
                     <div
-                        class="overflow-hidden transition-all duration-300 ease-in-out gpu-boost"
+                        class="overflow-hidden transition-all duration-300 ease-in-out"
                         :class="mobileExpandedCategory === link.id && link.children && link.children.length > 0 ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'"
                     >
                         <div class="bg-gray-50 p-4 space-y-1 mb-4 rounded-default border-l-2 border-brand/50">

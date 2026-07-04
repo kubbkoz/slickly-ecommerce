@@ -353,7 +353,7 @@ onBeforeUnmount(() => {
       >
         <div
           v-if="isFullscreenOpen"
-          class="fixed inset-0 z-[200] bg-white flex flex-col gpu-boost"
+          class="fixed inset-0 z-[200] bg-white flex flex-col"
           role="dialog"
           aria-modal="true"
           aria-label="Fullscreen galéria"
@@ -387,7 +387,7 @@ onBeforeUnmount(() => {
             <button
               v-if="allMedia.length > 1"
               @click.stop="prevImage"
-              class="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-white border border-gray-200 hover:border-brand hover:bg-brand hover:text-white text-gray-700 shadow-sm transition-all duration-200 gpu-boost"
+              class="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-white border border-gray-200 hover:border-brand hover:bg-brand hover:text-white text-gray-700 shadow-sm transition-colors duration-200"
               aria-label="Predchádzajúci obrázok (←)"
               data-arrow="prev"
             >
@@ -429,7 +429,7 @@ onBeforeUnmount(() => {
             <button
               v-if="allMedia.length > 1"
               @click.stop="nextImage"
-              class="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-white border border-gray-200 hover:border-brand hover:bg-brand hover:text-white text-gray-700 shadow-sm transition-all duration-200 gpu-boost"
+              class="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-white border border-gray-200 hover:border-brand hover:bg-brand hover:text-white text-gray-700 shadow-sm transition-colors duration-200"
               aria-label="Nasledujúci obrázok (→)"
             >
               <ChevronRight class="w-6 h-6" />
