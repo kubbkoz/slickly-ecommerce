@@ -174,7 +174,7 @@ onUnmounted(() => { document.body.style.overflow = ''; });
               </p>
               <div v-if="comparisonItems.length" class="space-y-3 text-left max-w-sm mx-auto">
                 <div v-for="item in comparisonItems" :key="item.id" class="flex items-center gap-3 p-3 border border-gray-100">
-                  <img :src="item.image" :alt="item.name" class="w-12 h-12 object-contain flex-shrink-0" />
+                  <img :src="item.image" :alt="item.name" width="48" height="48" loading="lazy" class="w-12 h-12 object-contain flex-shrink-0" />
                   <span class="text-xs font-bold uppercase truncate flex-1">{{ item.name }}</span>
                   <button @click="removeFromComparison(item.id)" class="text-gray-400 hover:text-brand"><X class="w-4 h-4" /></button>
                 </div>
@@ -193,7 +193,7 @@ onUnmounted(() => { document.body.style.overflow = ''; });
                         <div class="relative flex flex-col items-center">
                           <button @click="removeFromComparison(item.id)" class="absolute -top-1 -right-1 w-6 h-6 flex items-center justify-center text-gray-300 hover:text-brand transition-colors z-10"><X class="w-3.5 h-3.5" /></button>
                           <div class="relative">
-                            <img :src="item.image" :alt="item.name" class="w-24 h-24 object-contain mx-auto mb-3" />
+                            <img :src="item.image" :alt="item.name" width="96" height="96" loading="lazy" class="w-24 h-24 object-contain mx-auto mb-3" />
                             <span v-if="discountPercent(item) > 0" class="absolute top-0 left-0 px-1.5 py-0.5 text-[10px] font-bold text-black bg-amber leading-none">-{{ discountPercent(item) }}%</span>
                           </div>
                           <p class="text-[11px] font-bold uppercase leading-tight line-clamp-2 mb-2 min-h-[2.5em]">{{ item.name }}</p>

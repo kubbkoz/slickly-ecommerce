@@ -57,6 +57,9 @@ const stockDotClass = computed(() => {
                 v-if="getProductImage(item) && !getProductImage(item).includes('placehold.co')"
                 :src="getProductImage(item)"
                 :alt="item.label"
+                width="160"
+                height="160"
+                sizes="80px"
                 class="w-full h-full object-contain mix-blend-multiply"
                 format="webp"
                 loading="lazy"
@@ -65,6 +68,9 @@ const stockDotClass = computed(() => {
                 v-else
                 :src="getProductImage(item)"
                 :alt="item.label"
+                width="80"
+                height="80"
+                loading="lazy"
                 class="w-full h-full object-contain mix-blend-multiply opacity-50"
             />
         </div>

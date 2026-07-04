@@ -188,6 +188,9 @@ onBeforeUnmount(() => {
           <div class="absolute inset-0 p-1 md:p-2 flex items-center justify-center">
             <NuxtImg
               :src="img"
+              width="800"
+              height="1000"
+              sizes="100vw"
               class="w-full h-full object-contain mix-blend-multiply cursor-custom-zoom"
               format="webp"
               :loading="idx === 0 ? 'eager' : 'lazy'"
@@ -223,7 +226,7 @@ onBeforeUnmount(() => {
           :class="currentSlide === idx ? 'border-brand shadow-sm' : 'border-gray-200 opacity-60 hover:opacity-100'"
           :aria-label="`Zobraziť obrázok ${idx + 1}`"
         >
-          <NuxtImg :src="img" class="w-full h-full mix-blend-multiply" :class="idx === 0 ? 'object-contain' : 'object-cover'" format="webp" loading="lazy" referrerpolicy="no-referrer" />
+          <NuxtImg :src="img" width="128" height="128" sizes="64px" class="w-full h-full mix-blend-multiply" :class="idx === 0 ? 'object-contain' : 'object-cover'" format="webp" loading="lazy" referrerpolicy="no-referrer" />
         </button>
       </div>
 
@@ -256,6 +259,9 @@ onBeforeUnmount(() => {
           v-if="firstImage"
           :src="firstImage"
           :alt="`${product.name} — hlavný pohľad`"
+          width="1000"
+          height="1000"
+          sizes="(min-width: 1024px) 50vw, 100vw"
           class="absolute inset-0 w-full h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105 cursor-custom-zoom"
           format="webp"
           loading="eager"
@@ -303,6 +309,9 @@ onBeforeUnmount(() => {
             <NuxtImg
               :src="img"
               :alt="`${product.name} — pohľad ${idx + 2}`"
+              width="600"
+              height="600"
+              sizes="(min-width: 1024px) 25vw, 50vw"
               class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-150"
               style="transform-origin: var(--x, 50%) var(--y, 50%)"
               :class="{ 'opacity-0': !imageLoaded[idx + 1], 'opacity-100 transition-opacity duration-500': imageLoaded[idx + 1] }"
@@ -402,6 +411,9 @@ onBeforeUnmount(() => {
                   :key="currentFsIndex"
                   :src="allMedia[currentFsIndex]"
                   :alt="`${product.name} — ${currentFsIndex + 1}`"
+                  width="1200"
+                  height="1200"
+                  sizes="100vw"
                   class="max-w-full max-h-full object-contain select-none will-change-transform"
                   :style="isZoomed
                     ? `transform: scale(2.2); transform-origin: ${zoomOriginX}% ${zoomOriginY}%; transition: transform-origin 0s`
@@ -454,6 +466,9 @@ onBeforeUnmount(() => {
               >
                 <NuxtImg
                   :src="img"
+                  width="160"
+                  height="160"
+                  sizes="80px"
                   class="w-full h-full object-contain mix-blend-multiply p-1"
                   format="webp"
                   loading="lazy"

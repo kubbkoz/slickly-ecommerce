@@ -392,7 +392,7 @@ const getPropertyName = (id: string) => {
     <!-- Search Header (mirrors category header hero) -->
     <div class="relative bg-[#f4f5f6] overflow-hidden">
       <div class="absolute -right-20 -bottom-20 md:-right-32 md:-bottom-32 w-[300px] md:w-[600px] lg:w-[800px] aspect-square pointer-events-none z-0">
-        <img src="~/assets/MTShape.svg" alt="" class="w-full h-full object-contain opacity-50" />
+        <img src="~/assets/MTShape.svg" alt="" loading="lazy" class="w-full h-full object-contain opacity-50" />
       </div>
 
       <div class="container mx-auto px-4 pt-6 md:pt-10 pb-8 md:pb-12 relative z-10 w-full">
@@ -450,7 +450,7 @@ const getPropertyName = (id: string) => {
             <!-- Mobile: 40×40 | Desktop: full-width 4:3 -->
             <div class="w-10 h-10 flex-shrink-0 overflow-hidden flex items-center justify-center
                         md:w-full md:h-auto md:aspect-[4/3] md:flex-shrink md:mb-0.5">
-              <img v-if="link.image" :src="link.image" alt="" loading="lazy"
+              <img v-if="link.image" :src="link.image" alt="" loading="lazy" width="160" height="120"
                    class="w-full h-full object-contain mix-blend-multiply" />
               <div v-else class="w-full h-full flex items-center justify-center bg-gray-50">
                 <span class="text-[8px] font-bold uppercase text-gray-300">N/A</span>
@@ -562,6 +562,8 @@ const getPropertyName = (id: string) => {
                     :src="cat.media.url"
                     :alt="cat.translated?.name || cat.name"
                     loading="lazy"
+                    width="400"
+                    height="300"
                     class="w-full h-full object-contain mix-blend-multiply p-3 group-hover:scale-105 transition-transform duration-300"
                   />
                   <div v-else class="flex flex-col items-center justify-center w-full h-full gap-1 text-gray-200">

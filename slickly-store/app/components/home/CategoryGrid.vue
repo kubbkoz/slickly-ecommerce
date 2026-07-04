@@ -123,6 +123,8 @@ const { data: categories } = await useAsyncData(
               :src="cat.image"
               :alt="cat.name"
               loading="lazy"
+              width="400"
+              height="260"
               class="w-full h-full object-cover transition-[transform,filter] duration-700 ease-out group-hover:scale-105 brightness-75 group-hover:brightness-50 grayscale group-hover:grayscale-0"
             />
             <!-- Placeholder for categories without image -->

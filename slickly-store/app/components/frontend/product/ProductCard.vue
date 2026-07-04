@@ -220,7 +220,7 @@ const handleHoverPrefetch = () => {
                         <NuxtImg
                             :alt="`${product.translated?.name || product.name || ''} - foto ${index + 1}`"
                             :src="image"
-                            width="400"
+                            width="300"
                             height="400"
                             sizes="50vw sm:50vw md:33vw lg:25vw"
                             class="w-full h-full object-contain p-4 mix-blend-multiply pointer-events-none"

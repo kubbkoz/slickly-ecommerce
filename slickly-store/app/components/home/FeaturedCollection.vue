@@ -113,7 +113,7 @@ const handleHeroClick = () => {
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[600px]">
         <!-- Left Hero -->
         <div class="relative group overflow-hidden h-full min-h-[400px] rounded-default">
-          <img v-if="hero?.image" :src="hero.image" :alt="hero.title || 'Featured Collection'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <img v-if="hero?.image" :src="hero.image" :alt="hero.title || 'Featured Collection'" width="800" height="600" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
           <div class="absolute bottom-0 left-0 p-8 md:p-12 w-full">
             <div v-if="hero?.badge" class="inline-block bg-amber rounded-sm px-4 py-1 mb-4">
