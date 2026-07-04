@@ -143,7 +143,6 @@ extends: ["../vue-starter-template", "./features/blog"],
     // update within a week if one of these files is ever replaced by a
     // redeploy. PageSpeed flagged these as having no cache lifetime at all
     // (re-downloaded on every single visit).
-    "/videos/**": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
     "/newsletter-bg.jpg": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
     "/payment-icons/**": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
     "/apple-touch-icon.png": { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
@@ -455,81 +454,28 @@ extends: ["../vue-starter-template", "./features/blog"],
         {
           innerHTML: `
             /* =====================================================
-               CRITICAL LOADER CSS — Inlined to block FOUC.
+               CRITICAL SHAPE CSS — no full-page loader anymore (removed
+               on request: it masked the page while data loaded, and any
+               error during that window rendered as a blank black screen
+               before the 500 page could even be seen). The page now
+               renders immediately from SSR; these rules just keep
+               structural regions holding their real size instead of
+               collapsing while genuinely-async content (e.g. a client-side
+               PDP navigation) is still resolving — sections that fetch
+               their own data already reserve their own space via
+               min-height/aspect-ratio (Znacky, CategoryGrid, ReviewsWall,
+               FeaturedCollection, ProductDetailSkeleton).
                Space Grotesk sa načítava cez @fontsource (css[]).
                ===================================================== */
-
-            #mt-page-loader {
-              position: fixed !important;
-              inset: 0 !important;
-              z-index: 999999 !important;
-              background: #000000 !important;
-              display: flex !important;
-              flex-direction: column !important;
-              align-items: center;
-              justify-content: center;
-              opacity: 1;
-              transition: opacity 0.4s ease-in-out;
-              overflow: hidden;
+            html, body {
+              background: #ffffff;
             }
-            .mt-loader-bg-video {
-              position: absolute;
-              inset: 0;
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              z-index: 0;
-            }
-            .mt-loader-bg-overlay {
-              position: absolute;
-              inset: 0;
-              background: rgba(0, 0, 0, 0.55);
-              z-index: 1;
-            }
-            .mt-loader-inner {
-              position: relative;
-              z-index: 2;
-            }
-            .mt-loader-logo {
-              font-family: 'Space Grotesk', 'Arial Black', Arial, sans-serif;
-              font-size: 2.5rem;
-              font-weight: 900;
-              text-transform: uppercase;
-              display: flex;
-              gap: 0px;
-              line-height: 1;
-              letter-spacing: 0.02em;
-              color: #ffffff;
-            }
-            .mt-logo-i { position: relative; display: inline-block; }
-            .mt-logo-i-dot {
-              position: absolute;
-              top: -0.32em;
-              left: 50%;
-              transform: translateX(-50%);
-              width: 0.16em;
-              height: 0.16em;
-              border-radius: 9999px;
-              background: #FFBF00;
-            }
-            .mt-loader-text {
-               color: #555555;
-               font-family: sans-serif;
-               font-size: 10px;
-               text-transform: uppercase;
-               letter-spacing: 0.2em;
-               margin-top: 15px;
-            }
-            /* Hide layout content while loader is present in SSR, fade it in
-               smoothly once ready instead of popping in all at once. */
-            .layout-wrapper > *:not(#mt-page-loader) {
-              transition: opacity 0.25s ease-out;
-            }
-            .layout-wrapper[data-loading="true"] > *:not(#mt-page-loader),
-            .layout-wrapper[data-loading="true"] #main-content {
-              opacity: 0 !important;
-              visibility: hidden !important;
-              transition: none !important;
+            /* Navbar spacer (Navbar.vue) falls back to this exact value
+               until its ResizeObserver measures the real height on mount —
+               keeping both in sync avoids a layout jump between them. */
+            :root {
+              --navbar-height-current: 169px;
+              --navbar-height-unscrolled: 169px;
             }
           `
         }

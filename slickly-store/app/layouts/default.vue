@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import GlobalLoader from '~/components/ui/GlobalLoader.vue';
 import Navbar from '~/components/layout/Navbar.vue';
 import Footer from '~/components/layout/Footer.vue';
 import PreFooter from '~/components/layout/PreFooter.vue';
@@ -20,71 +19,11 @@ useHead(computed(() => ({
     link: i18nHead.value.link ?? [],
     meta: i18nHead.value.meta ?? [],
 })));
-
-// Global loader state — shared with useLanguageSwitcher (which calls showLoader() directly)
-const { isLoading, hideLoader, showLoader, suppressOverlay } = usePageLoader();
-const nuxtApp = useNuxtApp();
-
-// Timer for delayed overlay — fast navigations show skeleton only, slow show overlay
-let overlayTimer: ReturnType<typeof setTimeout> | null = null;
-let shownAt: number | null = null;
-const THRESHOLD = 1800; // Emergency fallback: only show overlay if loading takes > 1.8s
-const MIN_DISPLAY_TIME = 400; // If shown, keep for at least 400ms to allow recognition
-
-// Client-side navigation START — delay overlay by THRESHOLD
-// If suppressOverlay is set (subcategory click or variant change), skip overlay entirely
-nuxtApp.hook('page:start', () => {
-  if (suppressOverlay.value) return; 
-  
-  if (overlayTimer) clearTimeout(overlayTimer);
-  overlayTimer = setTimeout(() => {
-    showLoader();
-    shownAt = Date.now();
-  }, THRESHOLD);
-});
-
-// Client-side navigation END — clear timer + hide overlay with safety grace period
-nuxtApp.hook('page:finish', () => {
-  if (overlayTimer) {
-    clearTimeout(overlayTimer);
-    overlayTimer = null;
-  }
-
-  if (shownAt) {
-    const elapsed = Date.now() - shownAt;
-    const remaining = Math.max(0, MIN_DISPLAY_TIME - elapsed);
-    
-    setTimeout(() => {
-      hideLoader();
-      shownAt = null;
-    }, remaining);
-  } else {
-    hideLoader(); 
-  }
-});
-
-onMounted(() => {
-  // Cart sync on mount is already handled by app.vue's onMounted (which fires
-  // alongside this one on every load, regardless of which layout is active) —
-  // calling refreshCart() here too duplicated that network request on every
-  // single page load for no benefit.
-
-  // If loader is visible from SSR, hide it after hydration unless navigating
-  if (isLoading.value) {
-    setTimeout(() => {
-      // Small grace period to prevent abrupt flicker if client is very fast
-      hideLoader();
-    }, 200);
-  }
-});
 </script>
 
 <template>
   <!-- pb: statická mobilná bottom navigácia (60px + safe inset) nesmie prekrývať footer -->
-  <div class="min-h-screen bg-white font-sans antialiased relative text-gray-900 layout-wrapper pb-[calc(60px+env(safe-area-inset-bottom,0px))] lg:pb-0" :data-loading="isLoading">
-    <!-- Global Loader — visible immediately (SSR injected) + controlled by Vue for CSR navigations -->
-    <GlobalLoader :is-visible="isLoading" />
-
+  <div class="min-h-screen bg-white font-sans antialiased relative text-gray-900 layout-wrapper pb-[calc(60px+env(safe-area-inset-bottom,0px))] lg:pb-0">
     <ClientOnly>
       <CartSidebar />
     </ClientOnly>
@@ -116,19 +55,6 @@ onMounted(() => {
 
 
 <style>
-/* Spinner keyframe — referenced by inline style on overlay */
-@keyframes mt-spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Overlay fade-out transition */
-.overlay-leave-active {
-  transition: opacity 350ms ease-in-out;
-}
-.overlay-leave-to {
-  opacity: 0;
-}
-
 body {
   font-family: 'Space Grotesk', sans-serif;
   background-color: white;

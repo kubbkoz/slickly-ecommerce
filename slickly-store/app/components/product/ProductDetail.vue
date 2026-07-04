@@ -234,8 +234,6 @@ const handleVariantSelected = async (payload: any) => {
 
     if (foundVariantId) {
       // Vymeníme iba query parameter `variant`.
-      const { suppressNextOverlay } = usePageLoader();
-      suppressNextOverlay();
       router.push({ query: { ...route.query, variant: foundVariantId } });
     }
   } catch (error) {

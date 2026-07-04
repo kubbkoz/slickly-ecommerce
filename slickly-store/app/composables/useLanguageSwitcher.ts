@@ -8,7 +8,6 @@ export const useLanguageSwitcher = () => {
     const { apiClient } = useShopwareContext();
     const { locales, locale } = useI18n();
     const route = useRoute();
-    const { showLoader } = usePageLoader();
     const { resolveSlug } = useCategoryCache();
 
     // Slugify helper — converts translated name to URL slug
