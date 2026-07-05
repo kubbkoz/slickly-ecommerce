@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { useI18n, useRoute } from '#imports';
+import { useRoute } from '#imports';
 
 /**
  * Derive locale code from route path.
@@ -34,22 +34,22 @@ export const useShopwareLanguage = () => {
 
     const currentLanguageId = computed(() => {
         let path = '/';
-        let localeCode = 'sk';
 
         try {
             const route = useRoute();
             path = route?.path || '/';
         } catch (e) {}
 
-        try {
-            const { locale } = useI18n();
-            localeCode = locale.value || 'sk';
-        } catch (e) {}
-
+        // Route-derived ONLY — no useI18n().locale fallback. That fallback made
+        // this value unstable between SSR and hydration for every no-prefix (SK)
+        // route, since useI18n().locale is a globally-shared ref, not request-
+        // scoped like the route path (see this file's own SSR-safety comment
+        // above). Since language switching is currently disabled site-wide and
+        // SK has no URL prefix, "no locale prefix in the path" always means SK —
+        // returning it directly keeps this value byte-identical SSR→CSR, so any
+        // useAsyncData keyed on it never spuriously re-fetches after hydration.
         const routeLocale = getLocaleFromPath(path, localesMap);
-        // If route has a locale prefix, use it (SSR safe), otherwise fallback to i18n locale (CSR)
-        if (routeLocale !== 'sk') return getLanguageIdForLocale(routeLocale);
-        return getLanguageIdForLocale(localeCode);
+        return getLanguageIdForLocale(routeLocale);
     });
 
     return {

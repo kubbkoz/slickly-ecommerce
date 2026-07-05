@@ -19,7 +19,7 @@ const props = defineProps<{
 
 const { buildDynamicBreadcrumbs, pushBreadcrumb } = useBreadcrumbs();
 const { apiClient } = useShopwareContext();
-const { languageIdChain } = useSessionContext();
+const { currentLanguageId } = useShopwareLanguage();
 const route = useRoute();
 const errors = ref<string[]>([]);
 
@@ -38,10 +38,11 @@ const productIdToFetch = computed(() => (route.query.variant as string) || props
 // Variant switching uses stableAdaptedProduct to stay non-flickering during query param changes.
 const { data, error, pending } = useAsyncData(
   // Language-aware cache key — prevents stale content across language switches
-  `product-${productIdToFetch.value}-${languageIdChain.value}`,
+  `product-${productIdToFetch.value}-${currentLanguageId.value}`,
   async () => {
     // 1) Primary product fetch via Store API (readProduct) overriding `search`
     const productRes = await apiClient.invoke("readProduct post /product", {
+      headers: { 'sw-language-id': currentLanguageId.value },
       body: {
         filter: [
           { 
@@ -94,6 +95,7 @@ const { data, error, pending } = useAsyncData(
     if (productData.parentId) {
       try {
         const parentRes = await apiClient.invoke("readProduct post /product", {
+          headers: { 'sw-language-id': currentLanguageId.value },
           body: {
             filter: [{ type: "equals", field: "id", value: productData.parentId }],
             associations: {
@@ -199,6 +201,7 @@ const { data, error, pending } = useAsyncData(
       try {
         // Fetch všetkých kategórií v strome naraz (Jeden rýchly dotaz na index)
         const categoriesRes = await apiClient.invoke("readCategory post /category" as any, {
+          headers: { 'sw-language-id': currentLanguageId.value },
           body: {
             filter: [{ type: "equalsAny", field: "id", value: pathIds }],
             // Optimalizácia: Sťahujeme iba to, čo vizuálne potrebujeme pre Breadcrumb
@@ -235,7 +238,7 @@ const { data, error, pending } = useAsyncData(
     };
   },
   {
-    watch: [languageIdChain, () => route.query.variant]
+    watch: [currentLanguageId, () => route.query.variant]
   }
 );
 

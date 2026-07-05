@@ -1,4 +1,4 @@
-import { useAsyncData, useShopwareContext, useI18n, useSessionContext } from '#imports';
+import { useAsyncData, useShopwareContext } from '#imports';
 
 /**
  * Composable for fetching and managing global UI labels (button texts, link labels, etc.)
@@ -6,29 +6,21 @@ import { useAsyncData, useShopwareContext, useI18n, useSessionContext } from '#i
  */
 export const useUiLabels = () => {
     const { apiClient } = useShopwareContext();
-    const { locale } = useI18n();
-    const { sessionContext, languageIdChain } = useSessionContext();
+    const { currentLanguageId } = useShopwareLanguage();
     const config = useRuntimeConfig();
 
     const CONFIG_CATEGORY_ID = config.public.shopware.ids.categories.flashSales; // Note: flashSales ID is also used for global labels/links
-
-    // Get current language ID more reliably
-    const languageId = computed(() =>
-        languageIdChain.value?.[0] ||
-        sessionContext.value?.context?.languageIdChain?.[0]
-    );
 
     /**
      * Fetches labels from the designated Shopware category.
      */
     const { data: labels, refresh, pending, error } = useAsyncData(
-        `ui-labels-${locale.value}-${languageId.value}`,
+        `ui-labels-${currentLanguageId.value}`,
         async () => {
             try {
-                const langId = languageId.value;
-                if (!langId) return {};
-
-                const res = await apiClient.invoke(`readCategory post /category/${CONFIG_CATEGORY_ID}` as any, {});
+                const res = await apiClient.invoke(`readCategory post /category/${CONFIG_CATEGORY_ID}` as any, {
+                    headers: { 'sw-language-id': currentLanguageId.value },
+                });
 
                 const data = res?.data;
                 if (!data) return {};
@@ -41,7 +33,7 @@ export const useUiLabels = () => {
             }
         },
         {
-            watch: [languageId, locale],
+            watch: [currentLanguageId],
             getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key],
             server: true
         }
