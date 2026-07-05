@@ -64,6 +64,12 @@ jobs:
           # fungoval bez závislosti na runtime env hostingu. Sú to public hodnoty
           # (Store-API kľúč je exponovaný aj v prehliadači).
           NUXT_PUBLIC_SITE_URL: https://slickly.sk
+          # Umožňuje /api/debug/version overiť, ktorý commit BEŽIACI proces na
+          # HostCreators reálne servíruje — redeploy tam vyžaduje manuálny reštart
+          # ("Spustiť aplikáciu"), ktorý sa ľahko vynechá bez viditeľnej chyby.
+          NUXT_PUBLIC_BUILD_SHA: ${{ github.sha }}
+          NUXT_PUBLIC_BUILD_RUN: ${{ github.run_id }}-${{ github.run_attempt }}
+          NUXT_PUBLIC_BUILD_TIME: ${{ github.event.head_commit.timestamp || github.run_id }}
           NUXT_PUBLIC_SHOPWARE_ENDPOINT: https://mtsport.store/store-api/
           NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN: SWSCZGT3TEJ3EHB1MVLXSHFWMG
           # Shopware IDs (z mtsport admina) — rieši 412 "language ID not a valid UUID"

@@ -295,6 +295,14 @@ extends: ["../vue-starter-template", "./features/blog"],
       salesChannelId: process.env.NUXT_PUBLIC_SW_ID_SALES_CHANNEL,
       // Canonical site URL — replaces all hardcoded 'https://mtsport.store' references
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL,
+      // Baked at build-time by .github/workflows/deploy.yml — lets /api/debug/version
+      // prove which commit a running HostCreators process is actually serving,
+      // since redeploy there requires a manual restart and silently no-ops otherwise.
+      buildInfo: {
+        sha: process.env.NUXT_PUBLIC_BUILD_SHA || 'unknown',
+        run: process.env.NUXT_PUBLIC_BUILD_RUN || 'unknown',
+        builtAt: process.env.NUXT_PUBLIC_BUILD_TIME || 'unknown',
+      },
     },
   },
   components: [
