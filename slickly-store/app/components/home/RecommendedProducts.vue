@@ -4,7 +4,9 @@ import ProductCard from '~/components/frontend/product/ProductCard.vue';
 import BackendErrorState from '~/components/ui/BackendErrorState.vue';
 
 const { apiClient } = useShopwareContext();
-const { languageIdChain } = useSessionContext();
+// Route-stable language id — session-derived languageIdChain re-triggers the
+// fetch post-hydration and blanks the section (see other homepage sections).
+const { currentLanguageId } = useShopwareLanguage();
 const config = useRuntimeConfig();
 
 const TABS = [
@@ -17,7 +19,7 @@ const activeTab = ref(0);
 const scrollContainerRef = ref<HTMLElement | null>(null);
 
 const { data: products, pending, refresh } = useAsyncData(
-  `bestsellery-${languageIdChain.value}-${activeTab.value}`,
+  `bestsellery-${currentLanguageId.value}-${activeTab.value}`,
   async () => {
     const catId = TABS[activeTab.value].id;
     if (!catId) return [];
@@ -25,6 +27,7 @@ const { data: products, pending, refresh } = useAsyncData(
       const res = await apiClient.invoke(
         'readProductListing post /product-listing/{categoryId}' as any,
         {
+          headers: { 'sw-language-id': currentLanguageId.value },
           pathParams: { categoryId: catId },
           body: {
             limit: 16,
@@ -62,7 +65,7 @@ const { data: products, pending, refresh } = useAsyncData(
       throw e;
     }
   },
-  { watch: [languageIdChain, activeTab] }
+  { watch: [currentLanguageId, activeTab] }
 );
 
 const scroll = (direction: 'left' | 'right') => {

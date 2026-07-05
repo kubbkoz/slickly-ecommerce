@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next';
-import { useLocalePath, useAsyncData, useSessionContext } from '#imports';
+import { useLocalePath, useAsyncData } from '#imports';
 import { sanitizeHtml } from '~/utils/sanitize';
 import ProductCard from '~/components/frontend/product/ProductCard.vue';
 import BackendErrorState from '~/components/ui/BackendErrorState.vue';
@@ -33,12 +33,14 @@ onMounted(() => {
 // ─── Composables ─────────────────────────────────────────────────────────────
 const localePath = useLocalePath();
 const { apiClient } = useShopwareContext();
-const { languageIdChain } = useSessionContext();
+// Key on route-derived currentLanguageId (stable SSR→client), NOT
+// session-derived languageIdChain which only resolves post-hydration and would
+// change the key, re-triggering the fetch and blanking the carousel 1-3s.
 const { currentLanguageId } = useShopwareLanguage();
 
 // ─── Data Fetch (jeden fetch — produkty z priradeného streamu, filter client-side) ──
 const { data, pending, refresh } = await useAsyncData(
-    `super-ponuka-${languageIdChain.value}`,
+    `super-ponuka-${currentLanguageId.value}`,
     async () => {
         // ── 1. Metadata kategórie (názov + popis, language-aware) ──
         let sectionTitle = '';
@@ -107,7 +109,7 @@ const { data, pending, refresh } = await useAsyncData(
 
         return { sectionTitle, sectionSubtitle, products };
     },
-    { watch: [languageIdChain] }
+    { watch: [currentLanguageId] }
 );
 
 const sectionTitle    = computed(() => data.value?.sectionTitle    || '');

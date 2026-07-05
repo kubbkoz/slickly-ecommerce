@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ArrowUpRight } from 'lucide-vue-next';
-import { useLocalePath, useNavigation, useSessionContext, useAsyncData } from '#imports';
+import { useLocalePath, useNavigation, useAsyncData } from '#imports';
 import { getCategoryUrl } from '~/utils/url';
 
 // ─── Composables ─────────────────────────────────────────────────────────────
 const localePath = useLocalePath();
 const { t } = useStaticTranslations();
 const { apiClient } = useShopwareContext();
-const { languageIdChain } = useSessionContext();
 const { currentLanguageId } = useShopwareLanguage();
 const config = useRuntimeConfig();
 
@@ -19,8 +18,12 @@ const config = useRuntimeConfig();
 const HARDCODED_EXTRA_CATEGORY_ID = '019ed47a4c19746f8ab0a7bb6747dc2d';
 const ROOT_CATEGORY_ID = config.public.shopware.ids.rootCategory;
 
+// Key on route-derived currentLanguageId (stable across SSR→client), NOT
+// session-derived languageIdChain — the latter resolves only after hydration,
+// changing the key and re-triggering the fetch, which blanks then refills the
+// grid 1-3s late. (The API header already uses currentLanguageId.)
 const { data: categories } = await useAsyncData(
-    `category-grid-dynamic-${languageIdChain.value}`, 
+    `category-grid-dynamic-${currentLanguageId.value}`,
     async () => {
         try {
             const response = await apiClient.invoke("readCategoryList post /category", {
@@ -83,8 +86,8 @@ const { data: categories } = await useAsyncData(
             return [];
         }
     }, 
-    { 
-        watch: [languageIdChain],
+    {
+        watch: [currentLanguageId],
     }
 );
 </script>

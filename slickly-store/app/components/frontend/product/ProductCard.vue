@@ -226,6 +226,7 @@ const handleHoverPrefetch = () => {
                             class="w-full h-full object-contain p-4 mix-blend-multiply pointer-events-none"
                             :loading="index < 1 ? 'eager' : 'lazy'"
                             :fetchpriority="index === 0 ? 'high' : 'low'"
+                            decoding="async"
                         />
                     </div>
                 </div>

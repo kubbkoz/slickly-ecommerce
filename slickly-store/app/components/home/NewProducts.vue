@@ -10,17 +10,20 @@ const props = defineProps<{
 }>();
 
 const { apiClient } = useShopwareContext();
-const { languageIdChain } = useSessionContext();
+// Route-stable language id — see homepage sections: keying on session-derived
+// languageIdChain re-triggers the fetch after hydration and blanks the section.
+const { currentLanguageId } = useShopwareLanguage();
 const localePath = useLocalePath();
 
 const selectedProduct = ref<any>(null);
 
 // ─── Data Fetch ───────────────────────────────────────────────────────────────
 const { data: fetchedProducts, pending } = await useAsyncData(
-    `new-products-${languageIdChain.value}`,
+    `new-products-${currentLanguageId.value}`,
     async () => {
         try {
             const res = await apiClient.invoke('readProductList post /product' as any, {
+                headers: { 'sw-language-id': currentLanguageId.value },
                 body: {
                     limit: 8,
                     sort: [
@@ -74,7 +77,7 @@ const { data: fetchedProducts, pending } = await useAsyncData(
             return [];
         }
     },
-    { watch: [languageIdChain] }
+    { watch: [currentLanguageId] }
 );
 
 const displayProducts = computed(() => 

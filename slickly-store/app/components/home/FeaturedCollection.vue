@@ -6,7 +6,11 @@ import ProductCard from '~/components/frontend/product/ProductCard.vue';
 import BackendErrorState from '~/components/ui/BackendErrorState.vue';
 
 const { apiClient } = useShopwareContext();
-const { languageIdChain } = useSessionContext();
+// Route-derived language id — identical on server and client, unlike
+// session-derived languageIdChain which resolves AFTER hydration and would
+// otherwise change the useAsyncData key post-hydration, re-triggering the
+// fetch and making the whole section blink out and refill 1-3s later.
+const { currentLanguageId } = useShopwareLanguage();
 const localePath = useLocalePath();
 const { t } = useStaticTranslations();
 const config = useRuntimeConfig();
@@ -15,11 +19,12 @@ const CATEGORY_ID = config.public.shopware.ids.categories.featured;
 
 // ─── Data Fetch ───────────────────────────────────────────────────────────────
 const { data: collectionData, pending, refresh } = await useAsyncData(
-    `featured-collection-${languageIdChain.value}`,
+    `featured-collection-${currentLanguageId.value}`,
     async () => {
         try {
             // 1. Fetch Category Metadata
             const catRes = await apiClient.invoke('readCategory post /category/{categoryId}' as any, {
+                headers: { 'sw-language-id': currentLanguageId.value },
                 pathParams: { categoryId: CATEGORY_ID },
                 body: {
                     associations: {
@@ -33,6 +38,7 @@ const { data: collectionData, pending, refresh } = await useAsyncData(
 
             // 2. Fetch last 4 Products from this Category with full associations for design sync
             const prodRes = await apiClient.invoke('readProductListing post /product-listing/{categoryId}' as any, {
+                headers: { 'sw-language-id': currentLanguageId.value },
                 pathParams: { categoryId: CATEGORY_ID },
                 body: {
                     limit: 4,
@@ -81,7 +87,7 @@ const { data: collectionData, pending, refresh } = await useAsyncData(
             throw e; // Zabezpečí, že useAsyncData prejde do stavu Error
         }
     },
-    { watch: [languageIdChain] }
+    { watch: [currentLanguageId] }
 );
 
 const hero = computed(() => collectionData.value?.heroData);

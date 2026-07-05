@@ -57,21 +57,34 @@ onUnmounted(() => {
   if (slideTimer.value) clearInterval(slideTimer.value);
 });
 
-// ─── LCP optimalizácia (audit P0 #5) ───────────────────────────────────────
+// ─── LCP + hero-slide preload ───────────────────────────────────────────────
 // Hero používa CSS background-image (kvôli ORB), takže fetchpriority na <img>
-// nejde. Preload PRVÉHO slidu (LCP element) cez <link rel=preload> s rovnakým
-// URL encodingom → browser ho dedupne s background-image a načíta ho hneď.
-const lcpImage = computed(() => {
-  const img = translatedSlides.value?.[0]?.image;
+// nejde. Preload cez <link rel=preload> — browser ho dedupne s background-image.
+// PRVÝ slide = LCP → fetchpriority HIGH (načíta sa okamžite).
+// OSTATNÉ slidy = fetchpriority LOW (načítajú sa na pozadí, mimo kritickej cesty)
+// → keď carousel rotuje, obrázok je už v cache a dekódovaný, takže neseká.
+const encodeImg = (img: string | undefined) => {
   if (!img || img.startsWith('data:')) return '';
   return img.replace(/ /g, '%20').replace(/'/g, '%27');
-});
+};
 
-useHead(computed(() => ({
-  link: lcpImage.value
-    ? [{ rel: 'preload', as: 'image', href: lcpImage.value, fetchpriority: 'high' } as any]
-    : [],
-})));
+useHead(computed(() => {
+  const slides = translatedSlides.value || [];
+  const links = slides
+    .map((s, i) => {
+      const href = encodeImg(s?.image);
+      if (!href) return null;
+      return {
+        rel: 'preload',
+        as: 'image',
+        href,
+        // prvý = high (LCP), ostatné = low (background, mimo kritickej cesty)
+        fetchpriority: i === 0 ? 'high' : 'low',
+      };
+    })
+    .filter(Boolean);
+  return { link: links as any[] };
+}));
 </script>
 
 <template>
