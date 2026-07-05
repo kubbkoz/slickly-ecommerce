@@ -103,31 +103,18 @@ jobs:
           cp -r "$SRC" "$DST"
           test -f "$DST/index.mjs" && echo "OK: vue/server-renderer doplnený z $SRC" || (echo "ZLYHALO" && exit 1)
 
-      - name: Over, že v .output nezostala žiadna duplicitná kópia vue/runtime-core/runtime-dom
-        # Safety net pre "npm dedupe" krok vyššie — kontroluje ŠPECIFICKY balíky
-        # zapojené v pozorovanom crashi (vue, @vue/runtime-core, @vue/runtime-dom),
-        # nie hocijaký vnorený node_modules — @vue/server-renderer legitímne
-        # nestuje @vue/shared a @vue/compiler-ssr ako svoje reálne (neproblémové)
-        # závislosti, tie nechceme false-positive zhodiť. Ak by CI hoisting aj
-        # napriek dedupe nechal vnorenú kópiu vue/runtime-core/runtime-dom, build
-        # zámerne ZLYHÁ tu namiesto toho, aby sa takýto artefakt nasadil a znovu
-        # spôsobil "Cannot redefine property" 500 na produkcii.
-        run: |
-          OUT=slickly-store/.output/server/node_modules
-          FOUND="$(find "$OUT/vue" "$OUT/@vue" -mindepth 2 -type d \( -name vue -o -name runtime-core -o -name runtime-dom \) -path "*/node_modules/*" 2>/dev/null)"
-          if [ -n "$FOUND" ]; then
-            echo "ZLYHALO: nájdená vnorená vue/runtime-core/runtime-dom kópia v .output (dual-package hazard):"
-            echo "$FOUND"
-            exit 1
-          fi
-          echo "OK: žiadna vnorená vue/runtime-core/runtime-dom kópia v .output — jedna zdieľaná inštancia."
-
       - name: Zostav deploy payload
         run: |
           rm -rf deploy-out
           mkdir -p deploy-out
           # -L = dereferencuj symlinky → .output je plne self-contained (žiadne
           # symlinky ako vue→.nitro/vue@x, ktoré by na HostCreators mohli dangle-núť).
+          # POZOR: toto dereferencovanie musí prebehnúť PRED krokom "Vynúť JEDNU
+          # inštanciu Vue runtime" nižšie, nie po ňom — inak by `cp -rL` naše
+          # zámerné symlinky opäť rozbalilo na samostatné (aj keď bajtovo identické)
+          # súbory, čím by ticho obnovilo presne ten dual-instance bug, ktorý tento
+          # krok rieši (Node.js require/import cachuje modul podľa cesty súboru, nie
+          # podľa obsahu — dva rôzne súbory = dve rôzne inštancie, aj keď identické).
           cp -rL slickly-store/.output deploy-out/.output
           cp slickly-store/.env.example deploy-out/.env.example 2>/dev/null || true
           printf '%s\n' '{' \
@@ -139,6 +126,87 @@ jobs:
           # POZOR: NEignoruj node_modules — .output/server/node_modules je
           # self-contained runtime a MUSÍ byť commitnutý. Ignoruj len tajomstvá.
           printf '%s\n' '.env' '.env.*' '!.env.example' > deploy-out/.gitignore
+
+      - name: Vynúť JEDNU inštanciu Vue runtime v deploy payloade (nahraď vnorené kópie symlinkom)
+        # Predošlý "over a zlyhaj" krok (shell `find -mindepth ... -path ...`) toto
+        # NEODCHYTIL naživo na produkcii — potvrdené identickým stack trace
+        # "Cannot redefine property: imgEl" AJ PO npm dedupe (pozri capture-last-error
+        # výstup zo 2026-07-05 15:50 UTC, cez @vue/server-renderer/node_modules/vue/
+        # node_modules/@vue/runtime-dom/node_modules/@vue/runtime-core). Dôvod:
+        # tento build kontajner (node:24-alpine) nemá nainštalovaný `findutils` —
+        # `find` je teda BusyBox applet, ktorého `-mindepth`/`-path` správanie sa
+        # nezhoduje s GNU find (jediné prostredie, kde bol predošlý príkaz reálne
+        # otestovaný) → kontrola ticho prešla ako "OK" napriek reálnemu duplikátu.
+        # Namiesto shell `find` detekcie preto teraz AKTÍVNE nahradíme každú
+        # vnorenú kópiu vue/@vue/runtime-core/@vue/runtime-dom/@vue/reactivity
+        # symlinkom na JEDINÚ kanonickú (Node.js, nie shell — deterministické
+        # naprieč akýmkoľvek `find`/libc prostredím). Node.js require/import potom
+        # VŽDY načíta identický modul bez ohľadu na to, koľko logických duplicít
+        # v strome zostane. Beží NAD `deploy-out` (po dereferencovaní vyššie), nie
+        # nad `slickly-store/.output` — inak by tieto symlinky nasledujúci `cp -rL`
+        # znovu rozbalil na duplicitné súbory (pozri komentár v kroku vyššie).
+        run: |
+          node -e "
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const OUT = path.resolve('deploy-out/.output/server/node_modules');
+          const CANON = { vue: path.join(OUT, 'vue') };
+          for (const p of ['runtime-core', 'runtime-dom', 'reactivity', 'shared']) {
+            CANON[p] = path.join(OUT, '@vue', p);
+          }
+          let replaced = 0;
+          function walk(dir) {
+            let entries;
+            try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+            for (const e of entries) {
+              if (!e.isDirectory()) continue;
+              const full = path.join(dir, e.name);
+              const isVue = e.name === 'vue' && full !== CANON.vue;
+              const isVuePkg = path.basename(dir) === '@vue' && CANON[e.name] && full !== CANON[e.name];
+              const isNested = full.includes(path.sep + 'node_modules' + path.sep);
+              if (isNested && (isVue || isVuePkg)) {
+                const target = isVue ? CANON.vue : CANON[e.name];
+                if (fs.existsSync(target)) {
+                  fs.rmSync(full, { recursive: true, force: true });
+                  fs.symlinkSync(path.relative(path.dirname(full), target), full, 'dir');
+                  replaced++;
+                  console.log('symlinked', path.relative(OUT, full), '->', path.relative(OUT, target));
+                  continue;
+                }
+              }
+              walk(full);
+            }
+          }
+          walk(OUT);
+          console.log('Total nested vue/@vue copies collapsed to symlinks:', replaced);
+          "
+
+      - name: Over, že v deploy payloade nezostala žiadna duplicitná kópia vue/runtime-core/runtime-dom
+        # Teraz už len assercia (mala by vždy prejsť po kroku vyššie) — GNU findutils
+        # explicitne nainštalované, aby toto `find` malo garantovane rovnaké
+        # správanie ako pri lokálnom testovaní príkazu (predošlý bug bol presne v
+        # tomto nesúlade — BusyBox find vs GNU find). `-L`, lebo cieľom je overiť
+        # VÝSLEDNÝ stav (naše symlinky sú OK — vedú na jedinú kanonickú kópiu),
+        # nie odhaliť ich ako "nájdený adresár" — bez -L by find symlink na
+        # kanonickú vue/runtime-core neoznačil ako typ d a kontrola by bola no-op.
+        run: |
+          apk add --no-cache findutils
+          OUT=deploy-out/.output/server/node_modules
+          FOUND="$(find -L "$OUT/vue" "$OUT/@vue" -mindepth 2 -type d \( -name vue -o -name runtime-core -o -name runtime-dom \) -path "*/node_modules/*" 2>/dev/null | while read -r p; do
+            real="$(readlink -f "$p")"
+            canon_vue="$(readlink -f "$OUT/vue")"
+            canon_rc="$(readlink -f "$OUT/@vue/runtime-core" 2>/dev/null)"
+            canon_rd="$(readlink -f "$OUT/@vue/runtime-dom" 2>/dev/null)"
+            if [ "$real" != "$canon_vue" ] && [ "$real" != "$canon_rc" ] && [ "$real" != "$canon_rd" ]; then
+              echo "$p"
+            fi
+          done)"
+          if [ -n "$FOUND" ]; then
+            echo "ZLYHALO: nájdená vnorená vue/runtime-core/runtime-dom kópia v deploy payloade (dual-package hazard, NEVEDIE na kanonickú kópiu):"
+            echo "$FOUND"
+            exit 1
+          fi
+          echo "OK: žiadna vnorená vue/runtime-core/runtime-dom kópia mimo kanonickej inštancie — jedna zdieľaná inštancia."
 
       - name: Push na vetvu deploy (force, jeden commit)
         run: |
