@@ -34,6 +34,27 @@ jobs:
       - name: Install (npm workspaces)
         run: npm install --no-audit --no-fund
 
+      - name: Dedupe Vue — fixes intermittent SSR crash "Cannot redefine property"
+        # Root cause of the intermittent first-load 500 (confirmed via
+        # server/plugins/capture-last-error.ts on a live cold hit): npm workspace
+        # hoisting left @vue/server-renderer with its OWN nested private copy of
+        # vue → @vue/runtime-dom → @vue/runtime-core, separate from the copy the
+        # rest of the SSR bundle uses. All three packages (slickly-store,
+        # vue-starter-template, @vue/server-renderer's peerDependency) pin the
+        # EXACT SAME "vue": "3.5.27" — there is no real version conflict, just an
+        # unresolved hoist — so `npm dedupe` safely collapses the duplicate onto
+        # the single shared copy (it only merges installs that are already
+        # semver-compatible; it cannot silently change a resolved version).
+        # When TWO physically different @vue/runtime-core instances coexist, a
+        # component's compiled setup() (e.g. NuxtImg's useTemplateRef) and
+        # @vue/server-renderer's own setupComponent() disagree about which
+        # instance owns a given component's internal bookkeeping, and Vue's
+        # Object.defineProperty call throws "Cannot redefine property: <ref>" —
+        # fatal, uncaught, and only hit on an SSR render that actually
+        # instantiates that code path fresh (hence "works after reload": once a
+        # render succeeds, no further work happens on the same paths).
+        run: npm dedupe --no-audit --no-fund
+
       - name: Build (.output cez root workspace skript)
         run: npm run build
         env:
@@ -75,6 +96,25 @@ jobs:
           mkdir -p "$(dirname "$DST")"
           cp -r "$SRC" "$DST"
           test -f "$DST/index.mjs" && echo "OK: vue/server-renderer doplnený z $SRC" || (echo "ZLYHALO" && exit 1)
+
+      - name: Over, že v .output nezostala žiadna duplicitná kópia vue/runtime-core/runtime-dom
+        # Safety net pre "npm dedupe" krok vyššie — kontroluje ŠPECIFICKY balíky
+        # zapojené v pozorovanom crashi (vue, @vue/runtime-core, @vue/runtime-dom),
+        # nie hocijaký vnorený node_modules — @vue/server-renderer legitímne
+        # nestuje @vue/shared a @vue/compiler-ssr ako svoje reálne (neproblémové)
+        # závislosti, tie nechceme false-positive zhodiť. Ak by CI hoisting aj
+        # napriek dedupe nechal vnorenú kópiu vue/runtime-core/runtime-dom, build
+        # zámerne ZLYHÁ tu namiesto toho, aby sa takýto artefakt nasadil a znovu
+        # spôsobil "Cannot redefine property" 500 na produkcii.
+        run: |
+          OUT=slickly-store/.output/server/node_modules
+          FOUND="$(find "$OUT/vue" "$OUT/@vue" -mindepth 2 -type d \( -name vue -o -name runtime-core -o -name runtime-dom \) -path "*/node_modules/*" 2>/dev/null)"
+          if [ -n "$FOUND" ]; then
+            echo "ZLYHALO: nájdená vnorená vue/runtime-core/runtime-dom kópia v .output (dual-package hazard):"
+            echo "$FOUND"
+            exit 1
+          fi
+          echo "OK: žiadna vnorená vue/runtime-core/runtime-dom kópia v .output — jedna zdieľaná inštancia."
 
       - name: Zostav deploy payload
         run: |
