@@ -551,7 +551,7 @@ const resolveImageUrl = (item: any) => {
       </a>
 
       <button
-        class="btn-checkout !text-white !font-tech !font-bold !uppercase !tracking-[0.15em] !py-0 flex items-center justify-center group/btn shadow-md hover:shadow-lg transition-all"
+        class="btn-checkout !text-black !font-tech !font-bold !uppercase !tracking-[0.15em] !py-0 flex items-center justify-center group/btn shadow-md hover:shadow-lg transition-all"
         :class="'!h-16'"
         :disabled="isSubmitting || !canAction"
         @click="emit('action')"

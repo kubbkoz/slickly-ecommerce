@@ -478,12 +478,24 @@ extends: ["../vue-starter-template", "./features/blog"],
             html, body {
               background: #ffffff;
             }
-            /* Navbar spacer (Navbar.vue) falls back to this exact value
-               until its ResizeObserver measures the real height on mount —
-               keeping both in sync avoids a layout jump between them. */
+            /* Navbar spacer (Navbar.vue) + HeroSlider's own height calc fall
+               back to these values until Navbar's ResizeObserver measures the
+               real height on mount — keeping all three in sync avoids a
+               layout jump between them. 169px was tuned for the DESKTOP
+               navbar shape (full TopBar + SearchBar row); mobile renders a
+               shorter contact bar + logo-only main row (~106px), so using
+               the desktop value as the only fallback reserved ~63px too much
+               space on mobile — a visible white gap between the fixed navbar
+               and the hero slider on first paint, before JS corrects it. */
             :root {
               --navbar-height-current: 169px;
               --navbar-height-unscrolled: 169px;
+            }
+            @media (max-width: 1023.98px) {
+              :root {
+                --navbar-height-current: 106px;
+                --navbar-height-unscrolled: 106px;
+              }
             }
           `
         }

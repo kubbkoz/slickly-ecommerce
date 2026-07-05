@@ -110,7 +110,7 @@ onMounted(() => { isMounted.value = true; });
               <span v-if="listPrice" class="text-gray-400 line-through text-sm font-tech">
                 {{ getFormattedPrice(listPrice) }}
               </span>
-              <span v-if="discountPct" class="px-2 py-0.5 text-xs font-bold text-black bg-amber">
+              <span v-if="discountPct" class="px-2 py-0.5 text-xs font-bold text-black bg-amber rounded-[3px]">
                 -{{ discountPct }}%
               </span>
             </div>

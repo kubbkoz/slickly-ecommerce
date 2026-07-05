@@ -35,10 +35,11 @@ function handleUserClick() {
           </div>
         </div>
 
-        <!-- CENTER: absolútne centrované — nezávislé od šírky LEFT/RIGHT -->
-        <div class="absolute inset-0 flex justify-center items-center pointer-events-none">
+        <!-- CENTER: absolútne centrované — nezávislé od šírky LEFT/RIGHT.
+             Iba desktop (lg+) — na mobile by prekrývalo logo (viď mobilný pruh nižšie). -->
+        <div class="hidden lg:flex absolute inset-0 justify-center items-center pointer-events-none">
           <div class="pointer-events-auto">
-            <CheckoutSteps :current-step="checkoutNavStep" :dark="true" @change-step="s => checkoutNavStep = s" />
+            <CheckoutSteps :current-step="checkoutNavStep" surface="dark" @change-step="s => checkoutNavStep = s" />
           </div>
         </div>
 
@@ -58,9 +59,14 @@ function handleUserClick() {
         </div>
 
       </div>
+
+      <!-- Mobilný pruh s krokmi — POD hlavným riadkom (nie cez logo). Amber pozadie, čierne písmo. -->
+      <div class="lg:hidden bg-amber py-2.5 flex justify-center border-t border-black/10">
+        <CheckoutSteps :current-step="checkoutNavStep" surface="amber" @change-step="s => checkoutNavStep = s" />
+      </div>
     </header>
 
-    <div class="h-[75px] flex-shrink-0"></div>
+    <div class="h-[123px] lg:h-[75px] flex-shrink-0"></div>
 
     <main class="flex-1 py-8 md:py-12">
       <slot />

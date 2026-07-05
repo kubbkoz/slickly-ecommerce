@@ -265,7 +265,7 @@ const pmocPrice = computed(() => {
           </span>
 
           <div v-if="discountPercent > 0"
-               class="relative group px-3 py-1 text-sm md:text-base font-black text-black uppercase tracking-wider font-tech bg-amber shadow-sm self-stretch flex items-center cursor-help">
+               class="relative group px-3 py-1 text-sm md:text-base font-black text-black uppercase tracking-wider font-tech bg-amber shadow-sm self-stretch flex items-center cursor-help rounded-[3px]">
              -{{ discountPercent }}%
              <div class="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 hidden group-hover:block bg-black text-white text-[10px] py-2 px-3 w-44 text-center leading-snug z-50 normal-case font-sans tracking-normal font-bold shadow-xl animate-fade-in pointer-events-none">
                Zľava vypočítaná z najnižšej ceny za 30 dní pred zľavou.
@@ -467,7 +467,7 @@ const pmocPrice = computed(() => {
                        <span class="text-2xl font-black text-black font-tech leading-none">
                          {{ currentPrice }} €
                        </span>
-                       <div v-if="discountPercent > 0" class="px-2 py-0.5 text-[13px] font-black text-black uppercase tracking-wider font-tech bg-amber shadow-sm flex items-center">
+                       <div v-if="discountPercent > 0" class="px-2 py-0.5 text-[13px] font-black text-black uppercase tracking-wider font-tech bg-amber shadow-sm flex items-center rounded-[3px]">
                           -{{ discountPercent }}%
                        </div>
                    </div>

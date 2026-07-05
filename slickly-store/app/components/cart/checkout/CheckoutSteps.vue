@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { Check } from 'lucide-vue-next';
 
-const props = withDefaults(defineProps<{ currentStep: number; dark?: boolean }>(), { dark: false });
+// surface = which background this renders on: 'dark' (black header row, desktop)
+// or 'amber' (mobile-only bar below the header — see cart.vue/checkout.vue).
+const props = withDefaults(defineProps<{ currentStep: number; surface?: 'dark' | 'amber' }>(), { surface: 'dark' });
 const emit = defineEmits<{
   (e: 'change-step', step: number): void;
 }>();
@@ -35,11 +37,9 @@ function handleStepClick(stepId: number) {
           class="flex items-center justify-center w-7 h-7 font-black font-tech text-xs leading-none transition-all duration-300 border-2 flex-shrink-0"
           :class="[
             (step.id < currentStep || step.id === 1) ? 'cursor-pointer hover:opacity-80' : 'cursor-default',
-            currentStep > step.id
-              ? 'bg-brand border-brand text-white'
-              : currentStep === step.id
-                ? dark ? 'bg-brand border-brand text-white' : 'bg-black border-black text-white'
-                : dark ? 'bg-transparent border-white/25 text-white/40' : 'bg-white border-gray-200 text-gray-400'
+            surface === 'amber'
+              ? (currentStep >= step.id ? 'bg-transparent border-black text-black' : 'bg-transparent border-black/25 text-black/40')
+              : (currentStep >= step.id ? 'bg-brand border-brand text-white' : 'bg-transparent border-white/25 text-white/40')
           ]"
           @click="handleStepClick(step.id)"
         >
@@ -50,7 +50,7 @@ function handleStepClick(stepId: number) {
         <div
           v-if="idx < steps.length - 1"
           class="w-8 sm:w-14 lg:w-20 h-[2px] mx-2 sm:mx-3 lg:mx-4 transition-colors duration-500 flex-shrink-0"
-          :class="currentStep > step.id ? 'bg-brand' : (dark ? 'bg-white/20' : 'bg-gray-200')"
+          :class="surface === 'amber' ? (currentStep > step.id ? 'bg-black' : 'bg-black/20') : (currentStep > step.id ? 'bg-brand' : 'bg-white/20')"
         ></div>
 
       </template>
@@ -66,7 +66,7 @@ function handleStepClick(stepId: number) {
         >
           <span
             class="text-[9px] font-black uppercase tracking-widest font-tech leading-tight block"
-            :class="currentStep >= step.id ? (dark ? 'text-white' : 'text-black') : (dark ? 'text-white/40' : 'text-gray-400')"
+            :class="surface === 'amber' ? (currentStep >= step.id ? 'text-black' : 'text-black/40') : (currentStep >= step.id ? 'text-white' : 'text-white/40')"
             style="width: max-content; transform: translateX(-50%); margin-left: 50%;"
           >{{ step.label }}</span>
         </div>

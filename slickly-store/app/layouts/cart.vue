@@ -20,10 +20,11 @@ function handleUserClick() {
       <!-- Amber akcentová linka na vrchu -->
       <div class="h-[3px] bg-amber w-full"></div>
 
-      <div class="container mx-auto px-4 lg:px-8 h-[72px] flex items-center">
+      <div class="container mx-auto px-4 lg:px-8 h-[72px] flex items-center justify-between">
 
-        <!-- LEFT — rovnaká šírka ako right pre symetrické centrovanie -->
-        <div class="w-[300px] flex items-center gap-5 flex-shrink-0">
+        <!-- LEFT — rovnaká šírka ako right pre symetrické centrovanie na desktope;
+             na mobile prirodzená šírka (center steps je tam skryté, netreba symetriu) -->
+        <div class="w-auto lg:w-[300px] flex items-center gap-5 flex-shrink-0">
           <NuxtLink :to="localePath('/')" aria-label="SLICKLY Domov"
             class="font-tech font-black uppercase leading-none tracking-tighter flex items-baseline text-white text-[2.5rem]">
             <span>SL</span><span class="logo-i-wrap"><span class="logo-i-dot bg-amber"></span>I</span><span>CKLY</span>
@@ -34,13 +35,14 @@ function handleUserClick() {
           </div>
         </div>
 
-        <!-- CENTER — steps symetricky vycentrované -->
-        <div class="flex-1 flex justify-center items-center">
-          <CheckoutSteps :current-step="1" :dark="true" />
+        <!-- CENTER — steps symetricky vycentrované. Iba desktop (lg+) — na mobile
+             by fixné w-[300px] bočné stĺpce steps pretlačili cez logo (viď mobilný pruh nižšie). -->
+        <div class="hidden lg:flex flex-1 justify-center items-center">
+          <CheckoutSteps :current-step="1" surface="dark" />
         </div>
 
         <!-- RIGHT — rovnaká šírka ako left -->
-        <div class="w-[300px] flex justify-end flex-shrink-0">
+        <div class="w-auto lg:w-[300px] flex justify-end flex-shrink-0">
           <button
             @click="handleUserClick"
             class="flex items-center gap-2 text-white hover:text-amber transition-colors bg-gray-900 border border-gray-700 hover:border-gray-500 px-4 py-2.5 focus:outline-none"
@@ -55,10 +57,15 @@ function handleUserClick() {
         </div>
 
       </div>
+
+      <!-- Mobilný pruh s krokmi — POD hlavným riadkom (nie cez logo). Amber pozadie, čierne písmo. -->
+      <div class="lg:hidden bg-amber py-2.5 flex justify-center border-t border-black/10">
+        <CheckoutSteps :current-step="1" surface="amber" />
+      </div>
     </header>
 
-    <!-- Spacer zodpovedajúci výške headera (3px + 72px) -->
-    <div class="h-[75px] flex-shrink-0"></div>
+    <!-- Spacer zodpovedajúci výške headera (3px + 72px, + mobilný pruh s krokmi na < lg) -->
+    <div class="h-[123px] lg:h-[75px] flex-shrink-0"></div>
 
     <main class="flex-1">
       <slot />
