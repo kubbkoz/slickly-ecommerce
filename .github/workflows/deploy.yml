@@ -145,40 +145,64 @@ jobs:
         # v strome zostane. Beží NAD `deploy-out` (po dereferencovaní vyššie), nie
         # nad `slickly-store/.output` — inak by tieto symlinky nasledujúci `cp -rL`
         # znovu rozbalil na duplicitné súbory (pozri komentár v kroku vyššie).
+        #
+        # OPRAVA REGRESIE (nasadenie z 2026-07-05 16:01 UTC / commit b79e86d): prvá verzia tohto kroku rozbila
+        # @iconify/vue na produkcii ("does not provide an export named '_api'") —
+        # priečinok `@iconify/vue` je bežný, NESÚVISIACI balík (Iconify Vue adaptér),
+        # ktorý sa len NÁHODOU volá "vue" (scoped pod @iconify), a stará `isVue`
+        # podmienka kontrolovala LEN názov priečinka, nie jeho skutočnú identitu —
+        # takže ho nesprávne nahradila symlinkom na jadro `vue`. Dve nezávislé opravy:
+        # (1) `isNested` teraz vyžaduje SKUTOČNÝ medziľahlý `node_modules` segment
+        #     v relatívnej ceste (nie len podreťazec, ktorý sedel na čokoľvek pod
+        #     OUT, keďže OUT samo končí na "node_modules"),
+        # (2) pred nahradením overíme `package.json`.`name` kandidáta PRESNE sedí
+        #     s očakávaným balíkom ("vue" / "@vue/runtime-core" / …) — druhá,
+        #     nezávislá poistka identity, nielen podľa názvu priečinka.
         run: |
           node -e "
           const fs = require('node:fs');
           const path = require('node:path');
           const OUT = path.resolve('deploy-out/.output/server/node_modules');
           const CANON = { vue: path.join(OUT, 'vue') };
+          const EXPECTED_NAME = { vue: 'vue' };
           for (const p of ['runtime-core', 'runtime-dom', 'reactivity', 'shared']) {
             CANON[p] = path.join(OUT, '@vue', p);
+            EXPECTED_NAME[p] = '@vue/' + p;
           }
-          let replaced = 0;
+          function packageNameOf(dir) {
+            try { return JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8')).name; } catch { return null; }
+          }
+          let replaced = 0, skipped = 0;
           function walk(dir) {
             let entries;
             try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
             for (const e of entries) {
               if (!e.isDirectory()) continue;
               const full = path.join(dir, e.name);
+              const rel = path.relative(OUT, full);
+              const isNested = rel.split(path.sep).includes('node_modules');
               const isVue = e.name === 'vue' && full !== CANON.vue;
               const isVuePkg = path.basename(dir) === '@vue' && CANON[e.name] && full !== CANON[e.name];
-              const isNested = full.includes(path.sep + 'node_modules' + path.sep);
               if (isNested && (isVue || isVuePkg)) {
-                const target = isVue ? CANON.vue : CANON[e.name];
-                if (fs.existsSync(target)) {
+                const key = isVue ? 'vue' : e.name;
+                const target = CANON[key];
+                const actualName = packageNameOf(full);
+                if (fs.existsSync(target) && actualName === EXPECTED_NAME[key]) {
                   fs.rmSync(full, { recursive: true, force: true });
                   fs.symlinkSync(path.relative(path.dirname(full), target), full, 'dir');
                   replaced++;
-                  console.log('symlinked', path.relative(OUT, full), '->', path.relative(OUT, target));
+                  console.log('symlinked', rel, '->', path.relative(OUT, target));
                   continue;
+                } else if (fs.existsSync(target)) {
+                  skipped++;
+                  console.log('SKIP (nie je duplikát — iný balík, len rovnaký názov priečinka):', rel, 'package.json name=', actualName);
                 }
               }
               walk(full);
             }
           }
           walk(OUT);
-          console.log('Total nested vue/@vue copies collapsed to symlinks:', replaced);
+          console.log('Total nested vue/@vue copies collapsed to symlinks:', replaced, '| skipped as non-duplicates:', skipped);
           "
 
       - name: Over, že v deploy payloade nezostala žiadna duplicitná kópia vue/runtime-core/runtime-dom
