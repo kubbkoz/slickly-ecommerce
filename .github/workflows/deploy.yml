@@ -71,28 +71,27 @@ jobs:
           NUXT_PUBLIC_BUILD_RUN: ${{ github.run_id }}-${{ github.run_attempt }}
           NUXT_PUBLIC_BUILD_TIME: ${{ github.event.head_commit.timestamp || github.run_id }}
           NUXT_PUBLIC_SHOPWARE_ENDPOINT: https://admin.slickly.sk/store-api/
-          NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN: ${{ secrets.NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN }}
+          NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN: SWSCEVBUY2VRMMNPZGQ1A1G1NG
           # Shopware IDs — nový backend (admin.slickly.sk).
-          # ⚠️ TODO (staré, ešte z mtsport.store — nájsť v novom Admine a prepísať,
-          # inak referencujú neexistujúce entity na novom backende → 400/404/prázdne sekcie):
           NUXT_PUBLIC_SW_ID_SALES_CHANNEL: 98432def39fc4624b33213a56b8c944d
-          NUXT_PUBLIC_SW_ID_LANG_SK: 019b07fc0d2f7a23b565cd7e42b0e5bc
-          NUXT_PUBLIC_SW_ID_LANG_CZ: 2fbb5fe2e29a4d70aa5854ce7ce3e20b
-          NUXT_PUBLIC_SW_ID_LANG_PL: 019b0806d86c71069f1c0d097c5b3638
-          NUXT_PUBLIC_SW_ID_CURRENCY_EUR: b7d2554b0ce847cd82f3ac9bd1c0dfca
-          NUXT_PUBLIC_SW_ID_CAT_FEATURED: 019cbe4cfcae7f7eb708b7b529a3562a
-          NUXT_PUBLIC_SW_ID_CAT_FLASH_SALES: 019ed47a4c19746f8ab0a7bb6747dc2d
-          # ✅ Nové (potvrdené na admin.slickly.sk):
           NUXT_PUBLIC_SW_ID_ROOT_CATEGORY: 019ed5e01d6673e9901eb8e900354a4d
+          NUXT_PUBLIC_SW_ID_LANG_SK: 019ed5eca5c972ee81c851a9ddec7216
+          NUXT_PUBLIC_SW_ID_LANG_CZ: 2fbb5fe2e29a4d70aa5854ce7ce3e20b
+          NUXT_PUBLIC_SW_ID_LANG_PL: 019ed5ef1c4470d387dcb04ba1437025
+          NUXT_PUBLIC_SW_ID_CURRENCY_EUR: b7d2554b0ce847cd82f3ac9bd1c0dfca
+          NUXT_PUBLIC_SW_ID_CURRENCY_CZK: 019ed5e027397131ac3e2ac53030292a
+          NUXT_PUBLIC_SW_ID_CURRENCY_PLN: 019ed5e0227a72bb8c7dbe346e0ebc6a
           NUXT_PUBLIC_SW_ID_CAT_HOME_SLIDER: 019f3767d8e07df5ac6105588389ffbd
+          NUXT_PUBLIC_SW_ID_CAT_FEATURED: 019f376da5357065a37b8f758b483ccf
+          NUXT_PUBLIC_SW_ID_CAT_FLASH_SALES: 019f376f48fe7975b52f990456e1fabc
           # Shopware Admin API integrácia (client_credentials). Server-only privátny
           # runtimeConfig (nuxt.config: shopwareAdmin*). Potrebné pre badges, returns,
           # account, watchdog, store-hours… Runtime env sa na HostCreators nedostane →
-          # musí sa zapiecť pri builde. Credentials cez GitHub Actions Secrets (repo
-          # Settings → Secrets and variables → Actions), nie ako literál v tomto súbore.
+          # musí sa zapiecť pri builde.
           SHOPWARE_ADMIN_ENDPOINT: https://admin.slickly.sk/api/
-          SHOPWARE_ADMIN_CLIENT_ID: ${{ secrets.SHOPWARE_ADMIN_CLIENT_ID }}
-          SHOPWARE_ADMIN_CLIENT_SECRET: ${{ secrets.SHOPWARE_ADMIN_CLIENT_SECRET }}
+          SHOPWARE_ADMIN_CLIENT_ID: SWIAZVPMVDZYB0ZFEEJZUMK3YQ
+          SHOPWARE_ADMIN_CLIENT_SECRET: OEpMUXpyTklrMDFSeXJLc3VKWndwb2c5eExJTDMyeDZ2NlB1WkU
+          SLICKLY_WEBHOOK_SECRET: 4e7c7a38910b82df23a66f1402ad71fc3bb639a58d348e214d89ef6a0813c9e2
 
       - name: Fix Nitro output — doplň chýbajúci vue/server-renderer
         # Pri npm workspaces je `vue` hoistnuté do root node_modules a Nitro tracer
