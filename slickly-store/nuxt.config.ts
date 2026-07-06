@@ -9,10 +9,20 @@ const isProd = process.env.NODE_ENV === 'production';
 
 // Auto-switch defaults pre URL + WebAuthn config podľa prostredia.
 // .env premenné majú vždy prednosť (override).
-// Pozn.: Shopware Store/Admin API a media CDN ostávajú na pôvodnom backende
-// (mtsport.store) — to je dátový zdroj, nie brand doména. Meň cez .env.
+// Pozn.: Shopware Store/Admin API a media CDN sú samostatný dátový backend
+// (nie brand doména) — meň cez .env / deploy.yml, nie tu.
 const DEFAULT_SITE_URL = isProd ? 'https://slickly.sk' : 'http://localhost:3000';
 const DEFAULT_WEBAUTHN_RP_ID = isProd ? 'slickly.sk' : 'localhost';
+
+// Media/CDN doména pre @nuxt/image odvodená zo Store API endpointu, aby sa pri
+// prepnutí na iný Shopware backend nemusela ručne dublovať na druhom mieste.
+const shopwareMediaDomain = (() => {
+  try {
+    return new URL(process.env.NUXT_PUBLIC_SHOPWARE_ENDPOINT || 'https://mtsport.store/store-api/').hostname;
+  } catch {
+    return 'mtsport.store';
+  }
+})();
 
 // Redis storage helper — Unix socket (VPS) alebo TCP URL, s fallbackom
 const redisDriver = (base: string, fallback: Record<string, unknown>) => {
@@ -162,9 +172,9 @@ extends: ["../vue-starter-template", "./features/blog"],
       : { swr: 3600, headers: { 'cache-control': 's-maxage=3600, stale-while-revalidate=86400' } },
   },
   // @nuxt/image: povolené externé domény pre Shopware media CDN
-  // Bez tohto NuxtImg nevygeneruje optimalizovaný srcset pre mtsport.store/media/*
+  // Bez tohto NuxtImg nevygeneruje optimalizovaný srcset pre <domain>/media/*
   image: {
-    domains: ['mtsport.store'],
+    domains: [shopwareMediaDomain],
     format: ['webp', 'avif'],
     // Tuning (audit P1 #8): nižšia kvalita = menej bajtov bez viditeľnej straty,
     // retina varianty cez densities, jednotné breakpointy pre srcset.
