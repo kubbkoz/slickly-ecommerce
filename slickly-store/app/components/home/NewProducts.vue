@@ -34,7 +34,8 @@ const { data: fetchedProducts, pending } = await useAsyncData(
                     ],
                     associations: {
                         cover: { associations: { media: {} } },
-                        manufacturer: { associations: { media: {} } },
+                        // PERF: ProductCard číta len manufacturer.translated.name → media netreba.
+                        manufacturer: {},
                         options: { associations: { group: {} } },
                         media: { associations: { media: {} } },
                         seoUrls: {},
@@ -44,12 +45,8 @@ const { data: fetchedProducts, pending } = await useAsyncData(
                                 properties: { associations: { group: {} } }
                             }
                         },
-                        configuratorSettings: {
-                            associations: {
-                                option: { associations: { group: {} } }
-                            }
-                        },
-                        productReviews: {}
+                        // PERF: `configuratorSettings` a `productReviews` odstránené —
+                        // ProductCard ich nerenderuje (rating je skalár, varianty z `children`).
                     },
                     // FIX-API: Restrict payload to avoid large JSON response
                     includes: {
@@ -62,7 +59,7 @@ const { data: fetchedProducts, pending } = await useAsyncData(
                         product_media: ['media'],
                         media: ['url', 'thumbnails', 'fileName', 'mimeType'],
                         media_thumbnail: ['url', 'width'],
-                        product_manufacturer: ['id', 'name', 'translated', 'media'],
+                        product_manufacturer: ['id', 'name', 'translated'],
                         property_group_option: ['id', 'name', 'translated', 'group'],
                         property_group: ['id', 'name', 'translated'],
                         seo_url: ['seoPathInfo', 'isCanonical'],

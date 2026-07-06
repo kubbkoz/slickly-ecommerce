@@ -57,33 +57,45 @@ onUnmounted(() => {
   if (slideTimer.value) clearInterval(slideTimer.value);
 });
 
-// ─── LCP + hero-slide preload ───────────────────────────────────────────────
-// Hero používa CSS background-image (kvôli ORB), takže fetchpriority na <img>
-// nejde. Preload cez <link rel=preload> — browser ho dedupne s background-image.
-// PRVÝ slide = LCP → fetchpriority HIGH (načíta sa okamžite).
-// OSTATNÉ slidy = fetchpriority LOW (načítajú sa na pozadí, mimo kritickej cesty)
-// → keď carousel rotuje, obrázok je už v cache a dekódovaný, takže neseká.
+// ─── LCP: @nuxt/image optimalizácia hero pozadia ────────────────────────────
+// Hero používa CSS background-image (kvôli ORB), takže <NuxtImg>/fetchpriority
+// na <img> nejde. Namiesto plného Shopware originálu (mnoho MB) prežeňieme URL
+// cez `useImage()` → same-origin `/_ipx/…` webp (server-side proxy + resize).
+// Same-origin výstup = ORB ostáva obídené (browser nevidí cross-origin request).
+const $img = useImage();
+// Optimalizuj len absolútne http(s) URL na povolenej doméne (mtsport.store).
+// data: URI a relatívne cesty (dev `/mts-proxy/…` alebo lokálne statické) nechať tak.
+const optimizeHero = (src: string | undefined): string => {
+  if (!src || src.startsWith('data:') || src.startsWith('/')) return src || '';
+  try {
+    return $img(src, { width: 1920, format: 'webp', quality: 70 });
+  } catch {
+    return src;
+  }
+};
+
 const encodeImg = (img: string | undefined) => {
   if (!img || img.startsWith('data:')) return '';
   return img.replace(/ /g, '%20').replace(/'/g, '%27');
 };
 
+// Optimalizované pozadie aktuálneho slidu (pre CSS background-image).
+const heroBg = computed(() => encodeImg(optimizeHero(slide.value?.image)));
+
+// Preload IBA prvý slide (LCP) — ostatné slidy sa načítajú lazy pri rotácii,
+// aby nezaťažovali kritickú cestu. Href sa dedupne s background-image (rovnaká URL).
 useHead(computed(() => {
-  const slides = translatedSlides.value || [];
-  const links = slides
-    .map((s, i) => {
-      const href = encodeImg(s?.image);
-      if (!href) return null;
-      return {
-        rel: 'preload',
-        as: 'image',
-        href,
-        // prvý = high (LCP), ostatné = low (background, mimo kritickej cesty)
-        fetchpriority: i === 0 ? 'high' : 'low',
-      };
-    })
-    .filter(Boolean);
-  return { link: links as any[] };
+  const first = (translatedSlides.value || [])[0];
+  const href = encodeImg(optimizeHero(first?.image));
+  if (!href) return {};
+  return {
+    link: [{
+      rel: 'preload',
+      as: 'image',
+      href,
+      fetchpriority: 'high',
+    }],
+  };
 }));
 </script>
 
@@ -103,7 +115,7 @@ useHead(computed(() => {
             -->
             <div
               class="absolute inset-0 w-full h-full bg-center bg-cover"
-              :style="slide?.image ? { backgroundImage: `url('${slide.image.replace(/ /g, '%20').replace(/'/g, '%27')}')` } : {}"
+              :style="heroBg ? { backgroundImage: `url('${heroBg}')` } : {}"
               role="img"
               :aria-label="slide?.title || 'Hero Image'"
             ></div>

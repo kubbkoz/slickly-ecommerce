@@ -42,12 +42,16 @@ useHead(computed(() => ({
          Wrapping it in another <footer> caused "duplicate contentinfo landmark" a11y violation. -->
     <Footer />
     
+    <!-- Statická spodná lišta: renderuje sa v SSR (deterministická, fixed bottom-0),
+         aby bola viditeľná OKAMŽITE — nie až po dohydratovaní (~26 s). Badge s počtom
+         v košíku je interne obalený v <ClientOnly> (SSR košík = prázdny). -->
+    <MobileBottomNav />
+
     <ClientOnly>
       <LazyChatBot />
       <LazyWishlistToast />
       <LazyComparisonToast />
       <LazyScrollToTop />
-      <MobileBottomNav />
     </ClientOnly>
   </div>
 </template>

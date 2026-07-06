@@ -50,7 +50,8 @@ const { data: collectionData, pending, refresh } = await useAsyncData(
                     ],
                     associations: {
                         cover: { associations: { media: {} } },
-                        manufacturer: { associations: { media: {} } },
+                        // PERF: ProductCard číta len manufacturer.translated.name → media netreba.
+                        manufacturer: {},
                         options: { associations: { group: {} } },
                         media: { associations: { media: {} } },
                         seoUrls: {},
@@ -60,12 +61,9 @@ const { data: collectionData, pending, refresh } = await useAsyncData(
                                 properties: { associations: { group: {} } }
                             }
                         },
-                        configuratorSettings: {
-                            associations: {
-                                option: { associations: { group: {} } }
-                            }
-                        },
-                        productReviews: {}
+                        // PERF: `configuratorSettings` a `productReviews` odstránené —
+                        // ProductCard ich nerenderuje (rating je skalár `ratingAverage`/
+                        // `productReviewsCount`, varianty čerpá z `children`).
                     }
                 }
             });

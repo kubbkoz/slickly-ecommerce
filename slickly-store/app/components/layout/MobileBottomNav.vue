@@ -97,9 +97,13 @@ function handleWishlistClick() {
         >
           <div class="relative">
             <ShoppingCart class="w-5 h-5 mb-1" />
-            <span v-if="cartCount > 0" class="absolute -top-1.5 -right-2.5 bg-amber text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
-                {{ cartCount }}
-             </span>
+            <!-- Košík je klientský stav (SSR = prázdny) → badge len na klientovi,
+                 inak by vznikol hydration mismatch pri statickom SSR renderi lišty. -->
+            <ClientOnly>
+              <span v-if="cartCount > 0" class="absolute -top-1.5 -right-2.5 bg-amber text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+                  {{ cartCount }}
+               </span>
+            </ClientOnly>
           </div>
           <span class="text-[9px] font-bold uppercase tracking-wider font-sans">Košík</span>
         </button>

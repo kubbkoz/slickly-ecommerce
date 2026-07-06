@@ -68,10 +68,12 @@ const { data, pending, refresh } = await useAsyncData(
                 {
                     pathParams: { categoryId: SUPER_PONUKA_CATEGORY_ID },
                     body: {
-                        limit: 24,
+                        // PERF: karusel — 12 stačí (predtým 24). Menší inline SSR payload.
+                        limit: 12,
                         associations: {
                             cover: { associations: { media: {} } },
-                            manufacturer: { associations: { media: {} } },
+                            // PERF: ProductCard číta len manufacturer.translated.name → media netreba.
+                            manufacturer: {},
                             options: { associations: { group: {} } },
                             media: { associations: { media: {} } },
                             seoUrls: {},
@@ -81,7 +83,8 @@ const { data, pending, refresh } = await useAsyncData(
                                     properties: { associations: { group: {} } }
                                 }
                             },
-                            productReviews: {}
+                            // PERF: `productReviews` odstránené — karta číta len skalár
+                            // `productReviewsCount`/`ratingAverage`, nie samotné recenzie.
                         },
                         includes: {
                             product: [
@@ -93,7 +96,7 @@ const { data, pending, refresh } = await useAsyncData(
                             product_media: ['media'],
                             media: ['url', 'thumbnails', 'fileName', 'mimeType'],
                             media_thumbnail: ['url', 'width'],
-                            product_manufacturer: ['id', 'name', 'translated', 'media'],
+                            product_manufacturer: ['id', 'name', 'translated'],
                             property_group_option: ['id', 'name', 'translated', 'group'],
                             property_group: ['id', 'name', 'translated'],
                             seo_url: ['seoPathInfo', 'isCanonical'],

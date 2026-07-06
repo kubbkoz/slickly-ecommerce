@@ -1,13 +1,11 @@
 <script setup lang="ts">
-// Above-fold sekcie — eager import (potrebné okamžite pri prvom rendere)
+// Above-fold sekcie — eager import (potrebné okamžite pri prvom rendere / LCP)
 import CategoryHeroSlider from '../components/home/CategoryHeroSlider.vue';
 import Features from '../components/home/Features.vue';
-import CategoryGrid from '../components/home/CategoryGrid.vue';
-import AkciaCarousel from '../components/home/AkciaCarousel.vue';
-import Znacky from '../components/home/Znacky.vue';
-import FeaturedCollection from '../components/home/FeaturedCollection.vue';
-// Below-fold sekcie — lazy hydration cez globálne Lazy* komponenty
-// (<LazyReviewsWall hydrate-on-visible /> v template — SSR ostáva, hydratuje až vo viewporte)
+// Ostatné sekcie (AkciaCarousel/Znacky/CategoryGrid/FeaturedCollection) sa hydratujú
+// lazy cez globálne Lazy* komponenty s `hydrate-on-visible` (nižšie v template) — SSR
+// HTML ostáva (SEO OK), ale hydratácia 28+ ProductCards sa odloží až do viewportu.
+// (<LazyReviewsWall hydrate-on-visible /> — rovnaký vzor.)
 // @ts-ignore
 import { useShopwareContext, useAsyncData, useState, useI18n, useRuntimeConfig } from '#imports';
 import { onMounted, onUnmounted } from 'vue';
@@ -51,10 +49,11 @@ onUnmounted(() => {
     <h1 class="sr-only">{{ t('home_seo.title') }}</h1>
     <CategoryHeroSlider :categoryId="CATEGORY_HOME_SLIDER" />
     <Features />
-    <AkciaCarousel />
-    <Znacky />
-    <CategoryGrid />
-    <FeaturedCollection />
+    <!-- Lazy hydration (INP/TBT optimalizácia) — SSR HTML ostáva, hydratácia až vo viewporte -->
+    <LazyAkciaCarousel hydrate-on-visible />
+    <LazyZnacky hydrate-on-visible />
+    <LazyCategoryGrid hydrate-on-visible />
+    <LazyFeaturedCollection hydrate-on-visible />
     <!-- Below-fold: lazy hydration (INP/TBT optimalizácia, audit P0 #2) -->
     <LazyReviewsWall hydrate-on-visible />
     <LazyNewProducts hydrate-on-visible />
