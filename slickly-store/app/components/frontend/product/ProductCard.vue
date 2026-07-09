@@ -223,6 +223,7 @@ const handleHoverPrefetch = () => {
                             width="300"
                             height="400"
                             sizes="50vw sm:50vw md:33vw lg:25vw"
+                            :modifiers="{ trim: 10 }"
                             class="w-full h-full object-contain p-4 mix-blend-multiply pointer-events-none"
                             :loading="index < 1 ? 'eager' : 'lazy'"
                             :fetchpriority="index === 0 ? 'high' : 'low'"
