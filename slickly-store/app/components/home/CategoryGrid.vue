@@ -70,15 +70,19 @@ const { data: categories } = await useAsyncData(
         </div>
       </div>
 
-      <!-- Grid — asymetrický: 4 stĺpce, vybrané karty cez 2 stĺpce
-           (6 kategórií → riadok1 [wide][1][1], riadok2 [1][wide][1]) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 md:gap-4 min-h-[200px] md:min-h-[260px]">
+      <!-- Grid — asymetrický na všetkých šírkach:
+           mobil/tablet (2 stĺpce): cyklus [wide][1][1] opakujúci sa po 3
+           desktop (4 stĺpce): riadok1 [wide][1][1], riadok2 [1][wide][1] (opakuje sa po 6) -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 min-h-[200px] md:min-h-[260px]">
         <NuxtLink
           v-for="(cat, i) in categories"
           :key="cat.id"
           :to="localePath(cat.url)"
           class="cat-card group relative h-[200px] md:h-[260px] overflow-hidden block bg-gray-900 rounded-default"
-          :class="{ 'lg:col-span-2': i % 6 === 0 || i % 6 === 4 }"
+          :class="[
+            i % 3 === 0 ? 'col-span-2' : 'col-span-1',
+            (i % 6 === 0 || i % 6 === 4) ? 'lg:col-span-2' : 'lg:col-span-1'
+          ]"
         >
           <!-- Background image or placeholder -->
           <div class="absolute inset-0">

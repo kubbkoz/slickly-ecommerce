@@ -119,18 +119,18 @@ const handleHeroClick = () => {
         <div class="relative group overflow-hidden h-full min-h-[400px] rounded-default">
           <img v-if="hero?.image" :src="hero.image" :alt="hero.title || 'Featured Collection'" width="800" height="600" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-          <div class="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-            <div v-if="hero?.badge" class="inline-block bg-amber rounded-sm px-4 py-1 mb-4">
-              <span class="block text-black text-xs font-bold uppercase tracking-widest font-tech">{{ hero.badge }}</span>
+          <div class="absolute bottom-0 left-0 p-6 sm:p-8 md:p-12 w-full">
+            <div v-if="hero?.badge" class="inline-block bg-amber rounded-sm px-3 py-1 md:px-4 md:py-1.5 mb-3 md:mb-4">
+              <span class="block text-black text-[10px] md:text-xs font-bold uppercase tracking-widest font-tech">{{ hero.badge }}</span>
             </div>
-            <h3 class="text-4xl md:text-6xl font-black text-white uppercase italic font-tech leading-none mb-4 whitespace-pre-line text-shadow-lg">
+            <h3 class="text-3xl sm:text-4xl md:text-6xl font-black text-white uppercase font-tech leading-[0.95] mb-3 md:mb-4 whitespace-pre-line text-shadow-lg">
               {{ hero?.title }}
             </h3>
-            <div v-if="hero?.description" class="text-gray-100 font-sans mb-8 max-w-md line-clamp-3 prose prose-invert prose-sm drop-shadow-md" v-html="sanitizeHtml(hero.description)"></div>
+            <div v-if="hero?.description" class="text-gray-100 font-sans mb-6 md:mb-8 max-w-md line-clamp-3 prose prose-invert prose-sm drop-shadow-md" v-html="sanitizeHtml(hero.description)"></div>
             <NuxtLink
               v-if="hero?.buttonText"
               :to="localePath(hero.buttonLink || '#')"
-              class="inline-flex items-center gap-3 bg-brand hover:bg-brand-dark text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors rounded-default"
+              class="inline-flex items-center justify-center gap-3 bg-brand hover:bg-brand-dark text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto rounded-default"
             >
               {{ hero.buttonText }} <ArrowRight class="w-5 h-5" />
             </NuxtLink>
@@ -138,7 +138,7 @@ const handleHeroClick = () => {
         </div>
 
         <!-- Right Products Grid (2x2 on Desktop) -->
-        <div class="grid grid-cols-2 md:grid-cols-2 gap-x-1 gap-y-8 md:gap-4 items-stretch h-full">
+        <div class="grid grid-cols-2 gap-4 items-stretch h-full">
           <!-- Skeletons -->
           <template v-if="pending && products.length === 0">
             <div v-for="i in 4" :key="`skeleton-${i}`" class="group bg-white overflow-hidden flex flex-col relative border border-gray-100 p-4 rounded-default">

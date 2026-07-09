@@ -61,7 +61,7 @@ watchEffect(() => {
     <div class="container mx-auto px-4 lg:px-8">
 
       <!-- Header -->
-      <div class="flex flex-col lg:flex-row justify-between items-end mb-10 gap-6">
+      <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-6">
         <div>
           <h2 class="section-h2 mb-4">
             Čo hovoria <span class="text-brand">zákazníci</span>
@@ -75,7 +75,7 @@ watchEffect(() => {
           :href="MAPS_URL"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-3 group flex-shrink-0"
+          class="flex items-center gap-3 group flex-shrink-0 self-end lg:self-auto"
           aria-label="Pozrieť všetky recenzie na Google"
         >
           <RatingStars :rating="rating" size-class="w-5 h-5" />
