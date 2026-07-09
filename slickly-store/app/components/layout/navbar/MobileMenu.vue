@@ -81,36 +81,16 @@ const { data: navigationElements } = useAsyncData(
   async () => {
     if (!rootCategoryId) return [];
     try {
-      const response = await apiClient.invoke("readCategoryList post /category", {
-        body: {
-          limit: 100,
-          filter: [
-            { type: "equals", field: "parentId", value: rootCategoryId },
-            { type: "equals", field: "active", value: true },
-            { type: "equals", field: "visible", value: true }
-          ],
-          associations: {
-            children: {
-              filter: [
-                { type: "equals", field: "active", value: true },
-                { type: "equals", field: "visible", value: true }
-              ],
-              associations: {
-                children: {
-                  filter: [
-                    { type: "equals", field: "active", value: true },
-                    { type: "equals", field: "visible", value: true }
-                  ]
-                }
-              }
-            }
-          }
-        },
+      // Navigation route — rešpektuje Admin poradie súrodencov (raw /category
+      // search defaultne triedi podľa technického ID, nie podľa Admin stromu).
+      const response = await apiClient.invoke("readNavigation post /navigation/{activeId}/{rootId}", {
+        pathParams: { activeId: rootCategoryId, rootId: rootCategoryId },
+        body: { depth: 3 },
         headers: {
           'sw-language-id': currentLanguageId.value
         }
       });
-      return response.data.elements || [];
+      return response.data || [];
     } catch (e) {
       console.error('MobileMenu: Failed to fetch navigation', e);
       return [];

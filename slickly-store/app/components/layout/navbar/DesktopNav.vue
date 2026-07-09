@@ -27,22 +27,16 @@ const { data: navigationElements } = useAsyncData(
   cacheKey,
   async () => {
     try {
-      const response = await apiClient.invoke("readCategoryList post /category", {
+      // Navigation route (nie raw entity search) — rešpektuje presné poradie
+      // súrodencov nastavené v Admin strome kategórií (drag-and-drop `afterCategoryId`
+      // reťaz), ktoré raw `/category` search ignoruje (defaultne triedi podľa
+      // technického ID, nie podľa Admin poradia).
+      const rootId = config.public.shopware.ids.rootCategory;
+      const response = await apiClient.invoke("readNavigation post /navigation/{activeId}/{rootId}", {
+        pathParams: { activeId: rootId, rootId },
         body: {
-          limit: 100,
-          filter: [
-            { type: "equals", field: "parentId", value: config.public.shopware.ids.rootCategory },
-            { type: "equals", field: "active", value: true },
-            { type: "equals", field: "visible", value: true }
-          ],
+          depth: 2,
           associations: {
-            children: {
-              filter: [{ type: "equals", field: "active", value: true }],
-              associations: {
-                media: {},
-                seoUrls: {}
-              }
-            },
             media: {},
             seoUrls: {}
           },
@@ -51,7 +45,7 @@ const { data: navigationElements } = useAsyncData(
           'sw-language-id': currentLanguageId.value
         }
       });
-      return response.data.elements || [];
+      return response.data || [];
     } catch (e) {
       console.error('DesktopNav: Failed to fetch navigation', e);
       if (import.meta.client) {

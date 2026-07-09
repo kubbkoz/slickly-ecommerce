@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ArrowUpRight } from 'lucide-vue-next';
-import { useLocalePath, useNavigation, useAsyncData } from '#imports';
+import { useLocalePath, useAsyncData } from '#imports';
 import { getCategoryUrl } from '~/utils/url';
 
 // ─── Composables ─────────────────────────────────────────────────────────────
@@ -10,12 +10,10 @@ const { apiClient } = useShopwareContext();
 const { currentLanguageId } = useShopwareLanguage();
 const config = useRuntimeConfig();
 
-// ─── Fetch Categories Directly from Tree via SWR ─────────────────────────────
-// We fetch the main navigation tree (same as DesktopNav) and extract:
-// 1. Top 5 main categories
-// 2. One hardcoded extra category (6th tile)
-
-const HARDCODED_EXTRA_CATEGORY_ID = '019ed47a4c19746f8ab0a7bb6747dc2d';
+// ─── Fetch Categories via Navigation Route ───────────────────────────────────
+// Navigation route (nie raw entity search) — rešpektuje presné poradie
+// súrodencov z Admin stromu kategórií, a vracia VŠETKY viditeľné root-level
+// kategórie (žiadny hardcoded "6. dlaždica" hack potrebný).
 const ROOT_CATEGORY_ID = config.public.shopware.ids.rootCategory;
 
 // Key on route-derived currentLanguageId (stable across SSR→client), NOT
@@ -26,66 +24,29 @@ const { data: categories } = await useAsyncData(
     `category-grid-dynamic-${currentLanguageId.value}`,
     async () => {
         try {
-            const response = await apiClient.invoke("readCategoryList post /category", {
+            const response = await apiClient.invoke("readNavigation post /navigation/{activeId}/{rootId}", {
               headers: { "sw-language-id": currentLanguageId.value }, // FIX-LANG: ensure SK translations
+              pathParams: { activeId: ROOT_CATEGORY_ID, rootId: ROOT_CATEGORY_ID },
               body: {
-                limit: 100,
-                filter: [
-                  { type: "equals", field: "parentId", value: ROOT_CATEGORY_ID },
-                  { type: "equals", field: "active", value: true },
-                  { type: "equals", field: "visible", value: true }
-                ],
-                associations: {
-                  children: {
-                    filter: [
-                      { type: "equals", field: "active", value: true },
-                      { type: "equals", field: "visible", value: true }
-                    ]
-                  },
-                  media: {} // Important for category grid images!
-                },
+                depth: 1,
+                associations: { media: {} }, // Important for category grid images!
               }
             });
-            const navItems = response.data.elements || [];
-            
+            const navItems = response.data || [];
+
             if (!navItems.length) return [];
 
-            // Helper to format category for the grid
-            const formatCategory = (cat: any) => ({
+            return navItems.map((cat: any) => ({
                 id: cat.id,
                 name: cat.translated?.name || cat.name || '',
                 image: cat.media?.url || null,
                 url: getCategoryUrl(cat)
-            });
-
-            // 1. Take up to 5 top-level categories
-            const displayList = navItems.slice(0, 5).map(formatCategory);
-
-            // 2. Fetch one hardcoded extra category directly by ID (6th tile).
-            // Isolated try/catch — top-5 tiles still render if this fails.
-            let extraCategory = null;
-            try {
-                const extraRes = await apiClient.invoke('readCategory post /category/{categoryId}' as any, {
-                    headers: { "sw-language-id": currentLanguageId.value },
-                    pathParams: { categoryId: HARDCODED_EXTRA_CATEGORY_ID },
-                    body: { associations: { media: {} } },
-                });
-                extraCategory = extraRes.data;
-            } catch (e) {
-                console.error('[CategoryGrid] Failed to fetch hardcoded extra category', e);
-            }
-
-            // 3. Append the extra category if fetched
-            if (extraCategory) {
-                displayList.push(formatCategory(extraCategory));
-            }
-
-            return displayList;
+            }));
         } catch (error) {
-            console.error('[CategoryGrid] Failed to parse navigation elements', error);
+            console.error('[CategoryGrid] Failed to load navigation', error);
             return [];
         }
-    }, 
+    },
     {
         watch: [currentLanguageId],
     }
