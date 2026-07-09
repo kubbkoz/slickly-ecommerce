@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Truck, Wrench, MessageCircle, ShieldCheck } from 'lucide-vue-next';
+import { Package, Car, Sparkles, Truck } from 'lucide-vue-next';
 import { FEATURES } from '~/utils/constants';
 
-const icons: Record<string, any> = { Truck, Wrench, MessageCircle, ShieldCheck };
+const icons: Record<string, any> = { Package, Car, Sparkles, Truck };
 
 // Extract features directly without Gemini translation layer
 const translatedFeatures = computed(() => {
@@ -21,12 +21,12 @@ const translatedFeatures = computed(() => {
         <div
           v-for="(feature, idx) in translatedFeatures"
           :key="idx"
-          class="feature-item flex items-start space-x-2 md:space-x-4 p-2 md:p-4 transition-all duration-300"
+          class="group flex items-start space-x-2 md:space-x-4 p-2 md:p-4 transition-all duration-300"
         >
-          <div class="feature-icon flex-shrink-0 bg-gray-200 text-black p-2 md:p-3 rounded-full transition-all duration-300">
+          <div class="flex-shrink-0 bg-black text-amber p-2 md:p-3 rounded-default transition-all duration-300 group-hover:bg-amber group-hover:text-black group-hover:-translate-y-1">
             <component :is="icons[feature.icon]" class="w-4 h-4 md:w-6 md:h-6" />
           </div>
-          <div class="feature-text transition-transform duration-300">
+          <div class="transition-transform duration-300 group-hover:-translate-y-1">
             <p class="font-bold text-[10px] md:text-sm mb-0.5 md:mb-1 font-tech tracking-wide leading-tight">{{ feature.title }}</p>
             <p class="text-gray-500 text-[10px] md:text-sm leading-snug md:leading-relaxed">{{ feature.desc }}</p>
           </div>
@@ -35,15 +35,3 @@ const translatedFeatures = computed(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.feature-item:hover .feature-icon {
-  background-color: var(--brand-color);
-  color: white;
-  transform: translateY(-4px);
-}
-
-.feature-item:hover .feature-text {
-  transform: translateY(-4px);
-}
-</style>

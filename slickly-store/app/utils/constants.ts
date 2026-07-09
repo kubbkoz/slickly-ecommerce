@@ -36,10 +36,10 @@ export const HERO_SLIDES: Slide[] = [
 ];
 
 export const FEATURES = [
-    { title: 'DORUČENIE TOVARU', desc: 'Bicykle, e-bike, doplnky a komponenty v hodnote viac ako 100€ Vám doručíme ZADARMO.', icon: 'Truck' },
-    { title: 'ODBORNÝ SERVIS', desc: 'Certifikovaný servis e-bikov pre Bosch, Shimano, Yamaha, Pinion, Ananda, Bafang, atď.', icon: 'Wrench' },
-    { title: 'ODBORNÉ PORADENSTVO', desc: 'Neviete si vybrať? Naši odborní predajcovia Vám pomôžu vybrať vhodný bicykel, alebo e-bike.', icon: 'MessageCircle' },
-    { title: 'BEZPEČNÉ DORUČENIE', desc: 'Bicykle, alebo e-bike Vám doručíme priamo domov, plne zmontované, nastavené a bezpečne zabalené.', icon: 'ShieldCheck' },
+    { title: 'ŠIROKÝ SORTIMENT', desc: 'Stovky produktov na exteriér, interiér aj leštenie od overených značiek na jednom mieste.', icon: 'Package' },
+    { title: 'STAROSTLIVOSŤ O AUTO', desc: 'Kompletná ponuka pre ochranu karosérie a starostlivosť o vaše auto po celý rok.', icon: 'Car' },
+    { title: 'DETAILING', desc: 'Profesionálne detailing produkty a príslušenstvo pre dokonalý vzhľad exteriéru aj interiéru.', icon: 'Sparkles' },
+    { title: 'RÝCHLE DORUČENIE', desc: 'Objednávku spracujeme a odošleme čo najskôr, aby ste sa mohli pustiť do práce bez čakania.', icon: 'Truck' },
 ];
 
 // Featured značky na frontpage (sekcia Znacky.vue). Slug = slugify(názov výrobcu)

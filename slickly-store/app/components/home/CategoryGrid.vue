@@ -107,7 +107,7 @@ const { data: categories } = await useAsyncData(
           <!-- Content: title + button -->
           <div class="absolute bottom-0 left-0 w-full z-10 p-5 md:p-6 pb-5 md:pb-6 flex flex-col items-start justify-end pointer-events-none">
               <!-- Title -->
-              <h3 class="cat-title font-tech font-black text-white text-2xl md:text-3xl uppercase italic leading-none tracking-wide transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] drop-shadow-md">
+              <h3 class="cat-title font-tech font-black text-white text-base sm:text-lg md:text-3xl uppercase italic leading-tight md:leading-none tracking-wide break-words transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] drop-shadow-md">
                 {{ cat.name }}
               </h3>
 
