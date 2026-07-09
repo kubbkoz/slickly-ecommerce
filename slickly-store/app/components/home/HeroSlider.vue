@@ -100,8 +100,8 @@ useHead(computed(() => {
 </script>
 
 <template>
-  <div 
-    class="relative w-full overflow-hidden bg-black text-white"
+  <div
+    class="relative w-full overflow-hidden bg-black text-white hero-slider"
     style="height: calc(100svh - var(--navbar-height-unscrolled, 169px))"
   >
       <!-- Background Images -->
@@ -274,5 +274,13 @@ useHead(computed(() => {
   .slide-fade-leave-active,
   .hero-fade-enter-active,
   .hero-fade-leave-active { transition-duration: 0.01ms !important; }
+}
+
+/* Desktop: nižší hero (80vh namiesto plnej výšky monitora). Mobil ostáva
+   na 100svh - navbar (ladené kvôli scroll-triggered compositor glitchu). */
+@media (min-width: 1024px) {
+  .hero-slider {
+    height: 80vh !important;
+  }
 }
 </style>
