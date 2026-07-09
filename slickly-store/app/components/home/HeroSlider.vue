@@ -277,12 +277,12 @@ useHead(computed(() => {
 }
 
 /* Desktop: hero + navbar + Features (trust badges) sa majú zmestiť na jednu
-   obrazovku bez scrollu. 150px = odhadovaná výška Features pásu na desktope
-   (jeden riadok, 4 stĺpce). Mobil ostáva na 100svh - navbar (ladené kvôli
+   obrazovku bez scrollu. 205px = zmeraná výška Features pásu na desktope
+   (Chrome DevTools inspector). Mobil ostáva na 100svh - navbar (ladené kvôli
    scroll-triggered compositor glitchu). */
 @media (min-width: 1024px) {
   .hero-slider {
-    height: calc(100vh - var(--navbar-height-unscrolled, 169px) - 150px) !important;
+    height: calc(100vh - var(--navbar-height-unscrolled, 169px) - 205px) !important;
   }
 }
 </style>
