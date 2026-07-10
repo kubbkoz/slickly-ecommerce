@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useProductHelpers } from '~/composables/useProductHelpers';
+import { useAutoTrimImage } from '~/composables/useAutoTrimImage';
 import RatingStars from '~/components/ui/RatingStars.vue';
 import { formatRating, plainTextExcerpt } from '~/utils/format';
 import { Heart, Star, ChevronLeft, ChevronRight, ArrowRight, Scale } from 'lucide-vue-next';
@@ -86,6 +87,22 @@ const productMedia = computed(() => {
 });
 
 const hasMultipleImages = computed(() => productMedia.value.length > 1);
+
+// Auto-crop the whitespace margin around each cover/gallery photo so products
+// with inconsistently-framed source photos still fill a consistent portion of
+// the card (see useAutoTrimImage.ts for why this can't be done server-side
+// here). Runs client-only, after each source resolves — SSR/first paint keeps
+// showing the untrimmed original, then swaps in once ready.
+const { trimSrc } = useAutoTrimImage();
+const displayMedia = ref<string[]>([...productMedia.value]);
+watch(productMedia, (media) => {
+    displayMedia.value = [...media];
+    media.forEach((src, i) => {
+        trimSrc(src).then((trimmed) => {
+            if (trimmed) displayMedia.value[i] = trimmed;
+        });
+    });
+}, { immediate: true });
 
 const scrollToImage = (index: number) => {
     currentImageIndex.value = index;
@@ -217,13 +234,26 @@ const handleHoverPrefetch = () => {
                         :key="index"
                         class="flex-shrink-0 w-full h-full bg-transparent"
                     >
+                        <!-- Trimmed result is a local blob: URL — rendered as a plain <img>,
+                             bypassing @nuxt/image's provider (which would otherwise append
+                             ?width=&height=... query params onto the blob URL and break it). -->
+                        <img
+                            v-if="displayMedia[index]?.startsWith('blob:')"
+                            :alt="`${product.translated?.name || product.name || ''} - foto ${index + 1}`"
+                            :src="displayMedia[index]"
+                            width="300"
+                            height="400"
+                            class="w-full h-full object-contain p-4 mix-blend-multiply pointer-events-none"
+                            loading="lazy"
+                            decoding="async"
+                        />
                         <NuxtImg
+                            v-else
                             :alt="`${product.translated?.name || product.name || ''} - foto ${index + 1}`"
                             :src="image"
                             width="300"
                             height="400"
                             sizes="50vw sm:50vw md:33vw lg:25vw"
-                            :modifiers="{ trim: 10 }"
                             class="w-full h-full object-contain p-4 mix-blend-multiply pointer-events-none"
                             :loading="index < 1 ? 'eager' : 'lazy'"
                             :fetchpriority="index === 0 ? 'high' : 'low'"
