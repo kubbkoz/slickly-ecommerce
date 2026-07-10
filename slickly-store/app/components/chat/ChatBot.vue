@@ -178,7 +178,7 @@ const startChat = (topicId: string) => {
     else {
         const name = (user.value as any)?.firstName;
         initialText = name && isLoggedIn.value
-          ? `Dobrý deň, ${name}! Som Váš AI asistent SLICKLY.\nPomôžem Vám nájsť vhodný bicykel, e-bike alebo komponenty. Čo hľadáte?`
+          ? `Dobrý deň, ${name}! Som Váš AI asistent SLICKLY.\nPomôžem Vám nájsť vhodnú autokozmetiku, detailing produkty alebo príslušenstvo. Čo hľadáte?`
           : t('chat.initial_messages.fallback');
     }
 

@@ -62,7 +62,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const SUPPORT_PHONE = '+421 948 993 236';
+  const SUPPORT_PHONE = '+421 918 564 238';
   const CACHE_TTL = 1800; // 30 min
 
   try {

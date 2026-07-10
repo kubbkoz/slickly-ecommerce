@@ -37,9 +37,9 @@ export default {
     sold_out: "Sold out"
   },
   home_seo: {
-    title: "SLICKLY - Fahrräder, E-Bikes, Zubehör und Komponenten",
-    description: "Kaufen Sie Fahrräder, E-Bikes, Radsportbekleidung und Komponenten online mit Lieferung in der ganzen Slowakei.",
-    keywords: "Fahrräder, E-Bikes, Radsport, MTB, Gravel, Mountainbikes, Rennräder, Zubehör, Komponenten"
+    title: "Autopflegeprodukte und Zubehör",
+    description: "Kaufen Sie Autopflegeprodukte, Detailing-Produkte und Zubehör online mit Lieferung in der ganzen Slowakei.",
+    keywords: "Autopflege, Detailing, Autokosmetik, Lackschutz, Politur, Außenpflege, Innenraumpflege, Zubehör"
   },
   chat: {
     header: "Kundensupport",
@@ -61,18 +61,18 @@ export default {
       order: { label: "Bestellstatus prüfen", description: "Wo befindet sich mein Paket?" },
       claim: { label: "Reklamation", description: "Technisches Problem oder Defekt" },
       return: { label: "Warenrücksendung", description: "Verfahren für Rücksendung innerhalb von 14 Tagen" },
-      service: { label: "Serviceauftrag", description: "Buchung eines Servicetermins" },
+      service: { label: "Fachberatung", description: "Wir helfen bei der Produktauswahl" },
       call: { label: "Anrufen", description: "Telefonischer Kontakt zu unseren Abteilungen" }
     },
     initial_messages: {
       order: "Guten Tag! Wenn Sie Ihren Bestellstatus überprüfen möchten, geben Sie bitte die Bestellnummer an (z. B. 230912).",
       claim: "Guten Tag. Welches Problem liegt bei der Ware vor? Bitte beschreiben Sie den Defekt und geben Sie die Bestellnummer für eine schnellere Bearbeitung an.",
       return: "Guten Tag. Für die Rücksendung der Ware benötigen Sie die Bestellnummer. Stellen Sie sicher, dass Sie die Ware ungetragen und in der Originalverpackung zurücksenden. Wie kann ich Ihnen bei dem Prozess helfen?",
-      service: "Guten Tag. Möchten Sie einen Service für Ihr Fahrrad vereinbaren? Schreiben Sie uns den Fahrradtyp und den bevorzugten Termin oder welche Probleme Sie lösen müssen.",
-      call: "Unsere Kollegen stehen Ihnen unter diesen Nummern zur Verfügung: E-Shop Infoline: +421 948 993 236, Reklamationen: +421 940 506 003",
-      fallback: "Hallo! Ich bin Ihr KI-Assistent von SLICKLY. Suchen Sie ein Fahrrad für eine bestimmte Größe, ein E-Bike bis einem bestimmten Preis oder benötigen Sie Beratung zur Ausrüstung?"
+      service: "Guten Tag. Wissen Sie nicht, welches Produkt das richtige ist? Schreiben Sie uns, um welches Auto Sie sich kümmern und was Sie lösen möchten, wir beraten Sie gerne.",
+      call: "Unsere Kollegen stehen Ihnen unter dieser Nummer zur Verfügung: +421 918 564 238",
+      fallback: "Hallo! Ich bin Ihr KI-Assistent von SLICKLY. Suchen Sie Autopflegeprodukte, Detailing-Produkte oder Zubehör? Schreiben Sie mir einfach, wonach Sie suchen."
     },
-    system_instruction: "Sie sind ein fachkundiger Verkaufsassistent für den Radsport bei SLICKLY. Sie kommunizieren ausschließlich in deutscher Sprache. Ihr Ton ist professionell, enthusiastisch und hilfsbereit. Sie haben Zugriff auf die Produktliste. Beantworten Sie Benutzerfragen NUR auf der Grundlage des bereitgestellten Inventars. Wenn Sie Produkte empfehlen, listen Sie deren IDs im Format [[IDS: id1, id2]] auf. Wenn es keine Übereinstimmung gibt, schlagen Sie die nächstgelegenen Alternativen vor."
+    system_instruction: "Sie sind ein fachkundiger Verkaufsassistent für Autopflegeprodukte und Zubehör bei SLICKLY. Sie kommunizieren ausschließlich in deutscher Sprache. Ihr Ton ist professionell, enthusiastisch und hilfsbereit. Sie haben Zugriff auf die Produktliste. Beantworten Sie Benutzerfragen NUR auf der Grundlage des bereitgestellten Inventars. Wenn Sie Produkte empfehlen, listen Sie deren IDs im Format [[IDS: id1, id2]] auf. Wenn es keine Übereinstimmung gibt, schlagen Sie die nächstgelegenen Alternativen vor."
   },
   cart: {
     header: "Warenkorb",
@@ -86,8 +86,6 @@ export default {
     categories: "Kategorien",
     menu: {
       categories: "Kategorien",
-      bikes: "Fahrräder",
-      ebikes: "E-Bikes",
       service: "Service",
       about: "Über uns",
       contact: "Kontakt",

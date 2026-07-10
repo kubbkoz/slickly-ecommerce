@@ -17,7 +17,7 @@ export function useLocalBusinessJsonLD(): void {
     name: 'SLICKLY',
     alternateName: 'SLICKLY',
     description:
-      'SLICKLY je výhradne online obchod — bicykle, elektrobicykle, doplnky a komponenty s doručením po celom Slovensku a do okolitých krajín.',
+      'SLICKLY je výhradne online obchod — autokozmetika, detailing produkty a príslušenstvo pre starostlivosť o auto s doručením po celom Slovensku a do okolitých krajín.',
     url: baseUrl,
     logo: {
       '@type': 'ImageObject',
@@ -47,7 +47,8 @@ export function useLocalBusinessJsonLD(): void {
         availableLanguage: ['Slovak', 'Czech', 'English'],
       },
     ],
-    foundingDate: '2010',
+    // foundingDate zámerne vynechaný — pôvodná hodnota '2010' bola zdedená z
+    // MTSPORT branding a nedá sa overiť ako reálny SLICKLY dátum založenia.
   };
 
   useHead({

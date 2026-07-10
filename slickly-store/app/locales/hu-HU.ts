@@ -37,9 +37,9 @@ export default {
     sold_out: "Sold out"
   },
   home_seo: {
-    title: "SLICKLY - Kerékpárok, elektromos kerékpárok, kiegészítők és komponensek",
-    description: "Vásároljon kerékpárokat, elektromos kerékpárokat, kerékpáros felszereléseket és komponenseket online, kiszállítással egész Szlovákiában.",
-    keywords: "kerékpárok, elektromos kerékpárok, kerékpározás, MTB, gravel, hegyi kerékpárok, kiegészítők, komponensek"
+    title: "Autókozmetika és kiegészítők",
+    description: "Vásároljon autókozmetikai termékeket, detailing termékeket és kiegészítőket online, kiszállítással egész Szlovákiában.",
+    keywords: "autókozmetika, detailing, autóápolás, karosszériavédelem, polírozás, exteriőr, belső tér, kiegészítők"
   },
   chat: {
     header: "Ügyfélszolgálat",
@@ -61,18 +61,18 @@ export default {
       order: { label: "Rendelés állapotának ellenőrzése", description: "Hol van a csomagom?" },
       claim: { label: "Reklamáció", description: "Technikai probléma vagy hiba" },
       return: { label: "Áruvisszaküldés", description: "Visszaküldési folyamat 14 napon belül" },
-      service: { label: "Szerviz rendelés", description: "Szerviz időpont foglalása" },
+      service: { label: "Szakértői tanácsadás", description: "Segítünk a megfelelő termék kiválasztásában" },
       call: { label: "Hívás", description: "Telefonos kapcsolat osztályainkkal" }
     },
     initial_messages: {
       order: "Üdvözöljük! Ha szeretné ellenőrizni a rendelése állapotát, kérjük, írja meg a rendelésszámát (pl. 230912).",
       claim: "Üdvözöljük. Mi a probléma a termékkel? Kérjük, írja le a hibát, és adja meg a rendelésszámot a gyorsabb feldolgozás érdekében.",
       return: "Üdvözöljük. Az áru visszaküldéséhez szüksége lesz a rendelésszámra. Győződjön meg róla, hogy a terméket nem használt állapotban, eredeti csomagolásban küldi vissza. Hogyan segíthetek a folyamatban?",
-      service: "Üdvözöljük. Szeretne szerviz időpontot kérni a kerékpárjához? Írja meg nekünk a kerékpár típusát és a preferált időpontot, vagy azt, hogy milyen problémát kell megoldanunk.",
-      call: "Kollégáink az alábbi számokon érhetők el: E-shop Infoline: +421 948 993 236, Reklamációk: +421 940 506 003",
-      fallback: "Szia! Én vagyok az SLICKLY AI asszisztense. Kerékpárt keresel egy adott magassághoz, e-bike-ot egy bizonyos árig, vagy tanácsra van szükséged a felszereléssel kapcsolatban?"
+      service: "Üdvözöljük. Nem biztos benne, melyik terméket válassza? Írja meg nekünk, milyen autóval foglalkozik és mit szeretne megoldani, szívesen segítünk.",
+      call: "Kollégáink ezen a számon érhetők el: +421 918 564 238",
+      fallback: "Szia! Én vagyok az SLICKLY AI asszisztense. Autókozmetikai termékeket, detailing termékeket vagy kiegészítőket keresel? Csak írd meg, mit keresel."
     },
-    system_instruction: "Ön az SLICKLY szakértő kerékpár-értékesítési asszisztense. Kizárólag magyar nyelven kommunikál. Hangneme professzionális, lelkes és segítőkész. Hozzáférése van a terméklistához. A felhasználói kérdésekre CSAK a megadott készlet alapján válaszoljon. Ha termékeket ajánl, sorolja fel az azonosítóikat [[IDS: id1, id2]] formátumban. Ha nincs találat, javasolja a legközelebbi alternatívákat."
+    system_instruction: "Ön az SLICKLY szakértő autókozmetikai és kiegészítő-értékesítési asszisztense. Kizárólag magyar nyelven kommunikál. Hangneme professzionális, lelkes és segítőkész. Hozzáférése van a terméklistához. A felhasználói kérdésekre CSAK a megadott készlet alapján válaszoljon. Ha termékeket ajánl, sorolja fel az azonosítóikat [[IDS: id1, id2]] formátumban. Ha nincs találat, javasolja a legközelebbi alternatívákat."
   },
   cart: {
     header: "Bevásárlókosár",
@@ -86,8 +86,6 @@ export default {
     categories: "Kategóriák",
     menu: {
       categories: "Kategóriák",
-      bikes: "Kerékpárok",
-      ebikes: "Elektromos kerékpárok",
       service: "Szerviz",
       about: "Rólunk",
       contact: "Kapcsolat",

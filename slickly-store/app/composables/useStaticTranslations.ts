@@ -45,7 +45,7 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     prezriet: { sk: 'Prezrieť', cz: 'Prohlédnout', pl: 'Zobacz', de: 'Ansehen', en: 'View', hu: 'Megtekintés' },
     vyber_si: { sk: 'Vyberte si', cz: 'Vyběrte si', pl: 'Wybierz', de: 'Wähle', en: 'Choose', hu: 'Válassz' },
     kategoriu: { sk: 'Kategóriu', cz: 'Kategorii', pl: 'Kategorię', de: 'Kategorie', en: 'Category', hu: 'Kategóriát' },
-    category_grid_subtext: { sk: 'Objavte našu širokú ponuku bicyklov, e-bikov, ale aj doplnkov a komponentov', cz: 'Objevte naši širokou nabídku kol, e-biků, ale i doplňků a komponentů', pl: 'Odkryj naszą szeroką ofertę rowerów, e-bike\'ów, akcesoriów i komponentów', de: 'Entdecken Sie unser breites Angebot an Fahrrädern, E-Bikes, Zubehör und Komponenten', en: 'Discover our wide range of bicycles, e-bikes, accessories and components', hu: 'Fedezze fel kerékpárok, e-bike-ok, kiegészítők és alkatrészek széles választékát' },
+    category_grid_subtext: { sk: 'Objavte našu širokú ponuku autokozmetiky, detailing produktov a príslušenstva', cz: 'Objevte naši širokou nabídku autokosmetiky, detailingových produktů a příslušenství', pl: 'Odkryj naszą szeroką ofertę kosmetyków samochodowych, produktów detailingowych i akcesoriów', de: 'Entdecken Sie unser breites Angebot an Autopflegeprodukten, Detailing-Produkten und Zubehör', en: 'Discover our wide range of car care products, detailing products and accessories', hu: 'Fedezze fel autókozmetikai termékek, detailing termékek és kiegészítők széles választékát' },
     // Značky
     znacky: { sk: 'Značky', cz: 'Značky', pl: 'Marki', de: 'Marken', en: 'Brands', hu: 'Márkák' },
     vsetky_znacky: { sk: 'Všetky značky', cz: 'Všechny značky', pl: 'Wszystkie marki', de: 'Alle Marken', en: 'All brands', hu: 'Összes márka' },
@@ -69,14 +69,6 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     chyba_analyza: { sk: 'Chyba pri analýze obrázka.', cz: 'Chyba při analýze obrázku.', pl: 'Błąd podczas analizy obrazu.', de: 'Fehler bei der Bildanalyse.', en: 'Error analyzing image.', hu: 'Hiba a kép elemzésekor.' },
     nepodporuje_hlas: { sk: 'Vaše zariadenie nepodporuje hlasové vyhľadávanie.', cz: 'Vaše zařízení nepodporuje hlasové vyhledávání.', pl: 'Twoje urządzenie nie obsługuje wyszukiwania głosowego.', de: 'Ihr Gerät unterstützt keine Sprachsuche.', en: 'Your device does not support voice search.', hu: 'Az eszköze nem támogatja a hangkeresést.' },
     chyba_mikrofon: { sk: 'Nepodarilo sa spustiť mikrofón.', cz: 'Nepodařilo se spustit mikrofon.', pl: 'Nie udało się uruchomić mikrofonu.', de: 'Fehler beim Starten des Mikrofons.', en: 'Failed to start microphone.', hu: 'Nem sikerült elindítani a mikrofont.' },
-
-    // Search categories (popular)
-    elektrobicykle: { sk: 'Elektrobicykle', cz: 'Elektrokola', pl: 'Rowery elektryczne', de: 'E-Bikes', en: 'Electric bicycles', hu: 'Elektromos kerékpárok' },
-    horske_bicykle: { sk: 'Horské bicykle', cz: 'Horská kola', pl: 'Rowery górskie', de: 'Mountainbikes', en: 'Mountain bikes', hu: 'Hegyi kerékpárok' },
-    prilby: { sk: 'Prilby', cz: 'Přilby', pl: 'Kaski', de: 'Helme', en: 'Helmets', hu: 'Sisakok' },
-    tretry: { sk: 'Tretry', cz: 'Tretry', pl: 'Buty rowerowe', de: 'Fahrradschuhe', en: 'Cycling shoes', hu: 'Kerékpáros cipők' },
-    dresy: { sk: 'Dresy', cz: 'Dresy', pl: 'Koszulki', de: 'Trikots', en: 'Jerseys', hu: 'Mezek' },
-    komponenty: { sk: 'Komponenty', cz: 'Komponenty', pl: 'Komponenty', de: 'Komponenten', en: 'Components', hu: 'Alkatrészek' },
 };
 
 import { useI18n, useRoute } from '#imports';

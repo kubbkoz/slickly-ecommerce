@@ -4,12 +4,11 @@
  * Intercepts search queries BEFORE sending to Shopware and resolves them
  * to smarter navigation targets:
  *
- *  "bicykel"           → /bicykle (category redirect)
- *  "ebike"             → /elektrobicykle (synonym → category)
- *  "horský bicykel"    → Horské bicykle subcategory (if in nav tree cache)
+ *  "lestenie"          → /lestenie (category redirect)
+ *  "ochrana karoserie" → /ochrana-karoserie (synonym → category)
  *  "do 1000€"          → /search?search=...&max_price=1000
- *  "bicykel skladom"   → /search?search=bicykel&in_stock=1
- *  "superior"          → /search?search=superior (brand → passthrough)
+ *  "vosk skladom"      → /search?search=vosk&in_stock=1
+ *  "meguiars"          → /search?search=meguiars (brand → passthrough)
  *
  * Cache key strategy:
  *  DesktopNav.vue uses  → `desktop-nav-${languageId}`   (on EVERY page, with children)
@@ -27,116 +26,54 @@ const norm = (s: string): string =>
 // ── Synonym map: normalized alias → normalized category name ───────────────────
 // Category names are matched against live nav tree (no hardcoded slugs).
 const SYNONYMS: Record<string, string> = {
-    // ── Bicycles — generic ──────────────────────────────────────────────────
-    'bicykel':                   'bicykle',
-    'bike':                      'bicykle',
-    'kolo':                      'bicykle',
-    'koleso':                    'bicykle',
-    'dvojkolka':                 'bicykle',
-    'cyklistika':                'bicykle',
+    // ── Exteriér ──────────────────────────────────────────────────────────────
+    'exterier':                  'exterier',
+    'exterior':                  'exterier',
+    'umyvanie auta':             'exterier',
+    'mytie auta':                'exterier',
+    'vosk na auto':              'exterier',
+    'sampon na auto':            'exterier',
+    'vonkajsia starostlivost':   'exterier',
 
-    // ── E-bikes — generic ───────────────────────────────────────────────────
-    'elektrobicykel':            'elektrobicykle',
-    'ebike':                     'elektrobicykle',
-    'e-bike':                    'elektrobicykle',
-    'elektrobike':               'elektrobicykle',
-    'elektrokolo':               'elektrobicykle',
-    'pedelec':                   'elektrobicykle',
-    'elektricky bicykel':        'elektrobicykle',
-    'elektricke bicykle':        'elektrobicykle',
+    // ── Interiér ──────────────────────────────────────────────────────────────
+    'interier':                  'interier',
+    'interior':                  'interier',
+    'cistenie interieru':        'interier',
+    'vnutro auta':               'interier',
+    'cistic na tapicie':         'interier',
 
-    // ── Bicycles — subcategories ─────────────────────────────────────────────
-    'horsky bicykel':            'horske bicykle',
-    'horske bicykle':            'horske bicykle',
-    'mtb':                       'horske bicykle',
-    'mountain bike':             'horske bicykle',
-    'xc':                        'horske bicykle',
-    'horsko':                    'horske bicykle',
+    // ── Leštenie ──────────────────────────────────────────────────────────────
+    'lestenie':                  'lestenie',
+    'polish':                    'lestenie',
+    'polirovanie':               'lestenie',
+    'lesk':                      'lestenie',
+    'lestidlo':                  'lestenie',
+    'lestiaca pasta':            'lestenie',
 
-    'celoodpruzeny':             'celoodprusene bicykle',
-    'celoodpruzene':             'celoodprusene bicykle',
-    'full suspension':           'celoodprusene bicykle',
-    'full sus':                  'celoodprusene bicykle',
-    'fullsuspension':            'celoodprusene bicykle',
+    // ── Ochrana karosérie ─────────────────────────────────────────────────────
+    'ochrana karoserie':         'ochrana karoserie',
+    'ochranna folia':            'ochrana karoserie',
+    'keramicka ochrana':         'ochrana karoserie',
+    'ceramic coating':           'ochrana karoserie',
+    'karoseria':                 'ochrana karoserie',
+    'ochrana laku':              'ochrana karoserie',
 
-    'kros':                      'krosove bicykle',
-    'crossovy bicykel':          'krosove bicykle',
-    'krosovy bicykel':           'krosove bicykle',
-    'krosove bicykle':           'krosove bicykle',
-    'cross':                     'krosove bicykle',
-    'crossover':                 'krosove bicykle',
+    // ── Príslušenstvo ─────────────────────────────────────────────────────────
+    'prislusenstvo':             'prislusenstvo',
+    'doplnky':                   'prislusenstvo',
+    'accessory':                 'prislusenstvo',
+    'handricky':                 'prislusenstvo',
+    'mikrovlaknova handricka':   'prislusenstvo',
+    'hubky':                     'prislusenstvo',
+    'vedra':                     'prislusenstvo',
 
-    'treking':                   'trekingove bicykle',
-    'trekingovy bicykel':        'trekingove bicykle',
-    'trekingove bicykle':        'trekingove bicykle',
-    'trekking':                  'trekingove bicykle',
-
-    'gravel':                    'gravel bicykle',
-    'gravelbike':                'gravel bicykle',
-    'gravel bike':               'gravel bicykle',
-
-    'cestny bicykel':            'cestne bicykle',
-    'cestne bicykle':            'cestne bicykle',
-    'silnicny bicykel':          'cestne bicykle',
-    'road bike':                 'cestne bicykle',
-
-    'mestsky bicykel':           'mestske bicykle',
-    'mestske bicykle':           'mestske bicykle',
-    'city bike':                 'mestske bicykle',
-    'bicykel do mesta':          'mestske bicykle',
-    'mestska':                   'mestske bicykle',
-
-    'detsky bicykel':            'detske bicykle',
-    'detske bicykle':            'detske bicykle',
-    'bicykel pre dieta':         'detske bicykle',
-    'kolieska':                  'detske bicykle',
-
-    'odrazadlo':                 'odrazadla',
-    'odrazadla':                 'odrazadla',
-    'bezkolo':                   'odrazadla',
-    'run bike':                  'odrazadla',
-
-    'bmx':                       'dirt a bmx',
-    'dirt':                      'dirt a bmx',
-    'dirtjump':                  'dirt a bmx',
-
-    // ── E-bikes — subcategories ──────────────────────────────────────────────
-    'mestsky ebike':             'mestske elektrobicykle',
-    'ebike do mesta':            'mestske elektrobicykle',
-    'city ebike':                'mestske elektrobicykle',
-    'elektricky bicykel do mesta':'mestske elektrobicykle',
-    'mestske elektrobicykle':    'mestske elektrobicykle',
-
-    'horsky ebike':              'horske elektrobicykle',
-    'horske elektrobicykle':     'horske elektrobicykle',
-    'ebike mtb':                 'horske elektrobicykle',
-    'mtb ebike':                 'horske elektrobicykle',
-    'hardtail ebike':            'horske elektrobicykle',
-
-    'full sus ebike':            'celoodprusene elektrobicykle',
-    'celoodpruzeny ebike':       'celoodprusene elektrobicykle',
-
-    'trekingovy ebike':          'trekingove elektrobicykle',
-    'trekingove elektrobicykle': 'trekingove elektrobicykle',
-    'trekking ebike':            'trekingove elektrobicykle',
-
-    // ── Other top-level categories ────────────────────────────────────────────
-    'doplnky':                   'doplnky k bicyklom',
-    'doplnky k bicyklom':        'doplnky k bicyklom',
-    'prislusenstvo':             'doplnky k bicyklom',
-    'accessory':                 'doplnky k bicyklom',
-
-    'komponenty':                'komponenty k bicyklom',
-    'komponenty k bicyklom':     'komponenty k bicyklom',
-    'diely':                     'komponenty k bicyklom',
-    'nahradne diely':            'komponenty k bicyklom',
-    'nahradny diel':             'komponenty k bicyklom',
-
-    'oblecenie':                 'oblecenie',
-    'cyklisticke oblecenie':     'oblecenie',
-    'dres':                      'oblecenie',
-    'dres na bicykel':           'oblecenie',
-    'cyklisticke obliecanie':    'oblecenie',
+    // ── Špeciálna ponuka ──────────────────────────────────────────────────────
+    'akcia':                     'specialna ponuka',
+    'akcie':                     'specialna ponuka',
+    'zlava':                     'specialna ponuka',
+    'zlavy':                     'specialna ponuka',
+    'vypredaj':                  'specialna ponuka',
+    'special offer':             'specialna ponuka',
 };
 
 // ── Filter pattern extractors ──────────────────────────────────────────────────
@@ -212,8 +149,8 @@ const lookupCategory = (key: string, catMap: Map<string, string>): string | unde
  * Greedy n-gram search: finds the LONGEST contiguous word sequence
  * that matches a known category, returns the match + remaining words.
  *
- * "horsky bicykel ctm" → { categoryUrl: '/horske-bicykle', remainingWords: ['ctm'] }
- * "ebike dema 2024"    → { categoryUrl: '/elektrobicykle', remainingWords: ['dema', '2024'] }
+ * "ochrana karoserie meguiars" → { categoryUrl: '/ochrana-karoserie', remainingWords: ['meguiars'] }
+ * "lestenie sonax 2024"        → { categoryUrl: '/lestenie', remainingWords: ['sonax', '2024'] }
  */
 const findCategoryWithRemainder = (
     words: string[],
@@ -266,13 +203,13 @@ export const useSearchIntent = () => {
      * Main resolver:
      *
      *  Fast path (synchronous):
-     *    "bicykel"           → { path: '/bicykle', isRedirect: true }
-     *    "ebike"             → { path: '/elektrobicykle', isRedirect: true }
+     *    "lestenie"          → { path: '/lestenie', isRedirect: true }
+     *    "ochrana karoserie" → { path: '/ochrana-karoserie', isRedirect: true }
      *    "do 1000€"          → { path: '/search?max_price=1000', isRedirect: false }
      *
      *  Brand identification via remainder (sync):
-     *    "ebike dema"        → { path: '/elektrobicykle?searchBrand=dema', isRedirect: true }
-     *    "mtb superior"      → { path: '/horske-bicykle?searchBrand=superior', isRedirect: true }
+     *    "lestenie sonax"    → { path: '/lestenie?searchBrand=sonax', isRedirect: true }
+     *    "vosk meguiars"     → { path: '/exterier?searchBrand=meguiars', isRedirect: true }
      */
     const resolve = (query: string): IntentResult => {
         const q = query.trim();

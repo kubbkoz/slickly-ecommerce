@@ -48,8 +48,8 @@ const isOpen = computed(() => {
           <div class="section-decorator mb-8"></div>
 
           <p class="font-sans text-base text-gray-400 font-normal leading-relaxed mb-8 max-w-xl">
-            V prípade akýchkoľvek otázok ohľadom výberu bicykla, jeho špecifikácie,
-            alebo ak chcete iba doladiť správne doplnky k bicyklu, neváhajte nás kontaktovať.
+            V prípade akýchkoľvek otázok ohľadom výberu produktu, jeho špecifikácie,
+            alebo ak chcete iba doladiť správne príslušenstvo, neváhajte nás kontaktovať.
           </p>
 
           <!-- Info bloky -->
@@ -61,18 +61,18 @@ const isOpen = computed(() => {
               <div class="relative z-10">
                 <h3 class="font-tech font-black uppercase tracking-wide text-white text-lg mb-4">Kontakt</h3>
                 <a
-                  href="tel:+421948993236"
+                  href="tel:+421918564238"
                   class="flex items-center gap-2 font-sans text-sm text-gray-400 hover:text-brand transition-colors mb-2"
                 >
                   <PhoneCall class="w-4 h-4 text-brand flex-shrink-0" />
-                  <span>E-shop: <strong class="text-white font-bold">+421 948 993 236</strong></span>
+                  <span>E-shop: <strong class="text-white font-bold">+421 918 564 238</strong></span>
                 </a>
                 <a
-                  href="mailto:info@mtsport.sk"
+                  href="mailto:info@slickly.sk"
                   class="flex items-center gap-2 font-sans text-sm text-gray-400 hover:text-brand transition-colors"
                 >
                   <Mail class="w-4 h-4 text-brand flex-shrink-0" />
-                  <span><strong class="text-white font-bold">info@mtsport.sk</strong></span>
+                  <span><strong class="text-white font-bold">info@slickly.sk</strong></span>
                 </a>
               </div>
             </div>
@@ -112,7 +112,7 @@ const isOpen = computed(() => {
         <!-- RIGHT — CTA buttons -->
         <div class="flex flex-col items-start lg:items-end justify-center lg:pt-16 gap-4">
           <a
-            href="tel:+421948993236"
+            href="tel:+421918564238"
             class="inline-flex items-center gap-3 bg-brand hover:bg-red-700 text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto justify-center"
           >
             <PhoneCall class="w-5 h-5" /> Zavolajte nám

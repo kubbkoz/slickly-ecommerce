@@ -53,8 +53,8 @@ const summary = computed(() => [
         [adresa pre vrátenie — doplniť]
       </p>
       <div class="flex flex-wrap gap-4 text-xs">
-        <a href="tel:+421948993236" class="flex items-center text-gray-700 hover:text-brand">
-          <Phone class="w-3.5 h-3.5 mr-1" /> 0948 993 236
+        <a href="tel:+421918564238" class="flex items-center text-gray-700 hover:text-brand">
+          <Phone class="w-3.5 h-3.5 mr-1" /> 0918 564 238
         </a>
         <a href="mailto:info@slickly.sk" class="flex items-center text-gray-700 hover:text-brand">
           <Mail class="w-3.5 h-3.5 mr-1" /> info@slickly.sk

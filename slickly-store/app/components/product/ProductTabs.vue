@@ -8,7 +8,6 @@ import SpecsTab from './tabs/SpecsTab.vue';
 import ReviewsTab from './tabs/ReviewsTab.vue';
 import DownloadsTab from './tabs/DownloadsTab.vue';
 import DistributorTab from './tabs/DistributorTab.vue';
-import GeometryTab from './tabs/GeometryTab.vue';
 
 const props = defineProps<{
   product: Product;
@@ -16,14 +15,6 @@ const props = defineProps<{
   reviewCount?: number;
   ratingAverage?: number;
 }>();
-
-const runtimeConfig = useRuntimeConfig();
-const { bikes: bikesId, ebikes: ebikesId } = runtimeConfig.public.shopware.ids.categories;
-
-const showGeometryTab = computed(() => {
-  const categoryIds: string[] = (props.product as any).categoryIds || [];
-  return categoryIds.some(id => id === bikesId || id === ebikesId);
-});
 
 const sections = computed(() => [
   { key: 'downloads',   label: 'Dokumenty a manuály na stiahnutie' },
@@ -102,7 +93,6 @@ defineExpose({
           <DescriptionTab  v-if="section.key === 'description'" :product="product" :customFieldsMedia="(product as any).customFieldsMedia" />
           <SpecsTab        v-else-if="section.key === 'specs'"       :product="product" :availableSizes="availableSizes" />
           <ReviewsTab      v-else-if="section.key === 'reviews'"     :product="product" :ratingAverage="ratingAverage" :reviewCount="reviewCount" />
-          <GeometryTab     v-else-if="section.key === 'geometry'"    :product="product" :availableSizes="availableSizes" />
           <DownloadsTab    v-else-if="section.key === 'downloads'" :product="product" />
           <DistributorTab  v-else-if="section.key === 'distributor'" :product="product" />
         </div>

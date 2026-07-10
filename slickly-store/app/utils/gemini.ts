@@ -40,7 +40,7 @@ export async function analyzeImageForSearch(image: { data: string; mimeType: str
         return response.result;
     } catch (error) {
         console.error("Gemini Image Analysis Error:", error);
-        return "Horský bicykel"; // Fallback
+        return "Autokozmetika"; // Fallback
     }
 }
 

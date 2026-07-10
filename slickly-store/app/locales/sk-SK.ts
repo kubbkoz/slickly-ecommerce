@@ -37,9 +37,9 @@ export default {
     sold_out: "Vypredané"
   },
   home_seo: {
-    title: "SLICKLY - Bicykle, elektrobicykle, doplnky a komponenty",
-    description: "Nakúpte bicykle, elektrobicykle, cyklistické oblečenie a komponenty online s doručením po celom Slovensku.",
-    keywords: "bicykle, elektrobicykle, cyklistika, MTB, gravel, horské bicykle, pánske bicykle, dámske bicykle, doplnky, komponenty"
+    title: "Autokozmetika a príslušenstvo",
+    description: "Nakúpte autokozmetiku, detailing produkty a príslušenstvo online s doručením po celom Slovensku.",
+    keywords: "autokozmetika, detailing, starostlivosť o auto, ochrana karosérie, leštenie, exteriér, interiér, príslušenstvo"
   },
   chat: {
     header: "Zákaznícka podpora",
@@ -62,18 +62,18 @@ export default {
       order: { label: "Otázka na objednávku", description: "Pomoc s objednávkou alebo doručením" },
       claim: { label: "Reklamácia tovaru", description: "Technický problém alebo závada" },
       return: { label: "Vrátenie tovaru", description: "Postup pre vrátenie do 14 dní" },
-      service: { label: "Objednávka na servis", description: "Rezervácia termínu v servise" },
+      service: { label: "Odborné poradenstvo", description: "Poradíme s výberom produktov" },
       call: { label: "Zavolať", description: "Telefonický kontakt na naše oddelenia" }
     },
     initial_messages: {
       order: "Dobrý deň! Ak chcete overiť stav objednávky, napíšte mi prosím jej číslo (napr. 230912).",
       claim: "Dobrý deň. O aký problém s tovarom ide? Prosím popíšte závadu a priložte číslo objednávky pre rýchlejšie dohľadanie.",
       return: "Dobrý deň. Pre vrátenie tovaru budete potrebovať číslo objednávky. Uistite sa, že tovar vraciate nenosený a v originálnom balení. Ako vám môžem pomôcť s procesom?",
-      service: "Dobrý deň. Chcete si dohodnúť servis vášho bicykla? Napíšte nám typ bicykla a preferovaný termín, alebo aké problémy potrebujete vyriešiť.",
-      call: "Naši kolegovia sú vám k dispozícii na týchto číslach: Infolinka eshop: +421 948 993 236, Reklamácie: +421 940 506 003",
-      fallback: "Dobrý deň! Som Váš AI asistent SLICKLY.\nPomôžem Vám nájsť vhodný bicykel, e-bike alebo komponenty. Stačí napísať, čo hľadáte."
+      service: "Dobrý deň. Neviete si vybrať vhodný produkt? Napíšte nám, o aké auto sa staráte a čo potrebujete vyriešiť, radi poradíme.",
+      call: "Naši kolegovia sú vám k dispozícii na tomto čísle: +421 918 564 238",
+      fallback: "Dobrý deň! Som Váš AI asistent SLICKLY.\nPomôžem Vám nájsť vhodnú autokozmetiku, detailing produkty alebo príslušenstvo. Stačí napísať, čo hľadáte."
     },
-    system_instruction: "Ste odborný asistent predaja bicyklov pre SLICKLY. Komunikujete výhradne v slovenskom jazyku. Váš tón je profesionálny, nadšený a nápomocný. Máte prístup k zoznamu produktov. Odpovedajte na otázky používateľov len na základe poskytnutého inventára. Ak odporučíte produkty, vypíšte ich ID v formáte [[IDS: id1, id2]]. Ak nie je zhoda, navrhnite najbližšie alternatívy."
+    system_instruction: "Ste odborný asistent predaja autokozmetiky a príslušenstva pre SLICKLY. Komunikujete výhradne v slovenskom jazyku. Váš tón je profesionálny, nadšený a nápomocný. Máte prístup k zoznamu produktov. Odpovedajte na otázky používateľov len na základe poskytnutého inventára. Ak odporučíte produkty, vypíšte ich ID v formáte [[IDS: id1, id2]]. Ak nie je zhoda, navrhnite najbližšie alternatívy."
   },
   cart: {
     header: "Nákupný košík",
@@ -87,8 +87,6 @@ export default {
     categories: "Kategórie",
     menu: {
       categories: "Kategórie",
-      bikes: "Bicykle",
-      ebikes: "Elektrobicykle",
       service: "Servis",
       about: "O nás",
       contact: "Kontakt",

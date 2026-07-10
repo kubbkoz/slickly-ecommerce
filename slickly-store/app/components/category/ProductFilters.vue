@@ -28,8 +28,7 @@ interface Props {
   motorNorm?: { id: string, name: string }[];
   batteryNorm?: { id: string, name: string }[];
   colorsNorm?: { id: string, name: string, color?: string | null }[];
-  
-  riderHeight?: number | null;
+
   selectedWheelsNorm?: string[];
   selectedForkNorm?: string[];
   selectedBrakesNorm?: string[];
@@ -52,7 +51,6 @@ const emit = defineEmits<{
   (e: 'update:inStockOnly', value: boolean): void;
   (e: 'update:onDemandOnly', value: boolean): void;
   (e: 'update:isFeatured', value: boolean): void;
-  (e: 'update:riderHeight', value: number | null): void;
   (e: 'toggleWheelsNorm', value: string): void;
   (e: 'toggleForkNorm', value: string): void;
   (e: 'toggleBrakesNorm', value: string): void;
@@ -64,7 +62,6 @@ const emit = defineEmits<{
 
 const openSections = ref<Record<string, boolean>>({
   price: true,
-  riderHeight: true,
   brands: false,
   motor: false,
   battery: false,
@@ -296,31 +293,6 @@ const trackRight = computed(() => {
       </div>
     </div>
 
-    <!-- Rider Height -->
-    <div class="border-b border-gray-100">
-       <button 
-        @click="toggleSection('riderHeight')"
-        class="flex items-center justify-between w-full py-5 bg-white group transition-colors hover:text-brand"
-        :aria-expanded="openSections.riderHeight"
-        aria-controls="filter-section-height"
-      >
-        <span class="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-900 font-montserrat">Výška jazdca (cm)</span>
-        <ChevronDown :class="`w-4 h-4 text-gray-400 transition-transform duration-300 ${openSections.riderHeight ? 'rotate-180' : ''}`" aria-hidden="true" />
-      </button>
-      <div v-if="openSections.riderHeight" id="filter-section-height" class="pb-6 px-1">
-           <div class="relative">
-              <input 
-                type="number" 
-                min="100" max="220"
-                placeholder="Napr. 180" 
-                :value="riderHeight || ''"
-                @input="(e) => emit('update:riderHeight', (e.target as HTMLInputElement).value ? parseInt((e.target as HTMLInputElement).value) : null)"
-                class="w-full p-4 bg-gray-50 border-none text-sm font-bold text-gray-900 rounded-default focus:ring-1 focus:ring-gray-200 text-center"
-              />
-           </div>
-           <p class="text-[9px] text-gray-400 mt-2 px-1 text-center font-montserrat uppercase tracking-wider">Autom. zúženie bicyklov na vašu postavu.</p>
-      </div>
-    </div>
 
      <!-- 8. Motor Norm (E-bike only) -->
     <div v-if="(categoryName?.toLowerCase().includes('elektro') || categoryName?.toLowerCase().includes('e-bike')) && motorNorm && motorNorm.length > 0" class="border-b border-gray-100">

@@ -272,11 +272,6 @@ const breadcrumbsVisible = computed(() => {
 // ── Shared includes & helpers ──────────────────────────────────────────────
 const config = useRuntimeConfig();
 
-const showGeometryTab = computed(() => {
-  const categoryIds: string[] = (props.product as any).categoryIds || [];
-  return categoryIds.some(id => id === config.public.shopware.ids.categories.bikes || id === config.public.shopware.ids.categories.ebikes);
-});
-
 const CARD_INCLUDES = {
   product: ['id', 'name', 'description', 'translated', 'cover', 'manufacturer', 'options', 'seoUrls',
             'calculatedPrice', 'childCount', 'available', 'availableStock', 'isCloseout',
@@ -629,15 +624,6 @@ watch(() => props.product?.id, (id, oldId) => {
         />
       </div>
     </section>
-
-    <!-- ═══ GEOMETRIA RÁMU — len pre bikes/ebikes ═══ -->
-    <div v-if="showGeometryTab" class="w-full border-t border-gray-100 bg-white">
-      <div class="max-w-[1536px] mx-auto px-4 lg:px-8 py-12 lg:py-16">
-        <h2 class="font-tech font-black uppercase text-2xl tracking-wide text-black mb-4">Geometria rámu</h2>
-        <div class="section-decorator mb-10"></div>
-        <GeometryTab :product="product" :availableSizes="availableSizes" />
-      </div>
-    </div>
 
     <!-- ═══ VÝROBCA + DOKUMENTY — 2 stĺpce ═══ -->
     <div class="w-full border-t border-gray-100 bg-white">

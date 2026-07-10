@@ -75,7 +75,7 @@ export async function fetchAndCacheCatalog(): Promise<CatalogProduct[]> {
         .slice(0, 250) || undefined;
 
       // Properties — rozdelené na specs a sizes
-      const sizeGroupNames = ['veľkosť', 'velkost', 'size', 'rám', 'ram', 'frame', 'velikost'];
+      const sizeGroupNames = ['veľkosť', 'velkost', 'size', 'velikost'];
       const specParts: string[] = [];
       const sizeParts: string[] = [];
 
@@ -193,7 +193,7 @@ export async function searchProducts(params: SearchParams): Promise<CatalogProdu
       const rawDesc = p.translated?.description || p.description || '';
       const description = rawDesc.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200) || undefined;
 
-      const sizeGroupNames = ['veľkosť', 'velkost', 'size', 'rám', 'ram', 'frame', 'velikost'];
+      const sizeGroupNames = ['veľkosť', 'velkost', 'size', 'velikost'];
       const specParts: string[] = [];
       const sizeParts: string[] = [];
       for (const prop of (p.properties || [])) {
@@ -230,29 +230,12 @@ export function buildSearchQuery(text: string): string {
   const t = text.toLowerCase();
   const queries: string[] = [];
 
-  // Kategória bicykla
-  if (/horský|horske|mtb|mountain/.test(t)) queries.push('horský bicykel');
-  else if (/elektr|ebike|e-bike|elektrobicyk/.test(t)) queries.push('elektrobicykel');
-  else if (/gravel|cyklokros/.test(t)) queries.push('gravel');
-  else if (/cestný|cestne|road/.test(t)) queries.push('cestný bicykel');
-  else if (/mestský|mestske|mesto|do mesta|trekking/.test(t)) queries.push('mestský bicykel');
-  else if (/detský|detske/.test(t)) queries.push('detský bicykel');
-
-  // Komponenty (overridujú bicykel ak sú spomenuté)
-  if (/kazeta|cassette/.test(t)) queries.length = 0, queries.push('kazeta');
-  else if (/vidlica|fork/.test(t)) queries.length = 0, queries.push('vidlica');
-  else if (/prehadzovačka|derailleur/.test(t)) queries.length = 0, queries.push('prehadzovačka');
-  else if (/reťaz|chain/.test(t)) queries.length = 0, queries.push('reťaz');
-  else if (/prílba|helma|helmet/.test(t)) queries.length = 0, queries.push('prílba');
-
-  // Značky (pridajú sa ku query ak sú spomenuté)
-  const brands = ['deore', 'xt', 'slx', 'xtr', 'bosch', 'shimano', 'sram', 'bafang', 'yamaha'];
-  for (const brand of brands) {
-    if (t.includes(brand)) {
-      queries.push(brand);
-      break;
-    }
-  }
+  // Kategória starostlivosti o auto
+  if (/exterier|exterior|umyvanie|mytie|vosk/.test(t)) queries.push('exteriér');
+  else if (/interier|interior|tapicie|cistenie interieru/.test(t)) queries.push('interiér');
+  else if (/lestenie|lesk|polish|polirovanie/.test(t)) queries.push('leštenie');
+  else if (/ochrana karoserie|folia|keramick|ceramic|karoseria/.test(t)) queries.push('ochrana karosérie');
+  else if (/prislusenstvo|doplnky|handrick|hubka|vedro/.test(t)) queries.push('príslušenstvo');
 
   return queries.join(' ').trim();
 }
@@ -274,32 +257,12 @@ export function formatCatalogForPrompt(products: CatalogProduct[]): string {
 // ─── Helper konstanty pre kontextový filter ────────────────────────────────
 
 const CATEGORY_KEYWORDS: Record<string, string[]> = {
-  ebike: ['elektrobicyk', 'elektr', 'e-bike', 'ebike', 'e-mtb', 'e-trekking'],
-  mtb: ['horský', 'horske', 'horský bicykel', 'mtb', 'mountain', 'trail', 'enduro', 'hardtail', 'fullsuspension', 'terén'],
-  gravel: ['gravel', 'cyklokros', 'cx'],
-  road: ['cestný', 'cestne', 'cestný bicykel', 'asfalt'],
-  city: ['mestský', 'mestske', 'mestský bicykel', 'mesto', 'do mesta', 'mesta', 'commuting', 'každodenný'],
-  trekking: ['trekking', 'trek', 'výlet', 'tour'],
-  kids: ['detský', 'detske', 'dieťa', 'detsky', 'pre dieťa', 'pre deti'],
-  cassette: ['kazeta', 'cassette'],
-  fork: ['vidlica', 'vidlice', 'fork'],
-  brakes: ['brzda', 'brzdy', 'brake'],
-  saddle: ['sedlo', 'sedla', 'saddle'],
-  pedals: ['pedál', 'pedály', 'pedal'],
-  derailleur: ['prehadzovačka', 'derailleur', 'menič'],
-  chain: ['reťaz', 'reťaze', 'chain'],
-  helmet: ['prílba', 'helma', 'helmet'],
-  light: ['svetlo', 'svetlá', 'light'],
+  exterier: ['exterier', 'exterior', 'umyvanie', 'mytie', 'vosk', 'sampon na auto'],
+  interier: ['interier', 'interior', 'tapicie', 'cistenie interieru', 'vnutro auta'],
+  lestenie: ['lestenie', 'lesk', 'polish', 'polirovanie', 'lestidlo'],
+  'ochrana-karoserie': ['ochrana karoserie', 'folia', 'keramick', 'ceramic', 'karoseria', 'ochrana laku'],
+  prislusenstvo: ['prislusenstvo', 'doplnky', 'handrick', 'hubka', 'vedro'],
 };
-
-const HEIGHT_TO_SIZE: Array<[number, number, string]> = [
-  [0, 155, 'XS'],
-  [155, 165, 'S'],
-  [165, 175, 'M'],
-  [175, 185, 'L'],
-  [185, 195, 'XL'],
-  [195, 999, 'XXL'],
-];
 
 function extractBudget(text: string): { min: number; max: number } {
   // Rozsah "500-1000€" alebo "500 - 1000 €"
@@ -325,18 +288,6 @@ function extractBudget(text: string): { min: number; max: number } {
   return { min: 0, max: 999_999 };
 }
 
-function extractHeight(text: string): number | null {
-  const m = text.match(/(\d{3})\s*cm/);
-  if (!m) return null;
-  const h = parseInt(m[1], 10);
-  return h >= 100 && h <= 250 ? h : null;
-}
-
-function heightToSize(height: number): string | null {
-  const range = HEIGHT_TO_SIZE.find(([min, max]) => height >= min && height < max);
-  return range ? range[2] : null;
-}
-
 function detectCategory(text: string): string {
   for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
     if (keywords.some(kw => text.includes(kw))) return cat;
@@ -345,21 +296,10 @@ function detectCategory(text: string): string {
 }
 
 function matchesCategory(product: CatalogProduct, category: string): boolean {
-  const name = `${product.name} ${product.category}`.toLowerCase();
-  const isEbike = /elektr|ebike|e-bike|e-mtb/.test(name);
-
-  if (category === 'ebike') return isEbike;
   if (!category) return true;
-
+  const name = `${product.name} ${product.category}`.toLowerCase();
   const keywords = CATEGORY_KEYWORDS[category] || [];
-  const hasKeyword = keywords.some(kw => name.includes(kw));
-
-  // Bicyklové kategórie (MTB/gravel/road/city/trekking/kids) — vylúč e-biky
-  const bikeCategories = ['mtb', 'gravel', 'road', 'city', 'trekking', 'kids'];
-  if (bikeCategories.includes(category)) {
-    return hasKeyword && !isEbike;
-  }
-  return hasKeyword;
+  return keywords.some(kw => name.includes(kw));
 }
 
 function projectProduct(p: CatalogProduct) {
@@ -390,29 +330,16 @@ export function buildContextualCatalog(
   ].join(' ').toLowerCase();
 
   const budget = extractBudget(allText);
-  const height = extractHeight(allText);
-  const wantedSize = height ? heightToSize(height) : null;
   const category = detectCategory(allText);
 
-  // Krok 1: Striktný filter — cena + kategória + veľkosť (ak je)
+  // Krok 1: Striktný filter — cena + kategória
   let filtered = products.filter(p => {
     if (p.price < budget.min || p.price > budget.max) return false;
     if (category && !matchesCategory(p, category)) return false;
-    if (wantedSize && p.sizes && !p.sizes.toUpperCase().includes(wantedSize)) return false;
     return true;
   });
 
-  // Krok 2: Ak málo, povol produkty bez "sizes" pole (neznáma veľkosť = OK)
-  if (filtered.length < 5 && wantedSize) {
-    filtered = products.filter(p => {
-      if (p.price < budget.min || p.price > budget.max) return false;
-      if (category && !matchesCategory(p, category)) return false;
-      // Akceptuje aj produkty bez sizes (neznáma veľkosť)
-      return !p.sizes || p.sizes.toUpperCase().includes(wantedSize);
-    });
-  }
-
-  // Krok 3: Ak stále málo, uvoľni cenu (širší rozsah)
+  // Krok 2: Ak stále málo, uvoľni cenu (širší rozsah)
   if (filtered.length < 5) {
     const widerMin = budget.min * 0.7;
     const widerMax = budget.max * 1.5;
@@ -423,7 +350,7 @@ export function buildContextualCatalog(
     });
   }
 
-  // Krok 4: Posledný fallback — len kategória, žiadna cena
+  // Krok 3: Posledný fallback — len kategória, žiadna cena
   if (filtered.length < 3 && category) {
     filtered = products.filter(p => matchesCategory(p, category));
   }
@@ -433,8 +360,7 @@ export function buildContextualCatalog(
 
   const toShow = filtered.slice(0, 60);
   console.info(
-    `[catalog] Filter: cat=${category || 'any'}, price=${Math.round(budget.min)}-${Math.round(budget.max)}€, ` +
-    `size=${wantedSize || 'any'}, height=${height || 'unknown'} → ${toShow.length}/${products.length} products`
+    `[catalog] Filter: cat=${category || 'any'}, price=${Math.round(budget.min)}-${Math.round(budget.max)}€ → ${toShow.length}/${products.length} products`
   );
 
   return JSON.stringify(toShow.map(projectProduct));

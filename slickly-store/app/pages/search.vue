@@ -69,11 +69,11 @@ const pageTitle = computed(() =>
 
 const metaDescription = computed(() =>
     searchTerm.value && total.value > 0
-        ? `Nájdených ${total.value} produktov pre "${searchTerm.value}". Bicykle, helmy, komponenty a príslušenstvo na SLICKLY.`
-        : 'Vyhľadajte bicykle, helmy, komponenty a cyklistické príslušenstvo na SLICKLY.'
+        ? `Nájdených ${total.value} produktov pre "${searchTerm.value}". Autokozmetika, detailing a príslušenstvo na SLICKLY.`
+        : 'Vyhľadajte autokozmetiku, detailing produkty a príslušenstvo na SLICKLY.'
 );
 
-const _siteUrl = (useRuntimeConfig().public.siteUrl as string) || 'https://mtsport.store';
+const _siteUrl = (useRuntimeConfig().public.siteUrl as string) || 'https://slickly.sk';
 useHead({
     title: pageTitle,
     link: computed(() => [

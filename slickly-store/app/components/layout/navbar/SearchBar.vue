@@ -50,8 +50,8 @@ watch(searchInputComp, (comp) => {
 
 // ── Static data ───────────────────────────────────────────────────────────────
 const trendingSearches = [
-    'Elektrobicykle', 'Flaše na bicykel', 'Panské bicykle',
-    'Oblečenie', 'DEMA', 'Horské elektrobicykle',
+    'Exteriér', 'Leštenie', 'Ochrana karosérie',
+    'Interiér', 'Príslušenstvo', 'Špeciálna ponuka',
 ];
 
 // ── Lifecycle ─────────────────────────────────────────────────────────────────

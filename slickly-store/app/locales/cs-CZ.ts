@@ -40,9 +40,9 @@ export default {
     sold_out: "Vyprodáno"
   },
   home_seo: {
-    title: "SLICKLY - Jízdní kola, elektrokola, doplňky a komponenty",
-    description: "Nakupujte jízdní kola, elektrokola, cyklistické oblečení a komponenty online s doručením po celém Slovensku.",
-    keywords: "jízdní kola, elektrokola, cyklistika, MTB, gravel, horská kola, pánská kola, dámská kola, doplňky, komponenty"
+    title: "Autokosmetika a příslušenství",
+    description: "Nakupujte autokosmetiku, detailingové produkty a příslušenství online s doručením po celém Slovensku.",
+    keywords: "autokosmetika, detailing, péče o auto, ochrana karoserie, leštění, exteriér, interiér, příslušenství"
   },
   chat: {
     header: "Zákaznická podpora",
@@ -64,18 +64,18 @@ export default {
       order: { label: "Zjistit stav objednávky", description: "Kde sa nachádza môj balík?" },
       claim: { label: "Reklamace zboží", description: "Technický problém nebo závada" },
       return: { label: "Vrácení zboží", description: "Postup pro vrácení do 14 dnů" },
-      service: { label: "Objednávka na servis", description: "Rezervace termínu v servisu" },
+      service: { label: "Odborné poradenství", description: "Poradíme s výběrem produktů" },
       call: { label: "Zavolat", description: "Telefonický kontakt na naše oddělení" }
     },
     initial_messages: {
       order: "Dobrý den! Pokud chcete ověřit stav objednávky, napište mi prosím její číslo (např. 230912).",
       claim: "Dobrý den. O jaký problém se zbožím jde? Prosím popište závadu a přiložte číslo objednávky pro rychlejší dohledání.",
       return: "Dobrý den. Pro vrácení zboží budete potřebovat číslo objednávky. Ujistěte se, že zboží vracíte nenošené a v originálním balení. Jak vám mohu pomoci s procesom?",
-      service: "Dobrý den. Chcete si domluvit servis vašeho kola? Napište nám typ kola a preferovaný termín, nebo jaké problémy potřebujete vyřešit.",
-      call: "Naši kolegovia sú vám k dispozícii na týchto číslach: Infolinka eshop: +421 948 993 236, Reklamácie: +421 940 506 003",
-      fallback: "Ahoj! Jsem tvůj AI asistent SLICKLY. Hledáš kolo na konkrétnu výšku, e-bike do určité ceny, nebo potřebuješ poradit s výbavou?"
+      service: "Dobrý den. Nevíte si vybrat vhodný produkt? Napište nám, o jaké auto se staráte a co potřebujete vyřešit, rádi poradíme.",
+      call: "Naši kolegové jsou vám k dispozici na tomto čísle: +421 918 564 238",
+      fallback: "Ahoj! Jsem tvůj AI asistent SLICKLY. Hledáš autokosmetiku, detailingové produkty nebo příslušenství? Stačí napsat, co hledáš."
     },
-    system_instruction: "Jste odborný asistent prodeje kol pro SLICKLY. Komunikujete výhradne v českém jazyce. Váš tón je profesionální, nadšený a nápomocný. Máte prístup k seznamu produktů. Odpovídejte na dotazy uživatelů pouze na základě poskytnutého inventáře. Pokud doporučíte produkty, vypište jejich ID ve formátu [[IDS: id1, id2]]. Pokud není shoda, navrhněte nejbližší alternativy."
+    system_instruction: "Jste odborný asistent prodeje autokosmetiky a příslušenství pro SLICKLY. Komunikujete výhradne v českém jazyce. Váš tón je profesionální, nadšený a nápomocný. Máte prístup k seznamu produktů. Odpovídejte na dotazy uživatelů pouze na základě poskytnutého inventáře. Pokud doporučíte produkty, vypište jejich ID ve formátu [[IDS: id1, id2]]. Pokud není shoda, navrhněte nejbližší alternativy."
   },
   cart: {
     header: "Nákupní košík",
@@ -89,8 +89,6 @@ export default {
     categories: "Kategorie",
     menu: {
       categories: "Kategorie",
-      bikes: "Kola",
-      ebikes: "Elektrokola",
       service: "Servis",
       about: "O nás",
       contact: "Kontakt",

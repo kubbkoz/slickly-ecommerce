@@ -36,8 +36,8 @@ const recognitionRef = ref<any>(null);
 const inputRef       = ref<HTMLInputElement | null>(null);
 
 const trendingSearches = [
-    'Elektrobicykle', 'Fľaše na bicykel', 'Pánske bicykle',
-    'Oblečenie', 'DEMA', 'Horské elektrobicykle',
+    'Exteriér', 'Leštenie', 'Ochrana karosérie',
+    'Interiér', 'Príslušenstvo', 'Špeciálna ponuka',
 ];
 
 // ── Open / close ──────────────────────────────────────────────────────────────

@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
       max_tokens: 500,
       messages: [{
         role: 'user',
-        content: `Si cyklistický odborník. Porovnaj tieto produkty a odporúč najlepší pomer cena/výbava. Odpoveď max 3 vety po slovensky. Buď konkrétny — pomenuj víťaza a prečo.\n\n${summary}`,
+        content: `Si odborník na starostlivosť o auto. Porovnaj tieto produkty a odporúč najlepší pomer cena/výbava. Odpoveď max 3 vety po slovensky. Buď konkrétny — pomenuj víťaza a prečo.\n\n${summary}`,
       }],
     });
     const text = msg.content[0]?.type === 'text' ? msg.content[0].text : '';

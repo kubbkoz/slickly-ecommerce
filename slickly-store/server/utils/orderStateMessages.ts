@@ -8,7 +8,7 @@ export const ORDER_STATES: Record<string, { label: string; message: string }> = 
   },
   in_progress: {
     label: 'V spracovaní',
-    message: 'Na vašej objednávke už pracujeme. Ak ste si objednali bicykel, naši mechanici ho práve skladajú a nastavujú.'
+    message: 'Na vašej objednávke už pracujeme a čoskoro ju odošleme.'
   },
   completed: {
     label: 'Dokončená',
@@ -119,7 +119,7 @@ export function buildCombinedStateMessage(states: {
     return '✅ Platbu sme prijali. Vaša objednávka je v poradí a naši kolegovia v sklade ju práve pripravujú na expedíciu.';
   }
   if (o === 'in_progress' && p === 'paid' && d === 'open') {
-    return '⏳ Na vašej objednávke už pracujeme. Ak ste si objednali bicykel, naši mechanici ho práve skladajú a nastavujú.';
+    return '⏳ Na vašej objednávke už pracujeme a čoskoro ju odošleme.';
   }
   // shipped + paid (akýkoľvek stav objednávky)
   if (d === 'shipped' && p === 'paid') {

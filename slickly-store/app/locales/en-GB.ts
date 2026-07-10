@@ -37,9 +37,9 @@ export default {
     sold_out: "Sold out"
   },
   home_seo: {
-    title: "SLICKLY - Bikes, e-bikes, accessories and components",
-    description: "Shop bikes, e-bikes, cycling clothing and components online with delivery across Slovakia.",
-    keywords: "bikes, e-bikes, cycling, MTB, gravel, mountain bikes, road bikes, accessories, components"
+    title: "Car care products and accessories",
+    description: "Shop car care products, detailing products and accessories online with delivery across Slovakia.",
+    keywords: "car care, detailing, auto cosmetics, paint protection, polishing, exterior, interior, accessories"
   },
   chat: {
     header: "Customer Support",
@@ -61,18 +61,18 @@ export default {
       order: { label: "Check order status", description: "Where is my package?" },
       claim: { label: "Product complaint", description: "Technical problem or defect" },
       return: { label: "Return of goods", description: "Procedure for return within 14 days" },
-      service: { label: "Service order", description: "Booking a service appointment" },
+      service: { label: "Expert advice", description: "We'll help you pick the right product" },
       call: { label: "Call us", description: "Telephone contact for our departments" }
     },
     initial_messages: {
       order: "Hello! If you want to check your order status, please write its number (e.g., 230912).",
       claim: "Hello. What is the problem with the goods? Please describe the defect and include the order number for faster tracking.",
       return: "Hello. To return goods you will need the order number. Make sure you return the goods unworn and in original packaging. How can I help you with the process?",
-      service: "Hello. Do you want to arrange a service for your bike? Write us the type of bike and preferred date, or what problems you need to solve.",
-      call: "Our colleagues are available at these numbers: E-shop Infoline: +421 948 993 236, Complaints: +421 940 506 003",
-      fallback: "Hi! I am your SLICKLY AI assistant. Are you looking for a bike for a specific height, an e-bike up to a certain price, or do you need advice on equipment?"
+      service: "Hello. Not sure which product to pick? Tell us about your car and what you'd like to solve, and we'll gladly help.",
+      call: "Our colleagues are available at this number: +421 918 564 238",
+      fallback: "Hi! I am your SLICKLY AI assistant. Looking for car care products, detailing products, or accessories? Just tell me what you're looking for."
     },
-    system_instruction: "You are an expert cycling sales assistant for SLICKLY. You communicate exclusively in the English language. Your tone is professional, enthusiastic, and helpful. You have access to the product list. Answer user questions based ONLY on the provided inventory. If you recommend products, list their IDs in the format [[IDS: id1, id2]]. If there is no match, suggest the closest alternatives."
+    system_instruction: "You are an expert car care and accessories sales assistant for SLICKLY. You communicate exclusively in the English language. Your tone is professional, enthusiastic, and helpful. You have access to the product list. Answer user questions based ONLY on the provided inventory. If you recommend products, list their IDs in the format [[IDS: id1, id2]]. If there is no match, suggest the closest alternatives."
   },
   cart: {
     header: "Shopping Cart",
@@ -86,8 +86,6 @@ export default {
     categories: "Categories",
     menu: {
       categories: "Categories",
-      bikes: "Bikes",
-      ebikes: "E-Bikes",
       service: "Service",
       about: "About us",
       contact: "Contact",

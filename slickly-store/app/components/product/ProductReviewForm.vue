@@ -214,7 +214,7 @@ const goToRegister = () => {
           v-model="formData.title"
           type="text"
           required
-          placeholder="Stručné zhrnutie (napr. Skvelý bicykel!)"
+          placeholder="Stručné zhrnutie (napr. Skvelý produkt!)"
           class="w-full px-4 py-3 bg-gray-50 border border-transparent focus:border-brand focus:bg-white transition-all outline-none text-sm font-medium"
         />
       </div>

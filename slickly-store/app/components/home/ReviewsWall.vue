@@ -41,7 +41,7 @@ watchEffect(() => {
       type: 'application/ld+json',
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
-        '@type': 'BikeStore',
+        '@type': 'Store',
         name: 'SLICKLY',
         aggregateRating: {
           '@type': 'AggregateRating',

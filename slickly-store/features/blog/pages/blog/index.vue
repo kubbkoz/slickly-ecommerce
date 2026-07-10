@@ -36,9 +36,9 @@ const formatDate = (d: string) =>
 
 useSeoMeta({
   title:       'SLICKLY Blog',
-  description: 'Novinky, recenzie, tipy zo sveta bicyklov.',
+  description: 'Novinky, recenzie, tipy zo sveta starostlivosti o auto.',
   ogTitle:     'SLICKLY Blog',
-  ogDescription: 'Novinky a tipy zo sveta cyklistiky.',
+  ogDescription: 'Novinky a tipy zo sveta autokozmetiky a detailingu.',
   ogType:      'website',
   ogLocale:    'sk_SK',
 });
@@ -57,7 +57,7 @@ useSeoMeta({
           <span class="text-brand text-xs font-bold uppercase tracking-widest font-sans">SLICKLY Blog</span>
         </div>
         <h1 class="text-4xl md:text-5xl font-tech font-black uppercase italic text-white leading-none">
-          Zo sveta <span class="text-brand">cyklistiky</span>
+          Zo sveta <span class="text-brand">starostlivosti o auto</span>
         </h1>
         <div class="section-decorator mt-4"></div>
       </div>

@@ -271,11 +271,11 @@ const expressShipping = computed({
           Pridajte produkty a vráťte sa späť.
         </p>
         <div class="flex flex-wrap gap-3 justify-center mb-8">
-          <BaseLink to="/bicykle" class="flex items-center gap-2 px-4 py-2.5 bg-black text-white text-[11px] font-bold uppercase tracking-widest hover:bg-brand transition-colors">
-            Bicykle
+          <BaseLink to="/exterier" class="flex items-center gap-2 px-4 py-2.5 bg-black text-white text-[11px] font-bold uppercase tracking-widest hover:bg-brand transition-colors">
+            Exteriér
           </BaseLink>
-          <BaseLink to="/e-bike" class="flex items-center gap-2 px-4 py-2.5 bg-black text-white text-[11px] font-bold uppercase tracking-widest hover:bg-brand transition-colors">
-            E-Bike
+          <BaseLink to="/lestenie" class="flex items-center gap-2 px-4 py-2.5 bg-black text-white text-[11px] font-bold uppercase tracking-widest hover:bg-brand transition-colors">
+            Leštenie
           </BaseLink>
           <BaseLink to="/prislusenstvo" class="flex items-center gap-2 px-4 py-2.5 bg-black text-white text-[11px] font-bold uppercase tracking-widest hover:bg-brand transition-colors">
             Príslušenstvo

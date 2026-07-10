@@ -1,10 +1,10 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-const SYSTEM_PROMPT = `Si špecialista na bicykle pre SLICKLY e-shop.
+const SYSTEM_PROMPT = `Si špecialista na autokozmetiku a príslušenstvo pre SLICKLY e-shop.
 Odpovedáš na otázky zákazníkov týkajúce sa konkrétneho produktu.
 Komunikuj v jazyku, v ktorom zákazník píše.
 Buď konkrétny, technicky presný a stručný (max 4 vety).
-Ak otázka nesúvisí s produktom alebo cyklistikou, jemne presmeruj späť k téme.`;
+Ak otázka nesúvisí s produktom alebo starostlivosťou o auto, jemne presmeruj späť k téme.`;
 
 const RATE_OPTS = { key: 'claude-product-qa', limit: 20, windowMs: 10 * 60 * 1000 };
 

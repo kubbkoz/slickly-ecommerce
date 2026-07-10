@@ -4,7 +4,7 @@ const sk: Translation = {
   consentModal: {
     title: 'NASTAVENIA SÚKROMIA',
     description:
-      'Aby sme vám vedeli lepšie poradiť s výberom bicykla a komponentov, používame cookies na analýzu návštevnosti a personalizáciu obsahu. Vaše súkromie je pre nás dôležité — vyberte si, čo nám povolíte spracovávať.',
+      'Aby sme vám vedeli lepšie poradiť s výberom autokozmetiky a príslušenstva, používame cookies na analýzu návštevnosti a personalizáciu obsahu. Vaše súkromie je pre nás dôležité — vyberte si, čo nám povolíte spracovávať.',
     acceptAllBtn: 'Prijať všetky',
     acceptNecessaryBtn: 'Odmietnuť',
     showPreferencesBtn: 'Nastavenia',

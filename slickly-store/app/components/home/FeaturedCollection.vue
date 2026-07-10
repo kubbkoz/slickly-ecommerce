@@ -159,7 +159,7 @@ const handleHeroClick = () => {
           <!-- Empty placeholders if less than 4 products -->
           <template v-if="products.length < 4 && !pending">
             <div v-for="i in (4 - products.length)" :key="`empty-${i}`" class="bg-gray-100/50 border border-dashed border-gray-200 flex items-center justify-center p-6 text-gray-400 italic text-[10px] uppercase font-bold tracking-widest text-center min-h-[350px] rounded-default">
-              Doplňte bicykel v admine
+              Doplňte produkt v admine
             </div>
           </template>
         </div>

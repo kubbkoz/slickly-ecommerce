@@ -25,14 +25,21 @@ const _ogLocaleMap: Record<string, string> = {
 };
 
 useSeoMeta({
-    title:         () => t('home_seo.title'),
     description:   () => t('home_seo.description'),
     keywords:      () => t('home_seo.keywords'),
     ogTitle:       () => t('home_seo.title'),
     ogDescription: () => t('home_seo.description'),
     ogType:        'website',
     ogLocale:      () => _ogLocaleMap[locale.value] || 'sk_SK',
-    ogUrl:         'https://mtsport.store/',
+    ogUrl:         'https://slickly.sk/',
+});
+
+// Front page browser tab title — bypasses the global `titleTemplate: '%s | SLICKLY'`
+// (nuxt.config.ts) so this route alone renders "SLICKLY | <home_seo.title>" (brand
+// first) instead of the site-wide "<title> | SLICKLY" order used on every other page.
+useHead({
+    title: () => t('home_seo.title'),
+    titleTemplate: (title) => `SLICKLY | ${title}`,
 });
 
 const isHomePage = useState('isPageHome', () => false);

@@ -43,13 +43,13 @@ export default defineEventHandler(async (event) => {
           },
           {
             type: 'text',
-            text: 'Analyze this image and extract the most relevant search terms for a bicycle e-shop. Return only a short comma-separated list of keywords in Slovak language (e.g. "horský bicykel, hardtail, 29").',
+            text: 'Analyze this image and extract the most relevant search terms for a car care and detailing e-shop. Return only a short comma-separated list of keywords in Slovak language (e.g. "leštenie, ochrana karosérie, vosk").',
           },
         ],
       },
     ],
   });
 
-  const result = response.content.find((b) => b.type === 'text')?.text ?? 'Bicykel';
+  const result = response.content.find((b) => b.type === 'text')?.text ?? 'Produkt';
   return { result };
 });

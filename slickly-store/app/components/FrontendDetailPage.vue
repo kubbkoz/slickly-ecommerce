@@ -396,7 +396,7 @@ const _seoUrl    = computed(() => _rawProduct.value?.seoUrls?.[0]?.seoPathInfo |
 const _seoName   = computed(() => _rawProduct.value?.translated?.name || _rawProduct.value?.name || '');
 const _seoDesc   = computed(() => (_rawProduct.value?.translated?.metaDescription || '').replace(/<[^>]*>/g, '').substring(0, 160));
 const _seoImage  = computed(() => _rawProduct.value?.cover?.media?.url || '');
-const _siteUrl   = (useRuntimeConfig().public.siteUrl as string) || 'https://mtsport.store';
+const _siteUrl   = (useRuntimeConfig().public.siteUrl as string) || 'https://slickly.sk';
 const _canonical = computed(() => _seoUrl.value ? `${_siteUrl}/${_seoUrl.value}` : '');
 
 const { locale: _locale } = useI18n();
@@ -405,8 +405,8 @@ const _ogLocaleMap: Record<string, string> = {
 };
 
 useSeoMeta({
-  title:              () => _seoName.value ? `${_seoName.value} | MT Sport` : 'MT Sport',
-  ogTitle:            () => _seoName.value || 'MT Sport',
+  title:              () => _seoName.value ? `${_seoName.value} | SLICKLY` : 'SLICKLY',
+  ogTitle:            () => _seoName.value || 'SLICKLY',
   description:        () => _seoDesc.value,
   ogDescription:      () => _seoDesc.value,
   ogImage:            () => _seoImage.value,
@@ -414,7 +414,7 @@ useSeoMeta({
   ogLocale:           () => _ogLocaleMap[_locale.value] || 'sk_SK',
   ogUrl:              () => _canonical.value,
   twitterCard:        'summary_large_image',
-  twitterTitle:       () => _seoName.value || 'MT Sport',
+  twitterTitle:       () => _seoName.value || 'SLICKLY',
   twitterDescription: () => _seoDesc.value,
   twitterImage:       () => _seoImage.value,
 });

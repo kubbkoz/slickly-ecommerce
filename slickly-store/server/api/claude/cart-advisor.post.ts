@@ -50,8 +50,8 @@ export default defineEventHandler(async (event) => {
           properties: {
             tip: {
               type: 'string',
-              description: `Odborný, prívetivý tip od cyklistického špecialistu (max 1 veta). 
-Musí vysvetľovať prečo tieto veci odporúčame k danému bicyklu.`,
+              description: `Odborný, prívetivý tip od špecialistu na starostlivosť o auto (max 1 veta).
+Musí vysvetľovať prečo tieto veci odporúčame k danému produktu.`,
             },
             products: {
               type: 'array',

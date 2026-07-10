@@ -6,11 +6,11 @@ export default defineAppConfig({
   // Central contact info — update here, propagates everywhere
   contact: {
     phone: {
-      main: '+421948993236',
-      mainDisplay: '+421 948 993 236',
-      mainHref: 'tel:+421948993236',
-      complaints: '+421940506003',
-      complaintsDisplay: '+421 940 506 003',
+      main: '+421918564238',
+      mainDisplay: '+421 918 564 238',
+      mainHref: 'tel:+421918564238',
+      complaints: '+421918564238',
+      complaintsDisplay: '+421 918 564 238',
     },
     email: {
       info: 'info@slickly.sk',

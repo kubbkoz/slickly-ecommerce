@@ -1,28 +1,25 @@
-# SLICKLY — Prémiový cyklistický e-shop (online)
+# SLICKLY — Prémiový e-shop s autokozmetikou (online)
 
-> SLICKLY je slovenský online e-shop s bicyklami, elektrobicyklami, cyklistickým oblečením a príslušenstvom. Sme výhradne online obchod s doručením po celom Slovensku a do okolitých krajín. Špecializujeme sa na horské bicykle (MTB), e-bikes, gravel a trekking.
+> SLICKLY je slovenský online e-shop s autokozmetikou, detailing produktmi a príslušenstvom pre starostlivosť o auto. Sme výhradne online obchod s doručením po celom Slovensku a do okolitých krajín. Špecializujeme sa na starostlivosť o exteriér, interiér, leštenie a ochranu karosérie.
 
 ## O nás
 - Web: https://slickly.sk
 - Forma: výhradne online obchod (bez kamennej predajne)
-- Tel: +421 948 993 236
+- Tel: +421 918 564 238
 - Email: info@slickly.sk
 
 ## Hlavné kategórie produktov
-- [Bicykle](https://slickly.sk/bicykle) — horské, silničné, gravel, trekking, detské
-- [Elektrobicykle](https://slickly.sk/elektrobicykle) — e-MTB, e-trekking, e-road
-- [Doplnky](https://slickly.sk/doplnky) — helmy, svetlá, zámky, tachometre
-- [Komponenty](https://slickly.sk/komponenty) — pohony, kolesá, vidlice, sedlá
-- [Oblečenie](https://slickly.sk/oblecenie) — cyklistické dresy, nohavice, obuv
+- Exteriér — starostlivosť o vonkajší povrch vozidla
+- Interiér — čistenie a starostlivosť o interiér
+- Leštenie — leštiace prípravky a technika
+- Ochrana karosérie — produkty na ochranu laku a karosérie
+- Príslušenstvo — doplnky pre starostlivosť o auto
+- Špeciálna ponuka — aktuálne akcie a novinky
 
 ## Kľúčové informácie pre AI
-- Predávame značky: Scott, Kellys, Kands, Trek, Giant, Specialized, Shimano, SRAM
-- Doručenie: Balíkovo, SPS Kuriér, Toptrans (bicykle)
+- Doručenie: Balíkovo, SPS Kuriér
 - Krajiny dopravy: Slovensko, Česko, Poľsko, Maďarsko, Nemecko, Rakúsko
-- Reklamácie: +421 940 506 003
-
-## AI konfigurátor
-- [Bike Konfigurátor](https://slickly.sk/konfigurator) — AI sprievodca výberom bicykla
+- Reklamácie: +421 918 564 238
 
 ## Technická dokumentácia
 - [Sitemap](https://slickly.sk/sitemap.xml)

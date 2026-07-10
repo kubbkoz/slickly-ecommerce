@@ -37,9 +37,9 @@ export default {
     sold_out: "Wyprzedane"
   },
   home_seo: {
-    title: "SLICKLY - Rowery, rowery elektryczne, akcesoria i komponenty",
-    description: "Kupuj rowery, rowery elektryczne, odzież rowerową i komponenty online z dostawą na terenie całej Słowacji.",
-    keywords: "rowery, rowery elektryczne, kolarstwo, MTB, gravel, rowery górskie, rowery szosowe, akcesoria, komponenty"
+    title: "Kosmetyka samochodowa i akcesoria",
+    description: "Kupuj kosmetyki samochodowe, produkty detailingowe i akcesoria online z dostawą na terenie całej Słowacji.",
+    keywords: "kosmetyka samochodowa, detailing, pielęgnacja auta, ochrona karoserii, polerowanie, eksterier, wnętrze, akcesoria"
   },
   chat: {
     header: "Wsparcie klienta",
@@ -61,18 +61,18 @@ export default {
       order: { label: "Sprawdź status zamówienia", description: "Gdzie jest moja paczka?" },
       claim: { label: "Reklamacja towaru", description: "Problem techniczny lub wada" },
       return: { label: "Zwrot towaru", description: "Procedura zwrotu w ciągu 14 dni" },
-      service: { label: "Zlecenie serwisowe", description: "Rezerwacja terminu w serwisie" },
+      service: { label: "Porada eksperta", description: "Doradzimy w wyborze produktów" },
       call: { label: "Zadzwoń", description: "Kontakt telefoniczny z naszymi działami" }
     },
     initial_messages: {
       order: "Dzień dobry! Jeśli chcesz sprawdzić status swojego zamówienia, podaj jego numer (np. 230912).",
       claim: "Dzień dobry. Jaki jest problem z towarem? Prosimy o opisanie wady i podanie numeru zamówienia w celu szybszej weryfikacji.",
       return: "Dzień dobry. Do zwrotu towaru potrzebny będzie numer zamówienia. Upewnij się, že zwracasz towar nienoszony i v oryginalnym opakowaniu. Jak mogę Ci pomóc w tym procesie?",
-      service: "Dzień dobry. Czy chcesz umówić się na serwis Rowery? Napisz nam typ roweru i preferowany termin, lub jakie problemy musimy rozwiązać.",
-      call: "Nasi koledzy są do Twojej dyspozycji pod tymi numerami: Infolinka e-sklepu: +421 948 993 236, Reklamacje: +421 940 506 003",
-      fallback: "Cześć! Jestem Twoim asystentem AI SLICKLY. Szukasz roweru na konkretny wzrost, e-roweru do określonej ceny, czy potrzebujesz porady dotyczącej sprzętu?"
+      service: "Dzień dobry. Nie wiesz, jaki produkt wybrać? Napisz nam, o jaki samochód dbasz i co chcesz rozwiązać, chętnie doradzimy.",
+      call: "Nasi koledzy są do Twojej dyspozycji pod tym numerem: +421 918 564 238",
+      fallback: "Cześć! Jestem Twoim asystentem AI SLICKLY. Szukasz kosmetyki samochodowej, produktów detailingowych lub akcesoriów? Wystarczy napisać, czego szukasz."
     },
-    system_instruction: "Jesteś eksperckim asystentem sprzedaży rowerów w SLICKLY. Komunikujesz się wyłącznie w języku polskim. Twój ton jest profesjonalny, entuzjastyczny i pomocny. Masz dostęp do listy produktów. Odpowiadaj na pytania użytkowników wyłącznie na podstawie dostarczonego asortymentu. Jeśli polecasz produkty, wymień ich identyfikatory w formacie [[IDS: id1, id2]]. Jeśli nie ma dopasowania, zaproponuj najbliższe alternatywy."
+    system_instruction: "Jesteś eksperckim asystentem sprzedaży kosmetyki samochodowej i akcesoriów w SLICKLY. Komunikujesz się wyłącznie w języku polskim. Twój ton jest profesjonalny, entuzjastyczny i pomocny. Masz dostęp do listy produktów. Odpowiadaj na pytania użytkowników wyłącznie na podstawie dostarczonego asortymentu. Jeśli polecasz produkty, wymień ich identyfikatory w formacie [[IDS: id1, id2]]. Jeśli nie ma dopasowania, zaproponuj najbliższe alternatywy."
   },
   cart: {
     header: "Koszyk zakupowy",
@@ -86,8 +86,6 @@ export default {
     categories: "Kategorie",
     menu: {
       categories: "Kategorie",
-      bikes: "Rowery",
-      ebikes: "E-rowery",
       service: "Serwis",
       about: "O nas",
       contact: "Kontakt",

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Heart, Scale, Eye } from 'lucide-vue-next';
-import { NEW_PRODUCTS } from '~/utils/constants';
 import AddToCartButton from '~/components/ui/AddToCartButton.vue';
 import QuickViewModal from '~/components/ui/QuickViewModal.vue';
 import ProductCard from '~/components/frontend/product/ProductCard.vue';

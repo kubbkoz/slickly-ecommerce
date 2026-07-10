@@ -192,7 +192,7 @@ const subtotalDisplayed = computed(() => Math.max(0, (subtotal.value || 0) - dob
         </div>
         <div class="flex items-center gap-2">
           <Phone class="w-4 h-4 text-brand flex-shrink-0" />
-          <span>Zákaznícka linka: <a href="tel:+421948993236" class="font-bold text-black hover:text-brand transition-colors">+421 948 993 236</a></span>
+          <span>Zákaznícka linka: <a href="tel:+421918564238" class="font-bold text-black hover:text-brand transition-colors">+421 918 564 238</a></span>
         </div>
       </div>
 

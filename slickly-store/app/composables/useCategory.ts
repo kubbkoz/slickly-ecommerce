@@ -295,7 +295,7 @@ export const useCategory = (navigationIdProp: string | any) => {
         if (categoryChildrenResponse.value && categoryChildrenResponse.value.length > 0) {
             return categoryChildrenResponse.value.map((c: any) => ({
                 id: c.id,
-                name: (c.translated?.name || c.name || '').replace(/(elektrobicykle|elektrobicykel|bicykle|bicykel)/gi, '').trim(),
+                name: (c.translated?.name || c.name || '').trim(),
                 image: c.media?.url || '',
                 description: c.translated?.description || c.description || '',
                 url: buildChildUrl(c)
@@ -315,7 +315,7 @@ export const useCategory = (navigationIdProp: string | any) => {
             .filter((c: any) => c.id !== navigationId)
             .map((c: any) => ({
                 id: c.id,
-                name: (c.translated?.name || c.name || '').replace(/(elektrobicykle|elektrobicykel|bicykle|bicykel)/gi, '').trim(),
+                name: (c.translated?.name || c.name || '').trim(),
                 image: c.media?.url || '',
                 description: c.translated?.description || c.description || '',
                 url: getCategoryUrl(c)

@@ -1,7 +1,7 @@
 export function useOrganizationJsonLD(): void {
     const config = useRuntimeConfig();
     const appConfig = useAppConfig();
-    const baseUrl = (config.public.siteUrl as string) || 'https://mtsport.store';
+    const baseUrl = (config.public.siteUrl as string) || 'https://slickly.sk';
     const phone = appConfig.contact.phone;
 
     const organizationSchema = {
@@ -25,10 +25,8 @@ export function useOrganizationJsonLD(): void {
                 areaServed: 'SK',
             },
         ],
-        sameAs: [
-            'https://www.facebook.com/mtsport.store',
-            'https://www.instagram.com/mtsport.store',
-        ],
+        // sameAs zámerne vynechaný — pôvodné hodnoty odkazovali na staré mtsport.store
+        // sociálne siete. Doplniť, až keď budú existovať reálne SLICKLY profily.
     };
 
     const webSiteSchema = {
