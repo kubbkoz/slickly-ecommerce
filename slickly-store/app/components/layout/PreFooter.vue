@@ -5,13 +5,13 @@ import Newsletter from '~/components/home/Newsletter.vue';
 const BADGES = [
   {
     icon: Cog,
-    title: 'Plne zmontované a nastavené',
-    desc: 'Bicykel alebo elektrobicykel k Vám dorazí plne zmontovaný a nastavený.',
+    title: 'Overená kvalita',
+    desc: 'Vyberáme len overené produkty od kvalitných značiek pre starostlivosť o vaše auto.',
   },
   {
     icon: Truck,
     title: 'Doručenie zadarmo',
-    desc: 'Bicykle a elektrobicykle od 299 € zadarmo. Doplnky, oblečenie a komponenty od 199 € zadarmo.',
+    desc: 'Pri nákupe nad stanovenú sumu Vám objednávku doručíme úplne zadarmo.',
   },
   {
     icon: Wallet,

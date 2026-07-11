@@ -40,7 +40,7 @@ const subscribeNewsletter = async () => {
 <template>
   <section
     class="relative overflow-hidden text-white"
-    style="background-image: url('/newsletter-bg.jpg'); background-size: cover; background-position: center;"
+    style="background-image: url('https://images.unsplash.com/photo-1607860108855-64acf2078ed9?q=80&w=2000&auto=format&fit=crop'); background-size: cover; background-position: center;"
   >
     <!-- Tmavý overlay -->
     <div class="absolute inset-0 bg-black/75 pointer-events-none"></div>
@@ -51,7 +51,7 @@ const subscribeNewsletter = async () => {
         <!-- Ľavý stĺpec — text -->
         <div class="lg:w-[45%] flex-shrink-0">
           <h2 class="section-h2 text-2xl md:text-3xl mb-3">
-            Nezmeškajte žiadnu <span class="text-brand">jazdu</span>
+            Nezmeškajte žiadnu <span class="text-amber">ponuku</span>
           </h2>
           <div class="section-decorator mb-5"></div>
           <p class="text-gray-300 text-sm font-sans leading-relaxed">

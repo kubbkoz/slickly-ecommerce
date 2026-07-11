@@ -57,7 +57,7 @@ useSeoMeta({
           <span class="text-brand text-xs font-bold uppercase tracking-widest font-sans">SLICKLY Blog</span>
         </div>
         <h1 class="text-4xl md:text-5xl font-tech font-black uppercase italic text-white leading-none">
-          Zo sveta <span class="text-brand">starostlivosti o auto</span>
+          Zo sveta <span class="text-amber">SLICKLY</span>
         </h1>
         <div class="section-decorator mt-4"></div>
       </div>

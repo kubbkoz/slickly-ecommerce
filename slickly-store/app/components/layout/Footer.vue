@@ -76,8 +76,8 @@ const footerCategories = computed(() => {
               </div>
             </NuxtLink>
             <p class="text-gray-300 mb-8 leading-relaxed text-sm max-w-sm">
-              U nás nájdete najväčší výber bicyklov a elektrobicyklov na Orave.
-              Servis, poradenstvo a vášeň pre šport od roku 2010.
+              U nás nájdete širokú ponuku autokozmetiky, detailing produktov a príslušenstva.
+              Poradenstvo a vášeň pre starostlivosť o auto.
             </p>
 
             <div class="flex items-center gap-3">
@@ -154,8 +154,9 @@ const footerCategories = computed(() => {
             </h2>
 
             <p class="text-sm text-gray-300 mb-4">
-              SLICKLY je výhradne online obchod. Sme tu pre vás každý pracovný deň —
-              poradíme s výberom a vybavíme objednávku.
+              SLICKLY je výhradne online obchod zameraný na starostlivosť o vaše auto —
+              exteriér, interiér, leštenie aj ochranu karosérie. Sme tu pre vás každý
+              pracovný deň a radi poradíme s výberom tých najlepších produktov.
             </p>
 
             <a
