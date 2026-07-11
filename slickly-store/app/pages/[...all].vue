@@ -51,6 +51,11 @@ const currentLocale = getLocaleFromPath(routePath);
 async function resolvePathParallel(cleanSlug: string, langId: string): Promise<Schemas["SeoUrl"] | null> {
   const slugParts = cleanSlug.split('/');
   const lastSegment = slugParts[slugParts.length - 1];
+  // Shopware SEO URL záznamy môžu mať koncové lomítko a/alebo inú veľkosť písmen než
+  // runtime-odvodený slug (najmä pri kategóriách vygenerovaných pred pridaním `|lower`
+  // filtra do SEO URL šablóny). Normalizuj oba strany JS-side porovnaní, aby zhoda
+  // nezávisela od presného formátovania uloženej hodnoty.
+  const norm = (s?: string | null) => (s || '').replace(/^\/+|\/+$/g, '').toLowerCase();
 
   try {
     // ── 0) PRODUCT FAST-PATH pre SLICKLY URL pattern /{slug}/{sku} ──────────
@@ -86,7 +91,7 @@ async function resolvePathParallel(cleanSlug: string, langId: string): Promise<S
         headers: { "sw-language-id": langId },
         body: {
           filter: [
-            { type: "equals", field: "seoPathInfo",   value: cleanSlug },
+            { type: "equalsAny", field: "seoPathInfo", value: [cleanSlug, cleanSlug + '/'] as any },
             { type: "equals", field: "isDeleted",      value: false },
             { type: "equals", field: "isCanonical",    value: true },
             { type: "equals", field: "salesChannelId", value: salesChannelId },
@@ -120,7 +125,7 @@ async function resolvePathParallel(cleanSlug: string, langId: string): Promise<S
         headers: { "sw-language-id": langId },
         body: {
           filter: [
-            { type: "equalsAny", field: "seoPathInfo",   value: [parentSlug, parentPath] as any },
+            { type: "equalsAny", field: "seoPathInfo",   value: [parentSlug, parentSlug + '/', parentPath, parentPath + '/'] as any },
             { type: "equals",    field: "isDeleted",      value: false },
             { type: "equals",    field: "isCanonical",    value: true },
             { type: "equals",    field: "salesChannelId", value: salesChannelId },
@@ -130,8 +135,8 @@ async function resolvePathParallel(cleanSlug: string, langId: string): Promise<S
         },
       });
       const parentEls = parentSeoRes?.data?.elements || [];
-      parentCategoryId = (parentEls.find((e: any) => e.seoPathInfo === parentPath)
-        || parentEls.find((e: any) => e.seoPathInfo === parentSlug)
+      parentCategoryId = (parentEls.find((e: any) => norm(e.seoPathInfo) === norm(parentPath))
+        || parentEls.find((e: any) => norm(e.seoPathInfo) === norm(parentSlug))
         || parentEls[0])?.foreignKey as string | undefined;
 
       if (parentCategoryId) {
@@ -156,9 +161,9 @@ async function resolvePathParallel(cleanSlug: string, langId: string): Promise<S
         const matched = children.find((c: any) =>
           (c.seoUrls || []).some((s: any) =>
             !s.isDeleted && s.isCanonical &&
-            (s.seoPathInfo === lastSegment ||
-             s.seoPathInfo === cleanSlug ||
-             (typeof s.seoPathInfo === 'string' && s.seoPathInfo.endsWith('/' + lastSegment)))
+            (norm(s.seoPathInfo) === norm(lastSegment) ||
+             norm(s.seoPathInfo) === norm(cleanSlug) ||
+             (typeof s.seoPathInfo === 'string' && norm(s.seoPathInfo).endsWith('/' + norm(lastSegment))))
           )
         ) || children.find((c: any) => {
           const nm = c.translated?.name || c.name || '';
@@ -183,7 +188,7 @@ async function resolvePathParallel(cleanSlug: string, langId: string): Promise<S
       headers: { "sw-language-id": langId },
       body: {
         filter: [
-          { type: "equalsAny", field: "seoPathInfo", value: [cleanSlug, lastSegment] as any },
+          { type: "equalsAny", field: "seoPathInfo", value: [cleanSlug, cleanSlug + '/', lastSegment, lastSegment + '/'] as any },
           { type: "equals", field: "isDeleted", value: false },
           { type: "equals", field: "isCanonical", value: true },
           { type: "equals", field: "salesChannelId", value: salesChannelId },
@@ -195,10 +200,10 @@ async function resolvePathParallel(cleanSlug: string, langId: string): Promise<S
 
     const elements = seoResult?.data?.elements || [];
     // Presný full-path má vždy prednosť
-    let seoData = elements.find((e: any) => e.seoPathInfo === cleanSlug);
+    let seoData = elements.find((e: any) => norm(e.seoPathInfo) === norm(cleanSlug));
 
     if (!seoData) {
-      const lastMatches = elements.filter((e: any) => e.seoPathInfo === lastSegment);
+      const lastMatches = elements.filter((e: any) => norm(e.seoPathInfo) === norm(lastSegment));
       if (lastMatches.length === 1) {
         seoData = lastMatches[0];
       } else if (lastMatches.length > 1 && slugParts.length >= 2) {
@@ -302,6 +307,15 @@ const { data: seoResult, error } = await useAsyncData(
       /\.(png|jpg|jpeg|gif|svg|webp|avif|ico|js|css|map|json|woff|woff2|ttf|otf)$/i.test(routePath)
     ) {
       console.warn(`[PageResolver] Ignoring technical or asset path: ${routePath}`);
+      return null;
+    }
+
+    // A-1. LOWERCASE CANONICAL REDIRECT — Shopware SEO URL šablóny nie vždy majú `|lower`
+    // filter (a existujúce záznamy vygenerované pred jeho pridaním ostávajú v pôvodnom tvare),
+    // takže URL môžu prísť s veľkými písmenami. Presmeruj na kanonickú lowercase verziu (301,
+    // so zachovaným query stringom) skôr, než sa spustí čo i len jedno API volanie.
+    if (routePath !== routePath.toLowerCase()) {
+      await navigateTo(route.fullPath.toLowerCase(), { redirectCode: 301 });
       return null;
     }
 
