@@ -29,10 +29,10 @@ const BADGES = [
 
 <template>
   <!-- ── Trust Badges ── -->
-  <section class="bg-brand relative overflow-hidden">
+  <section class="bg-amber relative overflow-hidden">
     <!-- Dekoratívny SLICKLY text v pozadí -->
     <div class="absolute inset-0 flex items-center justify-end pointer-events-none select-none overflow-hidden" aria-hidden="true">
-      <span class="font-tech font-black italic uppercase text-white/[0.05] text-[18vw] leading-none tracking-tighter whitespace-nowrap pr-8">
+      <span class="font-tech font-black italic uppercase text-white/20 mix-blend-overlay text-[18vw] leading-none tracking-tighter whitespace-nowrap pr-8">
         SLICKLY
       </span>
     </div>
@@ -42,15 +42,15 @@ const BADGES = [
         <div v-for="badge in BADGES" :key="badge.title" class="flex items-start gap-4">
           <component
             :is="badge.icon"
-            class="w-8 h-8 text-white flex-shrink-0 mt-0.5"
+            class="w-8 h-8 text-black flex-shrink-0 mt-0.5"
             :stroke-width="1.5"
             aria-hidden="true"
           />
           <div>
-            <p class="font-tech font-bold uppercase text-white text-base leading-tight mb-1.5">
+            <p class="font-tech font-bold uppercase text-black text-base leading-tight mb-1.5">
               {{ badge.title }}
             </p>
-            <p class="text-white/70 text-xs font-sans leading-relaxed">
+            <p class="text-black/70 text-xs font-sans leading-relaxed">
               {{ badge.desc }}
             </p>
           </div>
