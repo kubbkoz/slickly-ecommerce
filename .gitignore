@@ -29,3 +29,8 @@ __pycache__
 
 # graphify knowledge-graph scratch (machine-specific paths)
 graphify-out/
+
+# ui-ux-pro-max skill build artifacts
+.claude/skills/**/__pycache__/
+.claude/skills/**/.coverage
+.claude/skills/**/tests/coverage-ui.json
