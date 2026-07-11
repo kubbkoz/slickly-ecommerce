@@ -72,12 +72,17 @@ nainštaluj `@oxc-transform/binding-wasm32-wasi` a odstav natívne `@oxc-transfo
 aby loader spadol na WASI. Na štandardnom hoste/CI build beží natívne bez zásahu. Build bol takto
 overený (`npm run build` → `.output/`, „Build complete").
 
-## graphify
+## graphify + claude-mem — STRIKTNÉ pravidlo (Read/Grep vyžaduje povolenie)
 
-This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships. Plošné prehľadávanie zdrojáku cez `Read`/`Grep` míňa extrémne veľa tokenov — preto je **defaultný nástroj na prieskum kódu graphify a claude-mem, nie Read/Grep**.
 
 Rules:
-- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
-- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
-- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
-- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- **Prieskum (default):** pred akoukoľvek otázkou "kde/ako/prečo funguje X" najprv skús:
+  - `graphify query "<question>"` (keď existuje `graphify-out/graph.json`) — scoped subgraph.
+  - `graphify path "<A>" "<B>"` pre vzťahy medzi dvomi entitami, `graphify explain "<concept>"` pre konkrétny koncept.
+  - claude-mem: `smart_outline("<path>")` pre štrukturálnu mapu súboru (len čísla riadkov, lacnejšie než celý Read), `get_observations([IDs])` pre detaily minulých pozorovaní, `observation_search`/`smart_search` pre prierezové otázky naprieč projektom.
+  - `graphify-out/wiki/index.md` (ak existuje) na širokú navigáciu namiesto prehliadania zdrojákov.
+  - `graphify-out/GRAPH_REPORT.md` len pre široký architektonický prehľad, alebo keď query/path/explain/smart_outline nestačia.
+- **Grep/plošný Read = vyžaduje moje povolenie s odôvodnením.** Ak chceš siahnuť po `Grep` alebo po `Read` väčšieho rozsahu/viacerých súborov (prieskum, nie úprava), najprv sa ma spýtaj a napíš prečo graphify/claude-mem nestačí pre tento konkrétny prípad.
+- **Výnimka — mechanický Read tesne pred Edit:** `Edit` nástroj vyžaduje predchádzajúci `Read` presne toho súboru, ktorý sa má upraviť (tvrdé obmedzenie nástroja, nedá sa obísť). Toto NIE JE prieskum — je to nevyhnutný krok exekúcie, keď už presne viem, ktorý súbor/riadky meniť (napr. z výsledku graphify query, alebo z už predtým zisteného kontextu). Takýto cielený Read na známy súbor/rozsah riadkov nevyžaduje osobitné povolenie.
+- Po úprave kódu spusti `graphify update .`, aby graf ostal aktuálny (len AST, žiadne API náklady).
