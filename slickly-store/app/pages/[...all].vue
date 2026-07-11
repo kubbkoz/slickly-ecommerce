@@ -14,7 +14,6 @@ import {
   useShopwareContext,
   useRuntimeConfig,
   createError,
-  navigateTo,
   useSeoMeta,
 } from "#imports";
 import type { Schemas } from "#shopware";
@@ -307,15 +306,6 @@ const { data: seoResult, error } = await useAsyncData(
       /\.(png|jpg|jpeg|gif|svg|webp|avif|ico|js|css|map|json|woff|woff2|ttf|otf)$/i.test(routePath)
     ) {
       console.warn(`[PageResolver] Ignoring technical or asset path: ${routePath}`);
-      return null;
-    }
-
-    // A-1. LOWERCASE CANONICAL REDIRECT — Shopware SEO URL šablóny nie vždy majú `|lower`
-    // filter (a existujúce záznamy vygenerované pred jeho pridaním ostávajú v pôvodnom tvare),
-    // takže URL môžu prísť s veľkými písmenami. Presmeruj na kanonickú lowercase verziu (301,
-    // so zachovaným query stringom) skôr, než sa spustí čo i len jedno API volanie.
-    if (routePath !== routePath.toLowerCase()) {
-      await navigateTo(route.fullPath.toLowerCase(), { redirectCode: 301 });
       return null;
     }
 
