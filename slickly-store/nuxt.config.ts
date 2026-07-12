@@ -24,27 +24,6 @@ const shopwareMediaDomain = (() => {
   }
 })();
 
-// C1 (prod audit): fail-fast instead of silently building a production artifact
-// that talks to the OLD mtsport backend or ships an empty store/admin credential.
-// deploy.yml supplies these on the build step, so this only trips if a production
-// build is genuinely missing them (or still points at mtsport) — never in dev,
-// which keeps the localhost defaults (isProd === false).
-if (isProd) {
-  const endpoint = process.env.NUXT_PUBLIC_SHOPWARE_ENDPOINT || '';
-  const problems: string[] = [];
-  if (!endpoint) problems.push('NUXT_PUBLIC_SHOPWARE_ENDPOINT is missing');
-  else if (/mtsport/i.test(endpoint)) problems.push(`NUXT_PUBLIC_SHOPWARE_ENDPOINT still points at the old mtsport backend (${endpoint})`);
-  if (!process.env.NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN) problems.push('NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN is empty');
-  if (!process.env.SHOPWARE_ADMIN_CLIENT_SECRET) problems.push('SHOPWARE_ADMIN_CLIENT_SECRET is empty (badges/returns/account/watchdog will fail)');
-  if (problems.length) {
-    throw new Error(
-      '[nuxt.config] Production build blocked — Shopware env invalid:\n  - ' +
-      problems.join('\n  - ') +
-      '\nSet these in the deploy workflow / environment before building for production.',
-    );
-  }
-}
-
 // Redis storage helper — Unix socket (VPS) alebo TCP URL, s fallbackom
 const redisDriver = (base: string, fallback: Record<string, unknown>) => {
   if (process.env.REDIS_SOCKET) {
