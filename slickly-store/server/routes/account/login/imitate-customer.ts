@@ -4,6 +4,12 @@
 import { getQuery, setCookie, sendRedirect, createError } from 'h3';
 
 export default defineEventHandler(async (event) => {
+  // S5 (prod audit): throttle the customer-impersonation entry point. Its safety
+  // rests on the unguessable Shopware-issued token, but rate-limiting blunts
+  // brute-force / token-replay abuse of this account-takeover-adjacent route.
+  // Generous enough for a real admin impersonating several customers in a row.
+  await checkRateLimit(event, { key: 'imitate-customer', limit: 10, windowMs: 5 * 60 * 1000 });
+
   const config = useRuntimeConfig();
   const endpoint = (config.public.shopware as any).endpoint as string;
   const accessToken = (config.public.shopware as any).accessToken as string;
