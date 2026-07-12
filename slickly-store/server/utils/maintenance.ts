@@ -1,52 +1,28 @@
-// Maintenance-mode state + page. Toggled at runtime via a Redis KV flag (no
-// rebuild/redeploy needed), read by server/middleware/00.maintenance.ts on every
-// request and flipped by server/api/maintenance.get.ts (password-protected).
+// Hard maintenance override for the whole site.
 //
-// A short in-memory TTL cache keeps the per-request gate from hitting Redis on
-// every request: when maintenance is OFF the middleware just reads a boolean.
-// A toggle takes effect on the toggling instance immediately and on any other
-// instance within CACHE_TTL_MS.
+// While MAINTENANCE_ON is true, every request is covered by the maintenance page
+// (server/middleware/00.maintenance.ts) EXCEPT:
+//   - the admin login endpoint (server/api/maintenance-login.post.ts), and
+//   - browsers that have logged in through the form on the maintenance page.
+// There is NO url-parameter toggle or bypass.
+//
+// To bring the site back online for everyone, set MAINTENANCE_ON = false and
+// redeploy (or ask Claude to flip it).
+export const MAINTENANCE_ON = true;
 
-const CACHE_TTL_MS = 10_000;
-let cache = { value: false, at: 0 };
-
-const STORAGE = 'db'; // Redis on VPS, filesystem on dev — same store used elsewhere
-const KEY = 'maintenance:enabled';
-
-// Baked-in toggle password (no env/webhook setup needed). Overridable at deploy
-// time via MAINTENANCE_PASSWORD if you ever want to rotate it without a code edit.
-// NOTE: this literal is committed in plaintext — it only gates the maintenance
-// on/off switch, nothing sensitive.
-export const MAINTENANCE_PASSWORD = process.env.MAINTENANCE_PASSWORD || 'Fmhpx8g8@#';
-
-/** Cheap, cached read for the per-request middleware gate. */
-export async function isMaintenanceEnabled(): Promise<boolean> {
-  const now = Date.now();
-  if (now - cache.at < CACHE_TTL_MS) return cache.value;
-  const v = await useStorage(STORAGE).getItem(KEY).catch(() => null);
-  cache = { value: !!v, at: now };
-  return cache.value;
-}
-
-/** Uncached read — for the admin status endpoint. */
-export async function readMaintenanceRaw(): Promise<boolean> {
-  const v = await useStorage(STORAGE).getItem(KEY).catch(() => null);
-  return !!v;
-}
-
-/** Flip maintenance on/off and reflect it on this instance immediately. */
-export async function setMaintenanceEnabled(on: boolean): Promise<void> {
-  const storage = useStorage(STORAGE);
-  if (on) await storage.setItem(KEY, true);
-  else await storage.removeItem(KEY).catch(() => {});
-  cache = { value: on, at: Date.now() };
-}
+// Admin login (baked; overridable via env). Correct credentials set an httpOnly
+// session cookie that lets that browser through to the real site.
+export const MAINTENANCE_LOGIN_EMAIL = (process.env.MAINTENANCE_EMAIL || 'hello@slickly.sk').trim().toLowerCase();
+export const MAINTENANCE_LOGIN_PASSWORD = process.env.MAINTENANCE_PASSWORD || 'Fmhpx8g8@#';
+export const MAINTENANCE_COOKIE = 'slickly_maint_session';
+export const MAINTENANCE_SESSION_TOKEN = process.env.MAINTENANCE_TOKEN || 'slk-maint-ok-1f3c9a7d';
 
 /**
  * Self-contained maintenance page — black background, centred SLICKLY wordmark
  * (matches app/components/layout/navbar/Logo.vue: "SL" + amber-dotted "I" +
- * "CKLY"), and an indeterminate amber loader bar beneath it. No external assets
- * or fonts so it renders even if the app/CDN is unavailable.
+ * "CKLY"), an indeterminate amber loader bar, and a click-to-open admin login
+ * (e-mail + password) at the bottom that posts to /api/maintenance-login and,
+ * on success, drops the session cookie and enters the site. No external assets.
  */
 export function maintenancePageHtml(): string {
   return `<!doctype html>
@@ -65,7 +41,7 @@ export function maintenancePageHtml(): string {
     display:flex;align-items:center;justify-content:center;
     min-height:100dvh;padding:24px;text-align:center;-webkit-font-smoothing:antialiased;
   }
-  .box{display:flex;flex-direction:column;align-items:center}
+  .box{display:flex;flex-direction:column;align-items:center;width:100%;max-width:360px}
   .wordmark{
     display:flex;align-items:baseline;
     font-weight:900;text-transform:uppercase;letter-spacing:-0.02em;line-height:1;
@@ -90,6 +66,32 @@ export function maintenancePageHtml(): string {
     margin-top:1.75rem;color:#8a8a8a;
     font-size:0.72rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;
   }
+  .login-toggle{
+    margin-top:3.5rem;background:none;border:0;cursor:pointer;
+    color:#5a5a5a;font-family:inherit;font-size:0.68rem;font-weight:600;
+    letter-spacing:0.22em;text-transform:uppercase;
+    padding:8px;transition:color .2s ease;
+  }
+  .login-toggle:hover{color:#FFBF00}
+  .login{display:none;flex-direction:column;gap:10px;width:100%;margin-top:1.25rem}
+  .login.open{display:flex}
+  .login input{
+    width:100%;height:46px;padding:0 14px;
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);
+    border-radius:6px;color:#fff;font-family:inherit;font-size:0.95rem;outline:none;
+    transition:border-color .2s ease;
+  }
+  .login input:focus{border-color:#FFBF00}
+  .login input::placeholder{color:#6b6b6b}
+  .login button[type=submit]{
+    height:46px;margin-top:2px;cursor:pointer;
+    background:#FFBF00;border:0;border-radius:6px;
+    color:#000;font-family:inherit;font-weight:700;font-size:0.82rem;
+    letter-spacing:0.14em;text-transform:uppercase;transition:opacity .2s ease;
+  }
+  .login button[type=submit]:hover{opacity:.9}
+  .login button[disabled]{opacity:.5;cursor:default}
+  .err{min-height:1rem;color:#ff6b6b;font-size:0.75rem;font-weight:600}
   @media (prefers-reduced-motion:reduce){
     .loader .bar{animation:none;left:0;width:100%;opacity:.5}
   }
@@ -101,8 +103,45 @@ export function maintenancePageHtml(): string {
       <span>SL</span><span class="i-wrap"><span class="i-dot"></span>I</span><span>CKLY</span>
     </div>
     <div class="loader" role="progressbar" aria-label="Načítava sa"><span class="bar"></span></div>
-    <div class="note">Čoskoro späť</div>
+    <div class="note">Čoskoro online</div>
+
+    <button type="button" class="login-toggle" id="loginToggle" aria-expanded="false">Prihlásenie</button>
+    <form class="login" id="loginForm" autocomplete="on">
+      <input id="email" name="email" type="email" placeholder="E-mail" autocomplete="username" required>
+      <input id="password" name="password" type="password" placeholder="Heslo" autocomplete="current-password" required>
+      <button type="submit">Vstúpiť</button>
+      <div class="err" id="err" role="alert"></div>
+    </form>
   </main>
+  <script>
+    (function(){
+      var toggle=document.getElementById('loginToggle');
+      var form=document.getElementById('loginForm');
+      var err=document.getElementById('err');
+      toggle.addEventListener('click',function(){
+        var open=form.classList.toggle('open');
+        toggle.setAttribute('aria-expanded',open?'true':'false');
+        if(open){document.getElementById('email').focus();}
+      });
+      form.addEventListener('submit',async function(e){
+        e.preventDefault();err.textContent='';
+        var btn=form.querySelector('button[type=submit]');
+        btn.disabled=true;btn.textContent='…';
+        try{
+          var res=await fetch('/api/maintenance-login',{
+            method:'POST',headers:{'content-type':'application/json'},
+            body:JSON.stringify({
+              email:document.getElementById('email').value,
+              password:document.getElementById('password').value
+            })
+          });
+          if(res.ok){window.location.href='/';return;}
+          err.textContent='Nesprávny e-mail alebo heslo.';
+        }catch(_){err.textContent='Chyba pripojenia. Skúste znova.';}
+        btn.disabled=false;btn.textContent='Vstúpiť';
+      });
+    })();
+  </script>
 </body>
 </html>`;
 }
