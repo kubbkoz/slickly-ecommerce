@@ -544,9 +544,11 @@ extends: ["../vue-starter-template", "./features/blog"],
         },
         { rel: "manifest", href: "/manifest.webmanifest" },
         { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
-        // Preconnect — Shopware media CDN (product images, thumbnails)
-        { rel: 'preconnect', href: 'https://mtsport.store' },
-        { rel: 'dns-prefetch', href: 'https://mtsport.store' },
+        // Preconnect — Shopware media CDN (product images, thumbnails).
+        // Derived from the Store API endpoint (shopwareMediaDomain) so it always
+        // points at the ACTIVE backend host, not a hardcoded stale one.
+        { rel: 'preconnect', href: `https://${shopwareMediaDomain}` },
+        { rel: 'dns-prefetch', href: `https://${shopwareMediaDomain}` },
       ],
     },
   },

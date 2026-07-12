@@ -2,7 +2,8 @@ import { defineEventHandler } from 'h3';
 import { useRuntimeConfig } from '#imports';
 import { getAdminToken } from '../../utils/shopwareAdmin';
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+  requireDebugAuth(event);
   const config = useRuntimeConfig();
   const adminEndpoint  = config.shopwareAdminEndpoint as string;
   const salesChannelId = (config.public.shopware as any).ids?.salesChannel as string;

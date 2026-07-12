@@ -2,6 +2,7 @@ import { defineEventHandler, getQuery } from 'h3';
 import { useStorage } from '#imports';
 
 export default defineEventHandler(async (event) => {
+  requireDebugAuth(event);
   const storage = useStorage('db');
   const q = getQuery(event);
   const productId = q.productId as string || '41fc61c28d1949af17dbe967e205b4a1';

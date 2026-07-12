@@ -9,7 +9,8 @@ import { useRuntimeConfig } from '#imports';
  * Vráti: salesChannelId, rootCategoryId (z /context) + plochý zoznam kategórií
  * { id, name, level, parentId } zoradený podľa úrovne.
  */
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+  requireDebugAuth(event);
   const config = useRuntimeConfig();
   const sw = (config.public as any).shopware ?? {};
   const endpoint = String(sw.endpoint || '').replace(/\/+$/, '');

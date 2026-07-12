@@ -18,7 +18,8 @@ import { getAdminToken } from '../../utils/shopwareAdmin';
  *
  * Secret NEleakuje — reportuje sa len clientIdPreview.
  */
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+  requireDebugAuth(event);
   const config = useRuntimeConfig();
   const endpoint = String(config.shopwareAdminEndpoint || '');
   const clientId = String(config.shopwareAdminClientId || '');

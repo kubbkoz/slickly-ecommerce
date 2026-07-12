@@ -37,4 +37,3 @@ User-agent: Amazonbot
 Allow: /
 
 Sitemap: https://slickly.sk/sitemap.xml
-Sitemap: https://slickly.sk/llms.txt

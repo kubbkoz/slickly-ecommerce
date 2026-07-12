@@ -11,7 +11,8 @@ import { useRuntimeConfig } from '#imports';
  *  - reachable:false / error obsahuje ENOTFOUND/ECONNREFUSED/timeout
  *      → server HostCreators NEDOSIAHNE backend (outbound blokovaný).
  */
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+  requireDebugAuth(event);
   const config = useRuntimeConfig();
   const sw = (config.public as any).shopware ?? {};
   const endpoint = String(sw.endpoint || '').replace(/\/+$/, '');

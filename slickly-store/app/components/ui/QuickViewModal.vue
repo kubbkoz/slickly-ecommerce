@@ -20,12 +20,13 @@ const calculateDiscount = () => {
     return 0;
 };
 
-// Handle ESC
-onMounted(() => {
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') onClose();
-    });
-});
+// Handle ESC — named handler with cleanup (anonymous inline listeners can't be
+// removed and stack a permanent global keydown listener per mount).
+const onKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') onClose();
+};
+onMounted(() => window.addEventListener('keydown', onKeydown));
+onUnmounted(() => window.removeEventListener('keydown', onKeydown));
 </script>
 
 <template>

@@ -5,7 +5,8 @@
 //
 // Remove alongside capture-last-error.ts once the intermittent first-load 500
 // is fixed.
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+  requireDebugAuth(event);
   const last = await useStorage().getItem('debug:last-error').catch(() => null);
   if (!last) {
     return { message: 'No error captured yet since last server start/deploy.' };
