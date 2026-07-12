@@ -8,23 +8,20 @@ export default defineEventHandler(async (event) => {
   const path = event.path || '';
 
   // Toggle endpoint must stay reachable to disable maintenance.
-  if (path.startsWith('/api/admin/maintenance')) return;
+  if (path.startsWith('/api/maintenance')) return;
 
   if (!(await isMaintenanceEnabled())) return;
 
-  // Admin bypass: hit any URL once with ?bypass=<WEBHOOK_SECRET> to drop a cookie,
-  // then browse the real site normally while maintenance stays up for everyone else.
-  const secret = useRuntimeConfig().maintenanceSecret as string;
-  if (secret) {
-    const q = getQuery(event);
-    if (typeof q.bypass === 'string' && q.bypass === secret) {
-      setCookie(event, 'slickly_maint_bypass', secret, {
-        path: '/', httpOnly: true, sameSite: 'lax', maxAge: 60 * 60 * 8,
-      });
-      return;
-    }
-    if (getCookie(event, 'slickly_maint_bypass') === secret) return;
+  // Admin bypass: hit any URL once with ?bypass=<password> to drop a cookie, then
+  // browse the real site normally while maintenance stays up for everyone else.
+  const q = getQuery(event);
+  if (typeof q.bypass === 'string' && q.bypass === MAINTENANCE_PASSWORD) {
+    setCookie(event, 'slickly_maint_bypass', MAINTENANCE_PASSWORD, {
+      path: '/', httpOnly: true, sameSite: 'lax', maxAge: 60 * 60 * 8,
+    });
+    return;
   }
+  if (getCookie(event, 'slickly_maint_bypass') === MAINTENANCE_PASSWORD) return;
 
   // Cover the site. 503 + Retry-After keeps search engines from deindexing.
   setResponseStatus(event, 503);

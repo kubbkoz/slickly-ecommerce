@@ -215,15 +215,6 @@ extends: ["../vue-starter-template", "./features/blog"],
     oauthEncryptionKey: process.env.OAUTH_ENCRYPTION_KEY || '',
     // Webhook secret — overuje požiadavky z n8n
     webhookSecret: process.env.WEBHOOK_SECRET || '',
-    // Maintenance-mode toggle secret. Read from several env names so it works
-    // regardless of which is set in the deploy env (deploy.yml currently sets
-    // SLICKLY_WEBHOOK_SECRET, code elsewhere reads WEBHOOK_SECRET). Used only by
-    // the /api/admin/maintenance toggle + the maintenance bypass cookie.
-    maintenanceSecret:
-      process.env.MAINTENANCE_SECRET ||
-      process.env.WEBHOOK_SECRET ||
-      process.env.SLICKLY_WEBHOOK_SECRET ||
-      '',
     // n8n webhook URL — fallback pre order lookup
     n8nWebhookUrl: process.env.N8N_WEBHOOK_URL || '',
     // SMTP

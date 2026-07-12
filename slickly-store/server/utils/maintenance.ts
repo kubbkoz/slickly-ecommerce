@@ -1,6 +1,6 @@
 // Maintenance-mode state + page. Toggled at runtime via a Redis KV flag (no
 // rebuild/redeploy needed), read by server/middleware/00.maintenance.ts on every
-// request and flipped by server/api/admin/maintenance.get.ts.
+// request and flipped by server/api/maintenance.get.ts (password-protected).
 //
 // A short in-memory TTL cache keeps the per-request gate from hitting Redis on
 // every request: when maintenance is OFF the middleware just reads a boolean.
@@ -12,6 +12,12 @@ let cache = { value: false, at: 0 };
 
 const STORAGE = 'db'; // Redis on VPS, filesystem on dev — same store used elsewhere
 const KEY = 'maintenance:enabled';
+
+// Baked-in toggle password (no env/webhook setup needed). Overridable at deploy
+// time via MAINTENANCE_PASSWORD if you ever want to rotate it without a code edit.
+// NOTE: this literal is committed in plaintext — it only gates the maintenance
+// on/off switch, nothing sensitive.
+export const MAINTENANCE_PASSWORD = process.env.MAINTENANCE_PASSWORD || 'Fmhpx8g8@#';
 
 /** Cheap, cached read for the per-request middleware gate. */
 export async function isMaintenanceEnabled(): Promise<boolean> {
