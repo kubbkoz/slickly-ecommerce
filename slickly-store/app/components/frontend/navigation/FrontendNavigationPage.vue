@@ -407,7 +407,7 @@ watch(availableBrands, (brands) => {
                     :key="sub.id"
                     :to="localePath(sub.url)"
                     @mouseenter="prefetchSubcategory(sub.id)"
-                    class="group border border-gray-100 hover:border-brand bg-white transition-colors duration-150 active:bg-gray-50
+                    class="group rounded-sm border border-gray-100 hover:border-brand bg-white transition-colors duration-150 active:bg-gray-50
                            flex items-center gap-2.5 px-2.5 py-2
                            md:flex-col md:items-center md:gap-1 md:px-2 md:py-2"
                 >
