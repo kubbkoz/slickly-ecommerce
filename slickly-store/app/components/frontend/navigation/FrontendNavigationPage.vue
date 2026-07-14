@@ -396,44 +396,40 @@ watch(availableBrands, (brands) => {
                 <div v-if="categoryDescription" class="text-sm md:text-base text-gray-700 max-w-4xl mb-10 leading-relaxed font-sans" v-html="sanitizeHtml(categoryDescription)"></div>
             </template>
 
-            <!-- Subcategories Grid — vertical cards with a square (1:1) image and
-                 3px (rounded-sm) corners. -->
+            <!-- Subcategories Grid
+                 Mobile:  2-col compact rows (image 40px + name beside)
+                 Desktop: 6-col small vertical cards (proportional image + name below)
+            -->
             <div v-if="subcategories && subcategories.length > 0"
-                 class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 pb-6">
+                 class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-1.5 md:gap-2 pb-6">
                 <NuxtLink
                     v-for="(sub, subIdx) in subcategories"
                     :key="sub.id"
                     :to="localePath(sub.url)"
                     @mouseenter="prefetchSubcategory(sub.id)"
-                    class="group flex flex-col border border-gray-100 hover:border-brand bg-white rounded-sm overflow-hidden transition-colors duration-150 active:bg-gray-50"
+                    class="group border border-gray-100 hover:border-brand bg-white transition-colors duration-150 active:bg-gray-50
+                           flex items-center gap-2.5 px-2.5 py-2
+                           md:flex-col md:items-center md:gap-1 md:px-2 md:py-2"
                 >
-                    <!-- Square image area — same treatment as ProductCard -->
-                    <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
-                        <NuxtImg
+                    <!-- Mobile: fixed 40×40 | Desktop: full-width 16:9 -->
+                    <div class="w-10 h-10 flex-shrink-0 overflow-hidden flex items-center justify-center
+                                md:w-full md:h-auto md:aspect-[2/1] md:flex-shrink md:mb-0">
+                        <img
                             v-if="sub.image"
                             :src="sub.image"
-                            :alt="sub.name || ''"
-                            width="400"
-                            height="400"
-                            sizes="50vw md:33vw lg:25vw"
-                            class="w-full h-full object-contain p-4 mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                            alt=""
                             :loading="subIdx < 4 ? 'eager' : 'lazy'"
                             :fetchpriority="subIdx === 0 ? 'high' : 'auto'"
-                            decoding="async"
+                            class="w-full h-full object-contain mix-blend-multiply"
                         />
-                        <!-- Branded monogram fallback for categories without an image -->
-                        <div v-else class="absolute inset-0 flex items-center justify-center select-none">
-                            <span class="font-tech font-black italic uppercase leading-none text-gray-200 text-6xl md:text-7xl transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100">
-                                {{ (sub.name || '?').trim().charAt(0) }}
-                            </span>
+                        <div v-else class="w-full h-full flex items-center justify-center bg-gray-50">
+                            <span class="text-[8px] font-bold uppercase text-gray-300">N/A</span>
                         </div>
                     </div>
                     <!-- Name -->
-                    <div class="px-2.5 py-2.5 md:px-3 md:py-3">
-                        <span class="block text-center font-bold text-[11px] md:text-xs text-gray-900 leading-tight group-hover:text-brand transition-colors line-clamp-2 font-tech uppercase tracking-wide">
-                            {{ sub.name }}
-                        </span>
-                    </div>
+                    <span class="font-bold text-[11px] text-gray-900 leading-tight group-hover:text-brand transition-colors line-clamp-2 text-left md:text-center font-tech uppercase tracking-wide">
+                        {{ sub.name }}
+                    </span>
                 </NuxtLink>
             </div>
         </div>
