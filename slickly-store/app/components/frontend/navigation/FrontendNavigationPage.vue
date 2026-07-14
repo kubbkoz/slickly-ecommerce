@@ -396,8 +396,8 @@ watch(availableBrands, (brands) => {
                 <div v-if="categoryDescription" class="text-sm md:text-base text-gray-700 max-w-4xl mb-10 leading-relaxed font-sans" v-html="sanitizeHtml(categoryDescription)"></div>
             </template>
 
-            <!-- Subcategories Grid — vertical cards with a 3:4 image (matching the
-                 product-image format) and 3px (rounded-sm) corners. -->
+            <!-- Subcategories Grid — vertical cards with a square (1:1) image and
+                 3px (rounded-sm) corners. -->
             <div v-if="subcategories && subcategories.length > 0"
                  class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 pb-6">
                 <NuxtLink
@@ -407,13 +407,13 @@ watch(availableBrands, (brands) => {
                     @mouseenter="prefetchSubcategory(sub.id)"
                     class="group flex flex-col border border-gray-100 hover:border-brand bg-white rounded-sm overflow-hidden transition-colors duration-150 active:bg-gray-50"
                 >
-                    <!-- 3:4 image area — same treatment as ProductCard -->
-                    <div class="relative w-full aspect-[3/4] overflow-hidden bg-gray-50">
+                    <!-- Square image area — same treatment as ProductCard -->
+                    <div class="relative w-full aspect-square overflow-hidden bg-gray-50">
                         <NuxtImg
                             v-if="sub.image"
                             :src="sub.image"
                             :alt="sub.name || ''"
-                            width="300"
+                            width="400"
                             height="400"
                             sizes="50vw md:33vw lg:25vw"
                             class="w-full h-full object-contain p-4 mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
