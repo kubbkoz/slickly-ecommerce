@@ -379,9 +379,9 @@ const pmocPrice = computed(() => {
         <!-- 2x2 on mobile, single row (4 cols) from md+. "Strážiť" is intentionally
              disabled here (kept fully working in TrustBadges' stock-notify link +
              WatchdogModal/server/api/watchdog for a future re-enable) and replaced
-             with Zdieľať (ShareProduct: native share sheet + Facebook/WhatsApp/X/
-             Email/copy-link fallback). To bring Strážiť back, add a 5th cell or
-             swap ShareProduct back out. -->
+             with Zdieľať (ShareProduct: native OS share sheet only — no second
+             custom panel, so cancelling it does nothing further). To bring
+             Strážiť back, add a 5th cell or swap ShareProduct back out. -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-3 w-full">
             <button @click="handleWishlistClick" class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-gray-400 hover:text-brand transition-colors group py-2">
               <Heart class="w-4 h-4 transition-colors" :class="isInWishlist(selectedVariant?.id || product.id) ? 'fill-brand text-brand' : 'text-gray-400 group-hover:text-brand'" /> Obľúbené
