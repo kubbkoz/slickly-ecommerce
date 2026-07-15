@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useRoute, useRouter, navigateTo, useState } from '#imports';
 import { ref, computed } from 'vue';
-import { Star, Check, Truck, Minus, Plus, AlertCircle, Clock, Scale, Eye, Zap, Heart, Ruler, ChevronDown, X } from 'lucide-vue-next';
+import { Star, Check, Truck, Minus, Plus, AlertCircle, Clock, Scale, Zap, Heart, Ruler, ChevronDown, X } from 'lucide-vue-next';
 import RatingStars from '~/components/ui/RatingStars.vue';
 import { type Product, type Variant } from '~/types';
 import AddToCartButton from '~/components/ui/AddToCartButton.vue';
+import ShareProduct from '~/components/product/ShareProduct.vue';
 import AppModal from '~/components/ui/AppModal.vue';
 import VariantSelector from '~/components/product/VariantSelector.vue';
 import QuantitySelector from '~/components/ui/QuantitySelector.vue';
@@ -375,16 +376,20 @@ const pmocPrice = computed(() => {
         <!-- Trust Badges (Accordion style) -->
         <TrustBadges :product="product" @openWatchdog="emit('openWatchdog', product)" />
 
-        <div class="flex items-center justify-between mt-3 w-full">
+        <!-- 2x2 on mobile, single row (4 cols) from md+. "Strážiť" is intentionally
+             disabled here (kept fully working in TrustBadges' stock-notify link +
+             WatchdogModal/server/api/watchdog for a future re-enable) and replaced
+             with Zdieľať (ShareProduct: native share sheet + Facebook/WhatsApp/X/
+             Email/copy-link fallback). To bring Strážiť back, add a 5th cell or
+             swap ShareProduct back out. -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-3 w-full">
             <button @click="handleWishlistClick" class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-gray-400 hover:text-brand transition-colors group py-2">
               <Heart class="w-4 h-4 transition-colors" :class="isInWishlist(selectedVariant?.id || product.id) ? 'fill-brand text-brand' : 'text-gray-400 group-hover:text-brand'" /> Obľúbené
             </button>
             <button @click="(e) => emit('addToCompare', e, product)" class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-gray-400 hover:text-brand transition-colors group py-2">
               <Scale class="w-4 h-4 text-gray-400 group-hover:text-brand transition-colors" /> Porovnať
             </button>
-            <button @click="emit('openWatchdog', product)" class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-gray-400 hover:text-brand transition-colors group py-2">
-              <Eye class="w-4 h-4 text-gray-400 group-hover:text-brand transition-colors" /> Strážiť
-            </button>
+            <ShareProduct :product="product" />
             <button @click="emit('openPriceOffer', product)" class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-gray-400 hover:text-brand transition-colors group py-2">
               <Zap class="w-4 h-4 text-gray-400 group-hover:text-brand transition-colors" /> Ponuka
             </button>
