@@ -484,7 +484,7 @@ const pmocPrice = computed(() => {
              </div>
 
              <!-- Body scrollable -->
-             <div class="overflow-y-auto w-full px-5 py-6 hide-scrollbar relative">
+             <div class="overflow-y-auto w-full px-5 py-6 scrollbar-hide relative">
                 <!-- VariantSelector uses ProductInfo's emit cascade to ProductDetail -->
                 <VariantSelector 
                   :product="product" 

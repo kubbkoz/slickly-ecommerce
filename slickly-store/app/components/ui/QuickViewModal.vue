@@ -61,7 +61,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown));
            </div>
 
            <!-- Right: Details -->
-           <div class="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto">
+           <div class="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto scrollbar-hide">
                <div class="mb-6">
                    <span class="text-brand font-bold text-sm uppercase tracking-widest mb-2 block font-tech">
                        {{ product.category }}

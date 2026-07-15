@@ -397,7 +397,7 @@ function resolveLineItemImage(lineItem: any) {
 
         <!-- Review Modal -->
         <AppModal :is-open="isReviewModalOpen" title="Ohodnotiť produkty" @close="isReviewModalOpen = false">
-            <div v-if="reviewOrder" class="p-2 space-y-8 max-h-[70vh] overflow-y-auto custom-scrollbar pr-2">
+            <div v-if="reviewOrder" class="p-2 space-y-8 max-h-[70vh] overflow-y-auto scrollbar-hide pr-2">
                 <div v-for="lineItem in reviewOrder.lineItems" :key="lineItem.id">
                     <template v-if="lineItem.type === 'product'">
                         <div class="flex items-center gap-4 mb-4">

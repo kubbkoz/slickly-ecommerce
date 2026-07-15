@@ -320,7 +320,7 @@ const handleRemoveFromWishlist = async (id: string, name: string) => {
        <div v-else-if="wishlistItems.length === 0" class="text-center p-8 text-gray-500 font-bold uppercase tracking-wider text-sm">
           Zatiaľ nemáte žiadne obľúbené produkty.
        </div>
-       <div v-else class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+       <div v-else class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 scrollbar-hide">
           <div v-for="item in wishlistItems" :key="item.id" class="flex items-center gap-4 bg-zinc-900 p-3 shadow-sm border border-zinc-800 group transition-colors hover:border-zinc-700">
              <NuxtLink :to="`/detail/${item.id}`" @click="isWishlistModalOpen = false" class="w-16 h-16 bg-white shrink-0 block">
                <img :src="item?.cover?.media?.url || 'https://placehold.co/100'" class="w-full h-full object-contain p-1" />

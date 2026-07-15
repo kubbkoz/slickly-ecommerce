@@ -236,7 +236,7 @@ const toggleCurrency = () => {
         </div>
 
         <!-- Mobile Body — Light Theme as requested -->
-        <div class="w-full flex-1 overflow-y-auto bg-white p-6 pb-32">
+        <div class="w-full flex-1 overflow-y-auto scrollbar-hide bg-white p-6 pb-32">
         
         <!-- Quick Actions -->
         <div class="grid grid-cols-2 gap-4 mb-8">

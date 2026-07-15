@@ -53,7 +53,7 @@ onUnmounted(() => {
 
           <h2 class="text-xl font-bold uppercase tracking-wider mb-6 pr-6 font-tech text-black">{{ title }}</h2>
 
-          <div class="prose prose-sm font-sans max-h-[70vh] overflow-y-auto w-full text-gray-600">
+          <div class="prose prose-sm font-sans max-h-[70vh] overflow-y-auto w-full text-gray-600 scrollbar-hide">
             <slot />
           </div>
         </div>

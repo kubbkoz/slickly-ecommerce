@@ -192,7 +192,7 @@ const handleVoiceSearch = async () => {
         </div>
 
         <!-- ── CONTENT (scrollable) ──────────────────────────────────────── -->
-        <div class="flex-1 overflow-y-auto">
+        <div class="flex-1 overflow-y-auto scrollbar-hide">
 
           <!-- ── EMPTY STATE: no query ──────────────────────────────────── -->
           <div v-if="showEmpty" class="p-4 space-y-6">

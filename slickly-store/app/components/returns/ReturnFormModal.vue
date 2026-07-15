@@ -130,7 +130,7 @@ const progress = computed(() => {
           </div>
 
           <!-- Content (scrollable) -->
-          <div class="flex-1 overflow-y-auto px-6 py-5">
+          <div class="flex-1 overflow-y-auto scrollbar-hide px-6 py-5">
             <ReturnFormStep1
               v-if="currentStep === 1"
               :form-data="formData"

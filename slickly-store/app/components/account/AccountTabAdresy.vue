@@ -482,7 +482,7 @@ async function deleteAddress(addressId: string) {
                     </div>
 
                     <!-- Body -->
-                    <div class="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar">
+                    <div class="flex-1 overflow-y-auto px-8 py-6 scrollbar-hide">
                         <form id="address-form" @submit.prevent="saveAddress" class="space-y-6 pb-20">
                             
                             <div v-if="error" class="bg-red-50 text-red-600 p-4 text-sm flex gap-3 border border-red-100">

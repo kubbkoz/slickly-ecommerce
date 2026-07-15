@@ -86,7 +86,7 @@ const currentGeo = computed(() => geometryData[activeSize.value] || geometryData
         </div>
 
         <!-- Content -->
-        <div class="flex-1 overflow-y-auto p-6 md:p-10">
+        <div class="flex-1 overflow-y-auto scrollbar-hide p-6 md:p-10">
           <div class="flex flex-col lg:flex-row gap-12">
             
             <!-- Left Side: Visuals & Slider -->

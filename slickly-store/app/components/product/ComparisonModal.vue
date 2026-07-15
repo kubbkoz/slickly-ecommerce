@@ -156,7 +156,7 @@ onUnmounted(() => { document.body.style.overflow = ''; });
       <div v-if="isOpen" class="fixed inset-0 z-[100] flex items-start justify-center bg-black/50 backdrop-blur-sm p-0 md:p-4 md:pt-12">
         <div class="absolute inset-0" @click="emit('close')"></div>
 
-        <div class="comparison-modal relative w-full h-full md:h-auto md:max-h-[85vh] max-w-4xl bg-white shadow-2xl overflow-y-auto md:overflow-hidden flex flex-col">
+        <div class="comparison-modal relative w-full h-full md:h-auto md:max-h-[85vh] max-w-4xl bg-white shadow-2xl overflow-y-auto md:overflow-hidden scrollbar-hide flex flex-col">
           <!-- Header -->
           <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 flex-shrink-0">
             <h2 class="text-lg font-tech font-bold uppercase tracking-wide">Porovnanie produktov</h2>
