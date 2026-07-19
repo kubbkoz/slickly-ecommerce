@@ -44,7 +44,7 @@ extends: ["../vue-starter-template", "./features/blog"],
   // Vypnuté sourcemapy → výrazne nižší peak-memory pri builde (kvôli OOM na
   // pamäťovo limitovanom shared-hosting build kontajneri) + menší .output.
   sourcemap: false,
-  modules: ["@unocss/nuxt", "@pinia/nuxt", "@nuxtjs/fontaine"],
+  modules: ["@unocss/nuxt", "@pinia/nuxt", "@nuxtjs/fontaine", "nuxt-security"],
   // Fontaine: generuje size-adjust fallback @font-face metriky pre brand font
   // → eliminuje CLS pri swape z fallback fontu na Space Grotesk.
   // Nezasahuje do @fontsource loadovania ani manuálnych preloadov. (audit P1 #7)
@@ -550,6 +550,47 @@ extends: ["../vue-starter-template", "./features/blog"],
         { rel: 'preconnect', href: `https://${shopwareMediaDomain}` },
         { rel: 'dns-prefetch', href: `https://${shopwareMediaDomain}` },
       ],
+    },
+  },
+  // nuxt-security: CSP, HSTS, clickjacking/MIME-sniffing protection, request-size
+  // limiting, and (via its bundled unplugin-remove) stripping console.* from the
+  // production client bundle. Layered ON TOP of, not replacing, the existing
+  // Redis-backed per-route rate limiting (server/utils/rateLimit.ts) on the AI and
+  // impersonation endpoints.
+  security: {
+    headers: {
+      // Base (non-strict) CSP already uses a nonce + 'strict-dynamic' for script-src
+      // and leaves frame-src/connect-src unrestricted, which is enough for the SPS
+      // pickup-point widget script, YouTube/Vimeo product video embeds, and same-origin
+      // /api/* fetches without any change. img-src is the one directive the default
+      // restricts to 'self' + data: — SLICKLY renders images from several external
+      // hosts (Shopware media CDN, placeholder/avatar services, CMS-referenced blog/
+      // manufacturer photos that can point anywhere), so it's widened to the same
+      // https: fallback already used for script-src/style-src/font-src rather than
+      // hand-enumerating every domain a Shopware editor might reference.
+      contentSecurityPolicy: {
+        'img-src': ["'self'", 'data:', 'https:'],
+      },
+    },
+    // Report-only: violations are visible in the browser console (and can be wired to
+    // a report endpoint later) but nothing is blocked yet. This environment has no
+    // network path to the live site to exercise OAuth login, the SPS widget, or
+    // CMS-driven pages end-to-end — flip to false once a check of the live site's
+    // DevTools console (or a report endpoint) shows no unexpected violations.
+    contentSecurityPolicyReportOnly: true,
+    // MUST stay false. `xss` is aliased above (see the `alias`/`vite.plugins` blocks)
+    // to the no-op babel-shim — originally to fix a @shopware/cms-base-layer build
+    // conflict — which does not export `FilterXSS`. nuxt-security's xssValidator
+    // middleware imports { FilterXSS } from 'xss' and would throw at runtime
+    // (`new undefined()`) the moment a request matched its enabled methods.
+    // SLICKLY's own sanitizeHtml() (~/utils/sanitize) already covers this ground.
+    xssValidator: false,
+    // Returns/warranty photo upload (server/api/returns/upload.post.ts) allows up to
+    // 5 files x 10MB = 60MB legitimate multipart request; the module's 2MB/8MB
+    // defaults would reject that upload before the route's own validation ever runs.
+    requestSizeLimiter: {
+      maxRequestSizeInBytes: 70 * 1024 * 1024,
+      maxUploadFileRequestInBytes: 70 * 1024 * 1024,
     },
   },
 });
