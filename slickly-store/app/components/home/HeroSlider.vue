@@ -68,7 +68,12 @@ const $img = useImage();
 const optimizeHero = (src: string | undefined): string => {
   if (!src || src.startsWith('data:') || src.startsWith('/')) return src || '';
   try {
-    return $img(src, { width: 1920, format: 'webp', quality: 70 });
+    // AVIF: ~25% smaller than webp at the same visual quality → faster LCP for the
+    // preloaded hero. The hero is a CSS background-image (single URL, no <picture>
+    // negotiation), so this is a single format; the ~2-3% of browsers that can't
+    // decode avif fall back to the container's black bg + gradient (text stays
+    // readable) rather than a broken image.
+    return $img(src, { width: 1920, format: 'avif', quality: 72 });
   } catch {
     return src;
   }

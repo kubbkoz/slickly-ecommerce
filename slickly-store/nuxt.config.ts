@@ -175,7 +175,11 @@ extends: ["../vue-starter-template", "./features/blog"],
   // Bez tohto NuxtImg nevygeneruje optimalizovaný srcset pre <domain>/media/*
   image: {
     domains: [shopwareMediaDomain],
-    format: ['webp', 'avif'],
+    // AVIF first: @nuxt/image emits <source> in this order and the browser picks
+    // the first it supports, so avif-capable browsers (~97%) get the ~25%-smaller
+    // avif and everyone else automatically falls back to webp — smaller files at
+    // the same visual quality, with a safe universal fallback (NuxtImg only).
+    format: ['avif', 'webp'],
     // Tuning (audit P1 #8): nižšia kvalita = menej bajtov bez viditeľnej straty,
     // retina varianty cez densities, jednotné breakpointy pre srcset.
     quality: 78,
