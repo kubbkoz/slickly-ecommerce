@@ -117,7 +117,11 @@ const handleHeroClick = () => {
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[600px]">
         <!-- Left Hero -->
         <div class="relative group overflow-hidden h-full min-h-[400px] rounded-default">
-          <img v-if="hero?.image" :src="hero.image" :alt="hero.title || 'Featured Collection'" width="800" height="600" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <!-- NuxtImg (was a plain <img> loading the raw multi-MB Shopware original —
+               PageSpeed's biggest image-delivery offender). The Shopware image provider
+               now resizes/compresses it (width/height/quality query params) and `sizes`
+               generates a responsive srcset (full width on mobile, half on desktop). -->
+          <NuxtImg v-if="hero?.image" :src="hero.image" :alt="hero.title || 'Featured Collection'" width="800" height="600" sizes="100vw lg:50vw" quality="78" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
           <div class="absolute bottom-0 left-0 p-6 sm:p-8 md:p-12 w-full">
             <div v-if="hero?.badge" class="inline-block bg-amber rounded-sm px-3 py-1 md:px-4 md:py-1.5 mb-3 md:mb-4">

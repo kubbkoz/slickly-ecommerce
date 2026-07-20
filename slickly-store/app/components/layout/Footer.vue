@@ -20,7 +20,10 @@ const { data: navCategories } = useAsyncData<Schemas['Category'][]>(
     try {
       const res = await apiClient.invoke('readCategoryList post /category', {
         body: {
-          limit: 100,
+          // Only top-level categories are needed (to pick the 4 in TARGET_IDS);
+          // 25 is plenty and keeps this SSR payload (inlined into the HTML because
+          // payloadExtraction is off) small instead of serializing 100 categories.
+          limit: 25,
           filter: [
             { type: 'equals', field: 'parentId', value: config.public.shopware.ids.rootCategory },
             { type: 'equals', field: 'active', value: true },

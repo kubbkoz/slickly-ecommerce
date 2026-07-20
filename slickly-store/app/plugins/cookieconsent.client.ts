@@ -1,4 +1,3 @@
-import * as CookieConsent from 'vanilla-cookieconsent';
 import type { Ref } from 'vue';
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -8,10 +7,20 @@ export default defineNuxtPlugin((nuxtApp) => {
   // Maps i18n locale codes → CC translation keys (cz → cs-CZ but we use 'cz' for consistency)
   const getCcLang = (loc: string) => loc;
 
+  // PERF: the vanilla-cookieconsent library + its modal-building `run()` call used
+  // to load and execute SYNCHRONOUSLY at client init, competing with app hydration
+  // and inflating Total Blocking Time (PageSpeed flagged this plugin's boot work).
+  // It's now dynamic-imported and deferred to onNuxtReady (after hydration, on
+  // browser idle), and CC is held in this ref so the provided $cc.* helpers still
+  // work once it's loaded. This is safe: nothing non-essential fires before consent
+  // anyway — gtag consent defaults to 'denied' (see nuxt.config head script) — so the
+  // banner appearing a beat after first paint changes nothing about tracking behaviour.
+  let CC: typeof import('vanilla-cookieconsent') | null = null;
+
   const updateGcm = () => {
     const win = window as any;
-    if (typeof win.gtag !== 'function') return;
-    const accepted = CookieConsent.getUserPreferences().acceptedCategories;
+    if (!CC || typeof win.gtag !== 'function') return;
+    const accepted = CC.getUserPreferences().acceptedCategories;
     win.gtag('consent', 'update', {
       analytics_storage:       accepted.includes('analytics') ? 'granted' : 'denied',
       ad_storage:              accepted.includes('marketing') ? 'granted' : 'denied',
@@ -22,77 +31,82 @@ export default defineNuxtPlugin((nuxtApp) => {
     });
   };
 
-  CookieConsent.run({
-    // Cookie name matching the existing Klaro name so returning visitors aren't re-prompted
-    cookie: {
-      name: 'mtsport-cc',
-    },
+  onNuxtReady(async () => {
+    CC = await import('vanilla-cookieconsent');
 
-    categories: {
-      necessary: {
-        enabled: true,
-        readOnly: true,
+    CC.run({
+      // Cookie name matching the existing Klaro name so returning visitors aren't re-prompted
+      cookie: {
+        name: 'mtsport-cc',
       },
-      analytics: {
-        autoClear: {
-          cookies: [{ name: /^_ga/ }],
+
+      categories: {
+        necessary: {
+          enabled: true,
+          readOnly: true,
+        },
+        analytics: {
+          autoClear: {
+            cookies: [{ name: /^_ga/ }],
+          },
+        },
+        marketing: {
+          autoClear: {
+            cookies: [
+              { name: '_fbp', domain: '.mtsport.store' },
+              { name: '_fbc', domain: '.mtsport.store' },
+            ],
+          },
         },
       },
-      marketing: {
-        autoClear: {
-          cookies: [
-            { name: '_fbp', domain: '.mtsport.store' },
-            { name: '_fbc', domain: '.mtsport.store' },
-          ],
+
+      language: {
+        default: getCcLang(locale.value),
+        translations: {
+          sk: () => import('~/locales/cookieconsent/sk').then((m) => m.default),
+          cz: () => import('~/locales/cookieconsent/cz').then((m) => m.default),
+          de: () => import('~/locales/cookieconsent/de').then((m) => m.default),
+          hu: () => import('~/locales/cookieconsent/hu').then((m) => m.default),
+          en: () => import('~/locales/cookieconsent/en').then((m) => m.default),
+          pl: () => import('~/locales/cookieconsent/pl').then((m) => m.default),
         },
       },
-    },
 
-    language: {
-      default: getCcLang(locale.value),
-      translations: {
-        sk: () => import('~/locales/cookieconsent/sk').then((m) => m.default),
-        cz: () => import('~/locales/cookieconsent/cz').then((m) => m.default),
-        de: () => import('~/locales/cookieconsent/de').then((m) => m.default),
-        hu: () => import('~/locales/cookieconsent/hu').then((m) => m.default),
-        en: () => import('~/locales/cookieconsent/en').then((m) => m.default),
-        pl: () => import('~/locales/cookieconsent/pl').then((m) => m.default),
-      },
-    },
+      onFirstConsent: updateGcm,
+      onConsent: updateGcm,
+      onChange: updateGcm,
 
-    onFirstConsent: updateGcm,
-    onConsent: updateGcm,
-    onChange: updateGcm,
-
-    guiOptions: {
-      consentModal: {
-        layout: 'box',
-        position: 'bottom left',
-        equalWeightButtons: false,
-        flipButtons: false,
+      guiOptions: {
+        consentModal: {
+          layout: 'box',
+          position: 'bottom left',
+          equalWeightButtons: false,
+          flipButtons: false,
+        },
+        preferencesModal: {
+          layout: 'box',
+          equalWeightButtons: true,
+          flipButtons: false,
+        },
       },
-      preferencesModal: {
-        layout: 'box',
-        equalWeightButtons: true,
-        flipButtons: false,
-      },
-    },
+    });
   });
 
-  // Sync CC language when user switches app locale
+  // Sync CC language when user switches app locale (set up synchronously in the
+  // plugin scope; no-ops until CC has finished loading in onNuxtReady above).
   watch(locale, (newLocale) => {
-    CookieConsent.setLanguage(getCcLang(newLocale), true);
+    CC?.setLanguage(getCcLang(newLocale), true);
   });
 
   return {
     provide: {
       cc: {
-        show:            () => CookieConsent.show(true),
-        showPreferences: () => CookieConsent.showPreferences(),
-        hide:            () => CookieConsent.hide(),
+        show:            () => CC?.show(true),
+        showPreferences: () => CC?.showPreferences(),
+        hide:            () => CC?.hide(),
         accepted:        (cat: 'necessary' | 'analytics' | 'marketing') =>
-                           CookieConsent.acceptedCategory(cat),
-        validConsent:    () => CookieConsent.validConsent(),
+                           CC?.acceptedCategory(cat) ?? false,
+        validConsent:    () => CC?.validConsent() ?? false,
       },
     },
   };

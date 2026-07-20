@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import Navbar from '~/components/layout/Navbar.vue';
-import Footer from '~/components/layout/Footer.vue';
-import PreFooter from '~/components/layout/PreFooter.vue';
 import MobileBottomNav from '~/components/layout/MobileBottomNav.vue';
+// PreFooter + Footer are below the fold on every page but were hydrating eagerly
+// (PageSpeed: ~9s Script Evaluation from the eager tree). Rendered below via the
+// global Lazy* + `hydrate-on-visible` form so their SSR HTML still ships (SEO/links
+// intact) but their client hydration — incl. Footer's category fetch + Newsletter
+// form — is deferred until the user scrolls them into view.
 
 // Async-loaded: the cart sidebar (already ClientOnly, only ever opened by user
 // action) pulled its whole subtree — CartHeader/CartItem/CartCrossSellPanel/
@@ -36,11 +39,11 @@ useHead(computed(() => ({
       <slot />
     </main>
     
-    <PreFooter />
+    <LazyPreFooter hydrate-on-visible />
 
     <!-- FIX-A11Y: Footer component renders its own <footer> tag internally.
          Wrapping it in another <footer> caused "duplicate contentinfo landmark" a11y violation. -->
-    <Footer />
+    <LazyFooter hydrate-on-visible />
     
     <!-- Statická spodná lišta: renderuje sa v SSR (deterministická, fixed bottom-0),
          aby bola viditeľná OKAMŽITE — nie až po dohydratovaní (~26 s). Badge s počtom

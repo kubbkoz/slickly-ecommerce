@@ -40,7 +40,9 @@ const isWishlistModalOpen = useState('wishlistModalOpen', () => false);
 const isBottomNavVisible = useState('mobileBottomNavVisible', () => true);
 isBottomNavVisible.value = true;
 
-onMounted(() => {
+// PERF: defer the wishlist fetch off the hydration critical path (see NavIcons).
+// The wishlist store is shared, so this also avoids racing a duplicate load.
+onNuxtReady(() => {
   loadWishlist();
 });
 

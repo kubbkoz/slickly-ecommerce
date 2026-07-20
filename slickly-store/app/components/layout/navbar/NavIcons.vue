@@ -84,7 +84,10 @@ const isWishlistModalOpen = useState('wishlistModalOpen', () => false);
 const { comparisonItems, comparisonCount } = useProductComparison();
 const isComparisonNavOpen = useState('comparisonNavOpen', () => false);
 
-onMounted(() => {
+// PERF: the wishlist count isn't needed for first paint. Defer its fetch to
+// onNuxtReady (after hydration, on browser idle) so it doesn't add a network
+// request + reactive work to the hydration critical path / Total Blocking Time.
+onNuxtReady(() => {
   loadWishlist();
 });
 

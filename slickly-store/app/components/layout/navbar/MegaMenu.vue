@@ -27,7 +27,12 @@ const displayedSubcategories = computed(() => {
 
 // Dynamic fetching of Recommended products for the current category
 // Logic: Try to fetch featured (topseller) products first. Fallback to regular products if empty.
-const { data: bestSellers, pending: isFetchingProducts } = await useAsyncData(
+// NOTE: no top-level `await` + { lazy, server: false }. The mega-menu product
+// preview only ever renders on hover (v-if="category", null on first paint), so
+// awaiting this turned the whole persistent Navbar into an async/Suspense boundary
+// and blocked hydration for nothing. Now it never runs on the server (not in the
+// inline payload) and fetches lazily on the client only once a category is hovered.
+const { data: bestSellers, pending: isFetchingProducts } = useAsyncData(
   () => `megamenu-products-${props.category?.id}`,
   async () => {
     if (!props.category?.id) return [];
@@ -118,7 +123,7 @@ const { data: bestSellers, pending: isFetchingProducts } = await useAsyncData(
       return [];
     }
   },
-  { watch: [() => props.category?.id] }
+  { watch: [() => props.category?.id], lazy: true, server: false }
 );
 
 const getCategoryImage = (cat: Schemas['Category']) => {

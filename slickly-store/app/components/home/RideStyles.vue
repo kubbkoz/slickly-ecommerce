@@ -98,10 +98,15 @@ const orderedCategories = computed(() =>
         >
           <!-- Image Layer -->
           <div class="absolute inset-0">
-            <img
+            <NuxtImg
               v-if="(cat as any).media?.url"
               :alt="cat.translated?.name || cat.name || ''"
               :src="(cat as any).media.url"
+              width="440"
+              height="550"
+              sizes="100vw md:50vw lg:25vw"
+              quality="78"
+              loading="lazy"
               class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 grayscale group-hover:grayscale-0 motion-reduce:transition-none motion-reduce:grayscale-0 motion-reduce:group-hover:scale-100"
             />
             <div
