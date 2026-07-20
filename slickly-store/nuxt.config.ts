@@ -571,7 +571,41 @@ extends: ["../vue-starter-template", "./features/blog"],
       contentSecurityPolicy: {
         'img-src': ["'self'", 'data:', 'https:'],
       },
+      // ── REGRESSION FIX: product/hero/category images stopped loading after this
+      //    module was added. The cause is the module's DEFAULT cross-origin
+      //    isolation + referrer headers, which break exactly this storefront's
+      //    image setup (images load cross-origin directly from the Shopware media
+      //    CDN admin.slickly.sk, and/or same-origin via /_ipx/). Relaxed to the
+      //    values a normal e-commerce site needs — the genuinely valuable headers
+      //    (HSTS, X-Frame-Options, X-Content-Type-Options, CSP) are unaffected.
+
+      // COEP 'credentialless'/'require-corp' (module default in prod) blocks
+      // cross-origin subresources (the Shopware-CDN <img>s) unless they send CORP
+      // headers, which the media CDN does not. We use no SharedArrayBuffer /
+      // cross-origin isolation, so this buys nothing and only breaks images.
+      crossOriginEmbedderPolicy: false,
+      // Default 'same-origin' forbids other origins embedding our resources; a
+      // CDN-fronted storefront wants 'cross-origin'.
+      crossOriginResourcePolicy: 'cross-origin',
+      // Default 'same-origin' severs the opener reference the Google/Facebook
+      // OAuth popup flow relies on; '-allow-popups' keeps the isolation benefit
+      // while letting the login popup post its result back.
+      crossOriginOpenerPolicy: 'same-origin-allow-popups',
+      // Default 'no-referrer' sends NO Referer on image requests. The Shopware
+      // media backend hotlink-protects and returns 403 when Referer/Origin are
+      // missing (documented in the dev proxy config above). 'strict-origin-when-
+      // cross-origin' (the modern browser default) sends the bare origin, which
+      // satisfies that check while still not leaking the full path.
+      referrerPolicy: 'strict-origin-when-cross-origin',
     },
+    // Disable the module's GLOBAL rate limiter. Its default (150 requests / 5 min
+    // per IP) is far below what a single image-heavy category/PDP page fires in
+    // one load (product image + srcset/density variants + _ipx/ requests + assets),
+    // so it 429s image requests site-wide — which is exactly the "images sometimes
+    // appear (cache), mostly don't" symptom. Targeted, correct rate limiting already
+    // exists on the expensive endpoints (server/utils/rateLimit.ts, per-IP Redis)
+    // where it belongs; a blanket limiter on every asset request is harmful here.
+    rateLimiter: false,
     // Report-only: violations are visible in the browser console (and can be wired to
     // a report endpoint later) but nothing is blocked yet. This environment has no
     // network path to the live site to exercise OAuth login, the SPS widget, or
