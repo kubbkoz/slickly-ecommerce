@@ -13,6 +13,27 @@ const inFlight = new Map<string, Promise<string | null>>();
 
 const BG_TOLERANCE = 18;
 const SCAN_SIZE = 200;
+// Cap the cropped output raster so the main-thread PNG encode stays cheap. The
+// trimmed image only ever renders inside a 300×400 `object-contain` frame, so a
+// 600px longest edge is already oversampled — encoding the full-resolution
+// original here was a big chunk of the listing-page Total Blocking Time.
+const OUTPUT_MAX = 600;
+// Bound the blob cache and revoke evicted object URLs. Without this, every
+// trimmed photo leaked a blob for the lifetime of the SPA session (grew
+// unbounded across navigations).
+const MAX_CACHE = 60;
+
+function rememberTrim(src: string, result: string | null) {
+    if (!trimCache.has(src) && trimCache.size >= MAX_CACHE) {
+        const oldestKey = trimCache.keys().next().value as string | undefined;
+        if (oldestKey !== undefined) {
+            const oldest = trimCache.get(oldestKey);
+            if (typeof oldest === 'string' && oldest.startsWith('blob:')) URL.revokeObjectURL(oldest);
+            trimCache.delete(oldestKey);
+        }
+    }
+    trimCache.set(src, result);
+}
 
 function isBackgroundPixel(data: Uint8ClampedArray, i: number, br: number, bg: number, bb: number): boolean {
     const alpha = data[i + 3];
@@ -113,12 +134,17 @@ async function computeTrimmedUrl(src: string): Promise<string | null> {
         const sh = Math.min(loaded.naturalHeight - sy, Math.ceil(box.h * scaleY));
         if (sw < 1 || sh < 1) return null;
 
+        // Downscale the crop to OUTPUT_MAX before encoding so `toBlob` never has
+        // to PNG-encode a multi-megapixel raster on the main thread.
+        const outScale = Math.min(1, OUTPUT_MAX / Math.max(sw, sh));
+        const outW = Math.max(1, Math.round(sw * outScale));
+        const outH = Math.max(1, Math.round(sh * outScale));
         const outCanvas = document.createElement('canvas');
-        outCanvas.width = sw;
-        outCanvas.height = sh;
+        outCanvas.width = outW;
+        outCanvas.height = outH;
         const outCtx = outCanvas.getContext('2d');
         if (!outCtx) return null;
-        outCtx.drawImage(loaded, sx, sy, sw, sh, 0, 0, sw, sh);
+        outCtx.drawImage(loaded, sx, sy, sw, sh, 0, 0, outW, outH);
 
         const blob: Blob | null = await new Promise((resolve) => outCanvas.toBlob(resolve, 'image/png'));
         if (!blob) return null;
@@ -145,7 +171,7 @@ export function useAutoTrimImage() {
         if (existing) return existing;
 
         const promise = computeTrimmedUrl(src).then((result) => {
-            trimCache.set(src, result);
+            rememberTrim(src, result);
             inFlight.delete(src);
             return result;
         });
