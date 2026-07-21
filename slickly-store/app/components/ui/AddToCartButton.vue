@@ -44,7 +44,13 @@ const isEffectivelyCloseout = computed(() => {
 
 const handleClick = async (e: Event) => {
     e.stopPropagation();
-    
+    // The button often sits inside a ProductCard's root <a href>. stopPropagation
+    // keeps the click from reaching the card's @click.prevent handler — but that
+    // handler is what would have cancelled the anchor's NATIVE navigation, so
+    // without preventing the default here the browser still opens the product page.
+    // We only want to add to cart + open the drawer and stay on the current page.
+    e.preventDefault();
+
     // Block closeout items — they cannot be purchased
     if (isEffectivelyCloseout.value) return;
 
