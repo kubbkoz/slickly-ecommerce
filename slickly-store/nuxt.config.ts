@@ -174,6 +174,20 @@ extends: ["../vue-starter-template", "./features/blog"],
   // @nuxt/image: povolené externé domény pre Shopware media CDN
   // Bez tohto NuxtImg nevygeneruje optimalizovaný srcset pre <domain>/media/*
   image: {
+    // ROOT-CAUSE FIX (PageSpeed: ~3.7 MB of avoidable image bytes, 2.1 MB hero,
+    // LCP 4.0s). @shopware/cms-base-layer registers a "shopware" @nuxt/image
+    // provider and sets it as the default. That provider only APPENDS
+    // ?width=&quality=&format=avif to the raw admin.slickly.sk media URL — but the
+    // Shopware media host serves static files and IGNORES those query params, so
+    // every image shipped as its full-resolution PNG/JPG original (the hero was a
+    // 2.1 MB PNG whose ?format=avif never took effect). Forcing IPX (Nuxt's
+    // built-in sharp optimizer, bundled with @nuxt/image) makes Nitro fetch each
+    // Shopware original server-side and ACTUALLY re-encode it to avif/webp at the
+    // requested size — real compression (2.1 MB PNG → ~200 KB avif), a much cheaper
+    // main-thread decode (helps TBT), and same-origin /_ipx/ URLs (so the
+    // client-side auto-trim canvas is no longer CORS-tainted).
+    provider: 'ipx',
+    // Remote Shopware media must be allowlisted for IPX to optimize absolute URLs.
     domains: [shopwareMediaDomain],
     // AVIF first: @nuxt/image emits <source> in this order and the browser picks
     // the first it supports, so avif-capable browsers (~97%) get the ~25%-smaller
