@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useProductHelpers } from '~/composables/useProductHelpers';
-import { useAutoTrimImage } from '~/composables/useAutoTrimImage';
 import RatingStars from '~/components/ui/RatingStars.vue';
 import { formatRating, plainTextExcerpt } from '~/utils/format';
 import { Heart, Star, ChevronLeft, ChevronRight, ArrowRight, Scale } from 'lucide-vue-next';
@@ -87,93 +86,6 @@ const productMedia = computed(() => {
 });
 
 const hasMultipleImages = computed(() => productMedia.value.length > 1);
-
-// Auto-crop the whitespace margin around each cover/gallery photo so products
-// with inconsistently-framed source photos still fill a consistent portion of
-// the card (see useAutoTrimImage.ts for why this can't be done server-side
-// here). Runs client-only, after each source resolves — SSR/first paint keeps
-// showing the untrimmed original, then swaps in once ready.
-const { trimSrc } = useAutoTrimImage();
-const $img = useImage();
-const displayMedia = ref<string[]>([...productMedia.value]);
-
-// PERF (was the dominant listing-page TBT cost): the trim used to run for EVERY
-// image of EVERY card immediately during hydration, each time downloading the
-// full-resolution Shopware original into a canvas and PNG-re-encoding it on the
-// main thread — dozens of multi-megapixel decodes/encodes competing with
-// hydration. Now: feed the trim a small ~500px variant, only trim the cover, only
-// once the card scrolls into view, and defer the canvas work to browser idle.
-// Gallery slides (off-screen in the carousel) are trimmed lazily on first hover.
-const trimSource = (src: string) =>
-    (src.startsWith('blob:') || src.startsWith('data:')) ? src : $img(src, { width: 500, quality: 82 });
-
-let coverTrimmed = false;
-let galleryTrimmed = false;
-
-const trimCover = () => {
-    if (coverTrimmed) return;
-    const src = productMedia.value[0];
-    if (!src) return;
-    coverTrimmed = true;
-    trimSrc(trimSource(src)).then((trimmed) => {
-        if (trimmed) displayMedia.value[0] = trimmed;
-    });
-};
-
-const trimGallery = () => {
-    if (galleryTrimmed) return;
-    galleryTrimmed = true;
-    productMedia.value.forEach((src, i) => {
-        if (i === 0 || !src) return;
-        trimSrc(trimSource(src)).then((trimmed) => {
-            if (trimmed) displayMedia.value[i] = trimmed;
-        });
-    });
-};
-
-const startCoverTrim = () => {
-    const run = () => trimCover();
-    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-        (window as any).requestIdleCallback(run, { timeout: 1500 });
-    } else {
-        setTimeout(run, 200);
-    }
-};
-
-// Keep displayMedia in sync when the media prop changes (variant swap, list
-// refresh) and re-arm the cover trim for the new source.
-watch(productMedia, (media) => {
-    displayMedia.value = [...media];
-    coverTrimmed = false;
-    galleryTrimmed = false;
-    if (cardSeen) startCoverTrim();
-});
-
-// Only pay the trim cost for cards the user actually scrolls to — below-the-fold
-// cards and later carousel slides never run it during the initial hydration burst.
-const rootEl = ref<HTMLElement | null>(null);
-let cardSeen = false;
-let io: IntersectionObserver | null = null;
-onMounted(() => {
-    if (typeof IntersectionObserver === 'undefined') {
-        cardSeen = true;
-        startCoverTrim();
-        return;
-    }
-    io = new IntersectionObserver((entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-            cardSeen = true;
-            startCoverTrim();
-            io?.disconnect();
-            io = null;
-        }
-    }, { rootMargin: '200px' });
-    if (rootEl.value) io.observe(rootEl.value);
-});
-onUnmounted(() => {
-    io?.disconnect();
-    io = null;
-});
 
 const scrollToImage = (index: number) => {
     currentImageIndex.value = index;
@@ -268,15 +180,11 @@ const handleCompareClick = (e: MouseEvent) => {
 
 const handleHoverPrefetch = () => {
     isHovered.value = true;
-    // Trim the (initially off-screen) gallery slides only once the user shows
-    // intent by hovering — keeps them off the hydration critical path.
-    trimGallery();
 };
 </script>
 
 <template>
     <a
-        ref="rootEl"
         :href="productUrl"
         class="group bg-white cursor-pointer relative transition-[box-shadow] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col touch-manipulation"
         :class="[
@@ -309,21 +217,7 @@ const handleHoverPrefetch = () => {
                         :key="index"
                         class="flex-shrink-0 w-full h-full bg-transparent"
                     >
-                        <!-- Trimmed result is a local blob: URL — rendered as a plain <img>,
-                             bypassing @nuxt/image's provider (which would otherwise append
-                             ?width=&height=... query params onto the blob URL and break it). -->
-                        <img
-                            v-if="displayMedia[index]?.startsWith('blob:')"
-                            :alt="`${product.translated?.name || product.name || ''} - foto ${index + 1}`"
-                            :src="displayMedia[index]"
-                            width="300"
-                            height="400"
-                            class="w-full h-full object-contain p-4 mix-blend-multiply pointer-events-none"
-                            loading="lazy"
-                            decoding="async"
-                        />
                         <NuxtImg
-                            v-else
                             :alt="`${product.translated?.name || product.name || ''} - foto ${index + 1}`"
                             :src="image"
                             width="300"
