@@ -16,15 +16,17 @@ const gridPosts = computed(() => {
 
 const formatDate = (d: string) =>
   d ? new Date(d).toLocaleDateString('sk-SK', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+
+const { target, isVisible } = useScrollReveal();
 </script>
 
 <template>
-  <section v-if="pending || (posts && (posts as any[]).length)" class="py-24 bg-gray-50 border-t border-gray-100">
+  <section v-if="pending || (posts && (posts as any[]).length)" ref="target" class="py-24 bg-gray-50 border-t border-gray-100">
     <div class="container mx-auto px-4 lg:px-8">
 
-      <div class="mb-12">
+      <div class="reveal-base mb-12" :class="isVisible ? 'reveal-visible' : 'reveal'">
         <h2 class="section-h2 mb-4">
-          <span class="text-brand">MT</span>SPORT <span class="text-brand">Blog</span>
+          SLICKLY <span class="text-brand">Blog</span>
         </h2>
         <div class="section-decorator mb-6"></div>
       </div>
@@ -58,7 +60,7 @@ const formatDate = (d: string) =>
         <NuxtLink
           v-if="featuredPost"
           :to="`/blog/${featuredPost.slug}`"
-          class="group grid grid-cols-1 lg:grid-cols-2 gap-0 bg-white border border-gray-100 hover:border-gray-300 transition-colors duration-200 overflow-hidden rounded-default"
+          class="group card-surface grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden"
         >
           <div class="aspect-[4/3] lg:aspect-auto relative bg-gray-100 max-h-[340px] overflow-hidden">
             <NuxtImg
@@ -87,7 +89,7 @@ const formatDate = (d: string) =>
                 </span>
               </div>
             </div>
-            <h3 class="font-tech font-black uppercase italic text-2xl lg:text-3xl leading-tight mb-4 group-hover:text-brand transition-colors line-clamp-3">
+            <h3 class="font-tech font-black uppercase italic text-3xl lg:text-4xl leading-tight mb-4 group-hover:text-brand transition-colors line-clamp-3">
               {{ featuredPost.title }}
             </h3>
             <p v-if="featuredPost.teaser || featuredPost.excerpt" class="text-sm text-gray-500 font-sans leading-relaxed line-clamp-3 mb-6">
@@ -105,7 +107,7 @@ const formatDate = (d: string) =>
             v-for="post in gridPosts"
             :key="post.id"
             :to="`/blog/${post.slug}`"
-            class="group flex gap-4 bg-white border border-gray-100 hover:border-gray-300 transition-colors duration-200 p-3 rounded-default"
+            class="group card-surface flex gap-4 p-4"
           >
             <div class="w-24 h-20 flex-shrink-0 bg-gray-100 overflow-hidden rounded-default">
               <NuxtImg
@@ -141,7 +143,7 @@ const formatDate = (d: string) =>
         <div class="flex justify-end mt-8">
           <NuxtLink
             to="/blog"
-            class="inline-flex items-center gap-3 bg-black hover:bg-black/80 text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors rounded-default"
+            class="btn-cta-motion"
           >
             Pozrieť všetky články <ArrowRight class="w-5 h-5" />
           </NuxtLink>

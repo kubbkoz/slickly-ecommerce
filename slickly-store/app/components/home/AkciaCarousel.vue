@@ -127,6 +127,8 @@ const scroll = (direction: 'left' | 'right') => {
         behavior: 'smooth'
     });
 };
+
+const { target, isVisible } = useScrollReveal();
 </script>
 
 <template>
@@ -136,11 +138,11 @@ const scroll = (direction: 'left' | 'right') => {
     </div>
   </section>
 
-  <section v-else-if="products.length || pending" class="pt-24 pb-8 bg-white border-b border-gray-100">
+  <section v-else-if="products.length || pending" ref="target" class="py-20 md:py-24 bg-white border-b border-gray-100">
       <div class="container mx-auto px-4 lg:px-8">
 
           <!-- Header -->
-          <div class="flex flex-col lg:flex-row justify-between items-end mb-10 gap-6">
+          <div class="reveal-base flex flex-col lg:flex-row justify-between items-end mb-10 gap-6" :class="isVisible ? 'reveal-visible' : 'reveal'">
               <div class="text-left w-full lg:w-auto">
                    <h2 class="section-h2 mb-4">
                      <template v-if="sectionTitle">
@@ -175,7 +177,7 @@ const scroll = (direction: 'left' | 'right') => {
           >
              <!-- Skeleton loaders while fetching -->
              <template v-if="pending && products.length === 0">
-                 <div v-for="i in 6" :key="`fs-skeleton-${i}`" class="min-w-[280px] sm:min-w-[300px] lg:min-w-[320px] bg-white border border-gray-100 flex-shrink-0 snap-center">
+                 <div v-for="i in 6" :key="`fs-skeleton-${i}`" class="min-w-[280px] sm:min-w-[300px] lg:min-w-[320px] card-surface flex-shrink-0 snap-center overflow-hidden">
                      <div class="aspect-square bg-gray-100 animate-pulse"></div>
                      <div class="p-4 space-y-2">
                          <div class="h-3 bg-gray-200 animate-pulse w-1/3 rounded-default"></div>

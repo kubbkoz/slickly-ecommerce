@@ -28,21 +28,28 @@ const featured = computed(() => {
         .filter((m): m is ManufacturerItem => !!m)
         .slice(0, 5);
 });
+
+const { target, isVisible } = useScrollReveal();
 </script>
 
 <template>
-  <section
-    class="pt-3 pb-3 md:pt-3 md:pb-3 bg-gray-50 border-b border-gray-100"
-  >
+  <section ref="target" class="py-14 md:py-20 bg-gray-50 border-b border-gray-100">
     <div class="container mx-auto px-4 lg:px-8">
-      <div class="grid grid-cols-3 lg:grid-cols-6 gap-1 md:gap-4">
+      <div class="reveal-base mb-8 md:mb-10" :class="isVisible ? 'reveal-visible' : 'reveal'">
+        <h2 class="section-h2 mb-4">
+          Značky, ktorým <span class="text-brand">dôverujeme</span>
+        </h2>
+        <div class="section-decorator"></div>
+      </div>
 
-        <!-- Brand tiles — logo priamo na šedom pozadí, jednotná väčšia veľkosť -->
+      <div class="reveal-base grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4" :class="isVisible ? 'reveal-visible' : 'reveal'">
+
+        <!-- Brand tiles — biela karta so soft tieňom, logo v plnej farbe -->
         <NuxtLink
           v-for="brand in featured"
           :key="brand.id"
           :to="localePath('/znacka/' + brand.slug)"
-          class="group flex items-center justify-center p-4 md:p-6 h-20 md:h-28 transition-colors"
+          class="group card-surface flex items-center justify-center p-4 md:p-6 h-24 md:h-32"
           :aria-label="brand.name"
         >
           <NuxtImg
@@ -52,7 +59,7 @@ const featured = computed(() => {
             width="140"
             height="36"
             sizes="140px"
-            class="h-7 md:h-9 w-auto max-w-full object-contain mix-blend-multiply grayscale opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+            class="h-8 md:h-10 w-auto max-w-full object-contain mix-blend-multiply opacity-80 group-hover:opacity-100 transition-opacity duration-300"
             loading="lazy"
           />
           <span
@@ -66,7 +73,7 @@ const featured = computed(() => {
         <!-- "Všetky značky" tile — šípka nad textom -->
         <NuxtLink
           :to="localePath('/znacky')"
-          class="group bg-black hover:bg-brand flex flex-col items-center justify-center gap-1.5 p-4 h-20 md:h-28 transition-colors rounded-default"
+          class="group bg-black hover:bg-brand flex flex-col items-center justify-center gap-2 p-4 h-24 md:h-32 transition-all duration-300 hover:-translate-y-1 rounded-default gpu-boost"
         >
           <ArrowUpRight class="w-5 h-5 md:w-6 md:h-6 text-white transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           <span class="font-tech font-bold uppercase text-[10px] md:text-xs tracking-widest text-white text-center leading-tight">

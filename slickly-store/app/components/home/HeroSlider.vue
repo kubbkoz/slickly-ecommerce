@@ -137,23 +137,23 @@ useHead(computed(() => {
             <div v-if="slide?.badge" class="inline-block bg-amber rounded-sm px-3 py-1 md:px-4 md:py-1.5 mb-3 md:mb-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-black font-tech">
               {{ slide.badge }}
             </div>
-            <h1 class="text-3xl sm:text-4xl md:text-6xl font-black mb-2 md:mb-4 leading-[0.9] uppercase italic font-tech tracking-wide break-words">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-3 md:mb-5 leading-[0.9] uppercase italic font-tech tracking-wide break-words">
               {{ slide?.title }}
             </h1>
-            <p class="text-sm sm:text-base md:text-lg text-gray-200 mb-6 md:mb-8 max-w-lg font-normal leading-relaxed font-sans line-clamp-3 md:line-clamp-none">
+            <p class="text-base sm:text-lg md:text-xl text-gray-200 mb-6 md:mb-8 max-w-lg font-normal leading-relaxed font-sans line-clamp-3 md:line-clamp-none">
               {{ slide?.subtitle }}
             </p>
             <div class="flex flex-col sm:flex-row gap-3">
               <NuxtLink
                 :to="slide?.ctaLink || '#'"
-                class="inline-flex items-center justify-center gap-3 bg-amber hover:bg-amber-dark text-black font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto rounded-default"
+                class="group inline-flex items-center justify-center gap-3 bg-amber hover:bg-amber-dark text-black font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-8px_rgba(0,0,0,0.5)] active:scale-[0.98] active:translate-y-0 w-full sm:w-auto rounded-default gpu-boost"
               >
-                {{ slide?.cta }} <ArrowRight class="w-5 h-5" />
+                {{ slide?.cta }} <ArrowRight class="w-5 h-5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
               </NuxtLink>
               <NuxtLink
                 v-if="slide?.secondaryCta"
                 :to="slide?.secondaryCtaLink || '#'"
-                class="inline-flex items-center justify-center gap-3 bg-transparent border-2 border-white hover:bg-white hover:text-black text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto rounded-default"
+                class="inline-flex items-center justify-center gap-3 bg-transparent border-2 border-white hover:bg-white hover:text-black text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 w-full sm:w-auto rounded-default gpu-boost"
               >
                 {{ slide?.secondaryCta }}
               </NuxtLink>
@@ -222,16 +222,16 @@ useHead(computed(() => {
 
       <!-- Controls -->
       <div class="absolute bottom-10 right-10 flex gap-2 z-30">
-        <button 
+        <button
           @click.stop="prevSlide"
-          class="w-14 h-14 border border-white/30 hover:bg-brand hover:border-brand flex items-center justify-center transition-all text-white bg-black/50 backdrop-blur-sm rounded-default cursor-pointer"
+          class="w-14 h-14 border border-white/30 hover:bg-brand hover:border-brand hover:scale-105 flex items-center justify-center transition-all duration-300 text-white bg-black/50 backdrop-blur-sm rounded-default cursor-pointer gpu-boost"
           aria-label="Predchádzajúca snímka"
         >
           <ChevronLeft class="w-8 h-8 pointer-events-none" aria-hidden="true" />
         </button>
-        <button 
+        <button
           @click.stop="nextSlide"
-          class="w-14 h-14 border border-white/30 hover:bg-brand hover:border-brand flex items-center justify-center transition-all text-white bg-black/50 backdrop-blur-sm rounded-default cursor-pointer"
+          class="w-14 h-14 border border-white/30 hover:bg-brand hover:border-brand hover:scale-105 flex items-center justify-center transition-all duration-300 text-white bg-black/50 backdrop-blur-sm rounded-default cursor-pointer gpu-boost"
           aria-label="Nasledujúca snímka"
         >
           <ChevronRight class="w-8 h-8 pointer-events-none" aria-hidden="true" />

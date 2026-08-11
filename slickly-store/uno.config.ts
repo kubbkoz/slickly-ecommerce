@@ -100,11 +100,30 @@ export default defineConfig({
 
     // ── design.md §3 — Section H2 Typography (minimalist, bez italic/skew) ──
     // Použitie: <h2 class="section-h2">Nadpis <span class="text-amber">slovo</span></h2>
-    'section-h2': 'text-3xl md:text-4xl font-bold uppercase font-tech tracking-tight leading-tight',
+    'section-h2': 'text-3xl md:text-4xl lg:text-5xl font-bold uppercase font-tech tracking-tight leading-tight',
 
     // ── design.md §8 — Section Decorator (amber čiara pod H2, bez skew) ─────
     // Použitie: <div class="section-decorator mb-6"></div>
     'section-decorator': 'w-16 h-1 bg-amber rounded-default',
+
+    // ── Homepage uplift — Section Eyebrow (malý kicker label nad section-h2) ──
+    // Použitie: <span class="section-eyebrow">Kicker text</span>
+    'section-eyebrow': 'inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 font-tech mb-3',
+
+    // ── Homepage uplift — Card Surface (mäkká hĺbka namiesto plochého 1px borderu) ──
+    // Nahrádza opakovaný vzor `bg-white border border-gray-100 rounded-default` na
+    // kartách (recenzie, blog, skeleton) jemným difúznym tieňom + hover-lift.
+    'card-surface': 'bg-white rounded-default shadow-[0_2px_20px_-6px_rgba(0,0,0,0.08)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.16)] hover:-translate-y-1',
+
+    // ── Homepage uplift — CTA button s hover motion (nahrádza opakovaný
+    // `bg-black hover:bg-black/80 px-8 py-4` vzor bez akéhokoľvek pohybu) ──
+    'btn-cta-motion': 'inline-flex items-center justify-center gap-3 bg-black text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 rounded-default transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-brand-dark hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-8px_rgba(0,0,0,0.35)] active:scale-[0.98] active:translate-y-0 gpu-boost',
+
+    // ── Homepage uplift — Scroll Reveal (GPU-safe: len transform + opacity) ──
+    // Použitie s useScrollReveal(): :class="isVisible ? 'reveal-visible' : 'reveal'"
+    'reveal': 'opacity-0 translate-y-8',
+    'reveal-visible': 'opacity-100 translate-y-0',
+    'reveal-base': 'transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]',
 
     // ── design.md §8 — Brand Badge (amber štítok, bez skew) ─────────────────
     // Obal: <div class="brand-badge"><span class="brand-badge-text">TEXT</span></div>

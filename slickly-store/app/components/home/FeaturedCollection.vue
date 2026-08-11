@@ -94,6 +94,8 @@ const products = computed(() => collectionData.value?.products || []);
 const handleHeroClick = () => {
     if (hero.value?.buttonLink) navigateTo(localePath(hero.value.buttonLink));
 };
+
+const { target, isVisible } = useScrollReveal();
 </script>
 
 <template>
@@ -103,10 +105,10 @@ const handleHeroClick = () => {
     </div>
   </section>
 
-  <section v-else-if="hero || pending" class="pt-16 pb-24 bg-white border-b border-gray-100">
+  <section v-else-if="hero || pending" ref="target" class="py-20 md:py-28 bg-white border-b border-gray-100">
     <div class="container mx-auto px-4 lg:px-8">
       <!-- Header -->
-      <div class="text-left mb-12">
+      <div class="reveal-base text-left mb-12" :class="isVisible ? 'reveal-visible' : 'reveal'">
         <h2 class="section-h2 mb-4">
           Vybrané <span class="text-brand">produkty</span>
         </h2>
@@ -127,14 +129,14 @@ const handleHeroClick = () => {
             <div v-if="hero?.badge" class="inline-block bg-amber rounded-sm px-3 py-1 md:px-4 md:py-1.5 mb-3 md:mb-4">
               <span class="block text-black text-[10px] md:text-xs font-bold uppercase tracking-widest font-tech">{{ hero.badge }}</span>
             </div>
-            <h3 class="text-3xl sm:text-4xl md:text-6xl font-black text-white uppercase font-tech leading-[0.95] mb-3 md:mb-4 whitespace-pre-line text-shadow-lg">
+            <h3 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white uppercase font-tech leading-[0.95] mb-3 md:mb-4 whitespace-pre-line text-shadow-lg">
               {{ hero?.title }}
             </h3>
             <div v-if="hero?.description" class="text-gray-100 font-sans mb-6 md:mb-8 max-w-md line-clamp-3 prose prose-invert prose-sm drop-shadow-md" v-html="sanitizeHtml(hero.description)"></div>
             <NuxtLink
               v-if="hero?.buttonText"
               :to="localePath(hero.buttonLink || '#')"
-              class="inline-flex items-center justify-center gap-3 bg-brand hover:bg-brand-dark text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors w-full sm:w-auto rounded-default"
+              class="btn-cta-motion w-full sm:w-auto"
             >
               {{ hero.buttonText }} <ArrowRight class="w-5 h-5" />
             </NuxtLink>
@@ -145,7 +147,7 @@ const handleHeroClick = () => {
         <div class="grid grid-cols-2 gap-4 items-stretch h-full">
           <!-- Skeletons -->
           <template v-if="pending && products.length === 0">
-            <div v-for="i in 4" :key="`skeleton-${i}`" class="group bg-white overflow-hidden flex flex-col relative border border-gray-100 p-4 rounded-default">
+            <div v-for="i in 4" :key="`skeleton-${i}`" class="card-surface overflow-hidden flex flex-col relative p-4">
                 <div class="relative w-full aspect-square bg-gray-100 animate-pulse mb-4 rounded-default"></div>
                 <div class="h-4 bg-gray-200 animate-pulse w-1/4 mb-2"></div>
                 <div class="h-3 bg-gray-200 animate-pulse w-3/4 mb-1"></div>

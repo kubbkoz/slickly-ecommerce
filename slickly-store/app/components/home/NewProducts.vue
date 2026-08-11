@@ -89,22 +89,24 @@ const handleProductClick = (product: any) => {
 const handleViewDetails = (product: any) => {
     if (product.url) navigateTo(localePath(product.url));
 };
+
+const { target, isVisible } = useScrollReveal();
 </script>
 
 <template>
-  <section class="py-24 bg-white">
+  <section ref="target" class="py-24 bg-white">
       <div class="container mx-auto px-4 lg:px-8">
-          <div class="text-left mb-16">
+          <div class="reveal-base text-left mb-16" :class="isVisible ? 'reveal-visible' : 'reveal'">
               <h2 class="section-h2 mb-4">
                   Novinky v <span class="text-brand">ponuke</span>
               </h2>
               <div class="section-decorator mb-6"></div>
           </div>
 
-          <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-x-1 gap-y-8 md:gap-4 items-stretch">
+          <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-stretch">
               <!-- Skeleton loaders while fetching -->
               <template v-if="pending && displayProducts.length === 0">
-                  <div v-for="i in 8" :key="`skeleton-${i}`" class="bg-white border border-gray-100 overflow-hidden">
+                  <div v-for="i in 8" :key="`skeleton-${i}`" class="card-surface overflow-hidden">
                       <div class="aspect-square bg-gray-100 animate-pulse"></div>
                       <div class="p-3 md:p-4 space-y-2">
                           <div class="h-3 bg-gray-200 animate-pulse w-1/3 rounded-default"></div>

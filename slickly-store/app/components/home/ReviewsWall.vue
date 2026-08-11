@@ -54,14 +54,16 @@ watchEffect(() => {
     }],
   });
 });
+
+const { target, isVisible } = useScrollReveal();
 </script>
 
 <template>
-  <section class="py-24 bg-gray-50 border-t border-gray-100 min-h-[300px]">
+  <section ref="target" class="py-24 bg-gray-50 border-t border-gray-100 min-h-[300px]">
     <div class="container mx-auto px-4 lg:px-8">
 
       <!-- Header -->
-      <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-6">
+      <div class="reveal-base flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-6" :class="isVisible ? 'reveal-visible' : 'reveal'">
         <div>
           <h2 class="section-h2 mb-4">
             Čo hovoria <span class="text-brand">zákazníci</span>
@@ -80,7 +82,7 @@ watchEffect(() => {
         >
           <RatingStars :rating="rating" size-class="w-5 h-5" />
           <div class="text-right">
-            <span class="block font-tech font-black text-2xl text-black leading-none">
+            <span class="block font-tech font-black text-3xl md:text-4xl text-black leading-none">
               {{ rating.toFixed(1) }}
             </span>
             <span class="block text-[10px] uppercase tracking-widest text-gray-400 font-sans whitespace-nowrap">
@@ -96,7 +98,7 @@ watchEffect(() => {
         <div
           v-for="i in 5"
           :key="`rev-skeleton-${i}`"
-          class="bg-white border border-gray-100 p-6 flex flex-col gap-4 rounded-default"
+          class="card-surface p-6 flex flex-col gap-4"
         >
           <div class="flex gap-1">
             <div v-for="s in 5" :key="s" class="w-4 h-4 bg-gray-200 animate-pulse rounded-full" />
@@ -122,7 +124,7 @@ watchEffect(() => {
           <article
             v-for="(review, idx) in reviews"
             :key="idx"
-            class="review-card bg-white border border-gray-100 p-6 flex flex-col gap-4 relative transition-colors duration-200 rounded-default"
+            class="card-surface p-6 flex flex-col gap-4 relative"
           >
             <RatingStars :rating="review.rating" size-class="w-4 h-4" />
             <p class="font-sans text-sm text-gray-600 leading-relaxed line-clamp-5 flex-1">
@@ -167,7 +169,7 @@ watchEffect(() => {
             :href="MAPS_URL"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-3 bg-black hover:bg-black/80 text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors rounded-default"
+            class="btn-cta-motion"
           >
             Pozrieť recenzie na Google <ArrowRight class="w-5 h-5" />
           </a>
@@ -180,7 +182,7 @@ watchEffect(() => {
           :href="MAPS_URL"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-3 bg-black hover:bg-black/80 text-white font-tech font-bold uppercase tracking-widest text-sm px-8 py-4 transition-colors rounded-default"
+          class="btn-cta-motion"
         >
           Pozrieť recenzie na Google <ArrowRight class="w-5 h-5" />
         </a>
@@ -190,9 +192,3 @@ watchEffect(() => {
   </section>
 </template>
 
-<style scoped>
-/* Hover — tmavšia šedá border */
-.review-card:hover {
-  border-color: #9ca3af; /* tailwind gray-400 */
-}
-</style>

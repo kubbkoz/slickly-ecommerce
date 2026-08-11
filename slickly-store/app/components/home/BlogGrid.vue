@@ -51,13 +51,15 @@ watchEffect(() => {
     }],
   });
 });
+
+const { target, isVisible } = useScrollReveal();
 </script>
 
 <template>
-  <section v-if="pending || (faqData && faqData.length > 0)" class="py-24 bg-gray-50 border-t border-gray-100">
+  <section v-if="pending || (faqData && faqData.length > 0)" ref="target" class="py-24 bg-gray-50 border-t border-gray-100">
     <div class="container mx-auto px-4 lg:px-8">
 
-      <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+      <div class="reveal-base flex flex-col md:flex-row justify-between items-end mb-12 gap-6" :class="isVisible ? 'reveal-visible' : 'reveal'">
         <div>
           <h2 class="section-h2 mb-4">
             Často kladené <span class="text-brand">otázky</span>
@@ -70,18 +72,18 @@ watchEffect(() => {
       </div>
 
       <!-- Skeleton -->
-      <div v-if="pending" class="max-w-3xl mx-auto space-y-0">
-        <div v-for="i in 5" :key="`faq-skeleton-${i}`" class="border-b border-gray-200 py-5 flex justify-between items-center gap-4">
+      <div v-if="pending" class="max-w-3xl mx-auto space-y-3">
+        <div v-for="i in 5" :key="`faq-skeleton-${i}`" class="card-surface px-5 md:px-6 py-5 flex justify-between items-center gap-4">
           <div class="h-4 bg-gray-200 animate-pulse rounded w-3/4" />
           <div class="w-5 h-5 bg-gray-200 animate-pulse rounded flex-shrink-0" />
         </div>
       </div>
 
-      <div v-else class="max-w-3xl mx-auto">
+      <div v-else class="max-w-3xl mx-auto space-y-3">
         <div
           v-for="(item, idx) in faqData"
           :key="idx"
-          class="border-b border-gray-200"
+          class="card-surface px-5 md:px-6"
         >
           <button
             type="button"
@@ -89,7 +91,7 @@ watchEffect(() => {
             @click="toggle(idx)"
             :aria-expanded="openIndex === idx"
           >
-            <span class="font-tech font-bold uppercase text-sm tracking-wide text-black group-hover:text-brand transition-colors leading-snug">
+            <span class="font-tech font-bold uppercase text-base md:text-lg tracking-wide text-black group-hover:text-brand transition-colors leading-snug">
               {{ item.q }}
             </span>
             <ChevronDown

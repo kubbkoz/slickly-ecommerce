@@ -51,14 +51,16 @@ const { data: categories } = await useAsyncData(
         watch: [currentLanguageId],
     }
 );
+
+const { target, isVisible } = useScrollReveal();
 </script>
 
 <template>
-  <section class="py-10 md:pt-24 bg-white">
+  <section ref="target" class="py-16 md:py-24 bg-white">
     <div class="container mx-auto px-4 lg:px-8">
 
       <!-- Header row -->
-      <div class="mb-10 md:mb-16">
+      <div class="reveal-base mb-10 md:mb-16" :class="isVisible ? 'reveal-visible' : 'reveal'">
         <div class="text-left w-full">
           <h2 class="section-h2 mb-4">
             {{ t('vyber_si') }} <span class="text-brand">{{ t('kategoriu') }}</span>
