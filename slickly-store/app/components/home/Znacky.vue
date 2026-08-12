@@ -36,6 +36,7 @@ const { target, isVisible } = useScrollReveal();
   <section ref="target" class="py-14 md:py-20 bg-gray-50 border-b border-gray-100">
     <div class="container mx-auto px-4 lg:px-8">
       <div class="reveal-base mb-8 md:mb-10" :class="isVisible ? 'reveal-visible' : 'reveal'">
+        <span class="section-eyebrow">Overené partnerstvá</span>
         <h2 class="section-h2 mb-4">
           Značky, ktorým <span class="text-brand">dôverujeme</span>
         </h2>

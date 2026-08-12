@@ -62,6 +62,7 @@ const { target, isVisible } = useScrollReveal();
       <!-- Header row -->
       <div class="reveal-base mb-10 md:mb-16" :class="isVisible ? 'reveal-visible' : 'reveal'">
         <div class="text-left w-full">
+          <span class="section-eyebrow">Nákupný sprievodca</span>
           <h2 class="section-h2 mb-4">
             {{ t('vyber_si') }} <span class="text-brand">{{ t('kategoriu') }}</span>
           </h2>

@@ -112,8 +112,10 @@ export default defineConfig({
 
     // ── Homepage uplift — Card Surface (mäkká hĺbka namiesto plochého 1px borderu) ──
     // Nahrádza opakovaný vzor `bg-white border border-gray-100 rounded-default` na
-    // kartách (recenzie, blog, skeleton) jemným difúznym tieňom + hover-lift.
-    'card-surface': 'bg-white rounded-default shadow-[0_2px_20px_-6px_rgba(0,0,0,0.08)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.16)] hover:-translate-y-1',
+    // kartách (recenzie, blog, skeleton) jemným difúznym tieňom + hover-lift. Border
+    // ostáva (jemný, na definíciu hrany) — tieň samotný pri pokojovom stave musí byť
+    // dosť silný, aby bol viditeľný aj na bg-gray-50 pozadí, nie len na hover.
+    'card-surface': 'bg-white border border-gray-100 rounded-default shadow-[0_4px_24px_-4px_rgba(0,0,0,0.12)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_20px_48px_-12px_rgba(0,0,0,0.22)] hover:border-gray-200 hover:-translate-y-1.5',
 
     // ── Homepage uplift — CTA button s hover motion (nahrádza opakovaný
     // `bg-black hover:bg-black/80 px-8 py-4` vzor bez akéhokoľvek pohybu) ──

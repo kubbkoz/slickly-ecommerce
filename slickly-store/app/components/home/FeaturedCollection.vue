@@ -109,6 +109,7 @@ const { target, isVisible } = useScrollReveal();
     <div class="container mx-auto px-4 lg:px-8">
       <!-- Header -->
       <div class="reveal-base text-left mb-12" :class="isVisible ? 'reveal-visible' : 'reveal'">
+        <span class="section-eyebrow">Výber redakcie</span>
         <h2 class="section-h2 mb-4">
           Vybrané <span class="text-brand">produkty</span>
         </h2>

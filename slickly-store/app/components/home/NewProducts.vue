@@ -97,6 +97,7 @@ const { target, isVisible } = useScrollReveal();
   <section ref="target" class="py-24 bg-white">
       <div class="container mx-auto px-4 lg:px-8">
           <div class="reveal-base text-left mb-16" :class="isVisible ? 'reveal-visible' : 'reveal'">
+              <span class="section-eyebrow">Práve pridané</span>
               <h2 class="section-h2 mb-4">
                   Novinky v <span class="text-brand">ponuke</span>
               </h2>
