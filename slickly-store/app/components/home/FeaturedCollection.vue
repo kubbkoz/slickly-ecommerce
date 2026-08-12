@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight } from 'lucide-vue-next';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import { sanitizeHtml } from '~/utils/sanitize';
 import BaseButton from '~/components/ui/BaseButton.vue';
 import ProductCard from '~/components/frontend/product/ProductCard.vue';
@@ -96,6 +96,17 @@ const handleHeroClick = () => {
 };
 
 const { target, isVisible } = useScrollReveal();
+
+// ─── Carousel (screenshot-style: full-width hero image, product carousel below) ──
+const scrollContainerRef = ref<HTMLElement | null>(null);
+const scroll = (direction: 'left' | 'right') => {
+    if (!scrollContainerRef.value) return;
+    const current = scrollContainerRef.value.scrollLeft;
+    scrollContainerRef.value.scrollTo({
+        left: direction === 'left' ? current - 350 : current + 350,
+        behavior: 'smooth'
+    });
+};
 </script>
 
 <template>
@@ -108,68 +119,79 @@ const { target, isVisible } = useScrollReveal();
   <section v-else-if="hero || pending" ref="target" class="py-20 md:py-28 bg-white border-b border-gray-100">
     <div class="container mx-auto px-4 lg:px-8">
       <!-- Header -->
-      <div class="reveal-base text-left mb-12" :class="isVisible ? 'reveal-visible' : 'reveal'">
-        <span class="section-eyebrow">Výber redakcie</span>
-        <h2 class="section-h2 mb-4">
-          Vybrané <span class="text-brand">produkty</span>
-        </h2>
-        <div class="section-decorator mb-6"></div>
+      <div class="reveal-base flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10" :class="isVisible ? 'reveal-visible' : 'reveal'">
+        <div>
+          <span class="section-eyebrow">Výber redakcie</span>
+          <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase font-tech tracking-tight leading-[0.95]">
+            Vybrané <span class="text-brand">produkty</span>
+          </h2>
+        </div>
+        <!-- Navigation arrows (desktop) -->
+        <div class="hidden lg:flex gap-3">
+          <button @click="scroll('left')" class="btn-nav-arrow" aria-label="Posunúť doľava">
+            <ChevronLeft class="w-6 h-6" aria-hidden="true" />
+          </button>
+          <button @click="scroll('right')" class="btn-nav-arrow" aria-label="Posunúť doprava">
+            <ChevronRight class="w-6 h-6" aria-hidden="true" />
+          </button>
+        </div>
       </div>
 
-      <!-- Main Layout -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[600px]">
-        <!-- Left Hero -->
-        <div class="relative group overflow-hidden h-full min-h-[400px] rounded-default">
-          <!-- NuxtImg (was a plain <img> loading the raw multi-MB Shopware original —
-               PageSpeed's biggest image-delivery offender). The Shopware image provider
-               now resizes/compresses it (width/height/quality query params) and `sizes`
-               generates a responsive srcset (full width on mobile, half on desktop). -->
-          <NuxtImg v-if="hero?.image" :src="hero.image" :alt="hero.title || 'Featured Collection'" width="800" height="600" sizes="100vw lg:50vw" quality="78" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-          <div class="absolute bottom-0 left-0 p-6 sm:p-8 md:p-12 w-full">
-            <div v-if="hero?.badge" class="inline-block bg-amber rounded-sm px-3 py-1 md:px-4 md:py-1.5 mb-3 md:mb-4">
-              <span class="block text-black text-[10px] md:text-xs font-bold uppercase tracking-widest font-tech">{{ hero.badge }}</span>
-            </div>
-            <h3 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white uppercase font-tech leading-[0.95] mb-3 md:mb-4 whitespace-pre-line text-shadow-lg">
-              {{ hero?.title }}
-            </h3>
-            <div v-if="hero?.description" class="text-gray-100 font-sans mb-6 md:mb-8 max-w-md line-clamp-3 prose prose-invert prose-sm drop-shadow-md" v-html="sanitizeHtml(hero.description)"></div>
-            <NuxtLink
-              v-if="hero?.buttonText"
-              :to="localePath(hero.buttonLink || '#')"
-              class="btn-cta-motion w-full sm:w-auto"
-            >
-              {{ hero.buttonText }} <ArrowRight class="w-5 h-5" />
-            </NuxtLink>
+      <!-- Full-width hero image -->
+      <div class="relative group overflow-hidden w-full aspect-[21/9] md:aspect-[3/1] mb-8 rounded-default">
+        <!-- NuxtImg (was a plain <img> loading the raw multi-MB Shopware original —
+             PageSpeed's biggest image-delivery offender). The Shopware image provider
+             now resizes/compresses it (width/height/quality query params) and `sizes`
+             generates a responsive srcset. -->
+        <NuxtImg v-if="hero?.image" :src="hero.image" :alt="hero.title || 'Featured Collection'" width="1600" height="600" sizes="100vw" quality="78" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-6 sm:p-8 md:p-12 w-full">
+          <div v-if="hero?.badge" class="inline-block bg-amber rounded-sm px-3 py-1 md:px-4 md:py-1.5 mb-3 md:mb-4">
+            <span class="block text-black text-[10px] md:text-xs font-bold uppercase tracking-widest font-tech">{{ hero.badge }}</span>
           </div>
+          <h3 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase font-tech leading-[0.95] mb-3 md:mb-4 whitespace-pre-line text-shadow-lg">
+            {{ hero?.title }}
+          </h3>
+          <div v-if="hero?.description" class="text-gray-100 font-sans mb-6 md:mb-8 max-w-md line-clamp-2 prose prose-invert prose-sm drop-shadow-md" v-html="sanitizeHtml(hero.description)"></div>
+          <NuxtLink
+            v-if="hero?.buttonText"
+            :to="localePath(hero.buttonLink || '#')"
+            class="btn-cta-motion w-full sm:w-auto"
+          >
+            {{ hero.buttonText }} <ArrowRight class="w-5 h-5" />
+          </NuxtLink>
         </div>
+      </div>
 
-        <!-- Right Products Grid (2x2 on Desktop) -->
-        <div class="grid grid-cols-2 gap-4 items-stretch h-full">
-          <!-- Skeletons -->
-          <template v-if="pending && products.length === 0">
-            <div v-for="i in 4" :key="`skeleton-${i}`" class="card-surface overflow-hidden flex flex-col relative p-4">
-                <div class="relative w-full aspect-square bg-gray-100 animate-pulse mb-4 rounded-default"></div>
-                <div class="h-4 bg-gray-200 animate-pulse w-1/4 mb-2"></div>
-                <div class="h-3 bg-gray-200 animate-pulse w-3/4 mb-1"></div>
-                <div class="h-3 bg-gray-200 animate-pulse w-1/2"></div>
-            </div>
-          </template>
+      <!-- Product carousel -->
+      <div
+        ref="scrollContainerRef"
+        class="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 md:px-0 scroll-smooth snap-x snap-mandatory hide-scrollbar"
+      >
+        <!-- Skeletons -->
+        <template v-if="pending && products.length === 0">
+          <div v-for="i in 4" :key="`skeleton-${i}`" class="min-w-[240px] sm:min-w-[280px] card-surface overflow-hidden flex flex-col relative p-4 flex-shrink-0 snap-center">
+              <div class="relative w-full aspect-square bg-gray-100 animate-pulse mb-4 rounded-default"></div>
+              <div class="h-4 bg-gray-200 animate-pulse w-1/4 mb-2"></div>
+              <div class="h-3 bg-gray-200 animate-pulse w-3/4 mb-1"></div>
+              <div class="h-3 bg-gray-200 animate-pulse w-1/2"></div>
+          </div>
+        </template>
 
-          <ProductCard 
-            v-else
-            v-for="product in products" 
-            :key="product.id"
-            :product="product"
-          />
-          
-          <!-- Empty placeholders if less than 4 products -->
-          <template v-if="products.length < 4 && !pending">
-            <div v-for="i in (4 - products.length)" :key="`empty-${i}`" class="bg-gray-100/50 border border-dashed border-gray-200 flex items-center justify-center p-6 text-gray-400 italic text-[10px] uppercase font-bold tracking-widest text-center min-h-[350px] rounded-default">
-              Doplňte produkt v admine
-            </div>
-          </template>
-        </div>
+        <ProductCard
+          v-else
+          v-for="product in products"
+          :key="product.id"
+          :product="product"
+          class="min-w-[240px] sm:min-w-[280px] flex-shrink-0 snap-center"
+        />
+
+        <!-- Empty placeholder if no products -->
+        <template v-if="products.length === 0 && !pending">
+          <div class="min-w-full bg-gray-100/50 border border-dashed border-gray-200 flex items-center justify-center p-6 text-gray-400 italic text-[10px] uppercase font-bold tracking-widest text-center min-h-[200px] rounded-default">
+            Doplňte produkt v admine
+          </div>
+        </template>
       </div>
     </div>
   </section>
@@ -182,5 +204,12 @@ const { target, isVisible } = useScrollReveal();
 }
 .text-shadow-lg {
   text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>

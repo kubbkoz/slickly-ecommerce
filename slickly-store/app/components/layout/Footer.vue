@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock, ChevronRight, RotateCcw } from 'lucide-vue-next';
+import { Facebook, Instagram, Youtube, Phone, Mail, ChevronRight, RotateCcw } from 'lucide-vue-next';
 import { getCategoryUrl } from '~/utils/url';
 import type { Schemas } from '#shopware';
 
@@ -69,35 +69,12 @@ const footerCategories = computed(() => {
     <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-amber to-transparent opacity-70"></div>
     <div class="pt-20 pb-10">
       <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
 
-          <!-- 1. Brand & Socials (4 cols) -->
-          <div class="lg:col-span-4 flex flex-col items-start">
-             <NuxtLink :to="localePath('/', currentLocale)" class="block mb-8" aria-label="SLICKLY Domov">
-              <div class="flex items-baseline font-tech font-black uppercase leading-none tracking-tighter text-white text-[2.5rem]">
-                <span>SL</span><span class="logo-i-wrap"><span class="logo-i-dot bg-amber"></span>I</span><span>CKLY</span>
-              </div>
-            </NuxtLink>
-            <p class="text-gray-300 mb-8 leading-relaxed text-sm max-w-sm">
-              U nás nájdete širokú ponuku autokozmetiky, detailing produktov a príslušenstva.
-              Poradenstvo a vášeň pre starostlivosť o auto.
-            </p>
+        <!-- Even 4-column content grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
-            <div class="flex items-center gap-3">
-              <a href="#" aria-label="Sledujte nás na Facebooku" class="w-9 h-9 bg-brand hover:bg-red-700 flex items-center justify-center text-white transition-colors duration-200">
-                <Facebook class="w-4 h-4" />
-              </a>
-              <a href="#" aria-label="Sledujte nás na Instagrame" class="w-9 h-9 bg-brand hover:bg-red-700 flex items-center justify-center text-white transition-colors duration-200">
-                <Instagram class="w-4 h-4" />
-              </a>
-              <a href="#" aria-label="Sledujte nás na Youtube" class="w-9 h-9 bg-brand hover:bg-red-700 flex items-center justify-center text-white transition-colors duration-200">
-                <Youtube class="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-
-          <!-- 2. Quick Links — live categories from Shopware (2 cols) -->
-          <div class="lg:col-span-2">
+          <!-- 1. Quick Links — live categories from Shopware -->
+          <div>
             <h2 class="font-black font-tech text-lg mb-8 uppercase tracking-widest text-white flex items-center">
               <span class="w-1 h-4 bg-amber mr-3"></span>
               {{ t('footer.menu.categories') }}
@@ -115,8 +92,8 @@ const footerCategories = computed(() => {
             </ul>
           </div>
 
-          <!-- 3. Contact Info (3 cols) -->
-          <div class="lg:col-span-3">
+          <!-- 2. Contact Info -->
+          <div>
             <h2 class="font-black font-tech text-lg mb-8 uppercase tracking-widest text-white flex items-center">
               <span class="w-1 h-4 bg-amber mr-3"></span>
               Kontakt
@@ -149,14 +126,14 @@ const footerCategories = computed(() => {
             </ul>
           </div>
 
-          <!-- 4. Online support (3 cols) -->
-          <div class="lg:col-span-3">
+          <!-- 3. Online support -->
+          <div>
              <h2 class="font-black font-tech text-lg mb-8 uppercase tracking-widest text-white flex items-center">
               <span class="w-1 h-4 bg-amber mr-3"></span>
               Zákaznícka podpora
             </h2>
 
-            <p class="text-sm text-gray-300 mb-4">
+            <p class="text-sm text-gray-300 mb-4 leading-relaxed">
               SLICKLY je výhradne online obchod zameraný na starostlivosť o vaše auto —
               exteriér, interiér, leštenie aj ochranu karosérie. Sme tu pre vás každý
               pracovný deň a radi poradíme s výberom tých najlepších produktov.
@@ -170,6 +147,38 @@ const footerCategories = computed(() => {
             </a>
           </div>
 
+          <!-- 4. O značke -->
+          <div>
+            <h2 class="font-black font-tech text-lg mb-8 uppercase tracking-widest text-white flex items-center">
+              <span class="w-1 h-4 bg-amber mr-3"></span>
+              SLICKLY
+            </h2>
+            <p class="text-gray-300 leading-relaxed text-sm">
+              U nás nájdete širokú ponuku autokozmetiky, detailing produktov a príslušenstva.
+              Poradenstvo a vášeň pre starostlivosť o auto.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Centered brand lockup + socials -->
+        <div class="border-t border-zinc-900 pt-12 pb-12 flex flex-col items-center gap-6">
+          <NuxtLink :to="localePath('/', currentLocale)" class="block" aria-label="SLICKLY Domov">
+            <div class="flex items-baseline font-tech font-black uppercase leading-none tracking-tighter text-white text-[3rem] md:text-[4rem]">
+              <span>SL</span><span class="logo-i-wrap"><span class="logo-i-dot bg-amber"></span>I</span><span>CKLY</span>
+            </div>
+          </NuxtLink>
+          <div class="flex items-center gap-3">
+            <a href="#" aria-label="Sledujte nás na Facebooku" class="w-9 h-9 bg-white/5 hover:bg-amber hover:text-black flex items-center justify-center text-white transition-colors duration-200 rounded-default">
+              <Facebook class="w-4 h-4" />
+            </a>
+            <a href="#" aria-label="Sledujte nás na Instagrame" class="w-9 h-9 bg-white/5 hover:bg-amber hover:text-black flex items-center justify-center text-white transition-colors duration-200 rounded-default">
+              <Instagram class="w-4 h-4" />
+            </a>
+            <a href="#" aria-label="Sledujte nás na Youtube" class="w-9 h-9 bg-white/5 hover:bg-amber hover:text-black flex items-center justify-center text-white transition-colors duration-200 rounded-default">
+              <Youtube class="w-4 h-4" />
+            </a>
+          </div>
         </div>
 
         <!-- Bottom Bar -->

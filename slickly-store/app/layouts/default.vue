@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Navbar from '~/components/layout/Navbar.vue';
 import MobileBottomNav from '~/components/layout/MobileBottomNav.vue';
-// PreFooter + Footer are below the fold on every page but were hydrating eagerly
+// Newsletter + Footer are below the fold on every page but were hydrating eagerly
 // (PageSpeed: ~9s Script Evaluation from the eager tree). Rendered below via the
 // global Lazy* + `hydrate-on-visible` form so their SSR HTML still ships (SEO/links
 // intact) but their client hydration — incl. Footer's category fetch + Newsletter
@@ -39,7 +39,7 @@ useHead(computed(() => ({
       <slot />
     </main>
     
-    <LazyPreFooter hydrate-on-visible />
+    <LazyNewsletter hydrate-on-visible />
 
     <!-- FIX-A11Y: Footer component renders its own <footer> tag internally.
          Wrapping it in another <footer> caused "duplicate contentinfo landmark" a11y violation. -->
