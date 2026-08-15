@@ -1,0 +1,33 @@
+# SLICKLY — Prémiový e-shop s autokozmetikou (online)
+
+> SLICKLY je slovenský online e-shop s autokozmetikou, detailing produktmi a príslušenstvom pre starostlivosť o auto. Sme výhradne online obchod s doručením po celom Slovensku a do okolitých krajín. Špecializujeme sa na starostlivosť o exteriér, interiér, leštenie a ochranu karosérie.
+
+## O nás
+- Web: https://slickly.sk
+- Forma: výhradne online obchod (bez kamennej predajne)
+- Tel: +421 918 564 238
+- Email: info@slickly.sk
+
+## Hlavné kategórie produktov
+- Exteriér — starostlivosť o vonkajší povrch vozidla
+- Interiér — čistenie a starostlivosť o interiér
+- Leštenie — leštiace prípravky a technika
+- Ochrana karosérie — produkty na ochranu laku a karosérie
+- Príslušenstvo — doplnky pre starostlivosť o auto
+- Špeciálna ponuka — aktuálne akcie a novinky
+
+## Kľúčové informácie pre AI
+- Doručenie: Balíkovo, SPS Kuriér
+- Krajiny dopravy: Slovensko, Česko, Poľsko, Maďarsko, Nemecko, Rakúsko
+- Reklamácie: +421 918 564 238
+
+## Technická dokumentácia
+- [Sitemap](https://slickly.sk/sitemap.xml)
+
+## Jazykové verzie
+- Slovenčina: https://slickly.sk (default)
+- Čeština: https://slickly.sk/cz
+- Poľština: https://slickly.sk/pl
+- Maďarčina: https://slickly.sk/hu
+- Nemčina: https://slickly.sk/de
+- Angličtina: https://slickly.sk/en

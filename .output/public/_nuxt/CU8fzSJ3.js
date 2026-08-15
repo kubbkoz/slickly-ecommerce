@@ -1,0 +1,1 @@
+import o from"./BWLPnDoa.js";import{_ as n,j as c,k as t,q as _}from"./C-A4gISL.js";const r={},a={class:"relative"};function s(m,i){const e=o;return c(),t("div",a,[_(e,{size:"1.2rem",name:"shopware:menu",class:"color-brand-primary"})])}const d=Object.assign(n(r,[["render",s]]),{__name:"LayoutHeaderMobileMenuIcon"});export{d as default};

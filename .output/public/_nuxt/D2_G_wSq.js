@@ -1,0 +1,1 @@
+import{d as t,j as a,k as s,al as n}from"./C-A4gISL.js";const o={class:"self-stretch justify-start text-surface-on-surface text-base font-normal leading-normal"},r=t({__name:"DataTextRow",setup(c){return(e,_)=>(a(),s("div",o,[n(e.$slots,"default")]))}}),f=Object.assign(r,{__name:"SharedDataTextRow"});export{f as default};

@@ -1,0 +1,1 @@
+function e(){return{stateMachineState:{},lineItems:{associations:{cover:{},downloads:{associations:{media:{}}}}},addresses:{},deliveries:{associations:{shippingMethod:{},shippingOrderAddress:{},stateMachineState:{}}},transactions:{associations:{paymentMethod:{},stateMachineState:{}}}}}export{e as u};

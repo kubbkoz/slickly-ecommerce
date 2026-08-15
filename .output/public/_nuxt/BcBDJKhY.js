@@ -1,0 +1,1 @@
+import{bx as o,g as n,U as r,by as u,C as i}from"./C-A4gISL.js";const f=o(async()=>{let e,t;const{isLoggedIn:s}=n();if(!s.value){const{refreshSessionContext:a}=r();[e,t]=u(()=>a().catch(()=>{})),await e,t()}if(!s.value)return i("/")});export{f as default};

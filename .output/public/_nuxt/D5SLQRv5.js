@@ -1,0 +1,1 @@
+import{a0 as i,bF as s}from"./C-A4gISL.js";function f(){const t=()=>i("urlPrefix","");return{resolveUrl:r=>{if(r.length>2083)throw new Error("URL Input too long");const n=/[a-zA-Z0-9]+\/navigation\/[a-zA-Z0-9]+/,o=t();if(n.test(r)){const e=r.split("/").slice(1);if(e.length>0)return`${s(e.join("/"),o)}`}return r},getUrlPrefix:t}}export{f as u};

@@ -1,0 +1,1 @@
+import{bs as n,z as l}from"./C-A4gISL.js";function o(s){const e=n("swBreadcrumb",{replace:s}),r=()=>{e.value=[]},c=a=>{e.value?e.value.push(a):e.value=[a]},t=async a=>{e.value=a.map(u=>({...u,path:`/${u.path}`}))};return{clearBreadcrumbs:r,breadcrumbs:l(()=>e.value),buildDynamicBreadcrumbs:t,pushBreadcrumb:c}}export{o as u};

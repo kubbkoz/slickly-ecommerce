@@ -1,0 +1,1 @@
+import{d as n,j as a,k as o,al as s,m as r,t as l}from"./C-A4gISL.js";const c={class:"text-brand-primary gap-1 inline-flex items-center bg-none bg-transparent"},i=n({__name:"LinkButton",props:{label:{}},setup(e){return(t,_)=>(a(),o("button",c,[s(t.$slots,"default",{},()=>[r(l(e.label),1)])]))}}),p=Object.assign(i,{__name:"FormLinkButton"});export{p as default};

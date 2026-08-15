@@ -1,0 +1,1 @@
+function i(t){return t}function f(t){if(!t)return"";if(t.url)return t.url;if(!t.thumbnails||t.thumbnails.length===0)return"";const e=[...t.thumbnails].sort((n,r)=>r.width-n.width),u=[".jpg",".jpeg",".png"],s=e.find(n=>{const r=n.url.toLowerCase();return u.some(o=>r.endsWith(o))&&!r.endsWith(".webp")});return s?s.url:e[0]?.url||""}export{f as g,i as p};

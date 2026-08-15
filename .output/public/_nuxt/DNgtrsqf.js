@@ -1,0 +1,1 @@
+import o from"./BWLPnDoa.js";import{_ as n,j as c,k as t,q as r}from"./C-A4gISL.js";const _={},s={class:"relative"};function a(m,i){const e=o;return c(),t("div",s,[r(e,{size:"1.2rem",name:"shopware:user",class:"color-brand-primary"})])}const l=Object.assign(n(_,[["render",a]]),{__name:"LayoutHeaderMyAccountIcon"});export{l as default};

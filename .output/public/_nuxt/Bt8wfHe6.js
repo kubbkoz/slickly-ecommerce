@@ -1,0 +1,1 @@
+import{bs as u,bC as s,z as e}from"./C-A4gISL.js";function f(o,n){const t=u("product",{context:o});if(!t.value)throw new s("Product");const c=u("configurator",{context:o&&n});function a(r){r&&(t.value=Object.assign({},t.value,r))}return{product:e(()=>t.value),configurator:e(()=>c.value),changeVariant:a}}export{f as u};

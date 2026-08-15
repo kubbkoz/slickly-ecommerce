@@ -1,0 +1,1 @@
+import o from"./BWLPnDoa.js";import{_ as n,j as _,N as c}from"./C-A4gISL.js";const r={};function t(a,s){const e=o;return _(),c(e,{name:"shopware:layout-breadcrumbs-divider"})}const p=Object.assign(n(r,[["render",t]]),{__name:"LayoutBreadcrumbsDivider"});export{p as default};

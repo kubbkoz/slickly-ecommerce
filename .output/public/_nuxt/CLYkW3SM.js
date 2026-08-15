@@ -1,0 +1,1 @@
+import{d as a,bp as c,j as m,N as l,ad as r}from"./C-A4gISL.js";const p=a({__name:"CmsElementHtml",props:{content:{}},setup(n){const t=n,{cssClasses:e,layoutStyles:s}=c(t.content),o=()=>r("div",{class:e,style:s,innerHTML:t.content.data.content||""});return(i,u)=>(m(),l(o))}}),_=Object.assign(p,{__name:"CmsElementHtml"});export{_ as default};

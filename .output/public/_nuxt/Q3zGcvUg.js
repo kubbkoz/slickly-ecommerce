@@ -1,0 +1,1 @@
+import{bs as u,z as e}from"./C-A4gISL.js";function r(o){const t=u("navigation",{context:o}),n=e(()=>t.value?.routeName),a=e(()=>t.value?.foreignKey||"");return{navigationContext:e(()=>t.value),routeName:n,foreignKey:a}}export{r as u};

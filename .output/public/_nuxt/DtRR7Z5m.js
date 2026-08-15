@@ -1,0 +1,1 @@
+import o from"./BWLPnDoa.js";import{_ as c,j as n,k as t,q as r}from"./C-A4gISL.js";const a={},_={class:"relative"};function s(m,i){const e=o;return n(),t("div",_,[r(e,{size:"1.2rem",name:"shopware:search",class:"color-brand-primary rotate-90 ml-2"})])}const d=Object.assign(c(a,[["render",s]]),{__name:"LayoutHeaderSearchIcon"});export{d as default};

@@ -1,0 +1,1 @@
+import{d as t,j as o,k as n,l as s,t as a}from"./C-A4gISL.js";const c={class:"pb-2 border-b border-outline-outline"},r={class:"text-surface-on-surface font-bold"},_=t({__name:"SectionHeader",props:{title:{}},setup(e){return(i,l)=>(o(),n("div",c,[s("h2",r,a(e.title),1)]))}}),p=Object.assign(_,{__name:"AccountSectionHeader"});export{p as default};

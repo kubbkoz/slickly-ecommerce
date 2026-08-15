@@ -1,0 +1,6 @@
+{
+  "name": "slickly-deploy",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "node .output/server/index.mjs" }
+}
